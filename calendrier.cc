@@ -1,6 +1,6 @@
 /*!
   \file   calendrier.cc
-  \author RB
+  \author tamerlatchoin
   \date   Fevrier 2019
   \brief  Implémentation du module "calendrier"
 */
