@@ -1,7 +1,7 @@
 /*!
   \file   calendrier.h
   \author RB
-  \date   Fevrier 2019
+  \date   Fevrier 2019 CMON
   \brief  Interface du module "calendrier"
 */
 
