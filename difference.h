@@ -1,6 +1,6 @@
 /*!
   \file   difference.h
-  \author RB
+  \author RB f edit
   \date   Février 2019
   \brief  Interface du module "difference".
 */
