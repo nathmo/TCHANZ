@@ -1,4 +1,4 @@
-# Definitions de macros
+# Definitions de macro
 
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
