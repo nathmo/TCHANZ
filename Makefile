@@ -7,7 +7,7 @@ OFILES = prog.o calendrier.o difference.o
 
 # Definition de la premiere regle
 
-prog: $(OFILES)
+build: $(OFILES)
 	$(CXX) $(OFILES) -o prog
 
 # Definitions de cibles particulieres
