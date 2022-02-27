@@ -1,7 +1,7 @@
 /*!
   \file   calendrier.cc
   \author tamerlatchoin
-  \date   Fevrier 2019
+  \date   Fevrier 2019 hj
   \brief  Implémentation du module "calendrier"
 */
 
