@@ -1,19 +1,18 @@
 #ifndef MESSAGE_H_INCLUDED
-#define MESSAGE_H_INCLUDED
-
-#include <string>
-
-/**
- * Module: message
- * This module is used to generate the strings
- * for you to have consistent error messages.
- *
- * the first string documents a successful reading
- */
-
 namespace message
 {
-    // Everything went well => file reading and all validation checks
+    // Everything went well
+    //#define MESSAGE_H_INCLUDED
+    //
+    //#include <string>
+    //
+    ///*
+    // * Module: message
+    // * This module is used to generate the strings
+    // * for you to have consistent error messages.
+    // *
+    // * the first string documents a successful reading
+    // */=> file reading and all validation checks
 	std::string success();
 
 	// superposition de deux fourmilières

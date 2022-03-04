@@ -12,6 +12,11 @@ build: $(OFILES)
 
 # Definitions de cibles particulieres
 
+test: $(OFILES)
+	@echo " *** Lance les test définit dans testsuit ***"
+	$(CXX) $(OFILES) -o testsuit
+	@./testsuit
+
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
 	@(sed '/^# DO NOT DELETE THIS LINE/q' Makefile && \
