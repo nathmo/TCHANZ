@@ -14,5 +14,5 @@
         uses: actions/checkout@v2
       - name: build application
         run: make build
-      - name: run test against the application
-        run: make build
+      - name: test application
+        run: make test

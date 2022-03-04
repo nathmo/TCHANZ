@@ -2,7 +2,7 @@
 
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
-CXXFILES = projet.cpp
+CXXFILES = projet.cc
 OFILES = projet.o
 
 # Definition de la premiere regle
@@ -19,6 +19,7 @@ test: $(OFILES)
 
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
+	@echo " *** LANCER APRES CHAQUE AJOUT DE MODULE ***"
 	@(sed '/^# DO NOT DELETE THIS LINE/q' Makefile && \
 	  $(CXX) -MM $(CXXFLAGS) $(CXXFILES) | \
 	  egrep -v "/usr/include" \
