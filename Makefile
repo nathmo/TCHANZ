@@ -2,13 +2,13 @@
 
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
-CXXFILES = prog.cc calendrier.cc difference.cc
-OFILES = prog.o calendrier.o difference.o
+CXXFILES = projet.cpp
+OFILES = projet.o
 
 # Definition de la premiere regle
 
 build: $(OFILES)
-	$(CXX) $(OFILES) -o prog
+	$(CXX) $(OFILES) -o projet
 
 # Definitions de cibles particulieres
 
@@ -22,12 +22,5 @@ depend:
 
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
-	@/bin/rm -f *.o *.x *.cc~ *.h~ prog
+	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
 
-#
-# -- Regles de dependances generees automatiquement
-#
-# DO NOT DELETE THIS LINE
-calendrier.o: calendrier.cc calendrier.h
-difference.o: difference.cc calendrier.h difference.h
-prog.o: prog.cc calendrier.h difference.h
