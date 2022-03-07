@@ -15,7 +15,7 @@ build: $(OFILES)
 test: $(OFILES)
 	@echo " *** Lance les test définit dans testsuit ***"
 	$(CXX) $(OFILES) -o testsuit
-	./testsuit
+	$(shell ./testsuit)
 
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
