@@ -15,7 +15,7 @@ build: $(OFILES)
 test: $(OFILESTEST)
 	@echo " *** Lance les test définit dans testsuit ***"
 	$(CXX) testsuit.o -o testsuit
-	$(shell ./testsuit)
+	testsuit
 
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
