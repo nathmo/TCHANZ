@@ -14,7 +14,7 @@ void writetxt(string filename, vector<string> lineToWrite) {
     fstream txtsave; // cr
     txtsave.open(filename, ios::out); //out ca ecrit dans un fichier extern
     if (txtsave.is_open()) {
-        while (lineToWrite.size()>0) {
+        while (lineToWrite.size() > 0) {
             txtsave << lineToWrite.pop_back(); //inserting text
         }
         txtsave.close(); //close the file object
