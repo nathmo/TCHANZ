@@ -8,8 +8,11 @@
 #include <iostream>
 #include "testsuit.h"
 #include "textstorage.h"
+#include "textstorage.cc"
+#include <vector>
 
 using namespace std;
+bool assert_textstorage_readtxt();
 
 int main ()
 {
@@ -24,7 +27,7 @@ int main ()
 bool assert_textstorage_readtxt()
 {
     vector <string> testreadtxt = readtxt("scenario/no_error_collector_move.txt");
-    for (auto testreadtxt:stringtxt)
+    for (auto stringtxt:testreadtxt)
     {
         cout << stringtxt << endl;
     }

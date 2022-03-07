@@ -7,15 +7,18 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
 void writetxt(string filename, vector<string> lineToWrite) {
     fstream txtsave; // cr
+    string line;
     txtsave.open(filename, ios::out); //out ca ecrit dans un fichier extern
     if (txtsave.is_open()) {
-        while (lineToWrite.size() > 0) {
-            txtsave << lineToWrite.pop_back(); //inserting text
+        for(int i=0; i<lineToWrite.size();i++) {
+            line = lineToWrite[i]; //inserting text
+            txtsave << line;
         }
         txtsave.close(); //close the file object
     }
@@ -30,7 +33,7 @@ vector<string> readtxt(string filename){
     vector<string> inputBuffer;
     txtsave.open(filename,ios::in); //in car tu lis depuis fichier
     if (txtsave.is_open()){   //checking whether the file is open
-        while(getline(txtsave, line)) //read data from file object and put it into string.
+        while(getline(txtsave, line)){ //read data from file object and put it into string.
             inputBuffer.push_back(line);
         }
         txtsave.close();   //close the file object.

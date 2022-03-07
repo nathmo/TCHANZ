@@ -4,7 +4,7 @@ CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
 CXXFILES = projet.cc
 OFILES = projet.o
-
+OFILESTEST = testsuit.o
 # Definition de la premiere regle
 
 build: $(OFILES)
@@ -12,9 +12,9 @@ build: $(OFILES)
 
 # Definitions de cibles particulieres
 
-test: $(OFILES)
+test: $(OFILESTEST)
 	@echo " *** Lance les test définit dans testsuit ***"
-	$(CXX) $(OFILES) -o testsuit
+	$(CXX) testsuit.o -o testsuit
 	$(shell ./testsuit)
 
 depend:
@@ -30,4 +30,4 @@ clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
 	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
 
-projet.o: projet.cc projet.h
+testsuit.o: testsuit.cc testsuit.h textstorage.cc textstorage.h
