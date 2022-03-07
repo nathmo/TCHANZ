@@ -13,6 +13,7 @@ using namespace std;
 
 int main ()
 {
+    cout << "test started" << endl;
     assert_textstorage_readtxt();
     // add all test here (unit and integration + test where we read the scenario
     // file and play them
