@@ -11,15 +11,13 @@
 using namespace std;
 
 void writetxt(string filename, vector<string> lineToWrite) {
-    fstream txtsave;
+    fstream txtsave; // cr
     txtsave.open(filename, ios::out); //out ca ecrit dans un fichier extern
-
     if (txtsave.is_open()) {
-        while () {
-            txtsave
-                    << "write each string here : iterrate over the string lsit"; //inserting text
-            txtsave.close(); //close the file object
+        while (lineToWrite.size()>0) {
+            txtsave << lineToWrite.pop_back(); //inserting text
         }
+        txtsave.close(); //close the file object
     }
 }
 
@@ -29,39 +27,13 @@ void writetxt(string filename, vector<string> lineToWrite) {
 vector<string> readtxt(string filename){
     fstream txtsave;
     string line;
+    vector <string> inputBuffer;
     txtsave.open(filename,ios::in); //in car tu lis depuis fichier
-
     if (txtsave.is_open()){   //checking whether the file is open
         while(getline(txtsave, line)) //read data from file object and put it into string.
-            istringstream iss(line);
-            string phrase;
-            txtsave.push_back(line);   //print the data of the string
+            inputBuffer.push_back(line);
         }
         txtsave.close();   //close the file object.
     }
-}
-
-void ecriture(fstream txtsave) {
-    fstream txtsave;
-    string phrase;
-    txtsave.open(filename, ios::out);
-
-    if (txtsave.is_open()) {
-        while(txtsave >> phrase)
-
-        txtsave.is_close();
-    }
-}
-
-void lecture (......) {
-    fstream txtsave;
-    string line;
-    txtsave.open(filename,ios::in);
-
-    if (txtsave.is_open()) {
-        while (getline(txtsave, line) {
-            txtsave.push_back(line);
-        }
-        txtsave.close();
-    }
+    return inputBuffer;
 }
