@@ -27,7 +27,7 @@ void writetxt(string filename, vector<string> lineToWrite) {
 vector<string> readtxt(string filename){
     fstream txtsave;
     string line;
-    vector <string> inputBuffer;
+    vector<string> inputBuffer;
     txtsave.open(filename,ios::in); //in car tu lis depuis fichier
     if (txtsave.is_open()){   //checking whether the file is open
         while(getline(txtsave, line)) //read data from file object and put it into string.
