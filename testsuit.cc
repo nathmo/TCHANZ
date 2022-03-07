@@ -11,12 +11,12 @@
 
 using namespace std;
 
-int main (void)
+int main ()
 {
     assert_textstorage_readtxt();
     // add all test here (unit and integration + test where we read the scenario
     // file and play them
-
+    cout << "test done" << endl;
     return 0; // optionnel
 }
 
