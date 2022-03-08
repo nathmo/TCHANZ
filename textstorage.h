@@ -6,3 +6,5 @@
 #define TCHANZ_TEXTSTORAGE_H
 
 #endif //TCHANZ_TEXTSTORAGE_H
+void writetxt(string filename, vector<string> lineToWrite);
+vector<string> readtxt(string filename);

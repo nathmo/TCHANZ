@@ -12,24 +12,31 @@
 #include <vector>
 
 using namespace std;
+
 bool assert_textstorage_readtxt();
 
-int main ()
-{
+int main() {
     cout << "test started" << endl;
     assert_textstorage_readtxt();
+
     // add all test here (unit and integration + test where we read the scenario
     // file and play them
     cout << "test done" << endl;
     return 0; // optionnel
 }
 
-bool assert_textstorage_readtxt()
-{
-    vector <string> testreadtxt = readtxt("scenario/no_error_collector_move.txt");
-    for (auto stringtxt:testreadtxt)
-    {
+bool assert_textstorage_readtxt() {
+    vector<string> testreadtxt = readtxt("scenario/no_error_neighbours_anthill.txt");
+    for (auto stringtxt:testreadtxt) {
         cout << stringtxt << endl;
+    }
+    return true;
+}
+
+bool copieWrite() {
+    vector<string> copie_Write =  writetxt("scenario/no_error_neighbours_anthill.txt", );
+    for (auto element : copie_Write) {
+        cout << element << endl;
     }
     return true;
 }
