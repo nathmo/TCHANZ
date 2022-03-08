@@ -39,7 +39,7 @@ fstream writetxt(string filename, vector<string> lineToWrite) {
     }
     return txtsave;
 }
-
+salut
 //TODO : validade
 //TODO:  import
 
