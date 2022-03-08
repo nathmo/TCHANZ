@@ -37,7 +37,7 @@ fstream writetxt(string filename, vector<string> lineToWrite) {
         }
         txtsave.close(); //close the file object
     }
-    return fstream;
+    return txtsave;
 }
 
 //TODO : validade
