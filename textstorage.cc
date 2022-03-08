@@ -15,7 +15,7 @@ void writetxt(string filename, vector<string> lineToWrite) {
     fstream txtsave; // cr
     string line;
     txtsave.open(filename, ios::out); //out ca ecrit dans un fichier extern
-    if (txtsave.is_open()) {
+    if(txtsave.is_open()) {
         for(int i=0; i<lineToWrite.size();i++) {
             line = lineToWrite[i]; //inserting text
             txtsave << line;
@@ -32,7 +32,7 @@ vector<string> readtxt(string filename){
     string line;
     vector<string> inputBuffer;
     txtsave.open(filename,ios::in); //in car tu lis depuis fichier
-    if (txtsave.is_open()){   //checking whether the file is open
+    if(txtsave.is_open()){   //checking whether the file is open
         while(getline(txtsave, line)){ //read data from file object and put it into string.
             inputBuffer.push_back(line);
         }

@@ -18,6 +18,7 @@ bool assert_textstorage_readtxt();
 int main() {
     cout << "test started" << endl;
     assert_textstorage_readtxt();
+    copieWrite();
 
     // add all test here (unit and integration + test where we read the scenario
     // file and play them
