@@ -11,6 +11,7 @@
 
 using namespace std;
 
+/*
 void writetxt(string filename, vector<string> lineToWrite) {
     fstream txtsave; // cr
     string line;
@@ -22,6 +23,21 @@ void writetxt(string filename, vector<string> lineToWrite) {
         }
         txtsave.close(); //close the file object
     }
+}
+*/
+
+fstream writetxt(string filename, vector<string> lineToWrite) {
+    fstream txtsave; // cr
+    string line;
+    txtsave.open(filename, ios::out); //out ca ecrit dans un fichier extern
+    if(txtsave.is_open()) {
+        for(int i=0; i<lineToWrite.size();i++) {
+            line = lineToWrite[i]; //inserting text
+            txtsave << line;
+        }
+        txtsave.close(); //close the file object
+    }
+    return fstream;
 }
 
 //TODO : validade

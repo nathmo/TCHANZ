@@ -13,12 +13,12 @@
 
 using namespace std;
 
-bool assert_textstorage_readtxt();
+vector<string> assert_textstorage_readtxt();
+bool copieWrite();
 
 int main() {
     cout << "test started" << endl;
-    assert_textstorage_readtxt();
-    copieWrite();
+    copieWrite(assert_textstorage_readtxt());
 
     // add all test here (unit and integration + test where we read the scenario
     // file and play them
@@ -26,16 +26,16 @@ int main() {
     return 0; // optionnel
 }
 
-bool assert_textstorage_readtxt() {
+vector<string> assert_textstorage_readtxt() {
     vector<string> testreadtxt = readtxt("scenario/no_error_neighbours_anthill.txt");
     for (auto stringtxt:testreadtxt) {
         cout << stringtxt << endl;
     }
-    return true;
+    return testreadtxt;
 }
 
-bool copieWrite() {
-    vector<string> copie_Write =  writetxt("scenario/no_error_neighbours_anthill.txt", );
+bool copieWrite(vector<string>) {
+    fstream copie_Write = writetxt("scenario/no_error_neighbours_anthill.txt",  );
     for (auto element : copie_Write) {
         cout << element << endl;
     }
