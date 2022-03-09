@@ -1,6 +1,7 @@
 //
 // Created by felip on 06.03.2022.
 //
+#include <string>
 
 #ifndef TCHANZ_TEXTSTORAGE_H
 #define TCHANZ_TEXTSTORAGE_H

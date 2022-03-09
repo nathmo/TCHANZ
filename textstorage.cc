@@ -11,7 +11,7 @@
 
 using namespace std;
 
-
+/*
 void writetxt(string filename, vector<string> lineToWrite) {
     fstream txtsave; // cr
     string line;
@@ -24,7 +24,7 @@ void writetxt(string filename, vector<string> lineToWrite) {
         txtsave.close(); //close the file object
     }
 }
-
+*/
 
 //TODO : validade
 //TODO:  import

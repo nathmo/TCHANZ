@@ -31,3 +31,6 @@ clean:
 	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
 
 testsuit.o: testsuit.cc testsuit.h textstorage.cc textstorage.h
+projet.o: projet.cc projet.h
+projet.o: projet.cc projet.h
+projet.o: projet.cc projet.h
