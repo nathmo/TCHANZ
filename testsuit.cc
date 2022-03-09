@@ -27,17 +27,12 @@ int main() {
 }
 
 vector<string> assert_textstorage_readtxt() {
-    vector<string> testreadtxt = readtxt("scenario/no_error_neighbours_anthill.txt");
-    for (auto stringtxt:testreadtxt) {
-        cout << stringtxt << endl;
-    }
-    return testreadtxt;
+    string teststringdebut = "salut test! \n test";
+    string teststringfin = "salut test! \n test";
 }
 
-bool copieWrite(vector<string>) {
-    fstream copie_Write = writetxt("scenario/no_error_neighbours_anthill.txt",  );
-    for (auto element : copie_Write) {
-        cout << element << endl;
-    }
-    return true;
+bool assert_textstorage_writetxt() {
+    string teststring = "salut test! \n test";
+    // use la fonction write de textstorage et write dans un fichier text.txt
+    // use la fonction read de textstorage et read dans le fichier text.txt qui viens d'etre ecrit
 }
