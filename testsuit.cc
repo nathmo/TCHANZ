@@ -14,15 +14,18 @@
 
 using namespace std;
 
-vector<string> assert_textstorage_readtxt(vector<string>);
-//bool assert_textstorage_writetxt();
+string assert_textstorage_readtxt(vector<string>);
+void assert_textstorage_writetxt(vector<string>);
 
 int main() {
-    cout << "test started" << endl;
+    cout << "test readtxt started" << endl;
+    assert_textstorage_readtxt(readtxt("no_error_collector_move.txt"));
+    cout << "test readtxt done" << endl;
 
-    assert_textstorage_readtxt(readtxt(no_error_collector_move.txt));
+    cout << "test writetxt started" << endl;
+    assert_textstorage_writetxt(textToWrite); // j suis pas sur de comment tu veux faire rentrer ton vector de string fonction dans laquelle tu rentres a la main du coup avec des cin ?
+    cout << "test writetxt done" << endl;
 
-    cout << "test done" << endl;
     return 0;
 }
 
@@ -38,10 +41,14 @@ string assert_textstorage_readtxt(vector<string> inputBuffer) {  //t avais mis u
 }
 
 
-/*
-bool assert_textstorage_writetxt() {
-    string teststring = "salut test! \n test";
+
+void assert_textstorage_writetxt(vector<string> textToWrite) {      //t avais mis un bool de base
+    //string teststring = "Notre phrase test";
+    string Stockage_fichiertxt;
+
+    writetxt(Stockage_fichiertxt, textToWrite);
+    assert_textstorage_readtxt(Stockage_fichiertxt);
+
     // use la fonction write de textstorage et write dans un fichier text.txt
     // use la fonction read de textstorage et read dans le fichier text.txt qui viens d'etre ecrit
 }
-*/
