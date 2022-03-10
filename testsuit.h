@@ -9,3 +9,5 @@
 #define TCHANZ_TESTSUIT_H
 
 #endif //TCHANZ_TESTSUIT_H
+
+using namespace std;

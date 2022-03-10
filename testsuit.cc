@@ -14,41 +14,44 @@
 
 using namespace std;
 
-string assert_textstorage_readtxt(vector<string>);
-void assert_textstorage_writetxt(vector<string>);
+bool assert_textstorage_readtxt();
+bool assert_textstorage_writetxt();
 
 int main() {
     cout << "test readtxt started" << endl;
-    assert_textstorage_readtxt(readtxt("no_error_collector_move.txt"));
+    cout << (assert_textstorage_readtxt())<< endl;
     cout << "test readtxt done" << endl;
 
     cout << "test writetxt started" << endl;
-    assert_textstorage_writetxt(textToWrite); // j suis pas sur de comment tu veux faire rentrer ton vector de string fonction dans laquelle tu rentres a la main du coup avec des cin ?
+    cout << (assert_textstorage_writetxt())<< endl; // j suis pas sur de comment tu veux faire rentrer ton vector de string fonction dans laquelle tu rentres a la main du coup avec des cin ?
     cout << "test writetxt done" << endl;
 
     return 0;
 }
 
-string assert_textstorage_readtxt(vector<string> inputBuffer) {  //t avais mis un vector de string, j pense un string mieux ?
-    string teststringdebut = "# Simple test file without error";
-    string teststringfin = "\t# predators:";
-
-    if(teststringdebut == inputBuffer[0] and teststringfin == inputBuffer[inputBuffer.size() - 1]) {
-        return "C'est tout bon teststorage_readtxt";
+bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense un string mieux ?
+    string teststringfin = "	# predators:";
+    vector <string> inputBuffer = readtxt("scenario/no_error_collector_move.txt");
+    if(teststringfin == inputBuffer[inputBuffer.size() - 1]) {
+        return true;
     } else {
-        return "C'est pas bon teststorage_readtxt";
+        cout << teststringfin <<endl;
+        cout << inputBuffer[inputBuffer.size() - 1] <<endl;
+        return false;
     }
 }
 
 
 
-void assert_textstorage_writetxt(vector<string> textToWrite) {      //t avais mis un bool de base
-    //string teststring = "Notre phrase test";
-    string Stockage_fichiertxt;
+bool assert_textstorage_writetxt() {      //t avais mis un bool de base
+    vector <string> teststring = {"Notre phrase test"};
+    string Stockage_fichiertxt = "test_ecriture.txt";
 
-    writetxt(Stockage_fichiertxt, textToWrite);
-    assert_textstorage_readtxt(Stockage_fichiertxt);
-
-    // use la fonction write de textstorage et write dans un fichier text.txt
-    // use la fonction read de textstorage et read dans le fichier text.txt qui viens d'etre ecrit
+    writetxt(Stockage_fichiertxt, teststring);
+    vector <string> inputBuffer = readtxt(Stockage_fichiertxt);
+    if(teststring[0] == inputBuffer[0] and teststring[0] == inputBuffer[inputBuffer.size() - 1]) {
+        return true;
+    } else {
+        return false;
+    }
 }
