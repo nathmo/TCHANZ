@@ -31,12 +31,12 @@ int main() {
 
 bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense un string mieux ?
     string teststringfin = "	# predators:";
-    vector <string> inputBuffer = readtxt("scenario/no_error_collector_move.txt");
+    vector <string> inputBuffer = readtxt_modifie_sans_espace("scenario/no_error_collector_move.txt");
     if(teststringfin == inputBuffer[inputBuffer.size() - 1]) {
         return true;
     } else {
-        cout << teststringfin <<endl;
-        cout << inputBuffer[inputBuffer.size() - 1] <<endl;
+        //cout << teststringfin <<endl;
+        //cout << inputBuffer[inputBuffer.size() - 1] <<endl;
         return false;
     }
 }
