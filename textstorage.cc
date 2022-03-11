@@ -27,19 +27,6 @@ void writetxt(string filename, vector<string> lineToWrite){
     }
 }
 
-vector<int> creation (string line){
-    istringstream iss(line);
-    vector<int> tableauValeur;
-    int valeur;
-
-    while(iss >> valeur){
-        tableauValeur.push_back(valeur);
-    }
-    return tableauValeur;
-}
-
-//TODO:  import
-
 vector<int> readtxt_modifie_sans_espace(string filename){  //sans espace ni qqch begin #
     fstream txtsave;
     string line;
@@ -60,71 +47,17 @@ vector<int> readtxt_modifie_sans_espace(string filename){  //sans espace ni qqch
     return inputBuffer_modifie;
 }
 
+vector<int> creation (string line){
+    istringstream iss(line);
+    vector<int> tableauValeur;
+    int valeur;
 
-/*
-
-vector<string> readtxt(string filename){
-    fstream txtsave;
-    string line;
-    vector<string> inputBuffer;
-    txtsave.open(filename,ios::in);//in car tu lis depuis fichier
-    if(txtsave.fail()) {
-        cout << "soucis readtxt_filename" << endl;
-        exit(EXIT_FAILURE);
+    while(iss >> valeur){
+        tableauValeur.push_back(valeur);
     }
-    if(txtsave.is_open()){   //checking whether the file is open
-        while(getline(txtsave, line)){ // avec ws j ai plus les tab ou les espaces avant premier caractere
-            inputBuffer.push_back(line);
-        }
-        txtsave.close();   //close the file object.
-    }
-    return inputBuffer;
+    return tableauValeur;
 }
 
-
- void validation(vector<string> inputBuffer_modifie){
-    STATE state(FOOD);
-    unsigned int i(0);
-
-    while(i<inputBuffer_modifie.size()){
-        if(state == FOOD){
-            recuperation_check(inputBuffer.modifie[i], state); //doit verifier si bien des int et plus tard renvoyer une array
-            i++;
-        }
-        if(state == ANTHILL){
-            recuperation_check(inputBuffer.modifie[i], state); //doit verifier si bien des int et plus tard renvoyer une array
-            i++;
-        }
-        if(state == COLLECTOR){
-            recuperation_check(inputBuffer.modifie[i], state);
-            i++;
-        }
-        if(state == PREDATOR){
-            recuperation_check(inputBuffer.modifie[i], state);
-            i++;
-        }
-    }
-}
-
-void recuperation_check(string line_inputBuffer_modifie, STATE& state){
-    vector<int> recuperation;
+//TODO:  import
 
 
-    if(){
-
-    }
-
-    recuperation.push_back(valeur);
-}
-
-void changement_etat(STATE& state){
-    if (state == FOOD)
-        state = ANTHILL;
-    if (state == ANTHILL)
-        state = COLLECTOR;
-    if (state == COLLECTOR)
-        state = PREDATOR;
-    if (state == PREDATOR){  // faut check si on a fait toutes les fourmilieres
-
-    }
-}
