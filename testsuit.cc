@@ -18,6 +18,8 @@ bool assert_textstorage_readtxt();
 bool assert_textstorage_writetxt();
 
 int main() {
+    assert(assert_textstorage_readtxt());
+    assert(assert_textstorage_writetxt());
     cout << "test readtxt started" << endl;
     cout << (assert_textstorage_readtxt())<< endl;
     cout << "test readtxt done" << endl;
@@ -30,8 +32,8 @@ int main() {
 }
 
 bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense un string mieux ?
-    string teststringfin = "	# predators:";
-    vector <string> inputBuffer = readtxt_modifie_sans_espace("scenario/no_error_collector_move.txt");
+    int teststringfin = 0;
+    vector <int> inputBuffer = readtxt_modifie_sans_espace("scenario/no_error_collector_move.txt");
     if(teststringfin == inputBuffer[inputBuffer.size() - 1]) {
         return true;
     } else {
@@ -44,11 +46,11 @@ bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense 
 
 
 bool assert_textstorage_writetxt() {      //t avais mis un bool de base
-    vector <string> teststring = {"Notre phrase test"};
+    vector <int> teststring = 1234;
     string Stockage_fichiertxt = "test_ecriture.txt";
 
     writetxt(Stockage_fichiertxt, teststring);
-    vector <string> inputBuffer = readtxt(Stockage_fichiertxt);
+    vector <int> inputBuffer = readtxt(Stockage_fichiertxt);
     if(teststring[0] == inputBuffer[0] and teststring[0] == inputBuffer[inputBuffer.size() - 1]) {
         return true;
     } else {

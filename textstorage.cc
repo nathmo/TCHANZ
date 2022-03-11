@@ -27,7 +27,7 @@ void writetxt(string filename, vector<string> lineToWrite){
     }
 }
 
-vector<int> readtxt_modifie_sans_espace(string filename){  //sans espace ni qqch begin #
+vector<int> readtxt(string filename){  //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<int> inputBuffer_modifie;
@@ -42,7 +42,7 @@ vector<int> readtxt_modifie_sans_espace(string filename){  //sans espace ni qqch
             vector<int> lineBuffer = creation(line);
             inputBuffer_modifie.insert(inputBuffer_modifie.end(),lineBuffer.begin(),lineBuffer.end());
         }
-        txtsave.close();   //close the file object.
+        txtsave.close();
     }
     return inputBuffer_modifie;
 }
@@ -51,7 +51,6 @@ vector<int> creation (string line){
     istringstream iss(line);
     vector<int> tableauValeur;
     int valeur;
-
     while(iss >> valeur){
         tableauValeur.push_back(valeur);
     }
