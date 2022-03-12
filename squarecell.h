@@ -9,72 +9,50 @@
 #define TCHANZ_SQUARECELL_H
 
 #endif //TCHANZ_SQUARECELL_H
+
+#include <vector>
+
 namespace squarecell {
-    class Squarecell {
-    private:
-        int gMax;
-        vector <vector<bool>> hitBoxGrid;
-        vector <vector<char>> entityGrid;
-
-    public:
-        Squarecell(int gmax);
-
-        int getgMax();
-
-        void add(Entity entity);
-
-        void remove(Entity entity);
-
-        bool checkSize(Entity entity);
-
-        bool checkHitbox(Entity entity);
-
-        bool checkHitbox(Entity entity);
-
-        int checkOverlap(Entity entity);
-    };
-
-    class Entity {
-    private:
-        Point position;
-        Point size;
-        char specie;
-    public:
-        Entity(Point position, Point size, char specie) {
-            this->position = position;
-            this->size = size;
-            this->specie = specie;
-        }
-
-        void setPosition(Point newPosition);
-
-        Point getPosition();
-
-        void setsize(Point sizePosition);
-
-        Point getPosition();
-
-        char getSpecie();
-
-        int checkOverlap(Entity entity);
-    };
 
     class Point {
     private:
         int x;
         int y;
     public:
-        Point(x, y) {
-            this->x = x;
-            this->y = y;
-        }
+        Point(int x, int y);
+        Point();
+        void setPositionX(int xOrigin);
+        void getPositionX(int xOrigin);
+        void setPositionY(int yOrigin);
+        void getPositionY(int yOrigin);
+    };
+    class Entity {
+    private:
+        Point position;
+        Point size;
+        char specie;
+    public:
+        Entity(Point position, Point size, char specie);
+        void setPosition(Point newPosition);
+        Point getPosition();
+        void setsize(Point newSize);
+        Point getsize();
+        char getSpecie();
+        int checkOverlap(Entity entity);
+    };
+    class Squarecell {
+    private:
+        int gMax;
+        std::vector <std::vector<bool>> hitBoxGrid;
+        std::vector <std::vector<char>> entityGrid;
 
-        void setPositionX(xOrigin);
-
-        void getPositionX(xOrigin);
-
-        void setPositionY(yOrigin);
-
-        void getPositionY(yOrigin);
+    public:
+        Squarecell(int gmax);
+        int getgMax();
+        void add(Entity entity);
+        void remove(Entity entity);
+        bool checkSize(Entity entity);
+        bool checkHitbox(Entity entity);
+        int checkOverlap(Entity entity);
     };
 }

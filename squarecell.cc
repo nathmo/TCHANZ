@@ -6,39 +6,54 @@
 */
 
 #include "squarecell.h"
+#include <vector>
 
 using namespace std;
 
-Squarecell::Squarecell(int gmax){
-    gMax = gmax;
-    hitBoxGrid = vector<vector<bool>> (g_max, vector<bool>(g_max,false));
-    entityGrid = vector<vector<char>> (g_max, vector<char>(g_max, 'E'));
+squarecell::Point::Point(int x, int y)
+{
+    this->x = x;
+    this->y = y;
 }
-int Squarecell::getgMax(){
+squarecell::Point::Point()
+{
+    this->x = -1;
+    this->y = -1;
+}
+
+squarecell::Entity::Entity(Point position, Point size, char specie) {
+this->position = position;
+this->size = size;
+this->specie = specie;
+}
+
+squarecell::Squarecell::Squarecell(int gmax){
+    gMax = gmax;
+    hitBoxGrid = vector<vector<bool>> (gmax, vector<bool>(gmax,false));
+    entityGrid = vector<vector<char>> (gmax, vector<char>(gmax, 'E'));
+}
+int squarecell::Squarecell::getgMax(){
     return gMax;
 }
 
-void Squarecell::add(Entity entity)
+void squarecell::Squarecell::add(Entity entity)
 {
 
 }
-void Squarecell::remove(Entity entity)
+void squarecell::Squarecell::remove(Entity entity)
 {
 
 }
-bool Squarecell::checkSize(Entity entity)
+bool squarecell::Squarecell::checkSize(Entity entity)
 {
-
+    return true;
 }
-bool Squarecell::checkHitbox(Entity entity)
+bool squarecell::Squarecell::checkHitbox(Entity entity)
 {
-
+    return true;
 }
-bool Squarecell::checkHitbox(Entity entity)
+int squarecell::Squarecell::checkOverlap(Entity entity)
 {
-
-}
-int Squarecell::checkOverlap(Entity entity)
-{
-
+    int overlappingArea = 0;
+    return overlappingArea;
 }
