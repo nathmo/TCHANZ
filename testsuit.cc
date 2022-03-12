@@ -6,7 +6,6 @@
 */
 
 #include <iostream>
-#include "testsuit.h"
 #include "textstorage.h"
 #include "textstorage.cc"
 #include <vector>
@@ -46,10 +45,10 @@ bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense 
 
 
 bool assert_textstorage_writetxt() {      //t avais mis un bool de base
-    vector <int> teststring = 1234;
+    vector <int> teststring = {1234};
     string Stockage_fichiertxt = "test_ecriture.txt";
 
-    writetxt(Stockage_fichiertxt, teststring);
+    textstorage::writetxt(Stockage_fichiertxt, teststring);
     vector <int> inputBuffer = readtxt(Stockage_fichiertxt);
     if(teststring[0] == inputBuffer[0] and teststring[0] == inputBuffer[inputBuffer.size() - 1]) {
         return true;

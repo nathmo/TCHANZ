@@ -3,3 +3,4 @@
 //
 
 #include "fourmiliere.h"
+using namespace std;

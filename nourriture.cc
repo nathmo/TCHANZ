@@ -3,3 +3,4 @@
 //
 
 #include "nourriture.h"
+using namespace std;

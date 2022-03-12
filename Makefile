@@ -1,36 +1,59 @@
-# Definitions de macro
+#
+#  \file   Makefile
+#  \author Nathann Morand et Felipe Ramirez
+#  \date   MARS 2022
+#  \brief  Makefile du projet pour la compilation des dépendances et le linkage
 
-CXX     = g++
-CXXFLAGS = -g -Wall -std=c++11
-CXXFILES = projet.cc
-OFILES = projet.o
-OFILESTEST = testsuit.o
-# Definition de la premiere regle
+CXX         = g++
+CXXFLAGS    = -g -Wall -std=c++11
+OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarcell.o textstorage.o
+OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarcell.o textstorage.o
 
-build: $(OFILES)
-	$(CXX) $(OFILES) -o projet
+build: projet
 
-# Definitions de cibles particulieres
+all: projet
 
 test: $(OFILESTEST)
 	@echo " *** Lance les test définit dans testsuit ***"
 	$(CXX) testsuit.o -o testsuit
 	./testsuit
 
-depend:
-	@echo " *** MISE A JOUR DES DEPENDANCES ***"
-	@echo " *** LANCER APRES CHAQUE AJOUT DE MODULE ***"
-	@(sed '/^# DO NOT DELETE THIS LINE/q' Makefile && \
-	  $(CXX) -MM $(CXXFLAGS) $(CXXFILES) | \
-	  egrep -v "/usr/include" \
-	 ) >Makefile.new
-	@mv Makefile.new Makefile
-
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
 	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
 
-testsuit.o: testsuit.cc testsuit.h textstorage.cc textstorage.h
-projet.o: projet.cc projet.h
-projet.o: projet.cc projet.h
-projet.o: projet.cc projet.h
+error_squarecell.o : error_squarecell.cc error_squarecell.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+fourmi.o : fourmi.cc fourmi.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+fourmiliere.o : fourmiliere.cc fourmiliere.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+message.o : message.cc message.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+nourriture.o : nourriture.cc nourriture.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+simulation.o : simulation.cc simulation.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+squarcell.o : squarcell.cc squarcell.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+textstorage.o : textstorage.cc textstorage.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+projet.o : projet.cc
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+testsuit.o : testsuit.cc
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+projet :  $(OFILESBUILD)
+	$(CXX) $(OFILESBUILD) -o $@
+
+testsuit : $(OFILESTEST)
+	$(CXX) $(OFILESTEST) -o $@

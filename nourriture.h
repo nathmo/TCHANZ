@@ -6,3 +6,8 @@
 #define TCHANZ_NOURRITURE_H
 
 #endif //TCHANZ_NOURRITURE_H
+
+namespace nourriture
+{
+
+}

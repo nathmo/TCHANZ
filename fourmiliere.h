@@ -6,3 +6,8 @@
 #define TCHANZ_FOURMILIERE_H
 
 #endif //TCHANZ_FOURMILIERE_H
+
+namespace fourmiliere
+{
+
+}

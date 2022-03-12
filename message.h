@@ -1,4 +1,8 @@
 #ifndef MESSAGE_H_INCLUDED
+#define MESSAGE_H_INCLUDED
+
+#include <string>
+
 namespace message
 {
     // Everything went well

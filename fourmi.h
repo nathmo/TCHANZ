@@ -6,3 +6,8 @@
 #define TCHANZ_FOURMI_H
 
 #endif //TCHANZ_FOURMI_H
+
+namespace fourmi
+{
+
+}

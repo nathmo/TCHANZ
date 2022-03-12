@@ -3,3 +3,4 @@
 //
 
 #include "fourmi.h"
+using namespace std;
