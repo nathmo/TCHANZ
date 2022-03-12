@@ -10,7 +10,7 @@
 #endif //TCHANZ_TEXTSTORAGE_H
 
 namespace textstorage {
-    void writetxt(std::string filename, std::vector<std::string> lineToWrite);
+    void writetxt(std::string filename, std::vector<int> lineToWrite);
     std::vector<int> readtxt(std::string filename);
     std::vector<int> creation (std::string line);
 }

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void textstorage::writetxt(string filename, vector<string> lineToWrite){
+void textstorage::writetxt(string filename, vector<int> lineToWrite){
     fstream txtsave;
     string line;
     txtsave.open(filename, ios::out);//out ca ecrit dans un fichier extern
@@ -20,7 +20,7 @@ void textstorage::writetxt(string filename, vector<string> lineToWrite){
     }
     else if(txtsave.is_open()) {
         for(unsigned int i=0; i<lineToWrite.size();i++) {
-            line = lineToWrite[i]; //inserting text
+            line = (" "+to_string(lineToWrite[i])+" "); //inserting text
             txtsave << line;
         }
         txtsave.close(); //close the file object
