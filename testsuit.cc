@@ -43,7 +43,7 @@ bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense 
 
 bool assert_textstorage_writetxt() {      //t avais mis un bool de base
     vector <int> teststring = {1,2,3,4,56,-6,2};
-    string Stockage_fichiertxt = "test_ecriture.txt";
+    string Stockage_fichiertxt = "scenario/test_ecriture.txt";
     textstorage::writetxt(Stockage_fichiertxt, teststring);
     vector <int> inputBuffer = textstorage::readtxt(Stockage_fichiertxt);
     bool passed = true;

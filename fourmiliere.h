@@ -1,6 +1,9 @@
-//
-// Created by Nathann on 04.03.2022.
-//
+/*!
+  \file   fourmiliere.h
+  \author Nathann Morand et Felipe Ramirez
+  \date   MARS 2022
+  \brief  prototype du module "fourmiliere".
+*/
 
 #ifndef TCHANZ_FOURMILIERE_H
 #define TCHANZ_FOURMILIERE_H

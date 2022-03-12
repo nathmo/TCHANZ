@@ -1,7 +1,11 @@
-//
-// Created by felip on 06.03.2022.
-//
+/*!
+  \file   textstorage.cc
+  \author Nathann Morand et Felipe Ramirez
+  \date   MARS 2022
+  \brief  implémentation du module "textstorage".
+*/
 #include "textstorage.h"
+#include "squarecell.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -27,7 +31,8 @@ void textstorage::writetxt(string filename, vector<int> lineToWrite){
     }
 }
 
-vector<int> textstorage::readtxt(string filename){  //sans espace ni qqch begin #
+vector<int> textstorage::readtxt(string filename)
+{  //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<int> inputBuffer_modifie;
@@ -47,7 +52,8 @@ vector<int> textstorage::readtxt(string filename){  //sans espace ni qqch begin 
     return inputBuffer_modifie;
 }
 
-vector<int> textstorage::creation (string line){
+vector<int> textstorage::creation (string line)
+{
     istringstream iss(line);
     vector<int> tableauValeur;
     int valeur;
@@ -57,6 +63,9 @@ vector<int> textstorage::creation (string line){
     return tableauValeur;
 }
 
-//TODO:  import
+vector<Entity> textstorage::import (vector<int> intArrayDump)
+{
+    // TODO : read the array and create the different entity
+    // return a vector of entity (class that every entity inherit from)
 
-
+}
