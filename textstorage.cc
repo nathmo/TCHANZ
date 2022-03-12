@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void writetxt(string filename, vector<string> lineToWrite){
+void textstorage::writetxt(string filename, vector<string> lineToWrite){
     fstream txtsave;
     string line;
     txtsave.open(filename, ios::out);//out ca ecrit dans un fichier extern
@@ -27,7 +27,7 @@ void writetxt(string filename, vector<string> lineToWrite){
     }
 }
 
-vector<int> readtxt(string filename){  //sans espace ni qqch begin #
+vector<int> textstorage::readtxt(string filename){  //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<int> inputBuffer_modifie;
@@ -47,7 +47,7 @@ vector<int> readtxt(string filename){  //sans espace ni qqch begin #
     return inputBuffer_modifie;
 }
 
-vector<int> creation (string line){
+vector<int> textstorage::creation (string line){
     istringstream iss(line);
     vector<int> tableauValeur;
     int valeur;

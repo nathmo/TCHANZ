@@ -3,12 +3,14 @@
 //
 #include <string>
 #include <vector>
+
 #ifndef TCHANZ_TEXTSTORAGE_H
 #define TCHANZ_TEXTSTORAGE_H
 
 #endif //TCHANZ_TEXTSTORAGE_H
 
 namespace textstorage {
-    void writetxt(string filename, vector <int> lineToWrite);
-    std::vector<int> readtxt(string filename);
+    void writetxt(std::string filename, std::vector<std::string> lineToWrite);
+    std::vector<int> readtxt(std::string filename);
+    std::vector<int> creation (std::string line);
 }
