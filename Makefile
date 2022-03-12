@@ -6,8 +6,8 @@
 
 CXX         = g++
 CXXFLAGS    = -g -Wall -std=c++11
-OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarcell.o textstorage.o
-OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarcell.o textstorage.o
+OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o
+OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o
 
 build: projet
 
@@ -21,7 +21,7 @@ test: $(OFILESTEST)
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
 	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
-
+# ----------------------------------------------------------------------------------------------------------------------
 error_squarecell.o : error_squarecell.cc error_squarecell.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -40,7 +40,7 @@ nourriture.o : nourriture.cc nourriture.h
 simulation.o : simulation.cc simulation.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-squarcell.o : squarcell.cc squarcell.h
+squarecell.o : squarecell.cc squarecell.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 textstorage.o : textstorage.cc textstorage.h
@@ -51,6 +51,8 @@ projet.o : projet.cc
 
 testsuit.o : testsuit.cc
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 projet :  $(OFILESBUILD)
 	$(CXX) $(OFILESBUILD) -o $@

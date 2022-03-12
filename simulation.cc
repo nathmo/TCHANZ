@@ -3,9 +3,9 @@
 //
 
 #include "simulation.h"
-
+#include <iostream>
 
 using namespace std;
-    void simulation::loadFromFile(string path) {
-        cout << path << endl;
-    }
+void simulation::loadFromFile(string path) {
+    cout << path << endl;
+}
