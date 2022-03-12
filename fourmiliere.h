@@ -8,9 +8,10 @@
 #ifndef TCHANZ_FOURMILIERE_H
 #define TCHANZ_FOURMILIERE_H
 
-#endif //TCHANZ_FOURMILIERE_H
 
 namespace fourmiliere
 {
 
 }
+
+#endif //TCHANZ_FOURMILIERE_H

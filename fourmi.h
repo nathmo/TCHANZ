@@ -8,9 +8,10 @@
 #ifndef TCHANZ_FOURMI_H
 #define TCHANZ_FOURMI_H
 
-#endif //TCHANZ_FOURMI_H
 
 namespace fourmi
 {
 
 }
+
+#endif //TCHANZ_FOURMI_H

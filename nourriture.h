@@ -8,9 +8,8 @@
 #ifndef TCHANZ_NOURRITURE_H
 #define TCHANZ_NOURRITURE_H
 
-#endif //TCHANZ_NOURRITURE_H
-
 namespace nourriture
 {
 
 }
+#endif //TCHANZ_NOURRITURE_H
