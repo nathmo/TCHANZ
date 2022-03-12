@@ -10,12 +10,12 @@
 
 using namespace std;
 
-squarecell::Point::Point(int x, int y)
+squarecell::Point::Point::Point(int x, int y)
 {
     this->x = x;
     this->y = y;
 }
-squarecell::Point::Point()
+squarecell::Point::Point::Point()
 {
     this->x = -1;
     this->y = -1;

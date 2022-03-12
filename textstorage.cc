@@ -63,9 +63,10 @@ vector<int> textstorage::creation (string line)
     return tableauValeur;
 }
 
-vector<Entity> textstorage::import (vector<int> intArrayDump)
+vector<squarecell::Entity> textstorage::import (vector<int> intArrayDump)
 {
+    vector<squarecell::Entity> entityList;
     // TODO : read the array and create the different entity
     // return a vector of entity (class that every entity inherit from)
-
+    return entityList;
 }

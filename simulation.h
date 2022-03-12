@@ -8,8 +8,6 @@
 #ifndef TCHANZ_SIMULATION_H
 #define TCHANZ_SIMULATION_H
 
-#endif //TCHANZ_SIMULATION_H
-
 #include <string>
 
 namespace simulation {
@@ -20,3 +18,4 @@ namespace simulation {
 // administrative function outside of class
     void loadFromFile(std::string path);
 }
+#endif //TCHANZ_SIMULATION_H
