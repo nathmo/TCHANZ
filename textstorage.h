@@ -16,7 +16,7 @@ namespace textstorage {
     std::vector<int> creation (std::string line);
     std::vector<squarecell::Entity> importDump (std::vector<int> intArrayDump);
     std::vector<int> exportDump (std::vector<squarecell::Entity> entityArrayDump);
-    std::bool assert_vector_size (std::vector<int> inputBuffer_modifie);
-    std::int calcul (std::vector<int> inputBuffer_modifie, int& valeur_intermediaire);
+    bool assert_vector_size (std::vector<int> inputBuffer_modifie);
+    int calcul (std::vector<int> inputBuffer_modifie, int& valeur_intermediaire);
 }
 #endif //TCHANZ_TEXTSTORAGE_H
