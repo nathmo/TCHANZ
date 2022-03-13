@@ -27,13 +27,12 @@ this->size = size;
 this->specie = specie;
 }
 
-squarecell::Squarecell::Squarecell(int gmax){
-    gMax = gmax;
-    hitBoxGrid = vector<vector<bool>> (gmax, vector<bool>(gmax,false));
-    entityGrid = vector<vector<char>> (gmax, vector<char>(gmax, 'E'));
+squarecell::Squarecell::Squarecell(){
+    hitBoxGrid = vector<vector<bool>> (g_max, vector<bool>(g_max,false));
+    entityGrid = vector<vector<char>> (g_max, vector<char>(g_max, 'E'));
 }
 int squarecell::Squarecell::getgMax(){
-    return gMax;
+    return g_max;
 }
 
 void squarecell::Squarecell::add(Entity entity)

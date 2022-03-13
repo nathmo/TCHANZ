@@ -7,10 +7,14 @@
 #ifndef TCHANZ_SQUARECELL_H
 #define TCHANZ_SQUARECELL_H
 #include <vector>
+#include <math.h>
 
 
 
 namespace squarecell {
+    constexpr short unsigned g_dim(7) ;
+    constexpr short unsigned g_max(std::pow(2,g_dim)) ;
+
     class Point {
     private:
         int x;
@@ -39,11 +43,10 @@ namespace squarecell {
     };
     class Squarecell {
     private:
-        int gMax;
         std::vector <std::vector<bool>> hitBoxGrid;
         std::vector <std::vector<char>> entityGrid;
     public:
-        Squarecell(int gmax);
+        Squarecell();
         int getgMax();
         void add(Entity entity);
         void remove(Entity entity);
