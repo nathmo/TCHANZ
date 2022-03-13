@@ -15,5 +15,6 @@ namespace textstorage {
     std::vector<int> readtxt(std::string filename);
     std::vector<int> creation (std::string line);
     std::vector<squarecell::Entity> import (std::vector<int> intArrayDump);
+    std::vector<int> export(std::vector<squarecell::Entity> entityArrayDump);
 }
 #endif //TCHANZ_TEXTSTORAGE_H

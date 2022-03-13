@@ -67,6 +67,13 @@ vector<squarecell::Entity> textstorage::import (vector<int> intArrayDump)
 {
     vector<squarecell::Entity> entityList;
     // TODO : read the array and create the different entity
-    // return a vector of entity (class that every entity inherit from)
+    // return a vector of entity (class that every entity (ants, anthill, food) inherit from)
+    return entityList;
+}
+
+vector<int> textstorage::export (vector<squarecell::Entity> entityArrayDump)
+{
+    vector<squarecell::Entity> entityList;
+    // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;
 }

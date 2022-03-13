@@ -42,7 +42,6 @@ namespace squarecell {
         int gMax;
         std::vector <std::vector<bool>> hitBoxGrid;
         std::vector <std::vector<char>> entityGrid;
-
     public:
         Squarecell(int gmax);
         int getgMax();
