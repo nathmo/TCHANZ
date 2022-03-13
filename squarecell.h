@@ -23,9 +23,9 @@ namespace squarecell {
         Point(int x, int y);
         Point();
         void setPositionX(int xOrigin);
-        void getPositionX(int xOrigin);
+        int getPositionX();
         void setPositionY(int yOrigin);
-        void getPositionY(int yOrigin);
+        int getPositionY();
     };
     class Entity {
     private:
