@@ -29,7 +29,7 @@ int main() {
 
 bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense un string mieux ?
     int teststringfin = 0;
-    vector <int> inputBuffer = textstorage::readtxt("scenario/no_error_collector_move.txt");
+    vector<int> inputBuffer = textstorage::readtxt("scenario/no_error_collector_move.txt");
     if(teststringfin == inputBuffer[inputBuffer.size() - 1]) {
         return true;
     } else {
@@ -42,12 +42,12 @@ bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense 
 
 
 bool assert_textstorage_writetxt() {      //t avais mis un bool de base
-    vector <int> teststring = {1,2,3,4,56,-6,2};
+    vector <int> teststring = {1,2,3,4,560000,-6,2};
     string Stockage_fichiertxt = "scenario/test_ecriture.txt";
     textstorage::writetxt(Stockage_fichiertxt, teststring);
     vector <int> inputBuffer = textstorage::readtxt(Stockage_fichiertxt);
     bool passed = true;
-    for(int i=0; i<teststring.size();i++)
+    for(unsigned int i=0; i<teststring.size();i++)
     {
         if (teststring[i] != inputBuffer[i])
         {
