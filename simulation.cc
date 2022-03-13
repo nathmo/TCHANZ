@@ -10,7 +10,12 @@
 #include <iostream>
 
 using namespace std;
-void simulation::loadFromFile(string path) {
+squarecell::Squarecell simulation::loadFromFile(string path) {
     cout << path << endl;
-    textstorage::readtxt(path);
+    vector<squarecell::Entity> entityList = textstorage::importDump(textstorage::readtxt(path));
+    squarecell::Squarecell gridWorld = squarecell::Squarecell(gmax);
+    for (auto entity = entityList.begin(); entity != entityList.end(); ++entity)
+    {
+        gridWorld.add(*entity);
+    }
 }

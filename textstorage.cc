@@ -63,7 +63,7 @@ vector<int> textstorage::creation (string line)
     return tableauValeur;
 }
 
-vector<squarecell::Entity> textstorage::import (vector<int> intArrayDump)
+vector<squarecell::Entity> textstorage::importDump (vector<int> intArrayDump)
 {
     vector<squarecell::Entity> entityList;
     // TODO : read the array and create the different entity
@@ -71,9 +71,9 @@ vector<squarecell::Entity> textstorage::import (vector<int> intArrayDump)
     return entityList;
 }
 
-vector<int> textstorage::export (vector<squarecell::Entity> entityArrayDump)
+vector<int> textstorage::exportDump (vector<squarecell::Entity> entityArrayDump)
 {
-    vector<squarecell::Entity> entityList;
+    vector<int> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;
 }
