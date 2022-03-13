@@ -18,5 +18,6 @@ namespace simulation {
 
 // administrative function outside of class
     squarecell::Squarecell loadFromFile(std::string path);
+    void saveToFile(std::string path,squarecell::Squarecell worldToDump);
 }
 #endif //TCHANZ_SIMULATION_H

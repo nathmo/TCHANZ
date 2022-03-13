@@ -1,2 +1,12 @@
 /projet
 /projet.o
+/simulation.o
+/error_squarecell.o
+/fourmi.o
+/fourmiliere.o
+/message.o
+/nourriture.o
+/squarecell.o
+/testsuit
+/textstorage.o
+/scenario/test_ecriture.txt

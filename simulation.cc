@@ -21,3 +21,8 @@ squarecell::Squarecell simulation::loadFromFile(string path) {
     }
     return gridWorld;
 }
+
+void simulation::saveToFile(string path,squarecell::Squarecell worldToDump)
+{
+
+}

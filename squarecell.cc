@@ -8,6 +8,7 @@
 #include "squarecell.h"
 #include "error_squarecell.h"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -79,17 +80,12 @@ int squarecell::Squarecell::getgMax(){
 
 void squarecell::Squarecell::add(Entity entity)
 {
-    if(squarecell::Squarecell::checkSize(entity))
+    bool eligible = squarecell::Squarecell::checkSize(entity)
+                and squarecell::Squarecell::checkHitbox(entity)
+                and squarecell::Squarecell::checkOverlap(entity);
+    if(eligible)
     {
-
-    }
-    if(squarecell::Squarecell::checkHitbox(entity))
-    {
-
-    }
-    if(squarecell::Squarecell::checkOverlap(entity))
-    {
-
+        entityList.push_back(entity);
     }
 }
 void squarecell::Squarecell::remove(Entity entity)
@@ -109,13 +105,56 @@ bool squarecell::Squarecell::checkSize(squarecell::Entity entity)
         error_squarecell::print_index(entity.getPosition().getPositionY(), squarecell::g_max);
         status = false;
     }
-    return status;
+    return status; // true if all test pass, false otherwise (and display the set message)
 }
 bool squarecell::Squarecell::checkHitbox(Entity entity)
 {
-    error_squarecell::print_outside(entity.getPosition().getPositionX(),
-                                     entity.getsize().getPositionX(),squarecell::g_max);
-    return true;
+    bool status = true;
+    if(((entity.getsize().getPositionX() % 2) == 0) and ((entity.getsize().getPositionY() % 2) == 0))
+    {
+        // check pos + size in [0;squarecell::g_max[ (even number for size)
+        if(not((entity.getPosition().getPositionX()+entity.getsize().getPositionX() >= 0)
+           and (entity.getPosition().getPositionX()+entity.getsize().getPositionX() < squarecell::g_max)))
+        {
+            error_squarecell::print_outside(entity.getPosition().getPositionX(),
+                                             entity.getsize().getPositionX(), squarecell::g_max);
+            status = false;
+        }
+        // check pos + size in [0;squarecell::g_max[ (even number for size)
+        if(not((entity.getPosition().getPositionY()+entity.getsize().getPositionY() >= 0)
+               and (entity.getPosition().getPositionY()+entity.getsize().getPositionY() < squarecell::g_max)))
+        {
+            error_squarecell::print_outside(entity.getPosition().getPositionY(),
+                                             entity.getsize().getPositionY(), squarecell::g_max);
+            status = false;
+        }
+    }
+    else if (((entity.getsize().getPositionX() % 2) == 1) and ((entity.getsize().getPositionY() % 2) == 1))
+    {
+        // check pos + ((size-1)/2) in [0;squarecell::g_max[ (odd number for size)
+        if(not((entity.getPosition().getPositionX()+entity.getsize().getPositionX() >= 0)
+               and (entity.getPosition().getPositionX()+entity.getsize().getPositionX() < squarecell::g_max)))
+        {
+            error_squarecell::print_outside(entity.getPosition().getPositionX(),
+                                             entity.getsize().getPositionX(), squarecell::g_max);
+            status = false;
+        }
+        if(not((entity.getPosition().getPositionY()+entity.getsize().getPositionY() >= 0)
+               and (entity.getPosition().getPositionY()+entity.getsize().getPositionY() < squarecell::g_max)))
+        {
+            error_squarecell::print_outside(entity.getPosition().getPositionY(),
+                                             entity.getsize().getPositionY(), squarecell::g_max);
+            status = false;
+        }
+    }
+    else
+    {
+        // this should not happen since every size is supposed to be a square
+        cout << "shape is not a squared" << endl;
+        status = false;
+        exit(0);
+    }
+    return status; // true if all test pass, false otherwise (and display the set message)
 }
 int squarecell::Squarecell::checkOverlap(Entity entity)
 {

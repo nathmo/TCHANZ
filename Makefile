@@ -10,7 +10,6 @@ OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourr
 OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o
 
 build: projet
-
 all: projet
 
 test: $(OFILESTEST)
