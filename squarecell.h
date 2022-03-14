@@ -22,15 +22,17 @@ namespace squarecell {
     public:
         Point(int x, int y);
         Point();
-        void setPositionX(int xOrigin);
-        int getPositionX();
-        void setPositionY(int yOrigin);
-        int getPositionY();
+        void setCoordX(int xOrigin);
+        int getCoordX();
+        void setCoordY(int yOrigin);
+        int getCoordY();
     };
     class Entity {
     private:
         Point position;
         Point size;
+        Point cornerBotLeft;
+        Point cornerTopRight;
         char specie;
     public:
         Entity(Point position, Point size, char specie);
@@ -55,5 +57,8 @@ namespace squarecell {
         bool checkHitbox(Entity entity);
         int checkOverlap(Entity entity);
     };
+    Point getHitboxBotLeft(Entity entity);
+    Point getHitboxTopRight(Entity entity);
 }
+
 #endif //TCHANZ_SQUARECELL_H
