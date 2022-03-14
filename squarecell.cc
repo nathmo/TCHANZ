@@ -101,7 +101,7 @@ void squarecell::Squarecell::add(Entity entity)
 }
 void squarecell::Squarecell::remove(Entity entity)
 {
-    int indexWhereErase = std::find(entityList.begin(), entityList.end(), entity)
+    int indexWhereErase = std::find(entityList.begin(), entityList.end(), entity);
     entityList.erase(indexWhereErase);//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
