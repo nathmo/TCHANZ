@@ -30,7 +30,7 @@ void textstorage::writetxt (string filename, vector<int> lineToWrite) {
     }
 }
 
-vector<int> textstorage::readtxt (string filename) {  //sans espace ni qqch begin #
+vector<int> textstorage::readtxt(string filename) {  //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<int> inputBuffer_modifie;

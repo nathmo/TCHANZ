@@ -12,11 +12,6 @@ OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nou
 build: projet
 all: projet
 
-test: $(OFILESTEST)
-	@echo " *** Lance les test définit dans testsuit ***"
-	$(CXX) testsuit.o -o testsuit
-	./testsuit
-
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
 	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
@@ -56,5 +51,7 @@ testsuit.o : testsuit.cc
 projet :  $(OFILESBUILD)
 	$(CXX) $(OFILESBUILD) -o $@
 
-testsuit : $(OFILESTEST)
+test : $(OFILESTEST)
+	@echo " *** Lance les test définit dans testsuit ***"
 	$(CXX) $(OFILESTEST) -o $@
+	./testsuit

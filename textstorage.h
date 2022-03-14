@@ -12,7 +12,7 @@
 
 namespace textstorage {
     void writetxt(std::string filename, std::vector<int> lineToWrite);
-    std::vector<int> readtxt (std::string filename);
+    std::vector<int> readtxt(std::string filename);
     std::vector<int> creation (std::string line);
     std::vector<squarecell::Entity> importDump (std::vector<int> intArrayDump);
     std::vector<int> exportDump (std::vector<squarecell::Entity> entityArrayDump);

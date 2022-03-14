@@ -7,24 +7,48 @@
 
 #include <iostream>
 #include "textstorage.h"
-#include "textstorage.cc"
+#include "squarecell.h"
 #include <vector>
 #include <string>
 #include <assert.h>
 
 using namespace std;
 
+
+bool assert_textstorage();
+bool assert_squarecell();
 bool assert_textstorage_readtxt();
 bool assert_textstorage_writetxt();
+bool assert_squarecell_Point();
+bool assert_squarecell_Entity();
+bool assert_squarecell_checkOverlap(); //not implemented yet
+bool assert_squarecell_Squarecell();
+bool assert_squarecell_add();
+bool assert_squarecell_remove();
+bool assert_squarecell_checkSize();
+bool assert_squarecell_checkHitbox();
+bool assert_squarecell_checkOverlap();
+bool assert_squarecell_getHitboxBotLeft();
+bool assert_squarecell_getHitboxTopRight();
 
 int main() {
     cout << "beginning unit test" << endl;
-    assert(assert_textstorage_readtxt());
-    assert(assert_textstorage_writetxt());
+    assert(assert_textstorage());
     cout << "beginning integration test" << endl;
-
     cout << "all test passed successfully" << endl;
     return 0;
+}
+
+bool assert_textstorage() {
+    assert(assert_textstorage_readtxt());
+    assert(assert_textstorage_writetxt());
+    return true;
+}
+
+bool assert_squarecell() {
+    assert(assert_textstorage_readtxt());
+    assert(assert_textstorage_writetxt());
+    return true;
 }
 
 bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense un string mieux ?
@@ -38,7 +62,6 @@ bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense 
         return false;
     }
 }
-
 
 
 bool assert_textstorage_writetxt() {      //t avais mis un bool de base
