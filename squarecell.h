@@ -43,6 +43,8 @@ namespace squarecell {
         Point getsize();
         char getSpecie();
         int checkOverlap(Entity entity);
+        int getId();
+        void setId(int id);
     };
     class Squarecell {
     private:

@@ -71,6 +71,14 @@ int squarecell::Entity::checkOverlap(Entity entity)
     // remove if not used
     return 0;
 }
+int squarecell::Entity::getId()
+{
+    return id;
+}
+void squarecell::Entity::setId(int id)
+{
+    this->id = id;
+}
 
 squarecell::Squarecell::Squarecell(){
     hitBoxGrid = vector<vector<bool>> (g_max, vector<bool>(g_max,false));
@@ -87,7 +95,7 @@ void squarecell::Squarecell::add(Entity entity)
                 and not(squarecell::Squarecell::checkOverlap(entity));
     if(eligible)
     {
-        entity.id = entityList.size();
+        entity.setId(entityList.size());
         entityList.push_back(entity);
         Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
         Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
@@ -103,7 +111,7 @@ void squarecell::Squarecell::add(Entity entity)
 }
 void squarecell::Squarecell::remove(Entity entity)
 {
-    entityList.erase(entity.id);//assume only one copy at position
+    entityList.erase(entity.getId());//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
     for(int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
