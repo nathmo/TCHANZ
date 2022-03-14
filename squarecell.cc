@@ -161,7 +161,7 @@ int squarecell::Squarecell::checkOverlap(Entity entity)
     return overlappingArea;
 }
 
-Point squarecell::getHitboxBotLeft(Entity entity)
+squarecell::Point squarecell::getHitboxBotLeft(Entity entity)
 {
     Point botLeft;
     if(entity.getsize().getCoordX()%2==0)
@@ -182,7 +182,7 @@ Point squarecell::getHitboxBotLeft(Entity entity)
     }
     return botLeft;
 }
-Point squarecell::getHitboxTopRight(Entity entity)
+squarecell::Point squarecell::getHitboxTopRight(Entity entity)
 {
     Point topRight;
     if(entity.getsize().getCoordX()%2==0)
