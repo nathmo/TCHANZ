@@ -62,6 +62,7 @@ vector<string> textstorage::creation (string line) {
 
 vector<squarecell::Entity> textstorage::importDump (vector<int> intArrayDump) {
     vector<squarecell::Entity> entityList;
+
     // TODO : read the array and create the different entity
     // return a vector of entity (class that every entity (ants, anthill, food) inherit from)
     return entityList;
