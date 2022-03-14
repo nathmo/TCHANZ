@@ -67,7 +67,7 @@ char squarecell::Entity::getSpecie()
 }
 int squarecell::Entity::checkOverlap(Entity entity)
 {
-
+    // remove if not used
     return 0;
 }
 
@@ -83,17 +83,36 @@ void squarecell::Squarecell::add(Entity entity)
 {
     bool eligible = squarecell::Squarecell::checkSize(entity)
                 and squarecell::Squarecell::checkHitbox(entity)
-                and squarecell::Squarecell::checkOverlap(entity);
+                and not(squarecell::Squarecell::checkOverlap(entity));
     if(eligible)
     {
         entityList.push_back(entity);
-        //for(unsigned int i=entity.;i<)
-        //hitBoxGrid[][]
+        Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
+        Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
+        for(unsigned int=hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
+        {
+            for(unsigned int=hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+            {
+                hitBoxGrid[i][j]=true;
+                entityGrid[i][j]=entity.getSpecie();
+            }
+        }
     }
 }
 void squarecell::Squarecell::remove(Entity entity)
 {
-
+    int indexWhereErase = std::find(entityList.begin(), entityList.end(), entity)
+    entityList.erase(indexWhereErase);//assume only one copy at position
+    Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
+    Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
+    for(unsigned int=hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
+    {
+        for(unsigned int=hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+        {
+            hitBoxGrid[i][j]=false;
+            entityGrid[i][j]='E';
+        }
+    }
 }
 bool squarecell::Squarecell::checkSize(squarecell::Entity entity)
 {
@@ -141,10 +160,10 @@ bool squarecell::Squarecell::checkHitbox(Entity entity)
             status = false;
         }
     }
-    if(not(((entity.getsize().getCoordX() % 2) == 0)
-    and   ((entity.getsize().getCoordY() % 2) == 0)
-    or    ((entity.getsize().getCoordX() % 2) == 1)
-    and   ((entity.getsize().getCoordY() % 2) == 1)))
+    if(not((((entity.getsize().getCoordX() % 2) == 0)
+    and     ((entity.getsize().getCoordY() % 2) == 0))
+    or     (((entity.getsize().getCoordX() % 2) == 1)
+    and     ((entity.getsize().getCoordY() % 2) == 1))))
     {
         cout << "shape is not a square" << endl;
         status = false;
@@ -157,7 +176,16 @@ int squarecell::Squarecell::checkOverlap(Entity entity)
     int overlappingArea = 0;
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-    //for(unsigned int=hitboxBotLeft)
+    for(unsigned int=hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
+    {
+        for(unsigned int=hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+        {
+            if(hitBoxGrid[i][j]==true)
+            {
+                overlappingArea++;
+            }
+        }
+    }
     return overlappingArea;
 }
 
