@@ -87,12 +87,13 @@ void squarecell::Squarecell::add(Entity entity)
                 and not(squarecell::Squarecell::checkOverlap(entity));
     if(eligible)
     {
+        entity.id = entityList.size();
         entityList.push_back(entity);
         Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
         Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-        for(unsigned int i =hitboxBotLeft.getCoordX();i <= hitboxTopRight.getCoordX();i++)
+        for(int i =hitboxBotLeft.getCoordX();i <= hitboxTopRight.getCoordX();i++)
         {
-            for(unsigned int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+            for(int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
             {
                 hitBoxGrid[i][j]=true;
                 entityGrid[i][j]=entity.getSpecie();
@@ -102,8 +103,7 @@ void squarecell::Squarecell::add(Entity entity)
 }
 void squarecell::Squarecell::remove(Entity entity)
 {
-    int indexWhereErase = find(entityList.begin(), entityList.end(), entity);
-    entityList.erase(indexWhereErase);//assume only one copy at position
+    entityList.erase(entity.id);//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
     for(int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)

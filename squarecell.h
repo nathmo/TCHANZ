@@ -34,6 +34,7 @@ namespace squarecell {
         Point cornerBotLeft;
         Point cornerTopRight;
         char specie;
+        int id;
     public:
         Entity(Point position, Point size, char specie);
         void setPosition(Point newPosition);
