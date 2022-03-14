@@ -111,7 +111,7 @@ void squarecell::Squarecell::add(Entity entity)
 }
 void squarecell::Squarecell::remove(Entity entity)
 {
-    entityList.erase(entity.getId());//assume only one copy at position
+    entityList.erase(entityList.begin() + entity.getId());//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
     for(int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
