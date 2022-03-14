@@ -8,6 +8,7 @@
 #include "squarecell.h"
 #include "error_squarecell.h"
 #include <vector>
+#include <string>
 #include <iostream>
 
 using namespace std;
@@ -101,13 +102,13 @@ void squarecell::Squarecell::add(Entity entity)
 }
 void squarecell::Squarecell::remove(Entity entity)
 {
-    int indexWhereErase = std::find(entityList.begin(), entityList.end(), entity);
+    int indexWhereErase = find(entityList.begin(), entityList.end(), entity);
     entityList.erase(indexWhereErase);//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-    for(unsigned int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
+    for(int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
     {
-        for(unsigned int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+        for(int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
         {
             hitBoxGrid[i][j]=false;
             entityGrid[i][j]='E';
@@ -176,9 +177,9 @@ int squarecell::Squarecell::checkOverlap(Entity entity)
     int overlappingArea = 0;
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-    for(unsigned int=hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
+    for(int i=hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
     {
-        for(unsigned int=hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+        for(int j=hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
         {
             if(hitBoxGrid[i][j]==true)
             {
