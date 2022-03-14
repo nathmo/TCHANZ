@@ -87,8 +87,8 @@ void squarecell::Squarecell::add(Entity entity)
     if(eligible)
     {
         entityList.push_back(entity);
-        for(unsigned int i=entity.;i<)
-        hitBoxGrid[][]
+        //for(unsigned int i=entity.;i<)
+        //hitBoxGrid[][]
     }
 }
 void squarecell::Squarecell::remove(Entity entity)
@@ -157,7 +157,7 @@ int squarecell::Squarecell::checkOverlap(Entity entity)
     int overlappingArea = 0;
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-    for(unsigned int=hitboxBotLeft)
+    //for(unsigned int=hitboxBotLeft)
     return overlappingArea;
 }
 
