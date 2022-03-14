@@ -12,11 +12,11 @@
 
 namespace textstorage {
     void writetxt(std::string filename, std::vector<int> lineToWrite);
-    std::vector<int> readtxt(std::string filename);
-    std::vector<int> creation (std::string line);
-    std::vector<squarecell::Entity> importDump (std::vector<int> intArrayDump);
-    std::vector<int> exportDump (std::vector<squarecell::Entity> entityArrayDump);
-    bool assert_vector_size (std::vector<int> inputBuffer_modifie);
-    int calcul (std::vector<int> inputBuffer_modifie, int& valeur_intermediaire);
+    std::vector<std::vector<std::string>> readtxt (std::string filename);
+    std::vector<std::string> creation (std::string line);
+    std::vector<squarecell::Entity> importDump (std::vector<std::vector<std::string>> intArrayDump);
+    std::vector<std::string> exportDump (std::vector<squarecell::Entity> entityArrayDump);
 }
+
+
 #endif //TCHANZ_TEXTSTORAGE_H
