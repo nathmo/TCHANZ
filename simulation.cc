@@ -8,9 +8,21 @@
 #include "simulation.h"
 #include "textstorage.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
-void simulation::loadFromFile(string path) {
+squarecell::Squarecell simulation::loadFromFile(string path) {
     cout << path << endl;
-    textstorage::readtxt(path);
+    vector<squarecell::Entity> entityList = textstorage::importDump(textstorage::readtxt(path));
+    squarecell::Squarecell gridWorld = squarecell::Squarecell();
+    for (auto entity = entityList.begin(); entity != entityList.end(); ++entity)
+    {
+        gridWorld.add(*entity);
+    }
+    return gridWorld;
+}
+
+void simulation::saveToFile(string path,squarecell::Squarecell worldToDump)
+{
+
 }

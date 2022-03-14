@@ -9,6 +9,7 @@
 #define TCHANZ_SIMULATION_H
 
 #include <string>
+#include "squarecell.h"
 
 namespace simulation {
     class Simulation {
@@ -16,6 +17,7 @@ namespace simulation {
     };
 
 // administrative function outside of class
-    void loadFromFile(std::string path);
+    squarecell::Squarecell loadFromFile(std::string path);
+    void saveToFile(std::string path,squarecell::Squarecell worldToDump);
 }
 #endif //TCHANZ_SIMULATION_H
