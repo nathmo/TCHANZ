@@ -17,4 +17,6 @@ namespace textstorage {
     std::vector<squarecell::Entity> importDump (std::vector<int> intArrayDump);
     std::vector<int> exportDump (std::vector<squarecell::Entity> entityArrayDump);
 }
+
+
 #endif //TCHANZ_TEXTSTORAGE_H
