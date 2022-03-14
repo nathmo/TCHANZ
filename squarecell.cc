@@ -89,9 +89,9 @@ void squarecell::Squarecell::add(Entity entity)
         entityList.push_back(entity);
         Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
         Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-        for(unsigned int=hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
+        for(unsigned int i =hitboxBotLeft.getCoordX();i <= hitboxTopRight.getCoordX();i++)
         {
-            for(unsigned int=hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+            for(unsigned int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
             {
                 hitBoxGrid[i][j]=true;
                 entityGrid[i][j]=entity.getSpecie();
@@ -105,9 +105,9 @@ void squarecell::Squarecell::remove(Entity entity)
     entityList.erase(indexWhereErase);//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-    for(unsigned int=hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
+    for(unsigned int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
     {
-        for(unsigned int=hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+        for(unsigned int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
         {
             hitBoxGrid[i][j]=false;
             entityGrid[i][j]='E';
