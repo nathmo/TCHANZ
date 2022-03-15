@@ -8,8 +8,9 @@
 #ifndef TCHANZ_FOURMILIERE_H
 #define TCHANZ_FOURMILIERE_H
 
-#import "fourmi.h"
-#import "squarecell.h"
+#include "fourmi.h"
+#include "squarecell.h"
+#include <vector>
 
 namespace fourmiliere
 {
@@ -20,10 +21,10 @@ namespace fourmiliere
         int nbC;
         int nbD;
         int nbP;
-        vector<fourmi::Fourmi *> memberAnts;
+        std::vector<fourmi::Fourmi *> memberAnts;
     public:
         Fourmiliere(squarecell::Point position, squarecell::Point size, int total_food, int nbC, int nbD, int nbP );
-        update();
+        void update();
     };
 }
 

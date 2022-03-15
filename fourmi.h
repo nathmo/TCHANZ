@@ -8,7 +8,7 @@
 #ifndef TCHANZ_FOURMI_H
 #define TCHANZ_FOURMI_H
 
-#import "squarecell.h"
+#include "squarecell.h"
 
 namespace fourmi
 {
@@ -26,25 +26,25 @@ class Fourmi : public squarecell::Entity
         bool carryFood;
     public:
         Collector(squarecell::Point position, int age, bool carryFood);
-        update();
+        void update();
     };
     class Defensor : public Fourmi
     {
     public:
         Defensor(squarecell::Point position, int age);
-        update();
+        void update();
     };
     class Predator : public Fourmi
     {
     public:
         Predator(squarecell::Point position, int age);
-        update();
+        void update();
     };
     class Generator : public Fourmi
     {
     public:
         Generator(squarecell::Point position);
-        update();
+        void update();
     };
 }
 
