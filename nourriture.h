@@ -8,9 +8,11 @@
 #ifndef TCHANZ_NOURRITURE_H
 #define TCHANZ_NOURRITURE_H
 
+#import "squarecell.h"
+
 namespace nourriture
 {
-    class Nourriture : public Entity
+    class Nourriture : public squarecell::Entity
     {
     public:
         Nourriture(Point position);i

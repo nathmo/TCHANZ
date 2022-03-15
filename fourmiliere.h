@@ -9,10 +9,11 @@
 #define TCHANZ_FOURMILIERE_H
 
 #import "fourmi.h"
+#import "squarecell.h"
 
 namespace fourmiliere
 {
-    class Fourmiliere : public Entity
+    class Fourmiliere : public squarecell::Entity
     {
     private:
         int foodReserve;

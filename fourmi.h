@@ -8,11 +8,12 @@
 #ifndef TCHANZ_FOURMI_H
 #define TCHANZ_FOURMI_H
 
+#import "squarecell.h"
 
 namespace fourmi
 {
 
-    class Fourmi : public Entity
+class Fourmi : public squarecell::Entity
     {
     private:
         int age;
