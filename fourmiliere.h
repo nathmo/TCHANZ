@@ -22,7 +22,7 @@ namespace fourmiliere
         int nbP;
         vector<fourmi::Fourmi *> memberAnts;
     public:
-        Fourmiliere(Point position, Point size, int total_food, int nbC, int nbD, int nbP );
+        Fourmiliere(squarecell::Point position, squarecell::Point size, int total_food, int nbC, int nbD, int nbP );
         update();
     };
 }

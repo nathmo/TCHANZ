@@ -15,7 +15,7 @@ namespace nourriture
     class Nourriture : public squarecell::Entity
     {
     public:
-        Nourriture(Point position);i
+        Nourriture(squarecell::Point position);i
     };
 }
 #endif //TCHANZ_NOURRITURE_H

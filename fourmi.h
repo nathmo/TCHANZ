@@ -18,32 +18,32 @@ class Fourmi : public squarecell::Entity
     private:
         int age;
     public:
-        Fourmi(Point position, int age);
+        Fourmi(squarecell::Point position, int age);
     };
     class Collector : public Fourmi
     {
     private:
         bool carryFood;
     public:
-        Collector(Point position, int age, bool carryFood);
+        Collector(squarecell::Point position, int age, bool carryFood);
         update();
     };
     class Defensor : public Fourmi
     {
     public:
-        Defensor(Point position, int age);
+        Defensor(squarecell::Point position, int age);
         update();
     };
     class Predator : public Fourmi
     {
     public:
-        Predator(Point position, int age);
+        Predator(squarecell::Point position, int age);
         update();
     };
     class Generator : public Fourmi
     {
     public:
-        Generator(Point position);
+        Generator(squarecell::Point position);
         update();
     };
 }
