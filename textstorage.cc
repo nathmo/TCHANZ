@@ -54,14 +54,55 @@ vector<string> textstorage::creation (string line) {
     vector<string> tableauValeur;
     string valeur;
     while(iss >> valeur) {
-        if('#' == valeur[0]) break; //pas sur que ca soit ça si t arrive a me confirmer
+        if('#' == valeur[0]) break; //passe au suivant
         tableauValeur.push_back(valeur);
     }
     return tableauValeur;
 }
 
-vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> intArrayDump) {
+vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> inputBuffer_modifie) {
     vector<squarecell::Entity> entityList;
+    string quantity_food = inputBuffer_modifie[0][0]; //forcement premiere position c est quantite de bouffe
+    int int_quantity_food = stoi(quantity_food);
+
+    for(int i(1); i < int_quantity_food+1; i++);{
+        int x = stoi(inputBuffer_modifie[i][1]);
+        int y = stoi(inputBuffer_modifie[i][2]);
+        entityList.push_back(Nourriture(x,y));
+    }
+
+    int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
+    unsigned int quantity_anthill = stoi(inputBuffer_modifie[intermediaire-1][0]);
+    for(int i(0); i < quantity_anthill; i++){
+        int collector = stoi(inputBuffer_modifie[intermediaire][6]);
+        int defensor = stoi(inputBuffer_modifie[intermediaire][7]);
+        int predator = stoi(inputBuffer_modifie[intermediaire][8]);
+
+        for(int c(1); c < collector+1; c++){
+            int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
+            int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
+            int z = stoi(inputBuffer_modifie[intermediaire+1][2]);
+            bool condition = (inputBuffer_modifie[intermediaire+1][3]);
+            intermediaire = intermediaire + 1;
+            entityList.push_back(collector(x,y,z,condition));
+        }
+
+        for(int d(1); d < defensor+1; d++){
+            int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
+            int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
+
+            intermediaire = intermediaire + 1;
+            entityList.push_back(defensor(x,y));
+        }
+
+        for(int p(1); p < predator+1; p++){
+            int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
+            int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
+            intermediaire = intermediaire + 1;
+            entityList.push_back(defensor(x,y));
+        }
+    }
+
 
     // TODO : read the array and create the different entity
     // return a vector of entity (class that every entity (ants, anthill, food) inherit from)
