@@ -8,14 +8,14 @@
 #ifndef TCHANZ_NOURRITURE_H
 #define TCHANZ_NOURRITURE_H
 
-#import "squarecell.h"
+#include "squarecell.h"
 
 namespace nourriture
 {
     class Nourriture : public squarecell::Entity
     {
     public:
-        Nourriture(squarecell::Point position);i
+        Nourriture(squarecell::Point position);
     };
 }
 #endif //TCHANZ_NOURRITURE_H
