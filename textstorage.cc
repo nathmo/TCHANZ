@@ -78,29 +78,37 @@ vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> input
         int defensor = stoi(inputBuffer_modifie[intermediaire][7]);
         int predator = stoi(inputBuffer_modifie[intermediaire][8]);
 
-        for(int c(1); c < collector+1; c++){
+        for(int c(1); c < collector+1; c++) {
             int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
             int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
-            int z = stoi(inputBuffer_modifie[intermediaire+1][2]);
-            bool condition = (inputBuffer_modifie[intermediaire+1][3]);
+            int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
+            bool condition = false;
+            if('true' = inputBuffer_modifie[intermediaire+1][3]) {
+                condition = true;
+            }
+            squarecell::Point::Point(x,y);
             intermediaire = intermediaire + 1;
-            entityList.push_back(collector(x,y,z,condition));
+            entityList.push_back(collector(,age,condition));
         }
 
-        for(int d(1); d < defensor+1; d++){
+        for(int d(1); d < defensor+1; d++) {
             int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
             int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
-
+            int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
+            squarecell::Point::Point(x,y);
             intermediaire = intermediaire + 1;
-            entityList.push_back(defensor(x,y));
+            entityList.push_back(defensor(x,y,age));
         }
 
-        for(int p(1); p < predator+1; p++){
+        for(int p(1); p < predator+1; p++) {
             int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
             int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
+            int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
+            squarecell::Point::Point(x,y);
             intermediaire = intermediaire + 1;
-            entityList.push_back(defensor(x,y));
+            entityList.push_back(predator(,age));
         }
+        intermediaire = intermediaire + 1; //pour retomber sur longue ligne de la n anthill
     }
 
 
