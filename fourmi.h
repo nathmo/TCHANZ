@@ -12,6 +12,39 @@
 namespace fourmi
 {
 
+    class Fourmi : public Entity
+    {
+    private:
+        int age;
+    public:
+        Fourmi(Point position, int age);
+    };
+    class Collector : public Fourmi
+    {
+    private:
+        bool carryFood;
+    public:
+        Collector(Point position, int age, bool carryFood);
+        update();
+    };
+    class Defensor : public Fourmi
+    {
+    public:
+        Defensor(Point position, int age);
+        update();
+    };
+    class Predator : public Fourmi
+    {
+    public:
+        Predator(Point position, int age);
+        update();
+    };
+    class Generator : public Fourmi
+    {
+    public:
+        Generator(Point position);
+        update();
+    };
 }
 
 #endif //TCHANZ_FOURMI_H

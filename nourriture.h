@@ -10,6 +10,10 @@
 
 namespace nourriture
 {
-
+    class Nourriture : public Entity
+    {
+    public:
+        Nourriture(Point position);i
+    };
 }
 #endif //TCHANZ_NOURRITURE_H
