@@ -54,7 +54,7 @@ namespace squarecell {
     public:
         Squarecell();
         int getgMax();
-        void add(Entity entity);
+        bool add(Entity entity);
         void remove(Entity entity);
         bool checkSize(Entity entity);
         bool checkHitbox(Entity entity);

@@ -11,7 +11,7 @@
 #include <vector>
 
 namespace textstorage {
-    void writetxt(std::string filename, std::vector<int> lineToWrite);
+    void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
     std::vector<std::vector<std::string>> readtxt (std::string filename);
     std::vector<std::string> creation (std::string line);
     std::vector<squarecell::Entity> importDump (std::vector<std::vector<std::string>> intArrayDump);

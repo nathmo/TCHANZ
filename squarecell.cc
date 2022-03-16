@@ -88,7 +88,7 @@ int squarecell::Squarecell::getgMax(){
     return g_max;
 }
 
-void squarecell::Squarecell::add(Entity entity)
+bool squarecell::Squarecell::add(Entity entity)
 {
     bool eligible = squarecell::Squarecell::checkSize(entity)
                 and squarecell::Squarecell::checkHitbox(entity)
@@ -108,6 +108,7 @@ void squarecell::Squarecell::add(Entity entity)
             }
         }
     }
+    return eligible;
 }
 void squarecell::Squarecell::remove(Entity entity)
 {
