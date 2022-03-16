@@ -73,8 +73,7 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
     string quantity_food = inputBuffer_modifie[0][0]; //forcement premiere position c est quantite de bouffe
     int int_quantity_food = stoi(quantity_food);
 
-    for(int i(1); i < int_quantity_food+1; i++)
-    {
+    for(int i(1); i < int_quantity_food+1; i++) {
         int x = stoi(inputBuffer_modifie[i][1]);
         int y = stoi(inputBuffer_modifie[i][2]);
         entityList.push_back(make_shared<nourriture::Nourriture>(squarecell::Point(x,y)));
@@ -82,7 +81,7 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
 
     int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
     unsigned int quantity_anthill = stoi(inputBuffer_modifie[intermediaire-1][0]);
-    for(unsigned int i(0); i < quantity_anthill; i++){
+    for(unsigned int i(0); i < quantity_anthill; i++) {
         int collector = stoi(inputBuffer_modifie[intermediaire][6]);
         int defensor = stoi(inputBuffer_modifie[intermediaire][7]);
         int predator = stoi(inputBuffer_modifie[intermediaire][8]);
@@ -118,10 +117,6 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
         }
         intermediaire = intermediaire + 1; //pour retomber sur longue ligne de la n anthill
     }
-
-
-    // TODO : read the array and create the different entity
-    // return a vector of entity (class that every entity (ants, anthill, food) inherit from)
     return entityList;
 }
 
