@@ -68,7 +68,7 @@ vector<string> textstorage::creation (string line) {
     return tableauValeur;
 }
 
-vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> inputBuffer_modifie) {
+vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<string>> inputBuffer_modifie) {
     vector<shared_ptr<squarecell::Entity>> entityList;
     string quantity_food = inputBuffer_modifie[0][0]; //forcement premiere position c est quantite de bouffe
     int int_quantity_food = stoi(quantity_food);
