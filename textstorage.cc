@@ -76,7 +76,7 @@ vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> input
     {
         int x = stoi(inputBuffer_modifie[i][1]);
         int y = stoi(inputBuffer_modifie[i][2]);
-        entityList.push_back(nourriture::Nourriture(squarecell::Point(x,y)));
+        entityList.push_back(make_shared<nourriture::Nourriture>(squarecell::Point(x,y)));
     }
 
     int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
@@ -96,7 +96,7 @@ vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> input
             }
 
             intermediaire = intermediaire + 1;
-            entityList.push_back(fourmi::Collector(squarecell::Point(x,y),age,condition));
+            entityList.push_back(make_shared<fourmi::Collector>(squarecell::Point(x,y),age,condition));
         }
 
         for(int d(1); d < defensor+1; d++) {
@@ -105,7 +105,7 @@ vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> input
             int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
 
             intermediaire = intermediaire + 1;
-            entityList.push_back(fourmi::Defensor(squarecell::Point(x,y),age));
+            entityList.push_back(make_shared<fourmi::Defensor>(squarecell::Point(x,y),age));
         }
 
         for(int p(1); p < predator+1; p++) {
@@ -113,7 +113,7 @@ vector<squarecell::Entity> textstorage::importDump (vector<vector<string>> input
             int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
             int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
             intermediaire = intermediaire + 1;
-            entityList.push_back(fourmi::Predator(squarecell::Point(x,y),age));
+            entityList.push_back(make_shared<fourmi::Predator>(squarecell::Point(x,y),age));
         }
         intermediaire = intermediaire + 1; //pour retomber sur longue ligne de la n anthill
     }
