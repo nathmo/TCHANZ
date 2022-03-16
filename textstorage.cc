@@ -14,6 +14,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
