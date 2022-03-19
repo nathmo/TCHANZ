@@ -9,12 +9,13 @@
 #include "squarecell.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace textstorage {
     void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
     std::vector<std::vector<std::string>> readtxt (std::string filename);
     std::vector<std::string> creation (std::string line);
-    std::vector<squarecell::Entity> importDump (std::vector<std::vector<std::string>> intArrayDump);
+    std::vector<std::shared_ptr<squarecell::Entity>> importDump (std::vector<std::vector<std::string>> intArrayDump);
     std::vector<std::string> exportDump (std::vector<squarecell::Entity> entityArrayDump);
 }
 
