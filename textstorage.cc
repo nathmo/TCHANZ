@@ -73,13 +73,11 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
     vector<shared_ptr<squarecell::Entity>> entityList;
     string quantity_food = inputBuffer_modifie[0][0]; //forcement premiere position c est quantite de bouffe
     int int_quantity_food = stoi(quantity_food);
-
     for(int i(1); i < int_quantity_food+1; i++) {
-        int x = stoi(inputBuffer_modifie[i][1]);
-        int y = stoi(inputBuffer_modifie[i][2]);
+        int x = stoi(inputBuffer_modifie[i][0]);
+        int y = stoi(inputBuffer_modifie[i][1]);
         entityList.push_back(make_shared<nourriture::Nourriture>(squarecell::Point(x,y)));
     }
-
     int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
     unsigned int quantity_anthill = stoi(inputBuffer_modifie[intermediaire-1][0]);
     for(unsigned int i(0); i < quantity_anthill; i++) {

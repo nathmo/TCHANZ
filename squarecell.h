@@ -58,6 +58,7 @@ namespace squarecell {
         int getId();
 
         void setId(int id);
+
     };
     class Squarecell {
     private:
@@ -71,7 +72,10 @@ namespace squarecell {
         void remove(Entity entity);
         bool checkSize(Entity entity);
         bool checkHitbox(Entity entity);
-        int checkOverlap(Entity entity);
+        bool checkOverlap(Entity entity);
+        int countOverlap(Entity entity);
+        void displayRawBoolGrid();
+        void displayRawEntityGrid();
     };
     Point getHitboxBotLeft(Entity entity);
     Point getHitboxTopRight(Entity entity);

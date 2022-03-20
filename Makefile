@@ -6,8 +6,8 @@
 
 CXX         = g++
 CXXFLAGS    = -g -Wall -std=c++11
-OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o
-OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o
+OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o world.o
+OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o world.o
 
 build: projet
 all: projet
@@ -32,6 +32,9 @@ nourriture.o : nourriture.cc nourriture.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 simulation.o : simulation.cc simulation.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+world.o : world.cc world.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 squarecell.o : squarecell.cc squarecell.h
