@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 #include <assert.h>
+#include "constantes.h"
 
 using namespace std;
 
@@ -34,6 +35,7 @@ bool assert_squarecell_getHitboxTopRight();
 int main() {
     cout << "beginning unit test" << endl;
     assert(assert_textstorage());
+    assert(assert_squarecell());
     cout << "beginning integration test" << endl;
     cout << "all test passed successfully" << endl;
     return 0;
@@ -113,18 +115,18 @@ bool assert_squarecell_Point()
 }
 bool assert_squarecell_Entity()
 {
-    squarecell::Entity testEnt = squarecell::Entity(squarecell::Point(2,4),squarecell::Point(1,2),'F');
-    assert(testEnt.getsize().getCoordX()==1);
-    assert(testEnt.getsize().getCoordY()==2);
-    assert(testEnt.getPosition().getCoordX()==2);
-    assert(testEnt.getPosition().getCoordY()==4);
-    testEnt.setPosition(squarecell::Point(5,6));
-    assert(testEnt.getPosition().getCoordX()==5);
-    assert(testEnt.getPosition().getCoordY()==6);
-    testEnt.setsize(squarecell::Point(4,8));
-    assert(testEnt.getsize().getCoordX()==4);
-    assert(testEnt.getsize().getCoordY()==8);
-    assert(testEnt.getSpecie()=='F');
+    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(2,4),squarecell::Point(1,2),'F');
+    assert((*testEnt).getsize().getCoordX()==1);
+    assert((*testEnt).getsize().getCoordY()==2);
+    assert((*testEnt).getPosition().getCoordX()==2);
+    assert((*testEnt).getPosition().getCoordY()==4);
+    (*testEnt).setPosition(squarecell::Point(5,6));
+    assert((*testEnt).getPosition().getCoordX()==5);
+    assert((*testEnt).getPosition().getCoordY()==6);
+    (*testEnt).setsize(squarecell::Point(4,8));
+    assert((*testEnt).getsize().getCoordX()==4);
+    assert((*testEnt).getsize().getCoordY()==8);
+    assert((*testEnt).getSpecie()=='F');
     return true;
 }
 bool assert_squarecell_checkOverlap()
@@ -134,20 +136,21 @@ bool assert_squarecell_checkOverlap()
 bool assert_squarecell_Squarecell()
 {
     squarecell::Squarecell testSqCll = squarecell::Squarecell();
-    squarecell::Entity testEnt = squarecell::Entity(squarecell::Point(2,4),squarecell::Point(2,2),'F');
+    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(2,4),squarecell::Point(2,2),fourmiCST);
     assert(testSqCll.add(testEnt));
-    testEnt = squarecell::Entity(squarecell::Point(-100,-100),squarecell::Point(2,2),'F');
+    testEnt = make_shared<squarecell::Entity>(squarecell::Point(-100,-100),squarecell::Point(2,2),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
-    testEnt = squarecell::Entity(squarecell::Point(900,100),squarecell::Point(2,2),'F');
+    testEnt = make_shared<squarecell::Entity>(squarecell::Point(900,100),squarecell::Point(2,2),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
-    testEnt = squarecell::Entity(squarecell::Point(126,0),squarecell::Point(4,4),'F');
+    testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(4,4),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
-    testEnt = squarecell::Entity(squarecell::Point(126,0),squarecell::Point(3,3),'F');
+    testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(3,3),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
-    testEnt = squarecell::Entity(squarecell::Point(126,0),squarecell::Point(4,4),'F');
+    testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(4,4),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
-    testEnt = squarecell::Entity(squarecell::Point(128,50),squarecell::Point(-3,-3),'F');
+    testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,50),squarecell::Point(-3,-3),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    return true;
 }
 bool assert_squarecell_add()
 {
