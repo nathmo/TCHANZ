@@ -9,6 +9,7 @@
 #include "textstorage.h"
 #include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 squarecell::Squarecell simulation::loadFromFile(string path) {
@@ -17,7 +18,7 @@ squarecell::Squarecell simulation::loadFromFile(string path) {
     squarecell::Squarecell gridWorld = squarecell::Squarecell();
     for (auto entity = entityList.begin(); entity != entityList.end(); ++entity)
     {
-        gridWorld.add(entity*);
+        gridWorld.add((*entity));
     }
     return gridWorld;
 }

@@ -10,9 +10,10 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <memory>
+
 
 using namespace std;
-
 squarecell::Point::Point(int x, int y)
 {
     this->x = x;
@@ -88,27 +89,27 @@ int squarecell::Squarecell::getgMax(){
     return g_max;
 }
 
-bool squarecell::Squarecell::add(Entity entity)
+bool squarecell::Squarecell::add(shared_ptr<Entity> entity)
 {
-    bool eligible = squarecell::Squarecell::checkSize(entity)
-                and squarecell::Squarecell::checkHitbox(entity)
-                and not(squarecell::Squarecell::checkOverlap(entity));
-    if(eligible)
+    bool isEligible = squarecell::Squarecell::checkSize(*entity)
+                and squarecell::Squarecell::checkHitbox(*entity)
+                and not(squarecell::Squarecell::checkOverlap(*entity));
+    if(isEligible)
     {
-        entity.setId(entityList.size());
+        (*entity).setId(entityList.size());
         entityList.push_back(entity);
-        Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
-        Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
+        Point hitboxBotLeft = squarecell::getHitboxBotLeft(*entity);
+        Point hitboxTopRight = squarecell::getHitboxTopRight(*entity);
         for(int i =hitboxBotLeft.getCoordX();i <= hitboxTopRight.getCoordX();i++)
         {
             for(int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
             {
                 hitBoxGrid[i][j]=true;
-                entityGrid[i][j]=entity.getSpecie();
+                entityGrid[i][j]=(*entity).getSpecie();
             }
         }
     }
-    return eligible;
+    return isEligible;
 }
 void squarecell::Squarecell::remove(Entity entity)
 {

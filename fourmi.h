@@ -18,7 +18,8 @@ class Fourmi : public squarecell::Entity
     private:
         int age;
     public:
-        Fourmi(squarecell::Point position, int age);
+        Fourmi(squarecell::Point position, int age, char type);
+        virtual void update();
     };
     class Collector : public Fourmi
     {

@@ -22,4 +22,12 @@ constexpr double prop_free_defensor(0.10);
 constexpr double prop_constrained_collector(0.6);
 constexpr double prop_constrained_defensor(0.1);
 
+constexpr short unsigned emptyCST('E');
+constexpr short unsigned nourritureCST('N');
+constexpr short unsigned fourmilliereCST('F');
+constexpr short unsigned fourmiCST('f');
+constexpr short unsigned fourmiGeneratorCST('G');
+constexpr short unsigned fourmiDefensorCST('D');
+constexpr short unsigned fourmiPredatorCST('P');
+constexpr short unsigned fourmiCollectorCST('C');
 #endif // CONSTANTES_H_INCLUDED
