@@ -164,6 +164,10 @@ bool assert_squarecell_Squarecell()
 }
 bool assert_squarecell_add()
 {
+    squarecell::Squarecell testSqCll = squarecell::Squarecell();
+    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
+    assert(testSqCll.add(testEnt));
+    testSqCll.displayRawEntityGrid();
     return true;
 }
 bool assert_squarecell_remove()

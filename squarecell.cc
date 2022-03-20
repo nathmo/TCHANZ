@@ -105,7 +105,7 @@ bool squarecell::Squarecell::add(shared_ptr<Entity> entity)
         Point hitboxTopRight = squarecell::getHitboxTopRight(*entity);
         for(int i = hitboxBotLeft.getCoordX();i <= hitboxTopRight.getCoordX();i++)
         {
-            for(int j =hitboxBotLeft.getCoordY();i <= hitboxTopRight.getCoordY();i++)
+            for(int j =hitboxBotLeft.getCoordY();j <= hitboxTopRight.getCoordY();j++)
             {
                 hitBoxGrid[i][j]=true;
                 entityGrid[i][j]=(*entity).getSpecie();
@@ -121,7 +121,7 @@ void squarecell::Squarecell::remove(Entity entity)
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
     for(int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
     {
-        for(int j =hitboxBotLeft.getCoordY();i<=hitboxTopRight.getCoordY();i++)
+        for(int j =hitboxBotLeft.getCoordY();j<=hitboxTopRight.getCoordY();j++)
         {
             hitBoxGrid[i][j]=false;
             entityGrid[i][j]='E';
