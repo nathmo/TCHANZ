@@ -54,4 +54,4 @@ projet :  $(OFILESBUILD)
 test : $(OFILESTEST)
 	@echo " *** Lance les test définit dans testsuit ***"
 	$(CXX) $(OFILESTEST) -o $@
-	./testsuit
+	./test

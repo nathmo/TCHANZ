@@ -44,6 +44,7 @@ int main() {
 bool assert_textstorage() {
     assert(assert_textstorage_readtxt());
     assert(assert_textstorage_writetxt());
+    cout << "-> textstorage done" << endl;
     return true;
 }
 
@@ -59,6 +60,7 @@ bool assert_squarecell() {
     assert(assert_squarecell_checkOverlap());
     assert(assert_squarecell_getHitboxBotLeft());
     assert(assert_squarecell_getHitboxTopRight());
+    cout << "-> squarecell done" << endl;
     return true;
 }
 
