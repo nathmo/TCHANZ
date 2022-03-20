@@ -67,11 +67,19 @@ bool assert_squarecell() {
 bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense un string mieux ?
     string teststringfin = "0";
     vector<vector<string>> inputBuffer = textstorage::readtxt("scenario/no_error_collector_move.txt");
-    if(teststringfin == inputBuffer[inputBuffer.size() - 1][inputBuffer.size() - 1]) {
+    if(teststringfin == inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1]) {
         return true;
     } else {
-        //cout << teststringfin <<endl;
-        //cout << inputBuffer[inputBuffer.size() - 1] <<endl;
+        cout << "expected : " << teststringfin <<endl;
+        cout << "got : " << inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1] <<endl;
+        cout << "number of line : " << inputBuffer.size() << endl;
+        cout << "number of entry for this line 1 : " << inputBuffer[0].size() << endl;
+        cout << "number of entry for this line 2 : " << inputBuffer[1].size() << endl;
+        cout << "number of entry for this line 3 : " << inputBuffer[2].size() << endl;
+        for (unsigned int i=0;i<inputBuffer[2].size();i++)
+        {
+            cout << inputBuffer[2][i] <<" "<< endl;
+        }
         return false;
     }
 }
@@ -112,7 +120,7 @@ bool assert_squarecell_Point()
 {
     squarecell::Point testPoint = squarecell::Point(1,3);
     assert(testPoint.getCoordX()==1);
-    assert(testPoint.getCoordX()==3);
+    assert(testPoint.getCoordY()==3);
     return true;
 }
 bool assert_squarecell_Entity()

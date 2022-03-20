@@ -49,7 +49,7 @@ vector<vector<string>> textstorage::readtxt (string filename) {  //sans espace n
     } else if(txtsave.is_open()) {   //checking whether the file is open
         while(getline(txtsave >> ws, line)) { // avec ws j ai plus les tab ou les espaces avant premier caractere
             if(line[0]=='#') continue;
-            vector<string> lineBuffer = creation(line);
+            vector<string> lineBuffer = creation(line); //tokenize each line as a vector of word
             inputBuffer_modifie.push_back(lineBuffer);
         }
         txtsave.close();
@@ -63,6 +63,7 @@ vector<string> textstorage::creation (string line) {
     string valeur;
     while(iss >> valeur) {
         if('#' == valeur[0]) break; //passe au suivant
+        if(valeur=="") continue;
         tableauValeur.push_back(valeur);
     }
     return tableauValeur;
