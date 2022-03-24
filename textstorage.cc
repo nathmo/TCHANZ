@@ -38,7 +38,7 @@ void textstorage::writetxt (string filename, vector<vector<string>> lineToWrite)
     }
 }
 
-vector<vector<string>> textstorage::readtxt (string filename) {  //sans espace ni qqch begin #
+vector<vector<string>> textstorage::readtxt (string filename) { //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<vector<string>> inputBuffer_modifie;
@@ -120,8 +120,8 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
     return entityList;
 }
 
-vector<string> textstorage::exportDump (vector<squarecell::Entity> entityArrayDump) {
-    vector<string> entityList;
+vector<vector<string>> textstorage::exportDump (vector<shared_ptr<squarecell::Entity>> entityArrayDump) {
+    vector<vector<string>> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;
 }

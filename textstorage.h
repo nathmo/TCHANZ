@@ -16,7 +16,7 @@ namespace textstorage {
     std::vector<std::vector<std::string>> readtxt (std::string filename);
     std::vector<std::string> creation (std::string line);
     std::vector<std::shared_ptr<squarecell::Entity>> importDump (std::vector<std::vector<std::string>> intArrayDump);
-    std::vector<std::string> exportDump (std::vector<squarecell::Entity> entityArrayDump);
+    std::vector<std::vector<std::string>> exportDump (std::vector<std::shared_ptr<squarecell::Entity>> entityArrayDump);
 }
 
 
