@@ -8,8 +8,8 @@
 
 
 1 # nb anthill
-	50 50 10 53 53 1000 0 0 0 # anthill #1
-0
+	50 50 10 53 53 1000 0 0 0 # anthill #1 1 45
+
 	# collectors:
 	
 	# defensors:
