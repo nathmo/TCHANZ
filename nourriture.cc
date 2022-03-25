@@ -17,7 +17,7 @@ nourriture::Nourriture::Nourriture(squarecell::Point position) :
 
 const shared_ptr<squarecell::Entity> importFromExtSavet (vector<string>& inputBuffer)
 {
-    if(!(inputBuffer.size <= 2)){
+    if(!(inputBuffer.size() <= 2)){
         cout << "nourriture : number of argument mismatch" << endl;
         exit(0);
     }else{
