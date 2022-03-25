@@ -84,20 +84,20 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
         int defensor = stoi(inputBuffer[intermediaire][7]);
         int predator = stoi(inputBuffer[intermediaire][8]);
         
-        importFromExtSaveGenerator const({inputBuffer[intermediaire][3],inputBuffer[intermediaire][4]});
+        importFromExtSaveGenerator({inputBuffer[intermediaire][3],inputBuffer[intermediaire][4]});
       
         for(int c(1); c < collector+1; c++) {
-            importFromExtSaveCollector const(inputBuffer[intermediaire+c]);
+            importFromExtSaveCollector(inputBuffer[intermediaire+c]);
             intermediaire = intermediaire+1; 
         }
         
         for(int d(1); d < defensor+1; d++) {
-            importFromExtSaveDefensor const(inputBuffer[intermediaire+d]);
+            importFromExtSaveDefensor(inputBuffer[intermediaire+d]);
             intermediaire = intermediaire + 1;
         }
         
         for(int p(1); p < predator+1; p++) {
-            importFromExtSavePredator const(inputBuffer[intermediaire+p]);
+            importFromExtSavePredator(inputBuffer[intermediaire+p]);
             intermediaire = intermediaire+1;
         }
     }
