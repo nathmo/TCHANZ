@@ -34,7 +34,7 @@ void fourmi::Collector::update()
 
 }
 const shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string>inputBuffer) {
-    if(!(inputBuffer.size() <= 4)) {
+    if(!(inputBuffer.size()<=4)) {
         cout << "Collector : number of argument mismatch" << endl;
         exit(0);
     }else{
@@ -45,7 +45,7 @@ const shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollect
     if("true" == inputBuffer[3]) {
     condition_food = true;
     }
-    return make_shared<fourmi::Collector>(squarecell::Point(x,y),age,condition_food));
+    return make_shared<fourmi::Collector>(squarecell::Point(x,y),age,condition_food);
     }
 }
 
@@ -81,7 +81,7 @@ const shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
-    return make_shared<fourmi::Predator>(squarecell::Point(x,y),age));
+    return make_shared<fourmi::Predator>(squarecell::Point(x,y),age);
     }
 }
 fourmi::Generator::Generator(squarecell::Point position) :
@@ -93,6 +93,6 @@ void fourmi::Generator::update()
 const shared_ptr<squarecell::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string>inputBuffer){
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
-    return make_shared<fourmi::Generator::Generator>(squarecell::Point(x,y));
+    return make_shared<fourmi::Generator::Generator>(squarecell::Point(x,y);
 }
 
