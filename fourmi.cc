@@ -63,7 +63,7 @@ const shared_ptr<squarecell::Entity> fourmi::Defensor::importFromExtSaveDefensor
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
-    return make_shared<fourmi::Defensor>(squarecell::Point(x,y),age));
+    return make_shared<fourmi::Defensor>(squarecell::Point(x,y),age);
     }
 }
 
