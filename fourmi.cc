@@ -45,7 +45,7 @@ const shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollect
     if("true" == inputBuffer[3]) {
     condition_food = true;
     }
-    return make_shared<fourmi::Collector>(squarecell::Point(x,y),age,condition));
+    return make_shared<fourmi::Collector>(squarecell::Point(x,y),age,condition_food));
     }
 }
 
