@@ -16,7 +16,7 @@ using namespace std;
 nourriture::Nourriture::Nourriture(squarecell::Point position) :
     squarecell::Entity(position, squarecell::Point(1,1), nourritureCST) {}
 
-shared_ptr<squarecell::Entity> nourriture::Nourriture::importFromExtSavet(vector<string>& inputBuffer)
+shared_ptr<squarecell::Entity> nourriture::Nourriture::importFromExtSave(vector<string>& inputBuffer)
 {
     if(!(inputBuffer.size() <= 2)) {
         cout << "nourriture : number of argument mismatch" << endl;

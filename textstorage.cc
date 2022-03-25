@@ -74,7 +74,7 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
     string quantity_food = inputBuffer[0][0];
     int int_quantity_food = stoi(quantity_food);
     for(int i(1); i < int_quantity_food+1; i++) {
-        entityList.push_back(nourriture::importFromExtSaveFood(inputBuffer[i]));
+        entityList.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i]));
     }
 
     int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
@@ -110,6 +110,8 @@ vector<vector<string>> textstorage::exportDump (vector<shared_ptr<squarecell::En
     return entityList;
 }
 
-bool textstorage::checksize_line(int int_quantity_food, int ){
-
+bool textstorage::checksize_line(int int_quantity_food, std::vector<std::vector<std::string>> intArrayDump)
+{
+    bool status = true;
+    return status;
 }

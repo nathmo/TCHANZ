@@ -17,6 +17,7 @@ namespace textstorage {
     std::vector<std::string> creation (std::string line);
     std::vector<std::shared_ptr<squarecell::Entity>> importDump (std::vector<std::vector<std::string>> intArrayDump);
     std::vector<std::vector<std::string>> exportDump (std::vector<std::shared_ptr<squarecell::Entity>> entityArrayDump);
+    bool checksize_line(int int_quantity_food, std::vector<std::vector<std::string>> intArrayDump);
 }
 
 

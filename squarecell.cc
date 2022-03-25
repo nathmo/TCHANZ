@@ -93,16 +93,16 @@ int squarecell::Squarecell::getgMax(){
 
 bool squarecell::Squarecell::add(shared_ptr<Entity> entity)
 {
-    bool isEligible = squarecell::Squarecell::checkSize(*entity)
-                and squarecell::Squarecell::checkHitbox(*entity)
-                and squarecell::Squarecell::checkOverlap(*entity);
+    bool isEligible = squarecell::Squarecell::checkSize(entity)
+                and squarecell::Squarecell::checkHitbox(entity)
+                and squarecell::Squarecell::checkOverlap(entity);
 
     if(isEligible)
     {
         (*entity).setId(entityList.size());
         entityList.push_back(entity);
-        Point hitboxBotLeft = squarecell::getHitboxBotLeft(*entity);
-        Point hitboxTopRight = squarecell::getHitboxTopRight(*entity);
+        Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
+        Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
         for(int i = hitboxBotLeft.getCoordX();i <= hitboxTopRight.getCoordX();i++)
         {
             for(int j =hitboxBotLeft.getCoordY();j <= hitboxTopRight.getCoordY();j++)
@@ -114,9 +114,9 @@ bool squarecell::Squarecell::add(shared_ptr<Entity> entity)
     }
     return isEligible;
 }
-bool squarecell::Squarecell::remove(Entity entity)
+bool squarecell::Squarecell::remove(shared_ptr<squarecell::Entity>  entity)
 {
-    entityList.erase(entityList.begin() + entity.getId());//assume only one copy at position
+    entityList.erase(entityList.begin() + (*entity).getId());//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
     Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
     for(int i =hitboxBotLeft.getCoordX();i<=hitboxTopRight.getCoordX();i++)
@@ -129,24 +129,24 @@ bool squarecell::Squarecell::remove(Entity entity)
     }
     return true;
 }
-bool squarecell::Squarecell::checkSize(squarecell::Entity entity)
+bool squarecell::Squarecell::checkSize(shared_ptr<squarecell::Entity> entity)
 {
     bool status = true;
-    if(not((entity.getPosition().getCoordX() >= 0)
-    and    (entity.getPosition().getCoordX() < squarecell::g_max)))
+    if(not(((*entity).getPosition().getCoordX() >= 0)
+    and    ((*entity).getPosition().getCoordX() < squarecell::g_max)))
     {
-        cout << error_squarecell::print_index(entity.getPosition().getCoordX(), squarecell::g_max)<<endl;
+        cout << error_squarecell::print_index((*entity).getPosition().getCoordX(), squarecell::g_max)<<endl;
         status = false;
     }
-    if(not((entity.getPosition().getCoordY() >= 0)
-    and    (entity.getPosition().getCoordY() < squarecell::g_max)))
+    if(not(((*entity).getPosition().getCoordY() >= 0)
+    and    ((*entity).getPosition().getCoordY() < squarecell::g_max)))
     {
-        cout << error_squarecell::print_index(entity.getPosition().getCoordY(), squarecell::g_max)<<endl;
+        cout << error_squarecell::print_index((*entity).getPosition().getCoordY(), squarecell::g_max)<<endl;
         status = false;
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }
-bool squarecell::Squarecell::checkHitbox(Entity entity)
+bool squarecell::Squarecell::checkHitbox(shared_ptr<squarecell::Entity> entity)
 {
     bool status = true;
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
@@ -162,23 +162,23 @@ bool squarecell::Squarecell::checkHitbox(Entity entity)
         {
             if(i%2==0)// X coordinate error
             {
-                cout << error_squarecell::print_outside(entity.getPosition().getCoordX(),
-                                                entity.getsize().getCoordX(),
+                cout << error_squarecell::print_outside((*entity).getPosition().getCoordX(),
+                                                        (*entity).getsize().getCoordX(),
                                                 squarecell::g_max) << endl;
             }
             else if(i%2==1) // Y coordinate error
             {
-                cout << error_squarecell::print_outside(entity.getPosition().getCoordY(),
-                                                entity.getsize().getCoordY(),
+                cout << error_squarecell::print_outside((*entity).getPosition().getCoordY(),
+                                                        (*entity).getsize().getCoordY(),
                                                 squarecell::g_max) << endl;
             }
             status = false;
         }
     }
-    if(not((((entity.getsize().getCoordX() % 2) == 0)
-    and     ((entity.getsize().getCoordY() % 2) == 0))
-    or     (((entity.getsize().getCoordX() % 2) == 1)
-    and     ((entity.getsize().getCoordY() % 2) == 1))))
+    if(not(((((*entity).getsize().getCoordX() % 2) == 0)
+    and     (((*entity).getsize().getCoordY() % 2) == 0))
+    or     ((((*entity).getsize().getCoordX() % 2) == 1)
+    and     (((*entity).getsize().getCoordY() % 2) == 1))))
     {
         cout << "shape is not a square" << endl;
         status = false;
@@ -186,36 +186,36 @@ bool squarecell::Squarecell::checkHitbox(Entity entity)
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }
-bool squarecell::Squarecell::checkOverlap(Entity entity)
+bool squarecell::Squarecell::checkOverlap(shared_ptr<squarecell::Entity> entity)
 {
     bool noOverlap = true;
     if(squarecell::Squarecell::countOverlap(entity) !=0)
     {
         noOverlap = false;
-        if(entity.getSpecie()==nourritureCST)
+        if((*entity).getSpecie()==nourritureCST)
         {
-            cout << message::food_overlap(entity.getPosition().getCoordX(),entity.getPosition().getCoordY()) << endl;
+            cout << message::food_overlap((*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY()) << endl;
         }
-        if(entity.getSpecie()==fourmilliereCST)
+        if((*entity).getSpecie()==fourmilliereCST)
         {
-            cout << message::homes_overlap(entity.getPosition().getCoordX(),entity.getPosition().getCoordY()) << endl;
+            cout << message::homes_overlap((*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY()) << endl;
         }
-        if(entity.getSpecie()==fourmiCollectorCST)
+        if((*entity).getSpecie()==fourmiCollectorCST)
         {
-            cout << message::collector_overlap(entity.getPosition().getCoordX(),entity.getPosition().getCoordY(), entity.getPosition().getCoordX(),entity.getPosition().getCoordY()) << endl;
+            cout << message::collector_overlap((*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY(), (*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY()) << endl;
         }
-        if(entity.getSpecie()==fourmiDefensorCST)
+        if((*entity).getSpecie()==fourmiDefensorCST)
         {
-            cout << message::defensor_overlap(entity.getPosition().getCoordX(),entity.getPosition().getCoordY(), entity.getPosition().getCoordX(),entity.getPosition().getCoordY()) << endl;
+            cout << message::defensor_overlap((*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY(), (*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY()) << endl;
         }
-        if(entity.getSpecie()==fourmiPredatorCST)
+        if((*entity).getSpecie()==fourmiPredatorCST)
         {
-            cout << message::predator_overlap(entity.getPosition().getCoordX(),entity.getPosition().getCoordY()) << endl;
+            cout << message::predator_overlap((*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY()) << endl;
         }
     }
     return noOverlap;
 }
-int squarecell::Squarecell::countOverlap(Entity entity)
+int squarecell::Squarecell::countOverlap(shared_ptr<squarecell::Entity> entity)
 {
     int overlappingArea = 0;
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
@@ -274,45 +274,45 @@ void squarecell::Squarecell::displayRawEntityGrid()
         cout << lineOfMap << endl;
     }
 }
-squarecell::Point squarecell::getHitboxBotLeft(Entity entity)
+squarecell::Point squarecell::getHitboxBotLeft(shared_ptr<squarecell::Entity> entity)
 {
     Point botLeft;
-    if(entity.getsize().getCoordX()%2==0)
+    if((*entity).getsize().getCoordX()%2==0)
     {
-        botLeft.setCoordX(entity.getPosition().getCoordX());
+        botLeft.setCoordX((*entity).getPosition().getCoordX());
     }
-    else if(entity.getsize().getCoordX()%2==1)
+    else if((*entity).getsize().getCoordX()%2==1)
     {
-        botLeft.setCoordX(entity.getPosition().getCoordX()-(entity.getsize().getCoordX()-1)/2);
+        botLeft.setCoordX((*entity).getPosition().getCoordX()-((*entity).getsize().getCoordX()-1)/2);
     }
-    if(entity.getsize().getCoordY()%2==0)
+    if((*entity).getsize().getCoordY()%2==0)
     {
-        botLeft.setCoordY(entity.getPosition().getCoordY());
+        botLeft.setCoordY((*entity).getPosition().getCoordY());
     }
-    else if(entity.getsize().getCoordY()%2==1)
+    else if((*entity).getsize().getCoordY()%2==1)
     {
-        botLeft.setCoordY(entity.getPosition().getCoordY()-(entity.getsize().getCoordY()-1)/2);
+        botLeft.setCoordY((*entity).getPosition().getCoordY()-((*entity).getsize().getCoordY()-1)/2);
     }
     return botLeft;
 }
-squarecell::Point squarecell::getHitboxTopRight(Entity entity)
+squarecell::Point squarecell::getHitboxTopRight(shared_ptr<squarecell::Entity> entity)
 {
     Point topRight;
-    if(entity.getsize().getCoordX()%2==0)
+    if((*entity).getsize().getCoordX()%2==0)
     {
-        topRight.setCoordX(entity.getPosition().getCoordX()+entity.getsize().getCoordX());
+        topRight.setCoordX((*entity).getPosition().getCoordX()+(*entity).getsize().getCoordX());
     }
-    else if(entity.getsize().getCoordX()%2==1)
+    else if((*entity).getsize().getCoordX()%2==1)
     {
-        topRight.setCoordX(entity.getPosition().getCoordX()+(entity.getsize().getCoordX()-1)/2);
+        topRight.setCoordX((*entity).getPosition().getCoordX()+((*entity).getsize().getCoordX()-1)/2);
     }
-    if(entity.getsize().getCoordY()%2==0)
+    if((*entity).getsize().getCoordY()%2==0)
     {
-        topRight.setCoordY(entity.getPosition().getCoordY()+entity.getsize().getCoordY());
+        topRight.setCoordY((*entity).getPosition().getCoordY()+(*entity).getsize().getCoordY());
     }
-    else if(entity.getsize().getCoordY()%2==1)
+    else if((*entity).getsize().getCoordY()%2==1)
     {
-        topRight.setCoordY(entity.getPosition().getCoordY()+(entity.getsize().getCoordY()-1)/2);
+        topRight.setCoordY((*entity).getPosition().getCoordY()+((*entity).getsize().getCoordY()-1)/2);
     }
     return topRight;
 }

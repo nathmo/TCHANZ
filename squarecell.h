@@ -69,16 +69,16 @@ namespace squarecell {
         Squarecell();
         int getgMax();
         bool add(std::shared_ptr<Entity> entity);
-        bool remove(Entity entity);
-        bool checkSize(Entity entity);
-        bool checkHitbox(Entity entity);
-        bool checkOverlap(Entity entity);
-        int countOverlap(Entity entity);
+        bool remove(std::shared_ptr<Entity>  entity);
+        bool checkSize(std::shared_ptr<squarecell::Entity> entity);
+        bool checkHitbox(std::shared_ptr<squarecell::Entity> entity);
+        bool checkOverlap(std::shared_ptr<squarecell::Entity> entity);
+        int countOverlap(std::shared_ptr<squarecell::Entity> entity);
         void displayRawBoolGrid();
         void displayRawEntityGrid();
     };
-    Point getHitboxBotLeft(Entity entity);
-    Point getHitboxTopRight(Entity entity);
+    Point getHitboxBotLeft(std::shared_ptr<squarecell::Entity> entity);
+    Point getHitboxTopRight(std::shared_ptr<squarecell::Entity> entity);
 }
 
 #endif //TCHANZ_SQUARECELL_H
