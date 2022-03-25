@@ -17,7 +17,7 @@ namespace nourriture
     {
     public:
         Nourriture(squarecell::Point position);
-        shared_ptr<squarecell::Entity> importFromExtSave const(std::vector<std::string>& inputBuffer));
+        const std::shared_ptr<squarecell::Entity> importFromExtSave (std::vector<std::string>& inputBuffer));
     };
 }
 #endif //TCHANZ_NOURRITURE_H
