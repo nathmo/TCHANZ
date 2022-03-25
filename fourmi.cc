@@ -34,7 +34,7 @@ void fourmi::Collector::update()
 
 }
 const shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string>inputBuffer) {
-    if(!(inputBuffer.size =< 4)) {
+    if(!(inputBuffer.size() =< 4)) {
         cout << "Collector : number of argument mismatch" << endl;
         exit(0);
     }else{
