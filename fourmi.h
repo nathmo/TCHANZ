@@ -29,28 +29,28 @@ class Fourmi : public squarecell::Entity
     public:
         Collector(squarecell::Point position, int age, bool carryFood);
         void update();
-        const shared_ptr<squarecell::Entity> importFromExtSaveCollector (std::vector<std::string>inputBuffer);
+        const std::shared_ptr<squarecell::Entity> importFromExtSaveCollector (std::vector<std::string>inputBuffer);
     };
     class Defensor : public Fourmi
     {
     public:
         Defensor(squarecell::Point position, int age);
         void update();
-        const shared_ptr<squarecell::Entity> importFromExtSaveDefensor (std::vector<std::string>inputBuffer);
+        const std::shared_ptr<squarecell::Entity> importFromExtSaveDefensor (std::vector<std::string>inputBuffer);
     };
     class Predator : public Fourmi
     {
     public:
         Predator(squarecell::Point position, int age);
         void update();
-        const shared_ptr<squarecell::Entity> importFromExtSavePredator (std::vector<std::string>inputBuffer);
+        const std::shared_ptr<squarecell::Entity> importFromExtSavePredator (std::vector<std::string>inputBuffer);
     };
     class Generator : public Fourmi
     {
     public:
         Generator(squarecell::Point position);
         void update();
-        const shared_ptr<squarecell::Entity> importFromExtSaveGenerator (std::vector<std::string>inputBuffer);
+        const std::shared_ptr<squarecell::Entity> importFromExtSaveGenerator (std::vector<std::string>inputBuffer);
     };
 }
 
