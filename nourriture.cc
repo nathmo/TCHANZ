@@ -9,6 +9,7 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include <memory>
+#include <iostream>
 
 using namespace std;
 
