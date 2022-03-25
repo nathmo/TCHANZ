@@ -93,6 +93,6 @@ void fourmi::Generator::update()
 const shared_ptr<squarecell::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string>inputBuffer){
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
-    return make_shared<fourmi::Generator::Generator>(squarecell::Point(x,y));
+    return make_shared<fourmi::Generator>(squarecell::Point(x,y));
 }
 
