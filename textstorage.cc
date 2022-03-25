@@ -74,7 +74,7 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
     string quantity_food = inputBuffer[0][0];
     int int_quantity_food = stoi(quantity_food);
     for(int i(1); i < int_quantity_food+1; i++) {
-        entityList.push_back(nourriture::Nourriture::importFromExtSaveFood(inputBuffer[i]));
+        entityList.push_back(nourriture::importFromExtSaveFood(inputBuffer[i]));
     }
 
     int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
