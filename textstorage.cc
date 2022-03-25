@@ -84,7 +84,7 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
         int defensor = stoi(inputBuffer[intermediaire][7]);
         int predator = stoi(inputBuffer[intermediaire][8]);
 
-        fourmi::Fourmi::Generator::importFromExtSaveGenerator({inputBuffer[intermediaire][3],inputBuffer[intermediaire][4]});
+        fourmi::Generator::importFromExtSaveGenerator({inputBuffer[intermediaire][3],inputBuffer[intermediaire][4]});
       
         for(int c(1); c < collector+1; c++) {
             fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire+c]);
