@@ -8,8 +8,21 @@
 #include "nourriture.h"
 #include "squarecell.h"
 #include "constantes.h"
+#include <memory>
 
 using namespace std;
 
 nourriture::Nourriture::Nourriture(squarecell::Point position) :
     squarecell::Entity(position, squarecell::Point(1,1), nourritureCST) {}
+
+shared_ptr<squarecell::Entity> importFromExtSavet const(vector<string>& inputBuffer)
+{
+    if(!(inputBuffer.size =< 2)){
+        cout << "nourriture : number of argument mismatch" << endl;
+        exit(0);
+    } else {
+        int x = stoi(inputBuffer[0]);
+        int y = stoi(inputBuffer[1]);
+        return make_shared<nourriture::Nourriture>(squarecell::Point(x,y));
+    }
+}

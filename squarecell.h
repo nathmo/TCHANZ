@@ -69,7 +69,7 @@ namespace squarecell {
         Squarecell();
         int getgMax();
         bool add(std::shared_ptr<Entity> entity);
-        void remove(Entity entity);
+        bool remove(Entity entity);
         bool checkSize(Entity entity);
         bool checkHitbox(Entity entity);
         bool checkOverlap(Entity entity);

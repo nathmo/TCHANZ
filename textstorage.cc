@@ -41,7 +41,7 @@ void textstorage::writetxt (string filename, vector<vector<string>> lineToWrite)
 vector<vector<string>> textstorage::readtxt (string filename) { //sans espace ni qqch begin #
     fstream txtsave;
     string line;
-    vector<vector<string>> inputBuffer_modifie;
+    vector<vector<string>> inputBuffer;
     txtsave.open(filename,ios::in);//in car tu lis depuis fichier
     if(txtsave.fail()) {
         cout << "soucis readtxt_filename" << endl;
@@ -50,11 +50,11 @@ vector<vector<string>> textstorage::readtxt (string filename) { //sans espace ni
         while(getline(txtsave >> ws, line)) { // avec ws j ai plus les tab ou les espaces avant premier caractere
             if(line[0]=='#') continue;
             vector<string> lineBuffer = creation(line); //tokenize each line as a vector of word
-            inputBuffer_modifie.push_back(lineBuffer);
+            inputBuffer.push_back(lineBuffer);
         }
         txtsave.close();
     }
-    return inputBuffer_modifie;
+    return inputBuffer;
 }
 
 vector<string> textstorage::creation (string line) {
@@ -69,52 +69,36 @@ vector<string> textstorage::creation (string line) {
     return tableauValeur;
 }
 
-vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<string>> inputBuffer_modifie) {
-    vector<shared_ptr<squarecell::Entity>> entityList;
-    string quantity_food = inputBuffer_modifie[0][0]; //forcement premiere position c est quantite de bouffe
+vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<string>> inputBuffer) {
+    vector<shared_ptr<squarecell::Entity>>  entityList;
     int int_quantity_food = stoi(quantity_food);
     for(int i(1); i < int_quantity_food+1; i++) {
-        int x = stoi(inputBuffer_modifie[i][0]);
-        int y = stoi(inputBuffer_modifie[i][1]);
-        entityList.push_back(make_shared<nourriture::Nourriture>(squarecell::Point(x,y)));
+        entityList.push_back(nourriture::Nourriture::importFromExtSaveFood const(inputBuffer[i]));
     }
+
     int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
-    unsigned int quantity_anthill = stoi(inputBuffer_modifie[intermediaire-1][0]);
+    unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantity_anthill; i++) {
-        int collector = stoi(inputBuffer_modifie[intermediaire][6]);
-        int defensor = stoi(inputBuffer_modifie[intermediaire][7]);
-        int predator = stoi(inputBuffer_modifie[intermediaire][8]);
-
+        int collector = stoi(inputBuffer[intermediaire][6]);
+        int defensor = stoi(inputBuffer[intermediaire][7]);
+        int predator = stoi(inputBuffer[intermediaire][8]);
+        
+        importFromExtSaveGenerator const({inputBuffer[intermediaire][3],inputBuffer[intermediaire][4]});
+      
         for(int c(1); c < collector+1; c++) {
-            int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
-            int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
-            int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
-            bool condition = false;
-            if("true" == inputBuffer_modifie[intermediaire+1][3]) {
-                condition = true;
-            }
-
-            intermediaire = intermediaire + 1;
-            entityList.push_back(make_shared<fourmi::Collector>(squarecell::Point(x,y),age,condition));
+            importFromExtSaveCollector const(inputBuffer[intermediaire+c]);
+            intermediaire = intermediaire+1; 
         }
-
+        
         for(int d(1); d < defensor+1; d++) {
-            int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
-            int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
-            int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
-
+            importFromExtSaveDefensor const(inputBuffer[intermediaire+d]);
             intermediaire = intermediaire + 1;
-            entityList.push_back(make_shared<fourmi::Defensor>(squarecell::Point(x,y),age));
         }
-
+        
         for(int p(1); p < predator+1; p++) {
-            int x = stoi(inputBuffer_modifie[intermediaire+1][0]);
-            int y = stoi(inputBuffer_modifie[intermediaire+1][1]);
-            int age = stoi(inputBuffer_modifie[intermediaire+1][2]);
-            intermediaire = intermediaire + 1;
-            entityList.push_back(make_shared<fourmi::Predator>(squarecell::Point(x,y),age));
+            importFromExtSavePredator const(inputBuffer[intermediaire+p]);
+            intermediaire = intermediaire+1;
         }
-        intermediaire = intermediaire + 1; //pour retomber sur longue ligne de la n anthill
     }
     return entityList;
 }
@@ -123,4 +107,8 @@ vector<vector<string>> textstorage::exportDump (vector<shared_ptr<squarecell::En
     vector<vector<string>> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;
+}
+
+bool textstorage::checksize_line(int int_quantity_food, int ){
+
 }

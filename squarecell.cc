@@ -114,7 +114,7 @@ bool squarecell::Squarecell::add(shared_ptr<Entity> entity)
     }
     return isEligible;
 }
-void squarecell::Squarecell::remove(Entity entity)
+bool squarecell::Squarecell::remove(Entity entity)
 {
     entityList.erase(entityList.begin() + entity.getId());//assume only one copy at position
     Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
@@ -127,6 +127,7 @@ void squarecell::Squarecell::remove(Entity entity)
             entityGrid[i][j]='E';
         }
     }
+    return true;
 }
 bool squarecell::Squarecell::checkSize(squarecell::Entity entity)
 {
