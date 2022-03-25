@@ -13,7 +13,7 @@
 
 using namespace std;
 
-nourriture::Nourriture(squarecell::Point position) :
+nourriture::Nourriture::Nourriture(squarecell::Point position) :
     squarecell::Entity(position, squarecell::Point(1,1), nourritureCST) {}
 
 const shared_ptr<squarecell::Entity> nourriture::importFromExtSavet (vector<string>& inputBuffer)
