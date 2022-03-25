@@ -10,6 +10,7 @@
 #include "constantes.h"
 #include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ void fourmi::Collector::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector const(vector<string>inputBuffer) {
+const shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string>inputBuffer) {
     if(!(inputBuffer.size =< 4)) {
         cout << "Collector : number of argument mismatch" << endl;
         exit(0);
@@ -54,7 +55,7 @@ void fourmi::Defensor::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Defensor::importFromExtSaveDefensor const(vector<string>inputBuffer) {
+const shared_ptr<squarecell::Entity> fourmi::Defensor::importFromExtSaveDefensor (vector<string>inputBuffer) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Defensor : number of argument mismatch" << endl;
         exit(0);
@@ -72,7 +73,7 @@ void fourmi::Predator::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator const(vector<string>inputBuffer) {
+const shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator (vector<string>inputBuffer) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Predator : number of argument mismatch" << endl;
         exit(0);
@@ -83,15 +84,13 @@ shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator const
     return make_shared<fourmi::Predator>(squarecell::Point(x,y),age));
     }
 }
-
-
 fourmi::Generator::Generator(squarecell::Point position) :
         fourmi::Fourmi(position,0 , fourmiGeneratorCST) {}
 void fourmi::Generator::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Generator::importFromExtSaveGenerator const(vector<string>inputBuffer){
+const shared_ptr<squarecell::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string>inputBuffer){
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     return make_shared<fourmi::Generator::Generator>(squarecell::Point(x,y));

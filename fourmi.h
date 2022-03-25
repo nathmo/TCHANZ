@@ -9,6 +9,7 @@
 #define TCHANZ_FOURMI_H
 
 #include "squarecell.h"
+#include <memory>
 
 namespace fourmi
 {
@@ -28,28 +29,28 @@ class Fourmi : public squarecell::Entity
     public:
         Collector(squarecell::Point position, int age, bool carryFood);
         void update();
-        shared_ptr<squarecell::Entity> importFromExtSaveCollector const(std::vector<std::string>inputBuffer);
+        const shared_ptr<squarecell::Entity> importFromExtSaveCollector (std::vector<std::string>inputBuffer);
     };
     class Defensor : public Fourmi
     {
     public:
         Defensor(squarecell::Point position, int age);
         void update();
-        shared_ptr<squarecell::Entity> importFromExtSaveDefensor const(std::vector<std::string>inputBuffer);
+        const shared_ptr<squarecell::Entity> importFromExtSaveDefensor (std::vector<std::string>inputBuffer);
     };
     class Predator : public Fourmi
     {
     public:
         Predator(squarecell::Point position, int age);
         void update();
-        shared_ptr<squarecell::Entity> importFromExtSavePredator const(std::vector<std::string>inputBuffer);
+        const shared_ptr<squarecell::Entity> importFromExtSavePredator (std::vector<std::string>inputBuffer);
     };
     class Generator : public Fourmi
     {
     public:
         Generator(squarecell::Point position);
         void update();
-        shared_ptr<squarecell::Entity> importFromExtSaveGenerator const(std::vector<std::string>inputBuffer);
+        const shared_ptr<squarecell::Entity> importFromExtSaveGenerator (std::vector<std::string>inputBuffer);
     };
 }
 
