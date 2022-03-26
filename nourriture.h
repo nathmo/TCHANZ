@@ -13,8 +13,7 @@
 
 namespace nourriture
 {
-    class Nourriture : public squarecell::Entity
-    {
+    class Nourriture : public squarecell::Entity {
     public:
         Nourriture(squarecell::Point position);
         static std::shared_ptr<squarecell::Entity> importFromExtSave(std::vector<std::string>& inputBuffer);

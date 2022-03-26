@@ -11,7 +11,8 @@
 #include <memory>
 
 
-namespace squarecell {
+namespace squarecell
+{
     constexpr short unsigned g_dim(7) ;
     constexpr short unsigned g_max(std::pow(2,g_dim)) ;
     class Point {
@@ -60,6 +61,7 @@ namespace squarecell {
         void setId(int id);
 
     };
+
     class Squarecell {
     private:
         std::vector <std::vector<bool>> hitBoxGrid;

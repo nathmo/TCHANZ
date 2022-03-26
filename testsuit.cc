@@ -20,7 +20,6 @@
 
 using namespace std;
 
-
 bool assert_textstorage();
 bool assert_squarecell();
 bool assert_textstorage_readtxt();
@@ -40,7 +39,8 @@ bool assert_files_test();
 string runCommand(const char* command);
 bool stringFuzzyMatch(string str1, string str2);
 
-int main() {
+int main()
+{
     cout << "beginning unit test" << endl;
     assert(assert_textstorage());
     assert(assert_squarecell());
@@ -50,14 +50,16 @@ int main() {
     return 0;
 }
 
-bool assert_textstorage() {
+bool assert_textstorage()
+{
     assert(assert_textstorage_readtxt());
     assert(assert_textstorage_writetxt());
     cout << "-> textstorage done" << endl;
     return true;
 }
 
-bool assert_squarecell() {
+bool assert_squarecell()
+{
     assert(assert_squarecell_Point());
     assert(assert_squarecell_Entity());
     assert(assert_squarecell_checkOverlap()); //not implemented yet
@@ -73,19 +75,21 @@ bool assert_squarecell() {
     return true;
 }
 
-bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense un string mieux ?
+bool assert_textstorage_readtxt()
+{
     string teststringfin = "0";
     vector<vector<string>> inputBuffer = textstorage::readtxt("scenario/no_error_collector_move.txt");
-    if(teststringfin == inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1]) {
+    if(teststringfin == inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1])
+    {
         return true;
-    } else {
+    }else{
         cout << "expected : " << teststringfin <<endl;
         cout << "got : " << inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1] <<endl;
         cout << "number of line : " << inputBuffer.size() << endl;
         cout << "number of entry for this line 1 : " << inputBuffer[0].size() << endl;
         cout << "number of entry for this line 2 : " << inputBuffer[1].size() << endl;
         cout << "number of entry for this line 3 : " << inputBuffer[2].size() << endl;
-        for (unsigned int i=0;i<inputBuffer[2].size();i++)
+        for(unsigned int i=0;i<inputBuffer[2].size();i++)
         {
             cout << inputBuffer[2][i] <<" "<< endl;
         }
@@ -93,9 +97,9 @@ bool assert_textstorage_readtxt() {  //t avais mis un vector de string, j pense 
     }
 }
 
-
-bool assert_textstorage_writetxt() {      //t avais mis un bool de base
-    vector<vector <string>> teststring = {{"1","2","3"},{"4","560000","-6","2"}};
+bool assert_textstorage_writetxt()
+{
+    vector<vector<string>> teststring = {{"1","2","3"},{"4","560000","-6","2"}};
     string Stockage_fichiertxt = "scenario/test_ecriture.txt";
     textstorage::writetxt(Stockage_fichiertxt, teststring);
     vector<vector<string>> inputBuffer = textstorage::readtxt(Stockage_fichiertxt);
@@ -104,7 +108,8 @@ bool assert_textstorage_writetxt() {      //t avais mis un bool de base
     {
         for(unsigned int j=0; j<teststring[i].size();j++)
         {
-            if (teststring[i][j] != inputBuffer[i][j]) {
+            if(teststring[i][j] != inputBuffer[i][j])
+            {
                 passed = false;
             }
         }
@@ -112,7 +117,7 @@ bool assert_textstorage_writetxt() {      //t avais mis un bool de base
     if(passed)
     {
         return true;
-    } else {
+    }else{
         cout << "expected : " + (teststring[0][0]) << endl;
         cout << "received : " + (inputBuffer[0][0]) << endl;
         cout << "expected : " + (teststring[0][2]) << endl;
@@ -132,6 +137,7 @@ bool assert_squarecell_Point()
     assert(testPoint.getCoordY()==3);
     return true;
 }
+
 bool assert_squarecell_Entity()
 {
     shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(2,4),squarecell::Point(1,2),'F');
@@ -152,6 +158,7 @@ bool assert_squarecell_checkOverlap()
 {
     return true;
 }//not implemented yet
+
 bool assert_squarecell_Squarecell()
 {
     squarecell::Squarecell testSqCll = squarecell::Squarecell();
@@ -234,22 +241,69 @@ bool assert_files_test()
     cmdExpected = "home 0 overlaps with home 1";
     cmdResult = runCommand("./projet scenario/error_homes_overlap.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "collector overlap";
+    cmdResult = runCommand("./projet scenario/t01.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "collector with coordinates 18 14 overlaps with another exclusive entity at least on 17 15";
+    cmdResult = runCommand("./projet scenario/t02.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "defensor with coordinates 101 117 is not fully within its home: 0";
+    cmdResult = runCommand("./projet scenario/t03.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "defensor with coordinates 118 102 is not fully within its home: 0";
+    cmdResult = runCommand("./projet scenario/t04.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "defensor with coordinates 118 117 is not fully within its home: 0";
+    cmdResult = runCommand("./projet scenario/t05.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "defensor with coordinates 101 102 is not fully within its home: 0";
+    cmdResult = runCommand("./projet scenario/t06.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "defensor with coordinates 106 106 overlaps with another exclusive entity at least on 105 105";
+    cmdResult = runCommand("./projet scenario/t07.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "food with coordinates 78 78 overlaps with another exclusive entity";
+    cmdResult = runCommand("./projet scenario/t08.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "generator with coordinates 3 3 overlaps with another exclusive entity at least on 4 5";
+    cmdResult = runCommand("./projet scenario/t09.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "predator with coordinates 22 24 overlaps with another exclusive entity";
+    cmdResult = runCommand("./projet scenario/t10.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "generator with coordinates 11 5 is not fully within its home: 1";
+    cmdResult = runCommand("./projet scenario/t11.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "home 0 overlaps with home 1";
+    cmdResult = runCommand("./projet scenario/t12.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "coordinate 10000000 does not belong to [ 0, 127 ]";
+    cmdResult = runCommand("./projet scenario/t13.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "combined coordinate 117 and square side 12 do not belong to [ 0, 127 ]";
+    cmdResult = runCommand("./projet scenario/t14.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+
     return true;
 }
 
 bool stringFuzzyMatch(string str1, string str2)
 {
-    if(!str1.empty()) {
-        if (str1[str1.length() - 1] == '\n') {
+    if(!str1.empty())
+    {
+        if(str1[str1.length() - 1] == '\n')
+        {
             str1.erase(str1.length() - 1);
         }
     }
-    if(!str2.empty()) {
-        if (str2[str2.length() - 1] == '\n') {
-            str2.erase(str2.length() - 1);
+    if(!str2.empty())
+    {
+        if(str2[str2.length() - 1] == '\n')
+        {
+            str2.erase(str2.length() - 1); //efface
         }
     }
-    if (not(str2 == str1))
+    if(not(str2 == str1))
     {
         cout << "str1 :"+str1<<endl;
         cout << "str2 :"+str2<<endl;
@@ -257,15 +311,18 @@ bool stringFuzzyMatch(string str1, string str2)
     return (str2 == str1);
 }
 
-string runCommand(const char* command) {
+string runCommand(const char* command)
+{
     string result;
     array<char, 128> outputBuffer;
     unique_ptr<FILE, decltype(&pclose)> pipe(popen(command, "r"), pclose);
-    if (!pipe) {
+    if(!pipe)
+    {
         cout << "command failed" << endl;
         exit(0);
     }
-    while (fgets(outputBuffer.data(), outputBuffer.size(), pipe.get()) != nullptr) {
+    while(fgets(outputBuffer.data(), outputBuffer.size(), pipe.get()) != nullptr)
+    {
         result += outputBuffer.data();
     }
     return result;

@@ -83,11 +83,13 @@ void squarecell::Entity::setId(int id)
     this->id = id;
 }
 
-squarecell::Squarecell::Squarecell(){
+squarecell::Squarecell::Squarecell()
+{
     hitBoxGrid = vector<vector<bool>> (g_max, vector<bool>(g_max,false));
     entityGrid = vector<vector<char>> (g_max, vector<char>(g_max, 'E'));
 }
-int squarecell::Squarecell::getgMax(){
+int squarecell::Squarecell::getgMax()
+{
     return g_max;
 }
 
@@ -98,13 +100,16 @@ bool squarecell::Squarecell::add(shared_ptr<Entity> entity)
                 and squarecell::Squarecell::checkOverlap(entity);
     if(isEligible)
     {
-        if(not((*entity).getSpecie()==fourmilliereCST)) {
+        if(not((*entity).getSpecie()==fourmilliereCST))
+        {
             (*entity).setId(entityList.size());
             entityList.push_back(entity);
             Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
             Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-            for (int i = hitboxBotLeft.getCoordX(); i <= hitboxTopRight.getCoordX(); i++) {
-                for (int j = hitboxBotLeft.getCoordY(); j <= hitboxTopRight.getCoordY(); j++) {
+            for(int i = hitboxBotLeft.getCoordX(); i <= hitboxTopRight.getCoordX(); i++)
+            {
+                for(int j = hitboxBotLeft.getCoordY(); j <= hitboxTopRight.getCoordY(); j++)
+                {
                     hitBoxGrid[i][j] = true;
                     entityGrid[i][j] = (*entity).getSpecie();
                 }
@@ -128,6 +133,7 @@ bool squarecell::Squarecell::remove(shared_ptr<squarecell::Entity>  entity)
     }
     return true;
 }
+
 bool squarecell::Squarecell::checkSize(shared_ptr<squarecell::Entity> entity)
 {
     bool status = true;
@@ -145,6 +151,7 @@ bool squarecell::Squarecell::checkSize(shared_ptr<squarecell::Entity> entity)
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }
+
 bool squarecell::Squarecell::checkHitbox(shared_ptr<squarecell::Entity> entity)
 {
     bool status = true;
@@ -185,6 +192,7 @@ bool squarecell::Squarecell::checkHitbox(shared_ptr<squarecell::Entity> entity)
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }
+
 bool squarecell::Squarecell::checkOverlap(shared_ptr<squarecell::Entity> entity)
 {
     bool noOverlap = true;
@@ -218,6 +226,7 @@ bool squarecell::Squarecell::checkOverlap(shared_ptr<squarecell::Entity> entity)
     }
     return noOverlap;
 }
+
 int squarecell::Squarecell::countOverlap(shared_ptr<squarecell::Entity> entity)
 {
     int overlappingArea = 0;
@@ -235,6 +244,7 @@ int squarecell::Squarecell::countOverlap(shared_ptr<squarecell::Entity> entity)
     }
     return overlappingArea;
 }
+
 void squarecell::Squarecell::displayRawBoolGrid()
 {
     for(int i=g_max-1;i>=0;i--)
@@ -246,9 +256,7 @@ void squarecell::Squarecell::displayRawBoolGrid()
             if(hitBoxGrid[i][j])
             {
                 status = "1";
-            }
-            else
-            {
+            }else{
                 status = ".";
             }
             lineOfMap = lineOfMap + status + "";
@@ -256,6 +264,7 @@ void squarecell::Squarecell::displayRawBoolGrid()
         cout << lineOfMap << endl;
     }
 }
+
 void squarecell::Squarecell::displayRawEntityGrid()
 {
     for(int i=g_max-1;i>=0;i--)
@@ -267,9 +276,7 @@ void squarecell::Squarecell::displayRawEntityGrid()
             if(entityGrid[i][j]=='E')
             {
                 status = ".";
-            }
-            else
-            {
+            }else{
                 status = entityGrid[i][j];
             }
             lineOfMap = lineOfMap + status + "";
@@ -298,6 +305,7 @@ squarecell::Point squarecell::getHitboxBotLeft(shared_ptr<squarecell::Entity> en
     }
     return botLeft;
 }
+
 squarecell::Point squarecell::getHitboxTopRight(shared_ptr<squarecell::Entity> entity)
 {
     Point topRight;

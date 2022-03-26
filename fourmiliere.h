@@ -15,8 +15,7 @@
 
 namespace fourmiliere
 {
-    class Fourmiliere : public squarecell::Entity
-    {
+    class Fourmiliere : public squarecell::Entity {
     private:
         int foodReserve;
         int nbC;

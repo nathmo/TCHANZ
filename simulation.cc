@@ -13,10 +13,11 @@
 #include <memory>
 
 using namespace std;
-squarecell::Squarecell simulation::loadFromFile(string path) {
+squarecell::Squarecell simulation::loadFromFile(string path)
+{
     vector<shared_ptr<squarecell::Entity>> entityList = textstorage::importDump(textstorage::readtxt(path));
     squarecell::Squarecell gridWorld = squarecell::Squarecell();
-    for (auto entity = entityList.begin(); entity != entityList.end(); ++entity)
+    for(auto entity = entityList.begin(); entity != entityList.end(); ++entity)
     {
         bool status = gridWorld.add((*entity));
         if(not status)

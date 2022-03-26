@@ -21,13 +21,16 @@ fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position, squarecell::Po
     this->nbD=nbD;
     this->nbP=nbP;
 }
+
 void fourmiliere::Fourmiliere::update()
 {
 
 }
+
 shared_ptr<squarecell::Entity> fourmiliere::Fourmiliere::importFromExtSaveGenerator(vector<string> &inputBuffer)
 {
-    if(inputBuffer.size()<9) {
+    if(inputBuffer.size()<9)
+    {
         cout << "fourmilliere : number of argument mismatch" << endl;
         exit(0);
     }else{

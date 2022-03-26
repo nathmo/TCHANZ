@@ -11,7 +11,8 @@
 #include <vector>
 #include <memory>
 
-namespace textstorage {
+namespace textstorage
+{
     void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
     std::vector<std::vector<std::string>> readtxt (std::string filename);
     std::vector<std::string> creation (std::string line);
