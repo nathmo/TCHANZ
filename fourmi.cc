@@ -33,7 +33,7 @@ void fourmi::Collector::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string>inputBuffer) {
+shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string> &inputBuffer) {
     if(!(inputBuffer.size()<=4)) {
         cout << "Collector : number of argument mismatch" << endl;
         exit(0);
@@ -55,7 +55,7 @@ void fourmi::Defensor::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Defensor::importFromExtSaveDefensor (vector<string>inputBuffer) {
+shared_ptr<squarecell::Entity> fourmi::Defensor::importFromExtSaveDefensor (vector<string> &inputBuffer) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Defensor : number of argument mismatch" << endl;
         exit(0);
@@ -73,7 +73,7 @@ void fourmi::Predator::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator (vector<string>inputBuffer) {
+shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator (vector<string> &inputBuffer) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Predator : number of argument mismatch" << endl;
         exit(0);
@@ -90,9 +90,9 @@ void fourmi::Generator::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string>inputBuffer){
-    int x = stoi(inputBuffer[0]);
-    int y = stoi(inputBuffer[1]);
+shared_ptr<squarecell::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string> &inputBuffer){
+    int x = stoi(inputBuffer[3]);
+    int y = stoi(inputBuffer[4]);
     return make_shared<fourmi::Generator>(squarecell::Point(x,y));
 }
 

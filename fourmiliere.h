@@ -11,6 +11,7 @@
 #include "fourmi.h"
 #include "squarecell.h"
 #include <vector>
+#include <memory>
 
 namespace fourmiliere
 {
@@ -25,6 +26,7 @@ namespace fourmiliere
     public:
         Fourmiliere(squarecell::Point position, squarecell::Point size, int total_food, int nbC, int nbD, int nbP );
         void update();
+        static std::shared_ptr<squarecell::Entity> importFromExtSaveGenerator(std::vector<std::string> &inputBuffer);
     };
 }
 

@@ -216,7 +216,7 @@ bool assert_files_test()
     string cmdExpected = "Please provide a file to load";
     string cmdResult =runCommand("./projet ");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
-    cmdExpected = "";
+    cmdExpected = "Correct file";
     cmdResult = runCommand("./projet scenario/no_error_collector_move.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     return true;

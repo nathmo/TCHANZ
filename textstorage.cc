@@ -9,6 +9,7 @@
 #include "fourmi.h"
 #include "fourmiliere.h"
 #include "nourriture.h"
+#include "message.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -76,28 +77,24 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
     for(int i(1); i < int_quantity_food+1; i++) {
         entityList.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i]));
     }
-
     int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantity_anthill; i++) {
         int collector = stoi(inputBuffer[intermediaire][6]);
         int defensor = stoi(inputBuffer[intermediaire][7]);
         int predator = stoi(inputBuffer[intermediaire][8]);
-
-        fourmi::Generator::importFromExtSaveGenerator({inputBuffer[intermediaire][3],inputBuffer[intermediaire][4]});
-      
+        entityList.push_back(fourmiliere::Fourmiliere::importFromExtSaveGenerator(inputBuffer[intermediaire]));
+        entityList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire]));
         for(int c(1); c < collector+1; c++) {
-            fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire+c]);
+            entityList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire+c]));
             intermediaire = intermediaire+1; 
         }
-        
         for(int d(1); d < defensor+1; d++) {
-            fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire+d]);
+            entityList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire+d]));
             intermediaire = intermediaire + 1;
         }
-        
         for(int p(1); p < predator+1; p++) {
-            fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire+p]);
+            entityList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire+p]));
             intermediaire = intermediaire+1;
         }
     }

@@ -96,19 +96,18 @@ bool squarecell::Squarecell::add(shared_ptr<Entity> entity)
     bool isEligible = squarecell::Squarecell::checkSize(entity)
                 and squarecell::Squarecell::checkHitbox(entity)
                 and squarecell::Squarecell::checkOverlap(entity);
-
     if(isEligible)
     {
-        (*entity).setId(entityList.size());
-        entityList.push_back(entity);
-        Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
-        Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
-        for(int i = hitboxBotLeft.getCoordX();i <= hitboxTopRight.getCoordX();i++)
-        {
-            for(int j =hitboxBotLeft.getCoordY();j <= hitboxTopRight.getCoordY();j++)
-            {
-                hitBoxGrid[i][j]=true;
-                entityGrid[i][j]=(*entity).getSpecie();
+        if(not((*entity).getSpecie()==fourmilliereCST)) {
+            (*entity).setId(entityList.size());
+            entityList.push_back(entity);
+            Point hitboxBotLeft = squarecell::getHitboxBotLeft(entity);
+            Point hitboxTopRight = squarecell::getHitboxTopRight(entity);
+            for (int i = hitboxBotLeft.getCoordX(); i <= hitboxTopRight.getCoordX(); i++) {
+                for (int j = hitboxBotLeft.getCoordY(); j <= hitboxTopRight.getCoordY(); j++) {
+                    hitBoxGrid[i][j] = true;
+                    entityGrid[i][j] = (*entity).getSpecie();
+                }
             }
         }
     }
@@ -199,6 +198,10 @@ bool squarecell::Squarecell::checkOverlap(shared_ptr<squarecell::Entity> entity)
         if((*entity).getSpecie()==fourmilliereCST)
         {
             cout << message::homes_overlap((*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY()) << endl;
+        }
+        if((*entity).getSpecie()==fourmiGeneratorCST)
+        {
+            cout << message::generator_overlap((*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY(), (*entity).getPosition().getCoordX(),(*entity).getPosition().getCoordY()) << endl;
         }
         if((*entity).getSpecie()==fourmiCollectorCST)
         {
