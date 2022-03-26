@@ -5,13 +5,17 @@
   \brief  Implémentation du module de test avec la seconde fonction main() avec test
 */
 
-#include <iostream>
 #include "textstorage.h"
 #include "squarecell.h"
+#include "constantes.h"
+#include <cstdio>
+#include <iostream>
+#include <stdexcept>
+#include <array>
+#include <bits/stdc++.h>
 #include <vector>
 #include <string>
 #include <assert.h>
-#include "constantes.h"
 #include <memory>
 
 using namespace std;
@@ -32,12 +36,16 @@ bool assert_squarecell_checkHitbox();
 bool assert_squarecell_checkOverlap2();
 bool assert_squarecell_getHitboxBotLeft();
 bool assert_squarecell_getHitboxTopRight();
+bool assert_files_test();
+string runCommand(const char* command);
+bool stringFuzzyMatch(string str1, string str2);
 
 int main() {
     cout << "beginning unit test" << endl;
     assert(assert_textstorage());
     assert(assert_squarecell());
     cout << "beginning integration test" << endl;
+    assert(assert_files_test());
     cout << "all test passed successfully" << endl;
     return 0;
 }
@@ -201,3 +209,50 @@ bool assert_squarecell_getHitboxTopRight()
 {
     return true;
 }
+
+bool assert_files_test()
+{
+    cout << runCommand("make build") << endl;
+    string cmdExpected = "Please provide a file to load";
+    string cmdResult =runCommand("./projet ");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "";
+    cmdResult = runCommand("./projet scenario/no_error_collector_move.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    return true;
+}
+
+bool stringFuzzyMatch(string str1, string str2)
+{
+    if(!str1.empty()) {
+        if (str1[str1.length() - 1] == '\n') {
+            str1.erase(str1.length() - 1);
+        }
+    }
+    if(!str2.empty()) {
+        if (str2[str2.length() - 1] == '\n') {
+            str2.erase(str2.length() - 1);
+        }
+    }
+    if (not(str2 == str1))
+    {
+        cout << "str1 :"+str1<<endl;
+        cout << "str2 :"+str2<<endl;
+    }
+    return (str2 == str1);
+}
+
+string runCommand(const char* command) {
+    string result;
+    array<char, 128> outputBuffer;
+    unique_ptr<FILE, decltype(&pclose)> pipe(popen(command, "r"), pclose);
+    if (!pipe) {
+        cout << "command failed" << endl;
+        exit(0);
+    }
+    while (fgets(outputBuffer.data(), outputBuffer.size(), pipe.get()) != nullptr) {
+        result += outputBuffer.data();
+    }
+    return result;
+}
+

@@ -13,7 +13,6 @@
 
 using namespace std;
 squarecell::Squarecell simulation::loadFromFile(string path) {
-    cout << path << endl;
     vector<shared_ptr<squarecell::Entity>> entityList = textstorage::importDump(textstorage::readtxt(path));
     squarecell::Squarecell gridWorld = squarecell::Squarecell();
     for (auto entity = entityList.begin(); entity != entityList.end(); ++entity)
@@ -24,7 +23,7 @@ squarecell::Squarecell simulation::loadFromFile(string path) {
             exit(0);
         }
     }
-    gridWorld.displayRawEntityGrid();
+    //gridWorld.displayRawEntityGrid();
     return gridWorld;
 }
 
