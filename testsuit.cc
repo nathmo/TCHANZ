@@ -212,7 +212,7 @@ bool assert_squarecell_getHitboxTopRight()
 
 bool assert_files_test()
 {
-    cout << runCommand("make build") << endl;
+    cout << runCommand("make build") << endl; // force normal rebuild
     string cmdExpected = "Please provide a file to load";
     string cmdResult =runCommand("./projet ");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
@@ -255,4 +255,3 @@ string runCommand(const char* command) {
     }
     return result;
 }
-
