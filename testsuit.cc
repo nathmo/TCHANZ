@@ -219,6 +219,21 @@ bool assert_files_test()
     cmdExpected = "Correct file";
     cmdResult = runCommand("./projet scenario/no_error_collector_move.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "Correct file";
+    cmdResult = runCommand("./projet scenario/no_error_neighbours_anthill.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "collector with coordinates 14 18 overlaps with another exclusive entity at least on 15 17";
+    cmdResult = runCommand("./projet scenario/error_collector_overlap.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "defensor with coordinates 101 117 is not fully within its home: 0";
+    cmdResult = runCommand("./projet scenario/error_defensor_not_within_home.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "home 0 overlaps with home 1";
+    cmdResult = runCommand("./projet scenario/error_homes_overlap.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cmdExpected = "home 0 overlaps with home 1";
+    cmdResult = runCommand("./projet scenario/error_homes_overlap.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
     return true;
 }
 
