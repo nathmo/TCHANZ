@@ -26,7 +26,6 @@ bool assert_textstorage_readtxt();
 bool assert_textstorage_writetxt();
 bool assert_squarecell_Point();
 bool assert_squarecell_Entity();
-bool assert_squarecell_checkOverlap(); //not implemented yet
 bool assert_squarecell_Squarecell();
 bool assert_squarecell_add();
 bool assert_squarecell_remove();
@@ -154,10 +153,6 @@ bool assert_squarecell_Entity()
     assert((*testEnt).getSpecie()=='F');
     return true;
 }
-bool assert_squarecell_checkOverlap()
-{
-    return true;
-}//not implemented yet
 
 bool assert_squarecell_Squarecell()
 {
