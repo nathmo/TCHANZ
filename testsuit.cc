@@ -59,30 +59,27 @@ bool assert_textstorage()
 
 bool assert_squarecell()
 {
-    cout << "test 1" <<endl;
     assert(assert_squarecell_Point());
-    cout << "test 2" <<endl;
+    cout << "-> point done" << endl;
     assert(assert_squarecell_Entity());
-    cout << "test 3" <<endl;
-    assert(assert_squarecell_checkOverlap()); //not implemented yet
-    cout << "test 4" <<endl;
+    cout << "-> entity done" << endl;
+    assert(assert_squarecell_checkOverlap());//not implemented yet
+    cout << "-> checkOverlap done" << endl;
     assert(assert_squarecell_Squarecell());
-    cout << "test 5" <<endl;
-    assert(assert_squarecell_add());
-    cout << "test 6" <<endl;
-    assert(assert_squarecell_remove());
-    cout << "test 7" <<endl;
-    assert(assert_squarecell_checkSize());
-    cout << "test 8" <<endl;
-    assert(assert_squarecell_checkHitbox());
-    cout << "test 9" <<endl;
-    assert(assert_squarecell_checkOverlap());
-    cout << "test 10" <<endl;
-    assert(assert_squarecell_getHitboxBotLeft());
-    cout << "test 11" <<endl;
-    assert(assert_squarecell_getHitboxTopRight());
-    cout << "test 12" <<endl;
     cout << "-> squarecell done" << endl;
+    assert(assert_squarecell_add());
+    cout << "-> add done" << endl;
+    assert(assert_squarecell_remove());
+    cout << "-> remove done" << endl;
+    assert(assert_squarecell_checkSize());
+    cout << "-> checkSize done" << endl;
+    assert(assert_squarecell_checkHitbox());
+    cout << "-> checkHitbox done" << endl;
+    //assert(assert_squarecell_checkOverlap()); //deja mis au dessus
+    assert(assert_squarecell_getHitboxBotLeft());
+    cout << "-> getHitboxBotLeft done" << endl;
+    assert(assert_squarecell_getHitboxTopRight());
+    cout << "-> getHitboxTopRight done" << endl;
     return true;
 }
 
