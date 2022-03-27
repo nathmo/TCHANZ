@@ -2,7 +2,9 @@
 #
 
 # nb food
-0
+1
+4 5
+4 6
 
 25 # nb anthill
 	20 20 10 23 23 200 0 0 0 # anthill #1
