@@ -184,10 +184,10 @@ bool assert_squarecell_Squarecell()
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(4,4),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
     cout << "6 done" << endl;
-   /* testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,50),squarecell::Point(-3,-3),fourmiCST);
+   testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,50),squarecell::Point(-3,-3),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
     cout << "7 done" << endl;
-    */
+
     return true;
 }
 bool assert_squarecell_add()
