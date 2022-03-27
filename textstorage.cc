@@ -78,14 +78,18 @@ vector<string> textstorage::creation (string line)
 
 vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<string>> inputBuffer)
 {
+    if(not(textstorage::checksize_line(inputBuffer)))
+    {
+        exit(0);
+    }
     vector<shared_ptr<squarecell::Entity>>  entityList;
     string quantity_food = inputBuffer[0][0];
-    int int_quantity_food = stoi(quantity_food);
-    for(int i(1); i < int_quantity_food+1; i++)
+    unsigned int int_quantity_food = stoi(quantity_food);
+    for(unsigned int i(1); i < int_quantity_food+1; i++)
     {
         entityList.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i]));
     }
-    int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
+    unsigned int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantity_anthill; i++)
     {
@@ -120,8 +124,42 @@ vector<vector<string>> textstorage::exportDump (vector<shared_ptr<squarecell::En
     return entityList;
 }
 
-bool textstorage::checksize_line(int int_quantity_food, std::vector<std::vector<std::string>> intArrayDump)
+bool textstorage::checksize_line(vector<vector<string>> intArrayDump)
 {
     bool status = true;
+    string quantity_food = intArrayDump[0][0];
+    unsigned int int_quantity_food = stoi(quantity_food);
+    for(unsigned int i(1); i < int_quantity_food+1; i++)
+    {
+        if(intArrayDump[i].size()<2)
+        {
+            cout << "not enough argument on a line from the file at index : "+ to_string(i) << endl;
+            status = false;
+        }
+    }
+    unsigned int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
+    unsigned int quantity_anthill = stoi(intArrayDump[intermediaire-1][0]);
+    for(unsigned int i(0); i < quantity_anthill; i++)
+    {
+        if(intArrayDump.size()<intermediaire)
+        {
+            cout << "not enough line from the file"<< endl;
+            status = false;
+        }
+        if(intArrayDump[intermediaire].size()<9)
+        {
+            cout << "not enough argument on a line from the file at index : "+ to_string(intermediaire) << endl;
+            status = false;
+        }
+        int collector = stoi(intArrayDump[intermediaire][6]);
+        int defensor = stoi(intArrayDump[intermediaire][7]);
+        int predator = stoi(intArrayDump[intermediaire][8]);
+        if(intArrayDump.size()<(intermediaire+collector+defensor+predator))
+        {
+            cout << "not enough argument on a line from the file at index : "
+                    + to_string((intermediaire+collector+defensor+predator)) << endl;
+            status = false;
+        }
+    }
     return status;
 }

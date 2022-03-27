@@ -139,13 +139,13 @@ bool squarecell::Squarecell::checkSize(shared_ptr<squarecell::Entity> entity)
 {
     bool status = true;
     if(not(((*entity).getPosition().getCoordX() >= 0)
-    and    ((*entity).getPosition().getCoordX() < squarecell::g_max)))
+    and    ((*entity).getPosition().getCoordX() <= squarecell::g_max)))
     {
         cout << error_squarecell::print_index((*entity).getPosition().getCoordX(), squarecell::g_max)<<endl;
         status = false;
     }
     if(not(((*entity).getPosition().getCoordY() >= 0)
-    and    ((*entity).getPosition().getCoordY() < squarecell::g_max)))
+    and    ((*entity).getPosition().getCoordY() <= squarecell::g_max)))
     {
         cout << error_squarecell::print_index((*entity).getPosition().getCoordY(), squarecell::g_max)<<endl;
         status = false;
