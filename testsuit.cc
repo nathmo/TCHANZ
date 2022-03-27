@@ -168,18 +168,26 @@ bool assert_squarecell_Squarecell()
     squarecell::Squarecell testSqCll = squarecell::Squarecell();
     shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(2,4),squarecell::Point(2,2),fourmiCST);
     assert(testSqCll.add(testEnt));
+    cout << "1 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(-100,-100),squarecell::Point(2,2),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "2 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(900,100),squarecell::Point(2,2),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "3 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(4,4),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "4 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(3,3),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "5 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(4,4),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,50),squarecell::Point(-3,-3),fourmiCST);
+    cout << "6 done" << endl;
+   testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,50),squarecell::Point(-3,-3),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "7 done" << endl;
+
     return true;
 }
 bool assert_squarecell_add()
@@ -205,20 +213,28 @@ bool assert_squarecell_checkSize()
     squarecell::Squarecell testSqCll = squarecell::Squarecell();
     shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
     assert(testSqCll.checkSize(testEnt));
+    cout << "checkSize 1 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(-100,-100),squarecell::Point(2,2),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "checkSize 2 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,128),squarecell::Point(1,1),fourmiCST);
     assert(testSqCll.add(testEnt));
+    cout << "checkSize 3 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(127,127),squarecell::Point(2,2),fourmiCST);
     assert(testSqCll.add(testEnt));
+    cout << "checkSize 4 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,128),squarecell::Point(3,3),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "checkSize 5 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(0,0),squarecell::Point(2,2),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "checkSize 6 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(1,0),squarecell::Point(2,2),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "checkSize 7 done" << endl;
     testEnt = make_shared<squarecell::Entity>(squarecell::Point(1,0),squarecell::Point(3,3),fourmiCST);
     assert(not(testSqCll.add(testEnt)));
+    cout << "checkSize 8 done" << endl;
     return true;
 }
 bool assert_squarecell_checkHitbox()
