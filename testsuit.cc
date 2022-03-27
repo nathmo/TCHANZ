@@ -308,6 +308,10 @@ bool assert_files_test()
     cmdResult = runCommand("./projet scenario/t14.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 21 passed" << endl;
+    cmdExpected = "Correct file";
+    cmdResult = runCommand("./projet scenario/t15.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cout << "test 22 passed" << endl;
     return true;
 }
 
