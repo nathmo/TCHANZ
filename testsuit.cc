@@ -32,7 +32,7 @@ bool assert_squarecell_add();
 bool assert_squarecell_remove();
 bool assert_squarecell_checkSize();
 bool assert_squarecell_checkHitbox();
-bool assert_squarecell_checkOverlap2();
+bool assert_squarecell_checkOverlap();
 bool assert_squarecell_getHitboxBotLeft();
 bool assert_squarecell_getHitboxTopRight();
 bool assert_files_test();
@@ -198,14 +198,23 @@ bool assert_squarecell_remove()
 }
 bool assert_squarecell_checkSize()
 {
+    squarecell::Squarecell testSqCll = squarecell::Squarecell();
+    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
+    assert(testSqCll.checkSize(testEnt));
     return true;
 }
 bool assert_squarecell_checkHitbox()
 {
+    squarecell::Squarecell testSqCll = squarecell::Squarecell();
+    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmilliereCST);
+    assert(testSqCll.checkHitbox(testEnt));
     return true;
 }
-bool assert_squarecell_checkOverlap2()
+bool assert_squarecell_checkOverlap()
 {
+    squarecell::Squarecell testSqCll = squarecell::Squarecell();
+    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
+    assert(testSqCll.checkOverlap(testEnt));
     return true;
 }
 bool assert_squarecell_getHitboxBotLeft()

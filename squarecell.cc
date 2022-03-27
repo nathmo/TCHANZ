@@ -16,6 +16,7 @@
 
 
 using namespace std;
+
 squarecell::Point::Point(int x, int y)
 {
     this->x = x;
