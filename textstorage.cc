@@ -76,18 +76,19 @@ vector<string> textstorage::creation (string line)
     return tableauValeur;
 }
 
-vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<string>> inputBuffer)
+vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string>> inputBuffer)
 {
     if(not(textstorage::checksize_line(inputBuffer)))
     {
         exit(0);
     }
-    vector<shared_ptr<squarecell::Entity>>  entityList;
+    vector<shared_ptr<entity::Entity>>  entityList;
     string quantity_food = inputBuffer[0][0];
     unsigned int int_quantity_food = stoi(quantity_food);
     for(unsigned int i(1); i < int_quantity_food+1; i++)
     {
-        entityList.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i]));
+        int index = i;
+        entityList.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i],index));
     }
     unsigned int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
@@ -96,28 +97,33 @@ vector<shared_ptr<squarecell::Entity>> textstorage::importDump (vector<vector<st
         int collector = stoi(inputBuffer[intermediaire][6]);
         int defensor = stoi(inputBuffer[intermediaire][7]);
         int predator = stoi(inputBuffer[intermediaire][8]);
-        entityList.push_back(fourmiliere::Fourmiliere::importFromExtSaveGenerator(inputBuffer[intermediaire]));
-        entityList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire]));
+        int indexFourmilliere = intermediaire;
+        int indexFourmi = intermediaire+1;
+        entityList.push_back(fourmiliere::Fourmiliere::importFromExtSaveGenerator(inputBuffer[intermediaire],indexFourmilliere));
+        entityList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire], indexFourmi));
         for(int c(1); c < collector+1; c++)
         {
-            entityList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire+c]));
+            indexFourmi = intermediaire+c;
+            entityList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire+c],indexFourmi));
             intermediaire = intermediaire+1; 
         }
         for(int d(1); d < defensor+1; d++)
         {
-            entityList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire+d]));
+            indexFourmi = intermediaire+d;
+            entityList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire+d],indexFourmi));
             intermediaire = intermediaire + 1;
         }
         for(int p(1); p < predator+1; p++)
         {
-            entityList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire+p]));
+            indexFourmi = intermediaire+p;
+            entityList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire+p],indexFourmi));
             intermediaire = intermediaire+1;
         }
     }
     return entityList;
 }
 
-vector<vector<string>> textstorage::exportDump (vector<shared_ptr<squarecell::Entity>> entityArrayDump)
+vector<vector<string>> textstorage::exportDump (vector<shared_ptr<entity::Entity>> entityArrayDump)
 {
     vector<vector<string>> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)

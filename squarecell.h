@@ -7,19 +7,20 @@
 #ifndef TCHANZ_SQUARECELL_H
 #define TCHANZ_SQUARECELL_H
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <memory>
 
 
 namespace squarecell
 {
+
     constexpr short unsigned g_dim(7) ;
     constexpr short unsigned g_max(std::pow(2,g_dim)) ;
 
     class Point {
     private:
-        int x;
-        int y;
+        int x=-1;
+        int y=-1;
     public:
         Point(int x, int y);
         Point();
@@ -31,7 +32,6 @@ namespace squarecell
 
     class Squarecell {
     private:
-        static std::vector<std::vector<bool>> hitBoxGrid;
         squarecell::Point position;
         int height;
         int width;
@@ -39,9 +39,18 @@ namespace squarecell
         Point cornerTopRight;
         bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,int width,int height);
         bool checkPoint(Point point);
+        static std::vector<std::vector<bool>> hitBoxGrid ;
     public:
+        Squarecell();
         Squarecell(squarecell::Point position, int lenght, int width);
         ~Squarecell();
+        Point getPosition();
+        void setPosition(Point position);
+        int getHeight();
+        int getWidth();
+        void setHeight(int height);
+        void setWidth(int width);
+        void setSize(int height, int width);
         Point getHitboxBotLeft();
         Point getHitboxTopRight();
         static int getgMax();
@@ -49,8 +58,8 @@ namespace squarecell
         static Point computeHitboxBotLeft(squarecell::Point position, int lenght, int width);
         static Point computeHitboxTopRight(squarecell::Point position, int lenght, int width);
         static void displayRawBoolGrid();
-        static void displayRawEntityGrid();
     };
+
 }
 
 #endif //TCHANZ_SQUARECELL_H

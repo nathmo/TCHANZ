@@ -18,6 +18,7 @@
 
 using namespace std;
 
+vector<vector<bool>>  squarecell::Squarecell::hitBoxGrid = vector<vector<bool>> (squarecell::g_max,vector<bool> (squarecell::g_max));
 squarecell::Point::Point(int x, int y)
 {
     this->x = x;
@@ -43,13 +44,16 @@ int squarecell::Point::getCoordY()
 {
     return y;
 }
+squarecell::Squarecell::Squarecell()
+{
 
+}
 squarecell::Squarecell::Squarecell(squarecell::Point position, int lenght, int width)
 {
     cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, lenght, width);
     cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, lenght, width);
     bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position, width, lenght)
-            and checkPoint(position);
+            and squarecell::Squarecell::checkPoint(position);
     if(isElligible)
     {
         for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
@@ -80,12 +84,49 @@ squarecell::Squarecell::~Squarecell()
     }
 }
 
+squarecell::Point squarecell::Squarecell::getPosition()
+{
+    return position;
+}
+void squarecell::Squarecell::setPosition(squarecell::Point position)
+{
+    this->position = position;
+}
+int squarecell::Squarecell::getHeight()
+{
+    return height;
+}
+int squarecell::Squarecell::getWidth()
+{
+    return width;
+}
+void squarecell::Squarecell::setHeight(int height)
+{
+    this->height = height;
+}
+void squarecell::Squarecell::setWidth(int width)
+{
+    this->width = width;
+}
+void squarecell::Squarecell::setSize(int height, int width)
+{
+    this->width = width;
+    this->height = height;
+}
+squarecell::Point squarecell::Squarecell::getHitboxBotLeft()
+{
+    return cornerBotLeft;
+}
+squarecell::Point squarecell::Squarecell::getHitboxTopRight()
+{
+    return cornerTopRight;
+}
 int squarecell::Squarecell::getgMax()
 {
     return g_max;
 }
 
-bool checkPoint(squarecell::Point point)
+bool squarecell::Squarecell::checkPoint(squarecell::Point point)
 {
     bool status = true;
     if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) // not in [0;127]

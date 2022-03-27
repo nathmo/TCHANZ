@@ -7,31 +7,19 @@
 
 #include "simulation.h"
 #include "textstorage.h"
-#include "message.h"
+#include "squarecell.h"
 #include <iostream>
 #include <string>
 #include <memory>
 
 using namespace std;
-squarecell::Squarecell simulation::loadFromFile(string path)
+std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string path)
 {
-    vector<shared_ptr<squarecell::Entity>> entityList = textstorage::importDump(textstorage::readtxt(path));
-    squarecell::Squarecell gridWorld = squarecell::Squarecell();
-    for(auto entity = entityList.begin(); entity != entityList.end(); ++entity)
-    {
-        bool status = gridWorld.add((*entity));
-        if(not status)
-        {
-            cout << "Import of entity failed : "+to_string((*entity)->getId()) <<  endl;
-            exit(0);
-        }
-    }
-    cout << message::success();
-    //gridWorld.displayRawEntityGrid();
-    return gridWorld;
+    vector<shared_ptr<entity::Entity>> entityList = textstorage::importDump(textstorage::readtxt(path));
+    return entityList;
 }
 
-void simulation::saveToFile(string path,squarecell::Squarecell worldToDump)
+void simulation::saveToFile(string path,std::vector<std::shared_ptr<entity::Entity>> worldToDump)
 {
 
 }

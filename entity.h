@@ -13,7 +13,7 @@ namespace entity
     private:
         squarecell::Squarecell occupiedSpace;
         char specie;
-        int id;
+        unsigned long id;
     public:
         Entity(squarecell::Point position, int lenght, int width, char specie, int id);
 
@@ -23,7 +23,7 @@ namespace entity
 
         void setsize(int lenght, int width);
 
-        int getLenght();
+        int getHeight();
 
         int getWidth();
 

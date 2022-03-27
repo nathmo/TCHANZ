@@ -9,7 +9,9 @@
 #define TCHANZ_SIMULATION_H
 
 #include <string>
-#include "squarecell.h"
+#include "entity.h"
+#include <memory>
+#include <vector>
 
 namespace simulation {
     class Simulation {
@@ -17,7 +19,7 @@ namespace simulation {
     };
 
 // administrative function outside of class
-    squarecell::Squarecell loadFromFile(std::string path);
-    void saveToFile(std::string path,squarecell::Squarecell worldToDump);
+    std::vector<std::shared_ptr<entity::Entity>> loadFromFile(std::string path);
+    void saveToFile(std::string path,std::vector<std::shared_ptr<entity::Entity>> worldToDump);
 }
 #endif //TCHANZ_SIMULATION_H

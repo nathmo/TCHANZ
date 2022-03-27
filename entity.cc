@@ -18,36 +18,36 @@ entity::Entity::Entity(squarecell::Point position, int lenght, int width, char s
     this->specie=specie;
     this->id=id;
 }
-void entity::Entity::setPosition(Point newPosition)
+void entity::Entity::setPosition(squarecell::Point newPosition)
 {
-    position = newPosition;
+    occupiedSpace.setPosition(newPosition);
 }
 squarecell::Point entity::Entity::getPosition()
 {
-    return position;
+    return occupiedSpace.getPosition();
 }
-void squarecell::Entity::setsize(Point newSize)
+void entity::Entity::setsize(int lenght, int width)
 {
-    size = newSize;
+    occupiedSpace.setSize(lenght, width);
 }
-squarecell::Point squarecell::Entity::getsize()
+int entity::Entity::getHeight()
 {
-    return size;
+    return occupiedSpace.getHeight();
 }
-char squarecell::Entity::getSpecie()
+int entity::Entity::getWidth()
+{
+    return occupiedSpace.getWidth();
+}
+char entity::Entity::getSpecie()
 {
     return specie;
 }
-int squarecell::Entity::checkOverlap(Entity entity)
-{
-    // remove if not used
-    return 0;
-}
-int squarecell::Entity::getId()
+int entity::Entity::getId()
 {
     return id;
 }
-void squarecell::Entity::setId(int id)
+/*int entity::Entity::checkOverlap(Entity entity)
 {
-    this->id = id;
-}
+    // remove if not used
+    return 0;
+}*/
