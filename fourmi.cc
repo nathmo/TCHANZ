@@ -6,6 +6,7 @@
 */
 
 #include "fourmi.h"
+#include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
 #include <iostream>
@@ -14,8 +15,8 @@
 
 using namespace std;
 
-fourmi::Fourmi::Fourmi(squarecell::Point position, int age, char type)  :
-squarecell::Entity(position, squarecell::Point(1,1), type)
+fourmi::Fourmi::Fourmi(squarecell::Point position, int age, char type, int id)  :
+entity::Entity(position, 1,1, type, id)
 {
     this->age = age;
 }
@@ -25,8 +26,8 @@ void fourmi::Fourmi::update()
     cout << "error, trying to update a generic fourmi object" << endl;
 }
 
-fourmi::Collector::Collector(squarecell::Point position, int age, bool carryFood) :
-        fourmi::Fourmi(position, age, fourmiCollectorCST)
+fourmi::Collector::Collector(squarecell::Point position, int id, int age, bool carryFood ) :
+        fourmi::Fourmi(position, age,fourmiCollectorCST,id)
 {
     this->carryFood = carryFood;
 }
@@ -35,7 +36,7 @@ void fourmi::Collector::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string> &inputBuffer)
+shared_ptr<entity::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string> &inputBuffer, int index)
 {
     if(!(inputBuffer.size()<=4))
     {
@@ -49,17 +50,17 @@ shared_ptr<squarecell::Entity> fourmi::Collector::importFromExtSaveCollector (ve
     if("true" == inputBuffer[3])
         condition_food = true;
 
-    return make_shared<fourmi::Collector>(squarecell::Point(x,y),age,condition_food);
+    return make_shared<fourmi::Collector>(squarecell::Point(x,y),index ,age,condition_food);
     }
 }
 
-fourmi::Defensor::Defensor(squarecell::Point position, int age) :
-        fourmi::Fourmi(position, age, fourmiDefensorCST) {}
+fourmi::Defensor::Defensor(squarecell::Point position, int id, int age) :
+        fourmi::Fourmi(position, age,fourmiDefensorCST,id) {}
 void fourmi::Defensor::update()
 {
 
 }
-shared_ptr<squarecell::Entity> fourmi::Defensor::importFromExtSaveDefensor (vector<string> &inputBuffer)
+shared_ptr<entity::Entity> fourmi::Defensor::importFromExtSaveDefensor (vector<string> &inputBuffer, int index)
 {
     if(!(inputBuffer.size()<=3))
     {
@@ -69,19 +70,19 @@ shared_ptr<squarecell::Entity> fourmi::Defensor::importFromExtSaveDefensor (vect
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
-    return make_shared<fourmi::Defensor>(squarecell::Point(x,y),age);
+    return make_shared<fourmi::Defensor>(squarecell::Point(x,y), index,age);
     }
 }
 
-fourmi::Predator::Predator(squarecell::Point position, int age) :
-        fourmi::Fourmi(position, age, fourmiPredatorCST) {}
+fourmi::Predator::Predator(squarecell::Point position, int id, int age) :
+        fourmi::Fourmi(position, age, fourmiPredatorCST, id) {}
 
 void fourmi::Predator::update()
 {
 
 }
 
-shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator (vector<string> &inputBuffer)
+shared_ptr<entity::Entity> fourmi::Predator::importFromExtSavePredator (vector<string> &inputBuffer, int index)
 {
     if(!(inputBuffer.size()<=3))
     {
@@ -91,21 +92,21 @@ shared_ptr<squarecell::Entity> fourmi::Predator::importFromExtSavePredator (vect
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
-    return make_shared<fourmi::Predator>(squarecell::Point(x,y),age);
+    return make_shared<fourmi::Predator>(squarecell::Point(x,y),index,age);
     }
 }
-fourmi::Generator::Generator(squarecell::Point position) :
-        fourmi::Fourmi(position,0 , fourmiGeneratorCST) {}
+fourmi::Generator::Generator(squarecell::Point position, int id) :
+        fourmi::Fourmi(position,0 , fourmiGeneratorCST, id) {}
 
 void fourmi::Generator::update()
 {
 
 }
 
-shared_ptr<squarecell::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string> &inputBuffer)
+shared_ptr<entity::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string> &inputBuffer, int index)
 {
     int x = stoi(inputBuffer[3]);
     int y = stoi(inputBuffer[4]);
-    return make_shared<fourmi::Generator>(squarecell::Point(x,y));
+    return make_shared<fourmi::Generator>(squarecell::Point(x,y), index);
 }
 

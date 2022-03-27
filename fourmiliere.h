@@ -9,13 +9,14 @@
 #define TCHANZ_FOURMILIERE_H
 
 #include "fourmi.h"
+#include "entity.h"
 #include "squarecell.h"
 #include <vector>
 #include <memory>
 
 namespace fourmiliere
 {
-    class Fourmiliere : public squarecell::Entity {
+    class Fourmiliere : public entity::Entity {
     private:
         int foodReserve;
         int nbC;
@@ -23,9 +24,9 @@ namespace fourmiliere
         int nbP;
         std::vector<fourmi::Fourmi *> memberAnts;
     public:
-        Fourmiliere(squarecell::Point position, squarecell::Point size, int total_food, int nbC, int nbD, int nbP );
+        Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id);
         void update();
-        static std::shared_ptr<squarecell::Entity> importFromExtSaveGenerator(std::vector<std::string> &inputBuffer);
+        static std::shared_ptr<entity::Entity> importFromExtSaveGenerator(std::vector<std::string> &inputBuffer, int index);
     };
 }
 

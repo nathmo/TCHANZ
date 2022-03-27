@@ -15,72 +15,42 @@ namespace squarecell
 {
     constexpr short unsigned g_dim(7) ;
     constexpr short unsigned g_max(std::pow(2,g_dim)) ;
+
     class Point {
     private:
         int x;
         int y;
     public:
         Point(int x, int y);
-
         Point();
-
         void setCoordX(int xOrigin);
-
         int getCoordX();
-
         void setCoordY(int yOrigin);
-
         int getCoordY();
-    };
-
-    class Entity {
-    private:
-        Point position;
-        Point size;
-        Point cornerBotLeft;
-        Point cornerTopRight;
-        char specie;
-        int id;
-    public:
-        Entity(Point position, Point size, char specie);
-
-        void setPosition(Point newPosition);
-
-        Point getPosition();
-
-        void setsize(Point newSize);
-
-        Point getsize();
-
-        char getSpecie();
-
-        int checkOverlap(Entity entity);
-
-        int getId();
-
-        void setId(int id);
-
     };
 
     class Squarecell {
     private:
-        std::vector <std::vector<bool>> hitBoxGrid;
-        std::vector <std::vector<char>> entityGrid;
-        std::vector <std::shared_ptr<Entity>> entityList;
+        static std::vector<std::vector<bool>> hitBoxGrid;
+        squarecell::Point position;
+        int height;
+        int width;
+        Point cornerBotLeft;
+        Point cornerTopRight;
+        bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,int width,int height);
+        bool checkPoint(Point point);
     public:
-        Squarecell();
-        int getgMax();
-        bool add(std::shared_ptr<Entity> entity);
-        bool remove(std::shared_ptr<Entity>  entity);
-        bool checkSize(std::shared_ptr<squarecell::Entity> entity);
-        bool checkHitbox(std::shared_ptr<squarecell::Entity> entity);
-        bool checkOverlap(std::shared_ptr<squarecell::Entity> entity);
-        int countOverlap(std::shared_ptr<squarecell::Entity> entity);
-        void displayRawBoolGrid();
-        void displayRawEntityGrid();
+        Squarecell(squarecell::Point position, int lenght, int width);
+        ~Squarecell();
+        Point getHitboxBotLeft();
+        Point getHitboxTopRight();
+        static int getgMax();
+        static int countOverlap(Squarecell hitbox1, Squarecell hitbox2);
+        static Point computeHitboxBotLeft(squarecell::Point position, int lenght, int width);
+        static Point computeHitboxTopRight(squarecell::Point position, int lenght, int width);
+        static void displayRawBoolGrid();
+        static void displayRawEntityGrid();
     };
-    Point getHitboxBotLeft(std::shared_ptr<squarecell::Entity> entity);
-    Point getHitboxTopRight(std::shared_ptr<squarecell::Entity> entity);
 }
 
 #endif //TCHANZ_SQUARECELL_H
