@@ -19,6 +19,8 @@
 using namespace std;
 
 vector<vector<bool>>  squarecell::Squarecell::hitBoxGrid = vector<vector<bool>> (squarecell::g_max,vector<bool> (squarecell::g_max));
+vector<vector<bool>>  squarecell::Squarecell::anthillGrid = vector<vector<bool>> (squarecell::g_max,vector<bool> (squarecell::g_max));
+
 squarecell::Point::Point(int x, int y)
 {
     this->x = x;
@@ -48,8 +50,9 @@ squarecell::Squarecell::Squarecell()
 {
 
 }
-squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int width, bool solid)
+squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int width, bool anthill)
 {
+    isAnthill = anthill;
     this->height = height;
     this->width = width;
     this->position = position;
@@ -57,7 +60,7 @@ squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int w
     cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, height, width);
     bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position, width, height)
                        and squarecell::Squarecell::checkPoint(position);
-    if(isElligible and solid)
+    if(isElligible)
     {
         for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
         {
@@ -65,7 +68,14 @@ squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int w
             {
                 if(hitBoxGrid[i][j]==false)
                 {
-                    hitBoxGrid[i][j] = true;
+                    if(isAnthill)
+                    {
+                        anthillGrid[i][j] = true;
+                    }
+                    else
+                    {
+                        hitBoxGrid[i][j] = true;
+                    }
                 }
                 else
                 {
@@ -82,7 +92,14 @@ squarecell::Squarecell::~Squarecell()
     {
         for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
         {
-            hitBoxGrid[i][j] = false;
+            if(isAnthill)
+            {
+                anthillGrid[i][j] = false;
+            }
+            else
+            {
+                hitBoxGrid[i][j] = false;
+            }
         }
     }
 }
@@ -184,7 +201,30 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squar
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }
-
+bool squarecell::Squarecell::checkOverlap()
+{
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
+    {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
+        {
+            if(isAnthill)
+            {
+                if(anthillGrid[i][j] == true)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if(hitBoxGrid[i][j] == true)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
 int squarecell::Squarecell::countOverlap(squarecell::Squarecell hitbox1, squarecell::Squarecell hitbox2)
 {
     int overlappingArea = 0;

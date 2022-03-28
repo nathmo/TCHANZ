@@ -37,12 +37,15 @@ namespace squarecell
         int width;
         Point cornerBotLeft;
         Point cornerTopRight;
+        bool isAnthill;
         bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,int width,int height);
         bool checkPoint(Point point);
+        bool checkOverlap();
         static std::vector<std::vector<bool>> hitBoxGrid ;
+        static std::vector<std::vector<bool>> anthillGrid ;
     public:
         Squarecell();
-        Squarecell(squarecell::Point position, int height, int width, bool solid=true);
+        Squarecell(squarecell::Point position, int height, int width, bool anthill);
         ~Squarecell();
         Point getPosition();
         void setPosition(Point position);
