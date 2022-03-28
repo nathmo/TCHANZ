@@ -12,31 +12,33 @@
 #include <iostream>
 #include <memory>
 
-entity::Entity::Entity(squarecell::Point position, int height, int width, char specie, int id)
+using namespace std;
+
+entity::Entity::Entity(squarecell::Point position, int height, int width, char specie, int id, bool solid)
 {
-    occupiedSpace = squarecell::Squarecell(position, height, width);
+    occupiedSpace = make_shared<squarecell::Squarecell>(position, height, width, solid);
     this->specie=specie;
     this->id=id;
 }
 void entity::Entity::setPosition(squarecell::Point newPosition)
 {
-    occupiedSpace.setPosition(newPosition);
+    (*occupiedSpace).setPosition(newPosition);
 }
 squarecell::Point entity::Entity::getPosition()
 {
-    return occupiedSpace.getPosition();
+    return (*occupiedSpace).getPosition();
 }
 void entity::Entity::setSize(int height, int width)
 {
-    occupiedSpace.setSize(height, width);
+    (*occupiedSpace).setSize(height, width);
 }
 int entity::Entity::getHeight()
 {
-    return occupiedSpace.getHeight();
+    return (*occupiedSpace).getHeight();
 }
 int entity::Entity::getWidth()
 {
-    return occupiedSpace.getWidth();
+    return (*occupiedSpace).getWidth();
 }
 char entity::Entity::getSpecie()
 {

@@ -15,7 +15,7 @@
 namespace fourmi
 {
     class Fourmi : public entity::Entity {
-        private:
+        protected:
             int age;
         public:
             Fourmi(squarecell::Point position, int age, char type, int id);

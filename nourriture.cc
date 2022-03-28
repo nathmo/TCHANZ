@@ -15,7 +15,7 @@
 using namespace std;
 
 nourriture::Nourriture::Nourriture(squarecell::Point position, int index) :
-        entity::Entity(position,1,1,nourritureCST,index) {}
+        entity::Entity(position,1,1,nourritureCST,index, true) {}
 
 shared_ptr<entity::Entity> nourriture::Nourriture::importFromExtSave(vector<string>& inputBuffer, int index)
 {

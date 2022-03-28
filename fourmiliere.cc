@@ -15,7 +15,7 @@
 using namespace std;
 
 fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id) :
-        entity::Entity(position, size, size, fourmilliereCST, id)
+        entity::Entity(position, size, size, fourmilliereCST, id, false)
 {
     foodReserve = total_food;
     this->nbC=nbC;

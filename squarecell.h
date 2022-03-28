@@ -42,7 +42,7 @@ namespace squarecell
         static std::vector<std::vector<bool>> hitBoxGrid ;
     public:
         Squarecell();
-        Squarecell(squarecell::Point position, int height, int width);
+        Squarecell(squarecell::Point position, int height, int width, bool solid=true);
         ~Squarecell();
         Point getPosition();
         void setPosition(Point position);

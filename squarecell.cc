@@ -48,7 +48,7 @@ squarecell::Squarecell::Squarecell()
 {
 
 }
-squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int width)
+squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int width, bool solid)
 {
     this->height = height;
     this->width = width;
@@ -56,8 +56,8 @@ squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int w
     cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, height, width);
     cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, height, width);
     bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position, width, height)
-            and squarecell::Squarecell::checkPoint(position);
-    if(isElligible)
+                       and squarecell::Squarecell::checkPoint(position);
+    if(isElligible and solid)
     {
         for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
         {

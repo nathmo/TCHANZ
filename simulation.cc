@@ -15,7 +15,7 @@
 using namespace std;
 std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string path)
 {
-    vector<shared_ptr<entity::Entity>> entityList = textstorage::importDump(textstorage::readtxt(path));
+    vector<shared_ptr<entity::Entity>> entityList(textstorage::importDump(textstorage::readtxt(path)));
     return entityList;
 }
 
