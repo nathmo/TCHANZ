@@ -29,6 +29,7 @@ void fourmi::Fourmi::update()
 fourmi::Collector::Collector(squarecell::Point position, int id, int age, bool carryFood ) :
         fourmi::Fourmi(position, age,fourmiCollectorCST,id)
 {
+    occupiedSpace.setSize(3,3);
     this->carryFood = carryFood;
 }
 
@@ -36,6 +37,7 @@ void fourmi::Collector::update()
 {
 
 }
+
 shared_ptr<entity::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string> &inputBuffer, int index)
 {
     if(!(inputBuffer.size()<=4))
@@ -55,7 +57,10 @@ shared_ptr<entity::Entity> fourmi::Collector::importFromExtSaveCollector (vector
 }
 
 fourmi::Defensor::Defensor(squarecell::Point position, int id, int age) :
-        fourmi::Fourmi(position, age,fourmiDefensorCST,id) {}
+        fourmi::Fourmi(position, age,fourmiDefensorCST,id)
+{
+    occupiedSpace.setSize(1,1);
+}
 void fourmi::Defensor::update()
 {
 
@@ -75,7 +80,10 @@ shared_ptr<entity::Entity> fourmi::Defensor::importFromExtSaveDefensor (vector<s
 }
 
 fourmi::Predator::Predator(squarecell::Point position, int id, int age) :
-        fourmi::Fourmi(position, age, fourmiPredatorCST, id) {}
+        fourmi::Fourmi(position, age, fourmiPredatorCST, id)
+{
+    occupiedSpace.setSize(3,3);
+}
 
 void fourmi::Predator::update()
 {
@@ -96,7 +104,10 @@ shared_ptr<entity::Entity> fourmi::Predator::importFromExtSavePredator (vector<s
     }
 }
 fourmi::Generator::Generator(squarecell::Point position, int id) :
-        fourmi::Fourmi(position,0 , fourmiGeneratorCST, id) {}
+        fourmi::Fourmi(position,0 , fourmiGeneratorCST, id)
+{
+    occupiedSpace.setSize(5,5);
+}
 
 void fourmi::Generator::update()
 {
