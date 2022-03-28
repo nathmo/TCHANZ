@@ -12,9 +12,9 @@
 #include <iostream>
 #include <memory>
 
-entity::Entity::Entity(squarecell::Point position, int lenght, int width, char specie, int id)
+entity::Entity::Entity(squarecell::Point position, int height, int width, char specie, int id)
 {
-    occupiedSpace = squarecell::Squarecell(position, lenght, width);
+    occupiedSpace = squarecell::Squarecell(position, height, width);
     this->specie=specie;
     this->id=id;
 }
@@ -26,9 +26,9 @@ squarecell::Point entity::Entity::getPosition()
 {
     return occupiedSpace.getPosition();
 }
-void entity::Entity::setsize(int lenght, int width)
+void entity::Entity::setSize(int height, int width)
 {
-    occupiedSpace.setSize(lenght, width);
+    occupiedSpace.setSize(height, width);
 }
 int entity::Entity::getHeight()
 {

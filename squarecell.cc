@@ -48,11 +48,14 @@ squarecell::Squarecell::Squarecell()
 {
 
 }
-squarecell::Squarecell::Squarecell(squarecell::Point position, int lenght, int width)
+squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int width)
 {
-    cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, lenght, width);
-    cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, lenght, width);
-    bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position, width, lenght)
+    this->height = height;
+    this->width = width;
+    this->position = position;
+    cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, height, width);
+    cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, height, width);
+    bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position, width, height)
             and squarecell::Squarecell::checkPoint(position);
     if(isElligible)
     {
@@ -205,7 +208,7 @@ void squarecell::Squarecell::displayRawBoolGrid()
     }
 }
 
-squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point position, int lenght, int width)
+squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point position, int height, int width)
 {
     Point botLeft;
     if(width%2==0)
@@ -216,18 +219,18 @@ squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point
     {
         botLeft.setCoordX(position.getCoordX()-(width-1)/2);
     }
-    if(lenght%2==0)
+    if(height%2==0)
     {
         botLeft.setCoordY(position.getCoordY());
     }
-    else if(lenght%2==1)
+    else if(height%2==1)
     {
-        botLeft.setCoordY(position.getCoordY()-(lenght-1)/2);
+        botLeft.setCoordY(position.getCoordY()-(height-1)/2);
     }
     return botLeft;
 }
 
-squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Point position, int lenght, int width)
+squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Point position, int height, int width)
 {
     Point topRight;
     if(width%2==0)
@@ -238,13 +241,13 @@ squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Poin
     {
         topRight.setCoordX(position.getCoordX()+(width-1)/2);
     }
-    if(lenght%2==0)
+    if(height%2==0)
     {
-        topRight.setCoordY(position.getCoordY()+lenght);
+        topRight.setCoordY(position.getCoordY()+height);
     }
-    else if(lenght%2==1)
+    else if(height%2==1)
     {
-        topRight.setCoordY(position.getCoordY()+(lenght-1)/2);
+        topRight.setCoordY(position.getCoordY()+(height-1)/2);
     }
     return topRight;
 }

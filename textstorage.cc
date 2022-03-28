@@ -121,6 +121,7 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string
         }
         intermediaire = intermediaire+1;
     }
+    cout << message::success();
     return entityList;
 }
 

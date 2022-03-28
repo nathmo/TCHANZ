@@ -23,18 +23,18 @@ using namespace std;
 
 bool assert_textstorage();
 bool assert_squarecell();
+bool assert_entity();
+bool assert_fourmi();
+bool assert_fourmilliere();
+bool assert_nourriture();
+
 bool assert_textstorage_readtxt();
 bool assert_textstorage_writetxt();
+
 bool assert_squarecell_Point();
-bool assert_squarecell_Entity();
+bool assert_entity_Entity();
 bool assert_squarecell_Squarecell();
-bool assert_squarecell_add();
-bool assert_squarecell_remove();
-bool assert_squarecell_checkSize();
-bool assert_squarecell_checkHitbox();
-bool assert_squarecell_checkOverlap();
-bool assert_squarecell_getHitboxBotLeft();
-bool assert_squarecell_getHitboxTopRight();
+
 bool assert_files_test();
 string runCommand(const char* command);
 bool stringFuzzyMatch(string str1, string str2);
@@ -42,8 +42,12 @@ bool stringFuzzyMatch(string str1, string str2);
 int main()
 {
     cout << "beginning unit test" << endl;
-    //assert(assert_textstorage());
-    //assert(assert_squarecell());
+    assert(assert_textstorage());
+    assert(assert_squarecell());
+    assert(assert_entity());
+    assert(assert_fourmi());
+    assert(assert_fourmilliere());
+    assert(assert_nourriture());
     cout << "beginning integration test" << endl;
     assert(assert_files_test());
     cout << "all test passed successfully" << endl;
@@ -60,27 +64,25 @@ bool assert_textstorage()
 
 bool assert_squarecell()
 {
-    assert(assert_squarecell_Point());
-    cout << "-> point done" << endl;
-    assert(assert_squarecell_Entity());
-    cout << "-> entity done" << endl;
-    assert(assert_squarecell_checkOverlap());//not implemented yet
-    cout << "-> checkOverlap done" << endl;
-    assert(assert_squarecell_Squarecell());
-    cout << "-> squarecell done" << endl;
-    assert(assert_squarecell_add());
-    cout << "-> add done" << endl;
-    assert(assert_squarecell_remove());
-    cout << "-> remove done" << endl;
-    assert(assert_squarecell_checkSize());
-    cout << "-> checkSize done" << endl;
-    assert(assert_squarecell_checkHitbox());
-    cout << "-> checkHitbox done" << endl;
-    //assert(assert_squarecell_checkOverlap()); //deja mis au dessus
-    assert(assert_squarecell_getHitboxBotLeft());
-    cout << "-> getHitboxBotLeft done" << endl;
-    assert(assert_squarecell_getHitboxTopRight());
-    cout << "-> getHitboxTopRight done" << endl;
+    assert_squarecell_Point();
+    return true;
+}
+
+bool assert_entity()
+{
+    assert_entity_Entity();
+    return true;
+}
+bool assert_fourmi()
+{
+    return true;
+}
+bool assert_fourmilliere()
+{
+    return true;
+}
+bool assert_nourriture()
+{
     return true;
 }
 
@@ -144,10 +146,13 @@ bool assert_squarecell_Point()
     squarecell::Point testPoint = squarecell::Point(1,3);
     assert(testPoint.getCoordX()==1);
     assert(testPoint.getCoordY()==3);
+    testPoint = squarecell::Point(-1,-3);
+    assert(testPoint.getCoordX()==-1);
+    assert(testPoint.getCoordY()==-3);
     return true;
 }
 
-bool assert_squarecell_Entity()
+bool assert_entity_Entity()
 {
     shared_ptr<entity::Entity> testEnt = make_shared<entity::Entity>(squarecell::Point(2,4),1,1,'F',0);
     assert((*testEnt).getHeight()==1);
@@ -157,117 +162,10 @@ bool assert_squarecell_Entity()
     (*testEnt).setPosition(squarecell::Point(5,6));
     assert((*testEnt).getPosition().getCoordX()==5);
     assert((*testEnt).getPosition().getCoordY()==6);
-    (*testEnt).setsize(squarecell::Point(4,8));
-    assert((*testEnt).getsize().getCoordX()==4);
-    assert((*testEnt).getsize().getCoordY()==8);
+    (*testEnt).setSize(4,8);
+    assert((*testEnt).getHeight()==4);
+    assert((*testEnt).getWidth()==8);
     assert((*testEnt).getSpecie()=='F');
-    return true;
-}
-
-bool assert_squarecell_Squarecell()
-{
-    squarecell::Squarecell testSqCll = squarecell::Squarecell();
-    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(2,4),squarecell::Point(2,2),fourmiCST);
-    assert(testSqCll.add(testEnt));
-    cout << "1 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(-100,-100),squarecell::Point(2,2),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "2 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(900,100),squarecell::Point(2,2),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "3 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(4,4),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "4 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(3,3),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "5 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(126,0),squarecell::Point(4,4),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "6 done" << endl;
-   testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,50),squarecell::Point(-3,-3),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "7 done" << endl;
-
-    return true;
-}
-bool assert_squarecell_add()
-{
-    squarecell::Squarecell testSqCll = squarecell::Squarecell();
-    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
-    assert(testSqCll.add(testEnt));
-    testSqCll.displayRawEntityGrid();
-    return true;
-}
-bool assert_squarecell_remove()
-{
-    squarecell::Squarecell testSqCll = squarecell::Squarecell();
-    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
-    assert(testSqCll.add(testEnt));
-    assert(testSqCll.remove(testEnt));
-    assert(testSqCll.add(testEnt));
-    testSqCll.displayRawEntityGrid();
-    return true;
-}
-bool assert_squarecell_checkSize()
-{
-    squarecell::Squarecell testSqCll = squarecell::Squarecell();
-    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
-    assert(testSqCll.checkSize(testEnt));
-    cout << "checkSize 1 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(-100,-100),squarecell::Point(2,2),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "checkSize 2 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,128),squarecell::Point(1,1),fourmiCST);
-    assert(testSqCll.add(testEnt));
-    cout << "checkSize 3 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(127,127),squarecell::Point(2,2),fourmiCST);
-    assert(testSqCll.add(testEnt));
-    cout << "checkSize 4 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(128,128),squarecell::Point(3,3),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "checkSize 5 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(0,0),squarecell::Point(2,2),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "checkSize 6 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(1,0),squarecell::Point(2,2),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "checkSize 7 done" << endl;
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(1,0),squarecell::Point(3,3),fourmiCST);
-    assert(not(testSqCll.add(testEnt)));
-    cout << "checkSize 8 done" << endl;
-    return true;
-}
-bool assert_squarecell_checkHitbox()
-{
-    squarecell::Squarecell testSqCll = squarecell::Squarecell();
-    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmilliereCST);
-    assert(testSqCll.checkHitbox(testEnt));
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(64,64),squarecell::Point(129,129),fourmilliereCST);
-    assert(not(testSqCll.add(testEnt)));
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(0,0),squarecell::Point(2,2),fourmilliereCST);
-    assert(testSqCll.add(testEnt));
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(0,0),squarecell::Point(1,1),fourmilliereCST); //ca devrait le faire ?
-    assert(testSqCll.add(testEnt));
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(3,0),squarecell::Point(3,3),fourmilliereCST);
-    assert(not(testSqCll.add(testEnt)));
-    testEnt = make_shared<squarecell::Entity>(squarecell::Point(3,0),squarecell::Point(2,2),fourmilliereCST);
-    assert(testSqCll.add(testEnt));
-    return true;
-}
-bool assert_squarecell_checkOverlap()
-{
-    squarecell::Squarecell testSqCll = squarecell::Squarecell();
-    shared_ptr<squarecell::Entity> testEnt = make_shared<squarecell::Entity>(squarecell::Point(20,40),squarecell::Point(3,3),fourmiCST);
-    assert(testSqCll.checkOverlap(testEnt));
-    return true;
-}
-bool assert_squarecell_getHitboxBotLeft()
-{
-    return true;
-}
-bool assert_squarecell_getHitboxTopRight()
-{
     return true;
 }
 

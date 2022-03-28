@@ -42,7 +42,7 @@ namespace squarecell
         static std::vector<std::vector<bool>> hitBoxGrid ;
     public:
         Squarecell();
-        Squarecell(squarecell::Point position, int lenght, int width);
+        Squarecell(squarecell::Point position, int height, int width);
         ~Squarecell();
         Point getPosition();
         void setPosition(Point position);
@@ -55,8 +55,8 @@ namespace squarecell
         Point getHitboxTopRight();
         static int getgMax();
         static int countOverlap(Squarecell hitbox1, Squarecell hitbox2);
-        static Point computeHitboxBotLeft(squarecell::Point position, int lenght, int width);
-        static Point computeHitboxTopRight(squarecell::Point position, int lenght, int width);
+        static Point computeHitboxBotLeft(squarecell::Point position, int height, int width);
+        static Point computeHitboxTopRight(squarecell::Point position, int height, int width);
         static void displayRawBoolGrid();
     };
 
