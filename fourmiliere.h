@@ -22,12 +22,13 @@ namespace fourmiliere
         int nbC;
         int nbD;
         int nbP;
-        std::vector<std::shared_ptr<entity::Entity>> memberAnts;
+        std::vector<std::shared_ptr<fourmi::Fourmi>> memberAnts;
     public:
-        Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id);
+        Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id,
+                    std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
         void update();
-        void addAntsList(std::vector<std::shared_ptr<entity::Entity>> memberAnts);
-        static std::shared_ptr<entity::Entity> importFromExtSaveGenerator(std::vector<std::string> &inputBuffer, int index);
+        static std::shared_ptr<entity::Entity> importFromExtSaveGenerator(std::vector<std::string> &inputBuffer, int index,
+                                                                          std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
     };
 }
 

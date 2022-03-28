@@ -38,7 +38,7 @@ void fourmi::Collector::update()
 
 }
 
-shared_ptr<entity::Entity> fourmi::Collector::importFromExtSaveCollector (vector<string> &inputBuffer, int index)
+shared_ptr<fourmi::Fourmi> fourmi::Collector::importFromExtSaveCollector (vector<string> &inputBuffer, int index)
 {
     if(!(inputBuffer.size()<=4))
     {
@@ -65,7 +65,7 @@ void fourmi::Defensor::update()
 {
 
 }
-shared_ptr<entity::Entity> fourmi::Defensor::importFromExtSaveDefensor (vector<string> &inputBuffer, int index)
+shared_ptr<fourmi::Fourmi> fourmi::Defensor::importFromExtSaveDefensor (vector<string> &inputBuffer, int index)
 {
     if(!(inputBuffer.size()<=3))
     {
@@ -90,7 +90,7 @@ void fourmi::Predator::update()
 
 }
 
-shared_ptr<entity::Entity> fourmi::Predator::importFromExtSavePredator (vector<string> &inputBuffer, int index)
+shared_ptr<fourmi::Fourmi> fourmi::Predator::importFromExtSavePredator (vector<string> &inputBuffer, int index)
 {
     if(!(inputBuffer.size()<=3))
     {
@@ -114,7 +114,7 @@ void fourmi::Generator::update()
 
 }
 
-shared_ptr<entity::Entity> fourmi::Generator::importFromExtSaveGenerator (vector<string> &inputBuffer, int index)
+shared_ptr<fourmi::Fourmi> fourmi::Generator::importFromExtSaveGenerator (vector<string> &inputBuffer, int index)
 {
     int x = stoi(inputBuffer[3]);
     int y = stoi(inputBuffer[4]);
