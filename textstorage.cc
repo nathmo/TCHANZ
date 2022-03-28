@@ -103,22 +103,23 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string
         entityList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire], indexFourmi));
         for(int c(1); c < collector+1; c++)
         {
-            indexFourmi = intermediaire+c;
-            entityList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire+c],indexFourmi));
-            intermediaire = intermediaire+1; 
+            intermediaire = intermediaire+1;
+            indexFourmi = intermediaire+1;
+            entityList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire],indexFourmi));
         }
         for(int d(1); d < defensor+1; d++)
         {
-            indexFourmi = intermediaire+d;
-            entityList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire+d],indexFourmi));
-            intermediaire = intermediaire + 1;
+            intermediaire = intermediaire+1;
+            indexFourmi = intermediaire+1;
+            entityList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire],indexFourmi));
         }
         for(int p(1); p < predator+1; p++)
         {
-            indexFourmi = intermediaire+p;
-            entityList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire+p],indexFourmi));
             intermediaire = intermediaire+1;
+            indexFourmi = intermediaire+1;
+            entityList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire],indexFourmi));
         }
+        intermediaire = intermediaire+1;
     }
     return entityList;
 }
