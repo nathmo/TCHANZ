@@ -97,28 +97,30 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string
         int collector = stoi(inputBuffer[intermediaire][6]);
         int defensor = stoi(inputBuffer[intermediaire][7]);
         int predator = stoi(inputBuffer[intermediaire][8]);
-        int indexFourmilliere = intermediaire;
+        int indexFourmilliere = i;
         int indexFourmi = intermediaire+1;
-        entityList.push_back(fourmiliere::Fourmiliere::importFromExtSaveGenerator(inputBuffer[intermediaire],indexFourmilliere));
+        vector<shared_ptr<entity::Entity>>  fourmilliereMemberList;
+        vector<string> FourmilliereConfig = inputBuffer[intermediaire];
         entityList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire], indexFourmi));
         for(int c(1); c < collector+1; c++)
         {
             intermediaire = intermediaire+1;
             indexFourmi = intermediaire+1;
-            entityList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire],indexFourmi));
+            fourmilliereMemberList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire],indexFourmi));
         }
         for(int d(1); d < defensor+1; d++)
         {
             intermediaire = intermediaire+1;
             indexFourmi = intermediaire+1;
-            entityList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire],indexFourmi));
+            fourmilliereMemberList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire],indexFourmi));
         }
         for(int p(1); p < predator+1; p++)
         {
             intermediaire = intermediaire+1;
             indexFourmi = intermediaire+1;
-            entityList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire],indexFourmi));
+            fourmilliereMemberList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire],indexFourmi));
         }
+        entityList.push_back(fourmiliere::Fourmiliere::importFromExtSaveGenerator(FourmilliereConfig,indexFourmilliere, fourmilliereMemberList));
         intermediaire = intermediaire+1;
     }
     cout << message::success();

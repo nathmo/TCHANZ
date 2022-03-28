@@ -135,11 +135,13 @@ bool squarecell::Squarecell::checkPoint(squarecell::Point point)
     if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) // not in [0;127]
     {
         error_squarecell::print_index(point.getCoordX(), squarecell::g_max);
+        exit(EXIT_FAILURE);
         status = false;
     }
     if(not ((point.getCoordY() >= 0) and (point.getCoordY() < squarecell::g_max))) // not in [0;127]
     {
         error_squarecell::print_index(point.getCoordY(), squarecell::g_max);
+        exit(EXIT_FAILURE);
         status = false;
     }
     return status;
@@ -162,12 +164,14 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squar
                 cout << error_squarecell::print_outside(position.getCoordX(),
                                                         width,
                                                         squarecell::g_max) << endl;
+                exit(EXIT_FAILURE);
             }
             else if(i%2==1) // check for Y coordinate error
             {
                 cout << error_squarecell::print_outside(position.getCoordY(),
                                                         height,
                                                         squarecell::g_max) << endl;
+                exit(EXIT_FAILURE);
             }
             status = false;
         }
@@ -176,7 +180,7 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squar
     {
         cout << "shape is not a square" << endl;
         status = false;
-        exit(0);
+        exit(EXIT_FAILURE);
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }

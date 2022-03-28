@@ -14,13 +14,14 @@
 #include <memory>
 using namespace std;
 
-fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id) :
+fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id, vector<shared_ptr<entity::Entity>> FourmiList) :
         entity::Entity(position, size, size, fourmilliereCST, id, false)
 {
     foodReserve = total_food;
     this->nbC=nbC;
     this->nbD=nbD;
     this->nbP=nbP;
+    memberAnts = FourmiList;
 }
 
 void fourmiliere::Fourmiliere::update()
@@ -28,12 +29,13 @@ void fourmiliere::Fourmiliere::update()
 
 }
 
-shared_ptr<entity::Entity> fourmiliere::Fourmiliere::importFromExtSaveGenerator(vector<string> &inputBuffer, int index)
+shared_ptr<entity::Entity> fourmiliere::Fourmiliere::importFromExtSaveGenerator(vector<string> &inputBuffer, int index,
+                                                                                vector<shared_ptr<entity::Entity>> FourmiList)
 {
     if(inputBuffer.size()<9)
     {
         cout << "fourmilliere : number of argument mismatch" << endl;
-        exit(0);
+        exit(EXIT_FAILURE);
     }else{
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
@@ -43,6 +45,6 @@ shared_ptr<entity::Entity> fourmiliere::Fourmiliere::importFromExtSaveGenerator(
         int nbD = stoi(inputBuffer[7]);
         int nbP = stoi(inputBuffer[8]);
 
-        return make_shared<fourmiliere::Fourmiliere>(squarecell::Point(x,y), size,total_food,nbC,nbD,nbP,index);
+        return make_shared<fourmiliere::Fourmiliere>(squarecell::Point(x,y), size,total_food,nbC,nbD,nbP,index, FourmiList);
     }
 }

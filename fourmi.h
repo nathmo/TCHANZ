@@ -14,6 +14,11 @@
 
 namespace fourmi
 {
+    constexpr short unsigned sizeG(5) ;
+    constexpr short unsigned sizeC(3) ;
+    constexpr short unsigned sizeD(3) ;
+    constexpr short unsigned sizeP(1) ;
+    constexpr short unsigned bug_life(300) ;
     class Fourmi : public entity::Entity {
         protected:
             int age;
