@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     vector<shared_ptr<entity::Entity>> entityVect(simulation::loadFromFile(string( argv[1])));
+    //squarecell::Squarecell::displayRawBoolGrid();
     for(auto entity: entityVect)
     {
         //cout << (*entity).getSpecie() << endl;

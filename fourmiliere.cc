@@ -15,7 +15,7 @@
 using namespace std;
 
 fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id, vector<shared_ptr<fourmi::Fourmi>> FourmiList) :
-        entity::Entity(position, size, size, fourmilliereCST, id, false)
+        entity::Entity(position, size, size, fourmilliereCST, id)
 {
     foodReserve = total_food;
     this->nbC=nbC;
@@ -29,7 +29,7 @@ void fourmiliere::Fourmiliere::update()
 
 }
 
-shared_ptr<entity::Entity> fourmiliere::Fourmiliere::importFromExtSaveGenerator(vector<string> &inputBuffer, int index,
+shared_ptr<entity::Entity> fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(vector<string> &inputBuffer, int index,
                                                                                 vector<shared_ptr<fourmi::Fourmi>> FourmiList)
 {
     if(inputBuffer.size()<9)

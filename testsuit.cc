@@ -154,7 +154,7 @@ bool assert_squarecell_Point()
 
 bool assert_entity_Entity()
 {
-    shared_ptr<entity::Entity> testEnt = make_shared<entity::Entity>(squarecell::Point(2,4),1,1,'F',0, true);
+    shared_ptr<entity::Entity> testEnt = make_shared<entity::Entity>(squarecell::Point(2,4),1,1,'F',0);
     assert((*testEnt).getHeight()==1);
     assert((*testEnt).getWidth()==1);
     assert((*testEnt).getPosition().getCoordX()==2);
@@ -200,7 +200,7 @@ bool assert_files_test()
     cmdResult = runCommand("./projet scenario/error_homes_overlap.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 7 passed (./projet scenario/error_homes_overlap.txt)" << endl;
-    cmdExpected = "collector overlap";
+    cmdExpected = "home 0 overlaps with home 1";
     cmdResult = runCommand("./projet scenario/t01.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 8 passed (./projet scenario/t01.txt)" << endl;

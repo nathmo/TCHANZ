@@ -9,14 +9,15 @@
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
+#include "message.h"
 #include <iostream>
 #include <string>
 #include <memory>
 
 using namespace std;
 
-fourmi::Fourmi::Fourmi(squarecell::Point position, int age, char type, int id)  :
-entity::Entity(position, 1,1, type, id, true)
+fourmi::Fourmi::Fourmi(squarecell::Point position, int age, char type, int id, int size)  :
+        entity::Entity(position, size, size, type, id)
 {
     this->age = age;
 }
@@ -27,9 +28,8 @@ void fourmi::Fourmi::update()
 }
 
 fourmi::Collector::Collector(squarecell::Point position, int id, int age, bool carryFood ) :
-        fourmi::Fourmi(position, age,fourmiCollectorCST,id)
+        fourmi::Fourmi(position, age,fourmiCollectorCST,id,fourmi::sizeC)
 {
-    (*occupiedSpace).setSize(fourmi::sizeC,fourmi::sizeC);
     this->carryFood = carryFood;
 }
 
@@ -50,16 +50,23 @@ shared_ptr<fourmi::Fourmi> fourmi::Collector::importFromExtSaveCollector (vector
     int age = stoi(inputBuffer[2]);
     bool condition_food = false;
     if("true" == inputBuffer[3])
+    {
         condition_food = true;
-
+    }
+    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(squarecell::Point(x,y), fourmi::sizeC, fourmi::sizeC, anyCST);
+    if(overlapList.size()>0)
+    {
+        cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(), overlapList[0].getCoordY());
+        exit(EXIT_FAILURE);
+    }
     return make_shared<fourmi::Collector>(squarecell::Point(x,y),index ,age,condition_food);
     }
 }
 
 fourmi::Defensor::Defensor(squarecell::Point position, int id, int age) :
-        fourmi::Fourmi(position, age,fourmiDefensorCST,id)
+        fourmi::Fourmi(position, age,fourmiDefensorCST,id, fourmi::sizeD)
 {
-    (*occupiedSpace).setSize(fourmi::sizeD,fourmi::sizeD);
+
 }
 void fourmi::Defensor::update()
 {
@@ -75,14 +82,20 @@ shared_ptr<fourmi::Fourmi> fourmi::Defensor::importFromExtSaveDefensor (vector<s
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
+    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(squarecell::Point(x,y), fourmi::sizeD, fourmi::sizeD, anyCST);
+    if(overlapList.size()>0)
+    {
+        cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(), overlapList[0].getCoordY());
+        exit(EXIT_FAILURE);
+    }
     return make_shared<fourmi::Defensor>(squarecell::Point(x,y), index,age);
     }
 }
 
 fourmi::Predator::Predator(squarecell::Point position, int id, int age) :
-        fourmi::Fourmi(position, age, fourmiPredatorCST, id)
+        fourmi::Fourmi(position, age, fourmiPredatorCST, id, sizeP)
 {
-    (*occupiedSpace).setSize(fourmi::sizeP,fourmi::sizeP);
+
 }
 
 void fourmi::Predator::update()
@@ -100,13 +113,18 @@ shared_ptr<fourmi::Fourmi> fourmi::Predator::importFromExtSavePredator (vector<s
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
+    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(squarecell::Point(x,y), fourmi::sizeP, fourmi::sizeP, anyCST);
+    if(overlapList.size()>0)
+    {
+        cout<< message::predator_overlap(x,y);
+        exit(EXIT_FAILURE);
+    }
     return make_shared<fourmi::Predator>(squarecell::Point(x,y),index,age);
     }
 }
 fourmi::Generator::Generator(squarecell::Point position, int id) :
-        fourmi::Fourmi(position,0 , fourmiGeneratorCST, id)
+        fourmi::Fourmi(position,0 , fourmiGeneratorCST, id, sizeG)
 {
-    (*occupiedSpace).setSize(fourmi::sizeG,fourmi::sizeG);
 }
 
 void fourmi::Generator::update()
@@ -118,6 +136,12 @@ shared_ptr<fourmi::Fourmi> fourmi::Generator::importFromExtSaveGenerator (vector
 {
     int x = stoi(inputBuffer[3]);
     int y = stoi(inputBuffer[4]);
+    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(squarecell::Point(x,y), fourmi::sizeG, fourmi::sizeG, anyCST);
+    if(overlapList.size()>0)
+    {
+        cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(), overlapList[0].getCoordY());
+        exit(EXIT_FAILURE);
+    }
     return make_shared<fourmi::Generator>(squarecell::Point(x,y), index);
 }
 

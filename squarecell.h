@@ -15,7 +15,7 @@ namespace squarecell
 {
 
     constexpr short unsigned g_dim(7) ;
-    constexpr short unsigned g_max(std::pow(2,g_dim)) ;
+    constexpr short unsigned g_max(128) ;
 
     class Point {
     private:
@@ -35,17 +35,15 @@ namespace squarecell
         squarecell::Point position;
         int height;
         int width;
+        char kind;
         Point cornerBotLeft;
         Point cornerTopRight;
-        bool isAnthill;
         bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,int width,int height);
         bool checkPoint(Point point);
-        bool checkOverlap();
-        static std::vector<std::vector<bool>> hitBoxGrid ;
-        static std::vector<std::vector<bool>> anthillGrid ;
+        static std::vector<std::vector<char>> hitBoxGrid ;
     public:
         Squarecell();
-        Squarecell(squarecell::Point position, int height, int width, bool anthill);
+        Squarecell(squarecell::Point position, int height, int width, char kind);
         ~Squarecell();
         Point getPosition();
         void setPosition(Point position);
@@ -53,13 +51,15 @@ namespace squarecell
         int getWidth();
         void setHeight(int height);
         void setWidth(int width);
-        void setSize(int height, int width);
+        void setSize(int width,int height);
         Point getHitboxBotLeft();
         Point getHitboxTopRight();
+        static bool checkOverlap(squarecell::Point position, int width, int height, char kindToCheck);
+        static std::vector<squarecell::Point> getOverlap(squarecell::Point position, int width, int height, char kindToCheck);
         static int getgMax();
         static int countOverlap(Squarecell hitbox1, Squarecell hitbox2);
-        static Point computeHitboxBotLeft(squarecell::Point position, int height, int width);
-        static Point computeHitboxTopRight(squarecell::Point position, int height, int width);
+        static Point computeHitboxBotLeft(squarecell::Point position, int width, int height);
+        static Point computeHitboxTopRight(squarecell::Point position, int width, int height);
         static void displayRawBoolGrid();
     };
 

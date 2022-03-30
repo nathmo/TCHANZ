@@ -23,7 +23,7 @@ namespace fourmi
         protected:
             int age;
         public:
-            Fourmi(squarecell::Point position, int age, char type, int id);
+            Fourmi(squarecell::Point position, int age, char type, int id, int size);
             virtual void update();
     };
 

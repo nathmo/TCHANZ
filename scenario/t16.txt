@@ -1,0 +1,20 @@
+# collector with coordinates 14 18 overlaps with another exclusive entity at least on 15 17 => public test already provided
+#
+
+# nb food
+1
+
+# food
+104 50
+
+
+1 # nb anthill
+	50 50 19 103 103 99 1 0 0 # anthill #1
+	
+	# collectors:
+	105 50 3 true
+
+
+
+
+

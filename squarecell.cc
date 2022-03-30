@@ -18,8 +18,7 @@
 
 using namespace std;
 
-vector<vector<bool>>  squarecell::Squarecell::hitBoxGrid = vector<vector<bool>> (squarecell::g_max,vector<bool> (squarecell::g_max));
-vector<vector<bool>>  squarecell::Squarecell::anthillGrid = vector<vector<bool>> (squarecell::g_max,vector<bool> (squarecell::g_max));
+vector<vector<char>>  squarecell::Squarecell::hitBoxGrid = vector<vector<char>> (squarecell::g_max,vector<char> (squarecell::g_max));
 
 squarecell::Point::Point(int x, int y)
 {
@@ -50,14 +49,14 @@ squarecell::Squarecell::Squarecell()
 {
 
 }
-squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int width, bool anthill)
+squarecell::Squarecell::Squarecell(squarecell::Point position, int width,int height, char kind)
 {
-    isAnthill = anthill;
     this->height = height;
     this->width = width;
     this->position = position;
-    cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, height, width);
-    cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, height, width);
+    this->kind = kind;
+    cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
+    cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
     bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position, width, height)
                        and squarecell::Squarecell::checkPoint(position);
     if(isElligible)
@@ -66,25 +65,24 @@ squarecell::Squarecell::Squarecell(squarecell::Point position, int height, int w
         {
             for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
             {
-                if(hitBoxGrid[i][j]==false)
+                if(hitBoxGrid[i][j]==emptyCST)
                 {
-                    if(isAnthill)
-                    {
-                        anthillGrid[i][j] = true;
-                    }
-                    else
-                    {
-                        hitBoxGrid[i][j] = true;
-                    }
+                    hitBoxGrid[i][j] = kind;
+                }
+                else if(not (hitBoxGrid[i][j] & kind)) // if the entity is not aldready here
+                {
+                    hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
                 }
                 else
                 {
-                    cout << "uncatched exception : two entity overlap" <<endl;
+                    cout << "uncatched exception : two entity overlap at "+to_string(i)+", "+to_string(j)<<endl;
+                    squarecell::Squarecell::displayRawBoolGrid();
                     exit(0);
                 }
             }
         }
     }
+
 }
 squarecell::Squarecell::~Squarecell()
 {
@@ -92,13 +90,18 @@ squarecell::Squarecell::~Squarecell()
     {
         for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
         {
-            if(isAnthill)
+            if(hitBoxGrid[i][j] == kind)
             {
-                anthillGrid[i][j] = false;
+                hitBoxGrid[i][j] = emptyCST;
+            }
+            else if(hitBoxGrid[i][j] == emptyCST)
+            {
+                cout << "trying to clean the grid from something aldready cleaned !" << endl;
+                exit(0);
             }
             else
             {
-                hitBoxGrid[i][j] = false;
+                hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
             }
         }
     }
@@ -128,7 +131,7 @@ void squarecell::Squarecell::setWidth(int width)
 {
     this->width = width;
 }
-void squarecell::Squarecell::setSize(int height, int width)
+void squarecell::Squarecell::setSize(int width,int height)
 {
     this->width = width;
     this->height = height;
@@ -201,29 +204,38 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squar
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }
-bool squarecell::Squarecell::checkOverlap()
+bool squarecell::Squarecell::checkOverlap(squarecell::Point position, int width, int height, char kindToCheck)
 {
+    Point cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
+    Point cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
     for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
     {
         for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
         {
-            if(isAnthill)
+            if((hitBoxGrid[i][j] & kindToCheck)) // boolean check that the entity is not present
             {
-                if(anthillGrid[i][j] == true)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                if(hitBoxGrid[i][j] == true)
-                {
-                    return true;
-                }
+                return true;
             }
         }
     }
     return false;
+}
+vector<squarecell::Point> squarecell::Squarecell::getOverlap(squarecell::Point position, int width, int height, char kindToCheck)
+{
+    Point cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
+    Point cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
+    vector<squarecell::Point> collisionList;
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
+    {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
+        {
+            if((hitBoxGrid[i][j] & kindToCheck)) // boolean check that the entity is not present
+            {
+                collisionList.push_back(squarecell::Point(i,j));
+            }
+        }
+    }
+    return collisionList;
 }
 int squarecell::Squarecell::countOverlap(squarecell::Squarecell hitbox1, squarecell::Squarecell hitbox2)
 {
@@ -242,7 +254,20 @@ void squarecell::Squarecell::displayRawBoolGrid()
             string status = "X";
             if(hitBoxGrid[i][j])
             {
-                status = "1";
+                if(hitBoxGrid[i][j]==nourritureCST)
+                    status = 'N';
+                else if(hitBoxGrid[i][j]==fourmilliereCST)
+                    status = 'F';
+                else if(hitBoxGrid[i][j]==fourmiGeneratorCST)
+                    status = 'g';
+                else if(hitBoxGrid[i][j]==fourmiCollectorCST)
+                    status = 'c';
+                else if(hitBoxGrid[i][j]==fourmiPredatorCST)
+                    status = 'p';
+                else if(hitBoxGrid[i][j]==fourmiDefensorCST)
+                    status = 'd';
+                else
+                    status = 'X';
             }else{
                 status = ".";
             }
@@ -252,7 +277,7 @@ void squarecell::Squarecell::displayRawBoolGrid()
     }
 }
 
-squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point position, int height, int width)
+squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point position, int width, int height)
 {
     Point botLeft;
     if(width%2==0)
@@ -274,7 +299,7 @@ squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point
     return botLeft;
 }
 
-squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Point position, int height, int width)
+squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Point position, int width, int height)
 {
     Point topRight;
     if(width%2==0)

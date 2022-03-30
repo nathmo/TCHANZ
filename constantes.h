@@ -22,12 +22,13 @@ constexpr double prop_free_defensor(0.10);
 constexpr double prop_constrained_collector(0.6);
 constexpr double prop_constrained_defensor(0.1);
 
-constexpr short unsigned emptyCST('E');
-constexpr short unsigned nourritureCST('N');
-constexpr short unsigned fourmilliereCST('F');
-constexpr short unsigned fourmiCST('f');
-constexpr short unsigned fourmiGeneratorCST('G');
-constexpr short unsigned fourmiDefensorCST('D');
-constexpr short unsigned fourmiPredatorCST('P');
-constexpr short unsigned fourmiCollectorCST('C');
+constexpr char emptyCST(static_cast<char>(0x00));
+constexpr char nourritureCST(static_cast<char>(0x01));
+constexpr char fourmilliereCST(static_cast<char>(0x02));
+constexpr char fourmiCST(static_cast<char>(0x04));
+constexpr char fourmiGeneratorCST(static_cast<char>(0x08));
+constexpr char fourmiDefensorCST(static_cast<char>(0x10));
+constexpr char fourmiPredatorCST(static_cast<char>(0x20));
+constexpr char fourmiCollectorCST(static_cast<char>(0x40));
+constexpr char anyCST(static_cast<char>(0xFD)); // match anything execpt anthills
 #endif // CONSTANTES_H_INCLUDED
