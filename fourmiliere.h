@@ -28,7 +28,7 @@ namespace fourmiliere
                     std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
         void update();
         void overrideAnts(std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
-        static std::shared_ptr<entity::Entity> importFromExtSaveFourmilliere(std::vector<std::string> &inputBuffer, int index,
+        static std::shared_ptr<fourmiliere::Fourmiliere> importFromExtSaveFourmilliere(std::vector<std::string> &inputBuffer, int index,
                                                                           std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
     };
 }

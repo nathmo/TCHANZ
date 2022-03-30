@@ -101,7 +101,8 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string
         int indexFourmi = i;
         vector<shared_ptr<fourmi::Fourmi>>  fourmilliereMemberList;
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
-        entityList.push_back(fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,indexFourmilliere, fourmilliereMemberList));
+        shared_ptr<fourmiliere::Fourmiliere> Fourmilliere = fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,indexFourmilliere, fourmilliereMemberList);
+        entityList.push_back(Fourmilliere);
         fourmilliereMemberList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire], indexFourmi));
         for(int c(1); c < collector+1; c++)
         {
@@ -118,7 +119,7 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire],indexFourmi));
         }
-        static_cast<fourmiliere::Fourmiliere>((*entityList[entityList.size()-1])).overrideAnts(fourmilliereMemberList)
+        (*Fourmilliere).overrideAnts(fourmilliereMemberList);
         intermediaire = intermediaire+1;
     }
     cout << message::success();

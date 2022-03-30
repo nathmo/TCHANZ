@@ -2,16 +2,21 @@
 #
 
 # nb food
-1
+0
 
 # food
-3 4
+
 
 1 # nb anthill
-	50 50 10 53 53 1000 0 0 0 # anthill #1 1 45
-
+	50 50 10 53 53 1000 0 0 0 # anthill #1
+	
 	# collectors:
 	
 	# defensors:
 	
 	# predators:
+
+
+	
+
+

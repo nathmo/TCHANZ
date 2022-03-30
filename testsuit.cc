@@ -281,8 +281,8 @@ bool stringFuzzyMatch(string str1, string str2)
     }
     if(not(str2 == str1))
     {
-        cout << "str1 :"+str1<<endl;
-        cout << "str2 :"+str2<<endl;
+        cout << "Expected :"+str1<<endl;
+        cout << "got      :"+str2<<endl;
     }
     return (str2 == str1);
 }
