@@ -3,8 +3,7 @@
 
 #include <string>
 
-namespace message
-{
+namespace message {
     // Everything went well
     //#define MESSAGE_H_INCLUDED
     //

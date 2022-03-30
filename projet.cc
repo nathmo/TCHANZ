@@ -10,17 +10,15 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
-{
-    if(argc < 2) // delete once GUI is setup
-    {
+int main(int argc, char *argv[]) {
+    if(argc < 2) { // delete once GUI is setup
+
         cout << "Please provide a file to load" << endl;
         return 0;
     }
-    vector<shared_ptr<entity::Entity>> entityVect(simulation::loadFromFile(string( argv[1])));
+    vector<shared_ptr<entity::Entity>> entityVect(simulation::loadFromFile(string(argv[1])));
     //squarecell::Squarecell::displayRawBoolGrid();
-    for(auto entity: entityVect)
-    {
+    for(auto entity: entityVect) {
         //cout << (*entity).getSpecie() << endl;
     }
     return 0;

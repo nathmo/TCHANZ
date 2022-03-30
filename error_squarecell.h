@@ -3,8 +3,7 @@
 
 #include <string>
 
-namespace error_squarecell
-{
+namespace error_squarecell {
     // violation du domaine autorisé d'un indice [0, g_max-1]
     std::string print_index(unsigned index, unsigned max);
 
