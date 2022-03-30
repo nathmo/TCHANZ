@@ -10,6 +10,7 @@
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
+#include "message.h"
 #include <iostream>
 #include <memory>
 using namespace std;
@@ -44,7 +45,20 @@ shared_ptr<entity::Entity> fourmiliere::Fourmiliere::importFromExtSaveFourmillie
         int nbC = stoi(inputBuffer[6]);
         int nbD = stoi(inputBuffer[7]);
         int nbP = stoi(inputBuffer[8]);
-
+        /*
+        vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(squarecell::Point(x,y), size, size, fourmiGeneratorCST);
+        if(overlapList.size()<(sizeG*sizeG))
+        {
+            cout<< message::generator_not_within_home(x,y,index);
+            exit(EXIT_FAILURE);
+        }
+        overlapList = squarecell::Squarecell::getOverlap(squarecell::Point(x,y), size, size, fourmiDefensorCST);
+        if(overlapList.size()<(sizeD*sizeD))
+        {
+            cout<< message::defensor_not_within_home(x,y,index);
+            exit(EXIT_FAILURE);
+        }
+         */
         return make_shared<fourmiliere::Fourmiliere>(squarecell::Point(x,y), size,total_food,nbC,nbD,nbP,index, FourmiList);
     }
 }
