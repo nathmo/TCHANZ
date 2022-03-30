@@ -15,7 +15,7 @@ namespace entity
         char specie;
         unsigned long id;
     public:
-        Entity(squarecell::Point position, int height, int width, char specie, int id, bool isAnthill);
+        Entity(squarecell::Point position, int height, int width, char specie, int id,bool isAnthill);
         void setPosition(squarecell::Point newPosition);
 
         squarecell::Point getPosition();

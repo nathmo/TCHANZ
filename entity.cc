@@ -14,9 +14,9 @@
 
 using namespace std;
 
-entity::Entity::Entity(squarecell::Point position, int height, int width, char specie, int id, bool isAnthill)
+entity::Entity::Entity(squarecell::Point position, int width, int height, char specie, int id)
 {
-    occupiedSpace = make_shared<squarecell::Squarecell>(position, height, width, isAnthill);
+    occupiedSpace = make_shared<squarecell::Squarecell>(position, width, height, specie);
     this->specie=specie;
     this->id=id;
 }
@@ -28,7 +28,7 @@ squarecell::Point entity::Entity::getPosition()
 {
     return (*occupiedSpace).getPosition();
 }
-void entity::Entity::setSize(int height, int width)
+void entity::Entity::setSize(int width, int height)
 {
     (*occupiedSpace).setSize(height, width);
 }
