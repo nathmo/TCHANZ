@@ -48,6 +48,14 @@ int entity::Entity::getId()
 {
     return id;
 }
+shared_ptr<squarecell::Squarecell> entity::Entity::getOccupiedSpace()
+{
+    return occupiedSpace;
+}
+int entity::Entity::findIdByOccupingPoint(squarecell::Point overlappingPoint,std::vector<std::shared_ptr<entity::Entity>> ListOfEntity)
+{
+    return 0; // FAIRE TA FONCTION ICI (SAUF SI MEILLEURE IDEE)
+}
 /*int entity::Entity::checkOverlap(Entity entity)
 {
     // remove if not used

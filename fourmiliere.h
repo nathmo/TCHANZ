@@ -27,7 +27,8 @@ namespace fourmiliere
         Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id,
                     std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
         void update();
-        static std::shared_ptr<entity::Entity> importFromExtSaveFourmilliere(std::vector<std::string> &inputBuffer, int index,
+        void overrideAnts(std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
+        static std::shared_ptr<fourmiliere::Fourmiliere> importFromExtSaveFourmilliere(std::vector<std::string> &inputBuffer, int index,
                                                                           std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
     };
 }

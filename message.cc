@@ -72,4 +72,3 @@ string message::defensor_not_within_home(unsigned dx, unsigned dy, unsigned h)
            + to_string(dy) + string(" is not fully within its home: ") + to_string(h)
            + string("\n");
 }
-
