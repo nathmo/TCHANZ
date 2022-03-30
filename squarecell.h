@@ -34,7 +34,7 @@ namespace squarecell
     private:
         squarecell::Point position;
         int height;
-        int width;
+        int width;4
         Point cornerBotLeft;
         Point cornerTopRight;
         bool isAnthill;

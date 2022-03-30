@@ -15,7 +15,6 @@
 #include <iostream>
 #include <memory>
 
-
 using namespace std;
 
 vector<vector<bool>>  squarecell::Squarecell::hitBoxGrid = vector<vector<bool>> (squarecell::g_max,vector<bool> (squarecell::g_max));
