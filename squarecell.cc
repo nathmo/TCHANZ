@@ -20,8 +20,16 @@ using namespace std;
 
 vector<vector<char>>  squarecell::Squarecell::hitBoxGrid = vector<vector<char>> (squarecell::g_max,vector<char> (squarecell::g_max));
 
-squarecell::Point::Point(int x, int y)
+squarecell::Point::Point(int x,int y)
 {
+    if(x>(g_max-1))
+    {
+        error_squarecell::print_index(x, g_max-1);
+    }
+    if(y>(g_max-1))
+    {
+        error_squarecell::print_index(y, g_max-1);
+    }
     this->x = x;
     this->y = y;
 }

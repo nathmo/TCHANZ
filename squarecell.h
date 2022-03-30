@@ -22,9 +22,9 @@ namespace squarecell
         int x=-1;
         int y=-1;
     public:
-        Point(int x, int y);
+        Point(int x,int y);
         Point();
-        void setCoordX(int xOrigin);
+        void setCoordX( int xOrigin);
         int getCoordX();
         void setCoordY(int yOrigin);
         int getCoordY();

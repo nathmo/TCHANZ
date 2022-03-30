@@ -17,19 +17,14 @@ namespace entity
     public:
         Entity(squarecell::Point position, int width, int height, char specie, int id);
         void setPosition(squarecell::Point newPosition);
-
         squarecell::Point getPosition();
-
         void setSize(int width, int height);
-
         int getHeight();
-
         int getWidth();
-
         char getSpecie();
-
         int getId();
         std::shared_ptr<squarecell::Squarecell> getOccupiedSpace();
+        static int findIdByOccupingPoint(squarecell::Point overlappingPoint,std::vector<std::shared_ptr<entity::Entity>> ListOfEntity);
     };
 }
 #endif //TCHANZ_ENTITY_H
