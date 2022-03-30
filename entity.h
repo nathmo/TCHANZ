@@ -29,6 +29,7 @@ namespace entity
         char getSpecie();
 
         int getId();
+        std::shared_ptr<squarecell::Squarecell> getOccupiedSpace();
     };
 }
 #endif //TCHANZ_ENTITY_H

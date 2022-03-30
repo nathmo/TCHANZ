@@ -39,23 +39,31 @@ void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<fourmi::Fourmi>> F
         cout<< message::generator_not_within_home((*occupiedSpace).getPosition().getCoordX(),(*occupiedSpace).getPosition().getCoordY(),id);
         exit(EXIT_FAILURE);
     }
-    if(nbD>0) // there must be at least one Defensor for the check to be meaningful
-    {
-        squarecell::Point position;
-        if((*occupiedSpace).getWidth()%2==0)
+    for(auto fourmi : memberAnts) {
+        if ((*fourmi).getSpecie() == fourmiDefensorCST)
         {
-            position = squarecell::Point((*occupiedSpace).getPosition().getCoordX()+1,(*occupiedSpace).getPosition().getCoordY()+1);
-        }
-        else
-        {
-            position = (*occupiedSpace).getPosition();
-        }
-        overlapList = squarecell::Squarecell::getOverlap(position, ((*occupiedSpace).getWidth()-2), ((*occupiedSpace).getHeight()-2), fourmiDefensorCST);
-        unsigned int expectedNumberOfCoveredTile = ((sizeD*sizeD)*nbD);
-        if(overlapList.size()<expectedNumberOfCoveredTile)
-        { // ici la bordure ne doit pas overlappé non plus
-            cout<< message::defensor_not_within_home((*occupiedSpace).getPosition().getCoordX(),(*occupiedSpace).getPosition().getCoordY(),id);
-            exit(EXIT_FAILURE);
+            squarecell::Point position;
+            if ((*occupiedSpace).getWidth() % 2 == 0) {
+                position = squarecell::Point(
+                        (*occupiedSpace).getPosition().getCoordX() + 1,
+                        (*occupiedSpace).getPosition().getCoordY() + 1);
+            } else {
+                position = (*occupiedSpace).getPosition();
+            }
+            overlapList = squarecell::Squarecell::getOverlap(position,
+                                                             ((*occupiedSpace).getWidth() -
+                                                              2),
+                                                             ((*occupiedSpace).getHeight() -
+                                                              2),
+                                                             fourmiDefensorCST);
+            unsigned int expectedNumberOfCoveredTile = ((sizeD * sizeD) * nbD);
+            if (overlapList.size() <
+                expectedNumberOfCoveredTile) { // ici la bordure ne doit pas overlappé non plus
+                cout << message::defensor_not_within_home(
+                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
+                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
+                exit(EXIT_FAILURE);
+            }
         }
     }
 }
@@ -75,6 +83,13 @@ shared_ptr<fourmiliere::Fourmiliere> fourmiliere::Fourmiliere::importFromExtSave
         int nbC = stoi(inputBuffer[6]);
         int nbD = stoi(inputBuffer[7]);
         int nbP = stoi(inputBuffer[8]);
+        vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(
+        squarecell::Point(x,y),size,size,fourmilliereCST);
+        if(overlapList.size()>0)
+        {
+            cout << message::homes_overlap(index, 0);
+            exit(EXIT_FAILURE);
+        }
         return make_shared<fourmiliere::Fourmiliere>(squarecell::Point(x,y), size,total_food,nbC,nbD,nbP,index, FourmiList);
     }
 }

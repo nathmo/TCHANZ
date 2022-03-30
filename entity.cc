@@ -48,6 +48,10 @@ int entity::Entity::getId()
 {
     return id;
 }
+shared_ptr<squarecell::Squarecell> entity::Entity::getOccupiedSpace()
+{
+    return occupiedSpace;
+}
 /*int entity::Entity::checkOverlap(Entity entity)
 {
     // remove if not used
