@@ -15,7 +15,7 @@ namespace entity {
         unsigned long id;
 
     public:
-        Entity(squarecell::Point position, int width, int height, char specie, int id); //minuscule
+        Entity(squarecell::Point position, int width, int height, char specie, int id);
         void setPosition(squarecell::Point newPosition);
         squarecell::Point getPosition();
         void setSize(int width, int height);

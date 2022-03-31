@@ -59,8 +59,7 @@ shared_ptr<fourmi::Fourmi> fourmi::Collector::importFromExtSaveCollector(vector<
 }
 
 fourmi::Defensor::Defensor(squarecell::Point position, int id, int age) :
-        fourmi::Fourmi(position, age,fourmiDefensorCST,id, fourmi::sizeD) {
-
+        fourmi::Fourmi(position, age,fourmiDefensorCST,id, fourmi::sizeD)  {
 }
 
 void fourmi::Defensor::update() {
@@ -89,7 +88,6 @@ shared_ptr<fourmi::Fourmi> fourmi::Defensor::importFromExtSaveDefensor(vector<st
 
 fourmi::Predator::Predator(squarecell::Point position, int id, int age) :
         fourmi::Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
-
 }
 
 void fourmi::Predator::update() {
@@ -116,7 +114,6 @@ shared_ptr<fourmi::Fourmi> fourmi::Predator::importFromExtSavePredator(vector<st
 
 fourmi::Generator::Generator(squarecell::Point position, int id) :
         fourmi::Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
-
 }
 
 void fourmi::Generator::update() {
