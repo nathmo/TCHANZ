@@ -33,23 +33,26 @@ void fourmiliere::Fourmiliere::update()
 void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<fourmi::Fourmi>> FourmiList)
 {
     memberAnts = FourmiList;
-    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap((*occupiedSpace).getPosition(), (*occupiedSpace).getWidth(), (*occupiedSpace).getHeight(), fourmiGeneratorCST);
+    squarecell::Point position; // calcul le nouveau centre si pair si size-2
+    if ((*occupiedSpace).getWidth() % 2 == 0) {
+        position = squarecell::Point(
+                (*occupiedSpace).getPosition().getCoordX() + 1,
+                (*occupiedSpace).getPosition().getCoordY() + 1);
+    } else {
+        position = (*occupiedSpace).getPosition();
+    }
+
+    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(position, (*occupiedSpace).getWidth()-2, (*occupiedSpace).getHeight()-2, fourmiGeneratorCST);
     if(overlapList.size()<(sizeG*sizeG))
     {
-        cout<< message::generator_not_within_home((*occupiedSpace).getPosition().getCoordX(),(*occupiedSpace).getPosition().getCoordY(),id);
+        cout<< message::generator_not_within_home(
+                (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
+                (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
         exit(EXIT_FAILURE);
     }
     for(auto fourmi : memberAnts) {
         if ((*fourmi).getSpecie() == fourmiDefensorCST)
         {
-            squarecell::Point position;
-            if ((*occupiedSpace).getWidth() % 2 == 0) {
-                position = squarecell::Point(
-                        (*occupiedSpace).getPosition().getCoordX() + 1,
-                        (*occupiedSpace).getPosition().getCoordY() + 1);
-            } else {
-                position = (*occupiedSpace).getPosition();
-            }
             overlapList = squarecell::Squarecell::getOverlap(position,
             ((*occupiedSpace).getWidth()-2),((*occupiedSpace).getHeight()-2),
                                                              fourmiDefensorCST);
