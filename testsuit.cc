@@ -283,11 +283,11 @@ bool assert_files_test()
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 17 passed (./projet scenario/t10.txt)" << endl;
 
-    //cout << "test 18 starting" << endl;
-    //cmdExpected = "generator with coordinates 11 5 is not fully within its home: 1";
-    //cmdResult = runCommand("./projet scenario/t11.txt");
-    //assert(stringFuzzyMatch(cmdExpected, cmdResult));
-    //cout << "test 18 passed (./projet scenario/t11.txt)" << endl;
+    cout << "test 18 starting" << endl;
+    cmdExpected = "generator with coordinates 11 5 is not fully within its home: 1";
+    cmdResult = runCommand("./projet scenario/t11.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cout << "test 18 passed (./projet scenario/t11.txt)" << endl;
 
     cout << "test 19 starting" << endl;
     cmdExpected = "home 0 overlaps with home 1";

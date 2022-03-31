@@ -31,25 +31,24 @@ void fourmiliere::Fourmiliere::update() {
 
 void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<fourmi::Fourmi>> FourmiList) {
     memberAnts = FourmiList;
-    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap((*occupiedSpace).getPosition(),
-                                                                               (*occupiedSpace).getWidth(),
-                                                                               (*occupiedSpace).getHeight(),
-                                                                               fourmiGeneratorCST);
-    if(overlapList.size()<(sizeG*sizeG)) {
-        cout<< message::generator_not_within_home((*occupiedSpace).getPosition().getCoordX(),
-                                                  (*occupiedSpace).getPosition().getCoordY(),id);
+    squarecell::Point position;
+    if ((*occupiedSpace).getWidth() % 2 == 0) {
+        position = squarecell::Point(
+                (*occupiedSpace).getPosition().getCoordX() + 1,
+                (*occupiedSpace).getPosition().getCoordY() + 1);
+    } else {
+        position = (*occupiedSpace).getPosition();
+    }
+    vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(position, (*occupiedSpace).getWidth()-2, (*occupiedSpace).getHeight()-2, fourmiGeneratorCST);
+    if(overlapList.size()<(sizeG*sizeG))
+    {
+        cout<< message::generator_not_within_home(
+                (*(*FourmiList[0]).getOccupiedSpace()).getPosition().getCoordX(),
+                (*(*FourmiList[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
         exit(EXIT_FAILURE);
     }
     for(auto fourmi : memberAnts) {
         if ((*fourmi).getSpecie() == fourmiDefensorCST) {
-            squarecell::Point position;
-            if ((*occupiedSpace).getWidth() % 2 == 0) {
-                position = squarecell::Point(
-                        (*occupiedSpace).getPosition().getCoordX() + 1,
-                        (*occupiedSpace).getPosition().getCoordY() + 1);
-            } else {
-                position = (*occupiedSpace).getPosition();
-            }
             overlapList = squarecell::Squarecell::getOverlap(position,
             ((*occupiedSpace).getWidth()-2),((*occupiedSpace).getHeight()-2),
                                                              fourmiDefensorCST);
@@ -66,11 +65,13 @@ void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<fourmi::Fourmi>> F
 }
 
 shared_ptr<fourmiliere::Fourmiliere> fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(vector<string> &inputBuffer, int index,
-                                                                                vector<shared_ptr<fourmi::Fourmi>> FourmiList) {
-    if(inputBuffer.size()<9) {
+                                                                                vector<shared_ptr<fourmi::Fourmi>> FourmiList)
+{
+    if(inputBuffer.size()<9)
+    {
         cout << "fourmilliere : number of argument mismatch" << endl;
         exit(EXIT_FAILURE);
-    } else {
+    }else{
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
         int size = stoi(inputBuffer[2]);
@@ -80,7 +81,8 @@ shared_ptr<fourmiliere::Fourmiliere> fourmiliere::Fourmiliere::importFromExtSave
         int nbP = stoi(inputBuffer[8]);
         vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(
         squarecell::Point(x,y),size,size,fourmilliereCST);
-        if(overlapList.size()>0) {
+        if(overlapList.size()>0)
+        {
             //int indexOtherAnthill = entity::Entity::findIdByOccupingPoint(overlapList, std::vector<std::shared_ptr<entity::Entity>> allEntitys);
             int indexOtherAnthill = 0;
             cout << message::homes_overlap(index, indexOtherAnthill); // SET INDEX HERE TODO INDEX FUNCTION
