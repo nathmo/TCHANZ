@@ -25,7 +25,7 @@ namespace entity {
         int getId();
         std::shared_ptr<squarecell::Squarecell> getOccupiedSpace();
         static int findIdByOccupingPoint(squarecell::Point overlappingPoint,
-                                         std::vector<std::shared_ptr<entity::Entity>> ListOfEntity);
+                                         std::vector<std::shared_ptr<entity::Entity>> ListOfEntity, char specie);
     };
 }
 #endif //TCHANZ_ENTITY_H
