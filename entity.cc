@@ -14,7 +14,7 @@
 
 using namespace std;
 
-entity::Entity::Entity(squarecell::Point position, int width, int height, char specie, int id) {
+entity::Entity::Entity(squarecell::Point position, int width, int height, char specie, int id) { //minuscule a la fonction
     occupiedSpace = make_shared<squarecell::Squarecell>(position, width, height, specie);
     this->specie=specie;
     this->id=id;

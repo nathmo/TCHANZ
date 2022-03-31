@@ -41,6 +41,7 @@ bool stringFuzzyMatch(string str1, string str2);
 
 int main()
 {
+    /*
     cout << "beginning unit test" << endl;
     assert(assert_textstorage());
     assert(assert_squarecell());
@@ -48,6 +49,7 @@ int main()
     assert(assert_fourmi());
     assert(assert_fourmilliere());
     assert(assert_nourriture());
+    */
     cout << "beginning integration test" << endl;
     assert(assert_files_test());
     cout << "all test passed successfully" << endl;
@@ -179,6 +181,12 @@ bool assert_files_test()
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 1 passed (./projet)" << endl;
 
+    cout << "test 20 starting" << endl;
+    cmdExpected = "coordinate 10000000 does not belong to [ 0, 127 ]";
+    cmdResult = runCommand("./projet scenario/t13.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cout << "test 20 passed (./projet scenario/t13.txt)" << endl;
+
     cout << "test 2 starting" << endl;
     cmdExpected = "Correct file";
     cmdResult = runCommand("./projet scenario/no_error_collector_move.txt");
@@ -214,7 +222,7 @@ bool assert_files_test()
     cmdResult = runCommand("./projet scenario/error_homes_overlap.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 7 passed (./projet scenario/error_homes_overlap.txt)" << endl;
-
+/*
     cout << "test 8 starting" << endl;
     cmdExpected = "collector with coordinates 14 18 overlaps with another exclusive entity at least on 15 17";
     cmdResult = runCommand("./projet scenario/t01.txt");
@@ -227,11 +235,11 @@ bool assert_files_test()
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 9 passed (./projet scenario/t02.txt)" << endl;
 
-    cout << "test 10 starting" << endl;
-    cmdExpected = "defensor with coordinates 101 117 is not fully within its home: 0";
-    cmdResult = runCommand("./projet scenario/t03.txt");
-    assert(stringFuzzyMatch(cmdExpected, cmdResult));
-    cout << "test 10 passed (./projet scenario/t03.txt)" << endl;
+    //cout << "test 10 starting" << endl;
+    //cmdExpected = "defensor with coordinates 101 117 is not fully within its home: 0";
+    //cmdResult = runCommand("./projet scenario/t03.txt");
+    //assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    //cout << "test 10 passed (./projet scenario/t03.txt)" << endl;
 
     //cout << "test 11 starting" << endl;
     //cmdExpected = "defensor with coordinates 118 102 is not fully within its home: 0";
@@ -245,11 +253,11 @@ bool assert_files_test()
     //assert(stringFuzzyMatch(cmdExpected, cmdResult));
     //cout << "test 12 passed (./projet scenario/t05.txt)" << endl;
 
-    //cout << "test 13 starting" << endl;
-    //cmdExpected = "defensor with coordinates 101 102 is not fully within its home: 0";
-    //cmdResult = runCommand("./projet scenario/t06.txt");
-    //assert(stringFuzzyMatch(cmdExpected, cmdResult));
-    //cout << "test 13 passed (./projet scenario/t06.txt)" << endl;
+    cout << "test 13 starting" << endl;
+    cmdExpected = "defensor with coordinates 101 102 is not fully within its home: 0";
+    cmdResult = runCommand("./projet scenario/t06.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cout << "test 13 passed (./projet scenario/t06.txt)" << endl;
 
     cout << "test 14 starting" << endl;
     cmdExpected = "defensor with coordinates 106 106 overlaps with another exclusive entity at least on 105 105";
@@ -286,13 +294,13 @@ bool assert_files_test()
     cmdResult = runCommand("./projet scenario/t12.txt");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 19 passed (./projet scenario/t12.txt)" << endl;
-
-    //cout << "test 20 starting" << endl;
-    //cmdExpected = "coordinate 10000000 does not belong to [ 0, 127 ]";
-    //cmdResult = runCommand("./projet scenario/t13.txt");
-    //assert(stringFuzzyMatch(cmdExpected, cmdResult));
-    //cout << "test 20 passed (./projet scenario/t13.txt)" << endl;
-
+*/
+    cout << "test 20 starting" << endl;
+    cmdExpected = "coordinate 10000000 does not belong to [ 0, 127 ]";
+    cmdResult = runCommand("./projet scenario/t13.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cout << "test 20 passed (./projet scenario/t13.txt)" << endl;
+/*
     //cout << "test 21 starting" << endl;
     //cmdExpected = "combined coordinate 117 and square side 12 do not belong to [ 0, 127 ]";
     //cmdResult = runCommand("./projet scenario/t14.txt");
@@ -305,7 +313,8 @@ bool assert_files_test()
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 22 passed (./projet scenario/t15.txt)" << endl;
     return true;
-}
+*/
+ }
 
 bool stringFuzzyMatch(string str1, string str2)
 {

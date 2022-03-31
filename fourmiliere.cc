@@ -5,7 +5,6 @@
   \brief  implémentation du module "fourmiliere".
 */
 
-
 #include "fourmiliere.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -13,10 +12,12 @@
 #include "message.h"
 #include <iostream>
 #include <memory>
+
 using namespace std;
 
-fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id, vector<shared_ptr<fourmi::Fourmi>> FourmiList) :
-        entity::Entity(position, size, size, fourmilliereCST, id) {
+fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position,int size,int total_food,
+                                      int nbC,int nbD,int nbP,int id, vector<shared_ptr<fourmi::Fourmi>> FourmiList) :
+                                      entity::Entity(position, size, size, fourmilliereCST, id) {
     foodReserve = total_food;
     this->nbC=nbC;
     this->nbD=nbD;

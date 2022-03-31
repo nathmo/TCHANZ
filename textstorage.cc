@@ -19,7 +19,7 @@
 
 using namespace std;
 
-void textstorage::writetxt (string filename, vector<vector<string>> lineToWrite) {
+void textstorage::writetxt(string filename, vector<vector<string>> lineToWrite) {
     fstream txtsave;
     txtsave.open(filename, ios::out);//out ca ecrit dans un fichier extern
     if(txtsave.fail()) {
@@ -37,7 +37,7 @@ void textstorage::writetxt (string filename, vector<vector<string>> lineToWrite)
     }
 }
 
-vector<vector<string>> textstorage::readtxt (string filename) { //sans espace ni qqch begin #
+vector<vector<string>> textstorage::readtxt(string filename) { //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<vector<string>> inputBuffer;
@@ -45,8 +45,8 @@ vector<vector<string>> textstorage::readtxt (string filename) { //sans espace ni
     if(txtsave.fail()) {
         cout << "soucis readtxt_filename" << endl;
         exit(EXIT_FAILURE);
-    } else if(txtsave.is_open()) {   //checking whether the file is open
-        while(getline(txtsave >> ws, line)) {// avec ws j ai plus les tab ou les espaces avant premier caractere
+    } else if(txtsave.is_open()) { //checking whether the file is open
+        while(getline(txtsave >> ws, line)) { // avec ws j ai plus les tab ou les espaces avant premier caractere
             if(line[0]=='#') continue;
             vector<string> lineBuffer = creation(line); //tokenize each line as a vector of word
             inputBuffer.push_back(lineBuffer);
@@ -56,7 +56,7 @@ vector<vector<string>> textstorage::readtxt (string filename) { //sans espace ni
     return inputBuffer;
 }
 
-vector<string> textstorage::creation (string line) {
+vector<string> textstorage::creation(string line) {
     istringstream iss(line);
     vector<string> tableauValeur;
     string valeur;
@@ -68,11 +68,11 @@ vector<string> textstorage::creation (string line) {
     return tableauValeur;
 }
 
-vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string>> inputBuffer) {
+vector<shared_ptr<entity::Entity>> textstorage::importDump(vector<vector<string>> inputBuffer) {
     if(not(textstorage::checksize_line(inputBuffer))) {
         exit(0);
     }
-    vector<shared_ptr<entity::Entity>>  entityList;
+    vector<shared_ptr<entity::Entity>> entityList;
     string quantity_food = inputBuffer[0][0];
     unsigned int int_quantity_food = stoi(quantity_food);
     for(unsigned int i(1); i < int_quantity_food+1; i++) {
@@ -116,7 +116,7 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump (vector<vector<string
     return entityList;
 }
 
-vector<vector<string>> textstorage::exportDump (vector<shared_ptr<entity::Entity>> entityArrayDump) {
+vector<vector<string>> textstorage::exportDump(vector<shared_ptr<entity::Entity>> entityArrayDump) {
     vector<vector<string>> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;

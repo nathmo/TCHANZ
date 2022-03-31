@@ -18,9 +18,11 @@ namespace fourmi {
     constexpr short unsigned sizeD(3) ;
     constexpr short unsigned sizeP(1) ;
     constexpr short unsigned bug_life(300) ;
+
     class Fourmi : public entity::Entity {
         protected:
-            int age;
+        int age;
+
         public:
             Fourmi(squarecell::Point position, int age, char type, int id, int size);
             virtual void update();
@@ -29,6 +31,7 @@ namespace fourmi {
     class Collector : public Fourmi {
         private:
             bool carryFood;
+
         public:
             Collector(squarecell::Point position, int id, int age, bool carryFood);
             void update();

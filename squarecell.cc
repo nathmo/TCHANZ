@@ -20,12 +20,15 @@ using namespace std;
 vector<vector<char>>  squarecell::Squarecell::hitBoxGrid = vector<vector<char>> (squarecell::g_max,vector<char> (squarecell::g_max));
 
 squarecell::Point::Point(int x,int y) {
+
     if(x>(g_max-1)) {
-        error_squarecell::print_index(x, g_max-1);
+        cout << error_squarecell::print_index(x, g_max-1);
+        exit(EXIT_FAILURE);
     }
 
     if(y>(g_max-1)) {
-        error_squarecell::print_index(y, g_max-1);
+        cout << error_squarecell::print_index(y, g_max-1);
+        exit(EXIT_FAILURE);
     }
     this->x = x;
     this->y = y;
@@ -142,13 +145,13 @@ int squarecell::Squarecell::getgMax() {
 bool squarecell::Squarecell::checkPoint(squarecell::Point point) {
     bool status = true;
     if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) { // not in [0;127]
-        error_squarecell::print_index(point.getCoordX(), squarecell::g_max);
+        cout << error_squarecell::print_index(point.getCoordX(), squarecell::g_max);
         exit(EXIT_FAILURE);
         status = false;
     }
 
     if(not ((point.getCoordY() >= 0) and (point.getCoordY() < squarecell::g_max))) {// not in [0;127]
-        error_squarecell::print_index(point.getCoordY(), squarecell::g_max);
+        cout << error_squarecell::print_index(point.getCoordY(), squarecell::g_max);
         exit(EXIT_FAILURE);
         status = false;
     }

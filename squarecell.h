@@ -6,10 +6,10 @@
 */
 #ifndef TCHANZ_SQUARECELL_H
 #define TCHANZ_SQUARECELL_H
+
 #include <vector>
 #include <cmath>
 #include <memory>
-
 
 namespace squarecell {
     constexpr short unsigned g_dim(7);
