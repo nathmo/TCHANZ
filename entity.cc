@@ -70,7 +70,6 @@ int entity::Entity::findIdByOccupingPoint(squarecell::Point overlappingPoint,
             }
         }
     }
-
     return 0; // FAIRE TA FONCTION ICI (SAUF SI MEILLEURE IDEE)
 }
 
