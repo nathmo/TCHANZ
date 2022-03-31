@@ -47,6 +47,7 @@ void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<fourmi::Fourmi>> F
                 (*(*FourmiList[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
         exit(EXIT_FAILURE);
     }
+    //squarecell::Squarecell::displayRawBoolGrid();
     for(auto fourmi : memberAnts) {
         if ((*fourmi).getSpecie() == fourmiDefensorCST) {
             overlapList = squarecell::Squarecell::getOverlap(position,
@@ -54,6 +55,22 @@ void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<fourmi::Fourmi>> F
                                                              fourmiDefensorCST);
             unsigned int expectedNumberOfCoveredTile = ((sizeD * sizeD) * nbD);
             if (overlapList.size() < expectedNumberOfCoveredTile) { // ici la bordure ne doit pas overlappé non plus
+                cout << message::defensor_not_within_home(
+                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
+                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
+                exit(EXIT_FAILURE);
+            }
+            if ((*occupiedSpace).getWidth() % 2 == 0) {
+                position = squarecell::Point(
+                        (*occupiedSpace).getPosition().getCoordX() + 2,
+                        (*occupiedSpace).getPosition().getCoordY() + 2);
+            } else {
+                position = (*occupiedSpace).getPosition();
+            }
+            vector<squarecell::Point> overlapList2 = squarecell::Squarecell::getOverlap(position,
+                                                             ((*occupiedSpace).getWidth()-4),((*occupiedSpace).getHeight()-4),
+                                                             fourmiDefensorCST);
+            if ((overlapList.size()-overlapList2.size() <= 3*nbD) and (overlapList.size()-overlapList2.size() >= (3*nbD-4))) { // doit etre tangeant a la bordre
                 cout << message::defensor_not_within_home(
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
