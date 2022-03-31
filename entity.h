@@ -7,13 +7,13 @@
 
 #include "squarecell.h"
 
-namespace entity
-{
+namespace entity {
     class Entity {
     protected:
         std::shared_ptr<squarecell::Squarecell> occupiedSpace;
         char specie;
         unsigned long id;
+
     public:
         Entity(squarecell::Point position, int width, int height, char specie, int id);
         void setPosition(squarecell::Point newPosition);
@@ -24,7 +24,8 @@ namespace entity
         char getSpecie();
         int getId();
         std::shared_ptr<squarecell::Squarecell> getOccupiedSpace();
-        static int findIdByOccupingPoint(squarecell::Point overlappingPoint,std::vector<std::shared_ptr<entity::Entity>> ListOfEntity);
+        static int findIdByOccupingPoint(squarecell::Point overlappingPoint,
+                                         std::vector<std::shared_ptr<entity::Entity>> ListOfEntity);
     };
 }
 #endif //TCHANZ_ENTITY_H

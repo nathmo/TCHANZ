@@ -13,13 +13,11 @@
 #include <memory>
 
 using namespace std;
-std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string path)
-{
+std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string path) {
     vector<shared_ptr<entity::Entity>> entityList(textstorage::importDump(textstorage::readtxt(path)));
     return entityList;
 }
 
-void simulation::saveToFile(string path,std::vector<std::shared_ptr<entity::Entity>> worldToDump)
-{
+void simulation::saveToFile(string path,std::vector<std::shared_ptr<entity::Entity>> worldToDump) {
 
 }

@@ -14,8 +14,7 @@
 #include <vector>
 #include <memory>
 
-namespace fourmiliere
-{
+namespace fourmiliere {
     class Fourmiliere : public entity::Entity {
     private:
         int foodReserve;
@@ -23,6 +22,7 @@ namespace fourmiliere
         int nbD;
         int nbP;
         std::vector<std::shared_ptr<fourmi::Fourmi>> memberAnts;
+
     public:
         Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id,
                     std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);

@@ -15,74 +15,64 @@
 #include <iostream>
 #include <memory>
 
-
 using namespace std;
 
 vector<vector<char>>  squarecell::Squarecell::hitBoxGrid = vector<vector<char>> (squarecell::g_max,vector<char> (squarecell::g_max));
 
-squarecell::Point::Point(int x,int y)
-{
-    if(x>(g_max-1))
-    {
+squarecell::Point::Point(int x,int y) {
+    if(x>(g_max-1)) {
         error_squarecell::print_index(x, g_max-1);
     }
-    if(y>(g_max-1))
-    {
+
+    if(y>(g_max-1)) {
         error_squarecell::print_index(y, g_max-1);
     }
     this->x = x;
     this->y = y;
 }
-squarecell::Point::Point()
-{
+
+squarecell::Point::Point() {
     // nothing to do
 }
-void squarecell::Point::setCoordX(int xOrigin)
-{
+
+void squarecell::Point::setCoordX(int xOrigin) {
     x = xOrigin;
 }
-int squarecell::Point::getCoordX()
-{
+
+int squarecell::Point::getCoordX() {
     return x;
 }
-void squarecell::Point::setCoordY(int yOrigin)
-{
+
+void squarecell::Point::setCoordY(int yOrigin) {
     y = yOrigin;
 }
-int squarecell::Point::getCoordY()
-{
+
+int squarecell::Point::getCoordY() {
     return y;
 }
-squarecell::Squarecell::Squarecell()
-{
+
+squarecell::Squarecell::Squarecell() {
 
 }
-squarecell::Squarecell::Squarecell(squarecell::Point position, int width,int height, char kind)
-{
+
+squarecell::Squarecell::Squarecell(squarecell::Point position, int width,int height, char kind) {
     this->height = height;
     this->width = width;
     this->position = position;
     this->kind = kind;
     cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
     cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
-    bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position, width, height)
+    bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position,
+                                                           width, height)
                        and squarecell::Squarecell::checkPoint(position);
-    if(isElligible)
-    {
-        for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
-        {
-            for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
-            {
-                if(hitBoxGrid[i][j]==emptyCST)
-                {
+    if(isElligible) {
+        for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+            for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+                if(hitBoxGrid[i][j]==emptyCST) {
                     hitBoxGrid[i][j] = kind;
-                }
-                else if(not (hitBoxGrid[i][j] & kind)) // if the entity is not aldready here
-                {
+                } else if(not (hitBoxGrid[i][j] & kind)) { // if the entity is not aldready here
                     hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
-                }
-                else
-                {
+                } else {
                     cout << "uncatched exception : two entity overlap at "+to_string(i)+", "+to_string(j)<<endl;
                     squarecell::Squarecell::displayRawBoolGrid();
                     exit(0);
@@ -92,82 +82,72 @@ squarecell::Squarecell::Squarecell(squarecell::Point position, int width,int hei
     }
 
 }
-squarecell::Squarecell::~Squarecell()
-{
-    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
-    {
-        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
-        {
-            if(hitBoxGrid[i][j] == kind)
-            {
+
+squarecell::Squarecell::~Squarecell() {
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+            if(hitBoxGrid[i][j] == kind) {
                 hitBoxGrid[i][j] = emptyCST;
-            }
-            else if(hitBoxGrid[i][j] == emptyCST)
-            {
+            } else if(hitBoxGrid[i][j] == emptyCST) {
                 cout << "trying to clean the grid from something aldready cleaned !" << endl;
                 exit(0);
-            }
-            else
-            {
+            } else {
                 hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
             }
         }
     }
 }
 
-squarecell::Point squarecell::Squarecell::getPosition()
-{
+squarecell::Point squarecell::Squarecell::getPosition() {
     return position;
 }
-void squarecell::Squarecell::setPosition(squarecell::Point position)
-{
+
+void squarecell::Squarecell::setPosition(squarecell::Point position) {
     this->position = position;
 }
-int squarecell::Squarecell::getHeight()
-{
+
+int squarecell::Squarecell::getHeight() {
     return height;
 }
-int squarecell::Squarecell::getWidth()
-{
+
+int squarecell::Squarecell::getWidth() {
     return width;
 }
-void squarecell::Squarecell::setHeight(int height)
-{
+
+void squarecell::Squarecell::setHeight(int height) {
     this->height = height;
 }
-void squarecell::Squarecell::setWidth(int width)
-{
+
+void squarecell::Squarecell::setWidth(int width) {
     this->width = width;
 }
-void squarecell::Squarecell::setSize(int width,int height)
-{
+
+void squarecell::Squarecell::setSize(int width,int height) {
     this->width = width;
     this->height = height;
 }
-squarecell::Point squarecell::Squarecell::getHitboxBotLeft()
-{
+
+squarecell::Point squarecell::Squarecell::getHitboxBotLeft() {
     return cornerBotLeft;
 }
-squarecell::Point squarecell::Squarecell::getHitboxTopRight()
-{
+
+squarecell::Point squarecell::Squarecell::getHitboxTopRight() {
     return cornerTopRight;
 }
-int squarecell::Squarecell::getgMax()
-{
+
+int squarecell::Squarecell::getgMax() {
     return g_max;
 }
 
-bool squarecell::Squarecell::checkPoint(squarecell::Point point)
-{
+bool squarecell::Squarecell::checkPoint(squarecell::Point point) {
     bool status = true;
-    if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) // not in [0;127]
-    {
+    if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) { // not in [0;127]
         error_squarecell::print_index(point.getCoordX(), squarecell::g_max);
         exit(EXIT_FAILURE);
         status = false;
     }
-    if(not ((point.getCoordY() >= 0) and (point.getCoordY() < squarecell::g_max))) // not in [0;127]
-    {
+
+    if(not ((point.getCoordY() >= 0) and (point.getCoordY() < squarecell::g_max))) {// not in [0;127]
         error_squarecell::print_index(point.getCoordY(), squarecell::g_max);
         exit(EXIT_FAILURE);
         status = false;
@@ -176,26 +156,20 @@ bool squarecell::Squarecell::checkPoint(squarecell::Point point)
 }
 
 bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squarecell::Point cornerBotLeft,
-                                         squarecell::Point position,int width,int height)
-{
+                                         squarecell::Point position,int width,int height) {
     bool status = true;
     vector<int> PointToCheck = {cornerBotLeft.getCoordX(),
                                 cornerBotLeft.getCoordY(),
                                 cornerTopRight.getCoordX(),
                                 cornerTopRight.getCoordY(),};
-    for(int i=0;i<4;i++)
-    {
-        if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < squarecell::g_max))) // not in [0;127]
-        {
-            if(i%2==0)// check for X coordinate error
-            {
+    for(int i=0;i<4;i++) {
+        if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < squarecell::g_max))) {// not in [0;127]
+            if(i%2==0) { // check for X coordinate error
                 cout << error_squarecell::print_outside(position.getCoordX(),
                                                         width,
                                                         squarecell::g_max) << endl;
                 exit(EXIT_FAILURE);
-            }
-            else if(i%2==1) // check for Y coordinate error
-            {
+            } else if(i%2==1) { // check for Y coordinate error
                 cout << error_squarecell::print_outside(position.getCoordY(),
                                                         height,
                                                         squarecell::g_max) << endl;
@@ -204,64 +178,57 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squar
             status = false;
         }
     }
-    if(not((((height % 2) == 0) and ((width % 2) == 0))or(((height % 2) == 1)and((width % 2) == 1))))
-    {
+
+    if(not((((height % 2) == 0) and ((width % 2) == 0))or(((height % 2) == 1)and((width % 2) == 1)))) {
         cout << "shape is not a square" << endl;
         status = false;
         exit(EXIT_FAILURE);
     }
     return status; // true if all test pass, false otherwise (and display the set message)
 }
-bool squarecell::Squarecell::checkOverlap(squarecell::Point position, int width, int height, char kindToCheck)
-{
+
+bool squarecell::Squarecell::checkOverlap(squarecell::Point position, int width, int height,
+                                          char kindToCheck) {
     Point cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
     Point cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
-    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
-    {
-        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
-        {
-            if((hitBoxGrid[i][j] & kindToCheck)) // boolean check that the entity is not present
-            {
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+            if((hitBoxGrid[i][j] & kindToCheck)) {// boolean check that the entity is not present
                 return true;
             }
         }
     }
     return false;
 }
-vector<squarecell::Point> squarecell::Squarecell::getOverlap(squarecell::Point position, int width, int height, char kindToCheck)
-{
+
+vector<squarecell::Point> squarecell::Squarecell::getOverlap(squarecell::Point position,
+                                                             int width, int height,char kindToCheck) {
     Point cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
     Point cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
     vector<squarecell::Point> collisionList;
-    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++)
-    {
-        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++)
-        {
-            if((hitBoxGrid[i][j] & kindToCheck)) // boolean check that the entity is not present
-            {
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+            if((hitBoxGrid[i][j] & kindToCheck)) { // boolean check that the entity is not present
                 collisionList.push_back(squarecell::Point(i,j));
             }
         }
     }
     return collisionList;
 }
-int squarecell::Squarecell::countOverlap(squarecell::Squarecell hitbox1, squarecell::Squarecell hitbox2)
-{
+
+int squarecell::Squarecell::countOverlap(squarecell::Squarecell hitbox1,
+                                         squarecell::Squarecell hitbox2) {
     int overlappingArea = 0;
 
     return overlappingArea;
 }
 
-void squarecell::Squarecell::displayRawBoolGrid()
-{
-    for(int i=g_max-1;i>=0;i--)
-    {
+void squarecell::Squarecell::displayRawBoolGrid() {
+    for(int i=g_max-1;i>=0;i--) {
         string lineOfMap = "";
-        for(int j=0;j<g_max;j++)
-        {
+        for(int j=0;j<g_max;j++) {
             string status = "X";
-            if(hitBoxGrid[i][j])
-            {
+            if(hitBoxGrid[i][j]) {
                 if(hitBoxGrid[i][j]==nourritureCST)
                     status = 'N';
                 else if(hitBoxGrid[i][j]==fourmilliereCST)
@@ -276,7 +243,7 @@ void squarecell::Squarecell::displayRawBoolGrid()
                     status = 'd';
                 else
                     status = 'X';
-            }else{
+            } else {
                 status = ".";
             }
             lineOfMap = lineOfMap + status + "";
@@ -285,45 +252,33 @@ void squarecell::Squarecell::displayRawBoolGrid()
     }
 }
 
-squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point position, int width, int height)
-{
+squarecell::Point squarecell::Squarecell::computeHitboxBotLeft(squarecell::Point position,
+                                                               int width, int height) {
     Point botLeft;
-    if(width%2==0)
-    {
+    if(width%2==0) {
         botLeft.setCoordX(position.getCoordX());
-    }
-    else if(width%2==1)
-    {
+    } else if(width%2==1) {
         botLeft.setCoordX(position.getCoordX()-(width-1)/2);
     }
-    if(height%2==0)
-    {
+    if(height%2==0) {
         botLeft.setCoordY(position.getCoordY());
-    }
-    else if(height%2==1)
-    {
+    } else if(height%2==1) {
         botLeft.setCoordY(position.getCoordY()-(height-1)/2);
     }
     return botLeft;
 }
 
-squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Point position, int width, int height)
-{
+squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Point position,
+                                                                int width, int height) {
     Point topRight;
-    if(width%2==0)
-    {
+    if(width%2==0) {
         topRight.setCoordX(position.getCoordX()+width);
-    }
-    else if(width%2==1)
-    {
+    } else if(width%2==1) {
         topRight.setCoordX(position.getCoordX()+(width-1)/2);
     }
-    if(height%2==0)
-    {
+    if(height%2==0) {
         topRight.setCoordY(position.getCoordY()+height);
-    }
-    else if(height%2==1)
-    {
+    } else if(height%2==1) {
         topRight.setCoordY(position.getCoordY()+(height-1)/2);
     }
     return topRight;

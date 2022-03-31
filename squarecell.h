@@ -11,16 +11,15 @@
 #include <memory>
 
 
-namespace squarecell
-{
-
-    constexpr short unsigned g_dim(7) ;
-    constexpr short unsigned g_max(128) ;
+namespace squarecell {
+    constexpr short unsigned g_dim(7);
+    constexpr short unsigned g_max(128);
 
     class Point {
     private:
         int x=-1;
         int y=-1;
+
     public:
         Point(int x,int y);
         Point();
@@ -38,9 +37,11 @@ namespace squarecell
         char kind;
         Point cornerBotLeft;
         Point cornerTopRight;
-        bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,int width,int height);
+        bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,
+                         int width,int height);
         bool checkPoint(Point point);
         static std::vector<std::vector<char>> hitBoxGrid ;
+
     public:
         Squarecell();
         Squarecell(squarecell::Point position, int height, int width, char kind);
@@ -55,14 +56,14 @@ namespace squarecell
         Point getHitboxBotLeft();
         Point getHitboxTopRight();
         static bool checkOverlap(squarecell::Point position, int width, int height, char kindToCheck);
-        static std::vector<squarecell::Point> getOverlap(squarecell::Point position, int width, int height, char kindToCheck);
+        static std::vector<squarecell::Point> getOverlap(squarecell::Point position, int width,
+                                                         int height, char kindToCheck);
         static int getgMax();
         static int countOverlap(Squarecell hitbox1, Squarecell hitbox2);
         static Point computeHitboxBotLeft(squarecell::Point position, int width, int height);
         static Point computeHitboxTopRight(squarecell::Point position, int width, int height);
         static void displayRawBoolGrid();
     };
-
 }
 
 #endif //TCHANZ_SQUARECELL_H
