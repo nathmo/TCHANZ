@@ -17,10 +17,10 @@
 
 using namespace std;
 
-std::vector<std::shared_ptr<Entity>> simulation::loadFromFile(string path) {
+std::vector<std::shared_ptr<Entity>> loadFromFile(string path) {
     vector<shared_ptr<Entity>> entityList;
-    vector<shared_ptr<nourriture::Nourriture>> nourritureList;
-    vector<shared_ptr<fourmiliere::Fourmiliere>> fourmilliereList;
+    vector<shared_ptr<Nourriture>> nourritureList;
+    vector<shared_ptr<Fourmiliere>> fourmilliereList;
     textstorage::importDump(textstorage::readtxt(path), nourritureList, fourmilliereList);
     for(unsigned int i=0;i<fourmilliereList.size();i++){
         (*fourmilliereList[i]).check();
@@ -29,6 +29,6 @@ std::vector<std::shared_ptr<Entity>> simulation::loadFromFile(string path) {
     return entityList;
 }
 
-void simulation::saveToFile(string path,std::vector<std::shared_ptr<Entity>> worldToDump) {
+void saveToFile(string path,std::vector<std::shared_ptr<Entity>> worldToDump) {
 
 }

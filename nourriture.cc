@@ -15,10 +15,10 @@
 
 using namespace std;
 
-nourriture::Nourriture::Nourriture(squarecell::Point position, int index) :
+Nourriture::Nourriture(Point position, int index) :
         Entity(position, 1, 1, nourritureCST, index) {}
 
-shared_ptr<nourriture::Nourriture> nourriture::Nourriture::importFromExtSave(vector<string>& inputBuffer,
+shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string>& inputBuffer,
                                                                      int index) {
     if(!(inputBuffer.size() <= 2)) {
         cout << "nourriture : number of argument mismatch" << endl;
@@ -26,11 +26,11 @@ shared_ptr<nourriture::Nourriture> nourriture::Nourriture::importFromExtSave(vec
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
-        if(squarecell::Squarecell::checkOverlap(squarecell::Point(x,y),
+        if(Squarecell::checkOverlap(Point(x,y),
                                                 1, 1, nourritureCST)) {
             cout<< message::food_overlap(x,y);
             exit(EXIT_FAILURE);
         }
-        return make_shared<nourriture::Nourriture>(squarecell::Point(x,y), index);
+        return make_shared<Nourriture>(Point(x,y), index);
     }
 }

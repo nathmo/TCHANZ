@@ -14,17 +14,17 @@
 
 using namespace std;
 
-Entity::Entity(squarecell::Point position, int width, int height, char specie, int id) {
-    occupiedSpace = make_shared<squarecell::Squarecell>(position, width, height, specie);
+Entity::Entity(Point position, int width, int height, char specie, int id) {
+    occupiedSpace = make_shared<Squarecell>(position, width, height, specie);
     this->specie=specie;
     this->id=id;
 }
 
-void Entity::setPosition(squarecell::Point newPosition) {
+void Entity::setPosition(Point newPosition) {
     (*occupiedSpace).setPosition(newPosition);
 }
 
-squarecell::Point Entity::getPosition() {
+Point Entity::getPosition() {
     return (*occupiedSpace).getPosition();
 }
 
@@ -48,15 +48,15 @@ int Entity::getId() {
     return id;
 }
 
-shared_ptr<squarecell::Squarecell> Entity::getOccupiedSpace() {
+shared_ptr<Squarecell> Entity::getOccupiedSpace() {
     return occupiedSpace;
 }
 
-int Entity::findIdByOccupingPoint(squarecell::Point overlappingPoint,
+int Entity::findIdByOccupingPoint(Point overlappingPoint,
                                           std::vector<std::shared_ptr<Entity>> ListOfEntity, char specie) {
     /*
     int x = overlappingPoint.getCoordX;
-    int y = squarecell::overlappingPoint.getCoordY;
+    int y = overlappingPoint.getCoordY;
 
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
         if((*(*ListOfEntity[i]).getOccupiedSpace()).getSpecie() == specie) { //(*ListOfEntity[i]).getSpecie()

@@ -10,23 +10,23 @@
 
 class Entity {
 protected:
-    std::shared_ptr<squarecell::Squarecell> occupiedSpace;
+    std::shared_ptr<Squarecell> occupiedSpace;
     char specie;
     unsigned long id;
 
 public:
-    Entity(squarecell::Point position, int width, int height, char specie, int id);
-    void setPosition(squarecell::Point newPosition);
-    squarecell::Point getPosition();
+    Entity(Point position, int width, int height, char specie, int id);
+    void setPosition(Point newPosition);
+    Point getPosition();
     void setSize(int width, int height);
     int getHeight();
     int getWidth();
     char getSpecie();
     int getId();
-    std::shared_ptr<squarecell::Squarecell> getOccupiedSpace();
+    std::shared_ptr<Squarecell> getOccupiedSpace();
     //virtual void update();
     //virtual void check();
-    static int findIdByOccupingPoint(squarecell::Point overlappingPoint,
+    static int findIdByOccupingPoint(Point overlappingPoint,
                                      std::vector<std::shared_ptr<Entity>> ListOfEntity, char specie);
 };
 

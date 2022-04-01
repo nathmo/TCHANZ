@@ -69,8 +69,8 @@ vector<string> textstorage::creation(string line) {
 }
 
 void textstorage::importDump(vector<vector<string>> inputBuffer,
-                                                           vector<shared_ptr<nourriture::Nourriture>> &foodVectorReturn,
-                                                           vector<shared_ptr<fourmiliere::Fourmiliere>> &fourmilliereVectorReturn) {
+                                                           vector<shared_ptr<Nourriture>> &foodVectorReturn,
+                                                           vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
     if(not(textstorage::checksize_line(inputBuffer))) {
         exit(0);
     }
@@ -78,7 +78,7 @@ void textstorage::importDump(vector<vector<string>> inputBuffer,
     unsigned int int_quantity_food = stoi(quantity_food);
     for(unsigned int i(1); i < int_quantity_food+1; i++) { // ajoute les nourriture au vecteur
         int index = i;
-        foodVectorReturn.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i],index));
+        foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],index));
     }
     unsigned int intermediaire = int_quantity_food + 2; //index de la ligne dans le fichier
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
@@ -90,7 +90,7 @@ void textstorage::importDump(vector<vector<string>> inputBuffer,
         unsigned int indexFourmi = i;
         vector<shared_ptr<Fourmi>>  fourmilliereMemberList;
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
-        shared_ptr<fourmiliere::Fourmiliere> Fourmilliere = fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
+        shared_ptr<Fourmiliere> Fourmilliere = Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
                                                                                                                     indexFourmilliere, fourmilliereMemberList);
         fourmilliereVectorReturn.push_back(Fourmilliere);
         fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(inputBuffer[intermediaire],

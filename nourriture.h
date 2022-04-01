@@ -12,12 +12,11 @@
 #include "entity.h"
 #include <memory>
 
-namespace nourriture {
-    class Nourriture : public Entity {
-    public:
-        Nourriture(squarecell::Point position, int index);
-        static std::shared_ptr<nourriture::Nourriture> importFromExtSave(std::vector<std::string>& inputBuffer,
-                                                                 int index);
-    };
-}
+class Nourriture : public Entity {
+public:
+    Nourriture(Point position, int index);
+    static std::shared_ptr<Nourriture> importFromExtSave(std::vector<std::string>& inputBuffer,
+                                                             int index);
+};
+
 #endif //TCHANZ_NOURRITURE_H

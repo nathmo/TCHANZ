@@ -13,13 +13,12 @@
 #include <memory>
 #include <vector>
 
-namespace simulation {
-    class Simulation {
+class Simulation {
 
-    };
+};
 
 // administrative function outside of class
-    std::vector<std::shared_ptr<Entity>> loadFromFile(std::string path);
-    void saveToFile(std::string path,std::vector<std::shared_ptr<Entity>> worldToDump);
-}
+std::vector<std::shared_ptr<Entity>> loadFromFile(std::string path);
+void saveToFile(std::string path,std::vector<std::shared_ptr<Entity>> worldToDump);
+
 #endif //TCHANZ_SIMULATION_H

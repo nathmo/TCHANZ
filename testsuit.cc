@@ -143,7 +143,7 @@ bool assert_textstorage_writetxt()
 
 bool assert_squarecell_Point()
 {
-    squarecell::Point testPoint = squarecell::Point(1,3);
+    Point testPoint = Point(1,3);
     assert(testPoint.getCoordX()==1);
     assert(testPoint.getCoordY()==3);
     return true;
@@ -151,12 +151,12 @@ bool assert_squarecell_Point()
 
 bool assert_entity_Entity()
 {
-    shared_ptr<Entity> testEnt = make_shared<Entity>(squarecell::Point(2,4),1,1,'F',0);
+    shared_ptr<Entity> testEnt = make_shared<Entity>(Point(2,4),1,1,'F',0);
     assert((*testEnt).getHeight()==1);
     assert((*testEnt).getWidth()==1);
     assert((*testEnt).getPosition().getCoordX()==2);
     assert((*testEnt).getPosition().getCoordY()==4);
-    (*testEnt).setPosition(squarecell::Point(5,6));
+    (*testEnt).setPosition(Point(5,6));
     assert((*testEnt).getPosition().getCoordX()==5);
     assert((*testEnt).getPosition().getCoordY()==6);
     (*testEnt).setSize(4,8);
