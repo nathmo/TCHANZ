@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  Implémentation du module de test avec la seconde fonction main() avec test
 */
-
 #include "textstorage.h"
 #include "squarecell.h"
 #include "constantes.h"
@@ -21,72 +20,72 @@
 
 using namespace std;
 
-bool assert_textstorage();
-bool assert_squarecell();
-bool assert_entity();
-bool assert_fourmi();
-bool assert_fourmilliere();
-bool assert_nourriture();
+bool assertTextstorage();
+bool assertSquarecell();
+bool assertEntity();
+bool assertFourmi();
+bool assertFourmilliere();
+bool assertNourriture();
 
-bool assert_textstorage_readtxt();
-bool assert_textstorage_writetxt();
+bool assertTextstorageReadtxt();
+bool assertTextstorageWritetxt();
 
-bool assert_squarecell_Point();
-bool assert_entity_Entity();
-bool assert_squarecell_Squarecell();
+bool assertSquarecellPoint();
+bool assertEntityEntity();
+bool assertSquarecellSquarecell();
 
-bool assert_files_test();
+bool assertFilesTest();
 string runCommand(const char* command);
 bool stringFuzzyMatch(string str1, string str2);
 
 int main()
 {
     cout << "beginning unit test" << endl;
-    assert(assert_textstorage());
-    assert(assert_squarecell());
-    assert(assert_entity());
-    assert(assert_fourmi());
-    assert(assert_fourmilliere());
-    assert(assert_nourriture());
+    assert(assertTextstorage());
+    assert(assertSquarecell());
+    assert(assertEntity());
+    assert(assertFourmi());
+    assert(assertFourmilliere());
+    assert(assertNourriture());
     cout << "beginning integration test" << endl;
-    assert(assert_files_test());
+    assert(assertFilesTest());
     cout << "all test passed successfully" << endl;
     return 0;
 }
 
-bool assert_textstorage()
+bool assertTextstorage()
 {
-    assert(assert_textstorage_readtxt());
-    assert(assert_textstorage_writetxt());
+    assert(assertTextstorageReadtxt());
+    assert(assertTextstorageWritetxt());
     cout << "-> textstorage done" << endl;
     return true;
 }
 
-bool assert_squarecell()
+bool assertSquarecell()
 {
-    assert_squarecell_Point();
+    assertSquarecellPoint();
     return true;
 }
 
-bool assert_entity()
+bool assertEntity()
 {
-    assert_entity_Entity();
+    assertEntityEntity();
     return true;
 }
-bool assert_fourmi()
-{
-    return true;
-}
-bool assert_fourmilliere()
+bool assertFourmi()
 {
     return true;
 }
-bool assert_nourriture()
+bool assertFourmilliere()
+{
+    return true;
+}
+bool assertNourriture()
 {
     return true;
 }
 
-bool assert_textstorage_readtxt()
+bool assertTextstorageReadtxt()
 {
     string teststringfin = "0";
     vector<vector<string>> inputBuffer = readtxt("scenario/no_error_collector_move.txt");
@@ -108,7 +107,7 @@ bool assert_textstorage_readtxt()
     }
 }
 
-bool assert_textstorage_writetxt()
+bool assertTextstorageWritetxt()
 {
     vector<vector<string>> teststring = {{"1","2","3"},{"4","560000","-6","2"}};
     string Stockage_fichiertxt = "scenario/test_ecriture.txt";
@@ -141,7 +140,7 @@ bool assert_textstorage_writetxt()
     }
 }
 
-bool assert_squarecell_Point()
+bool assertSquarecellPoint()
 {
     Point testPoint = Point(1,3);
     assert(testPoint.getCoordX()==1);
@@ -149,7 +148,7 @@ bool assert_squarecell_Point()
     return true;
 }
 
-bool assert_entity_Entity()
+bool assertEntityEntity()
 {
     shared_ptr<Entity> testEnt = make_shared<Entity>(Point(2,4),1,1,'F',0);
     assert((*testEnt).getHeight()==1);
@@ -166,7 +165,7 @@ bool assert_entity_Entity()
     return true;
 }
 
-bool assert_files_test()
+bool assertFilesTest()
 {
     cout << runCommand("make build") << endl; // force normal rebuild
 

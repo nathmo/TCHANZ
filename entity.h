@@ -9,7 +9,6 @@
 
 #include "squarecell.h"
 
-
 class Entity {
 protected:
     std::shared_ptr<Squarecell> occupiedSpace;

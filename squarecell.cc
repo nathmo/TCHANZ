@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  implémentation du module "squarecell".
 */
-
 #include "squarecell.h"
 #include "error_squarecell.h"
 #include "constantes.h"

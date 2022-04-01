@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  implémentation du module "nourriture".
 */
-
 #include "nourriture.h"
 #include "entity.h"
 #include "squarecell.h"

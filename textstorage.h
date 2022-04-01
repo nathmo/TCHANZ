@@ -28,6 +28,6 @@ void importDump(std::vector<std::vector<std::string>> inputBuffer,
 std::vector<std::vector<std::string>> exportDump(
                                 std::vector<std::shared_ptr<Entity>> entityArrayDump);
 
-bool checksize_line(std::vector<std::vector<std::string>> intArrayDump);
+bool checksizeLine(std::vector<std::vector<std::string>> intArrayDump);
 
 #endif //TCHANZ_TEXTSTORAGE_H

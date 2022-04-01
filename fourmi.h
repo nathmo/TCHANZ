@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  prototype du module "fourmi".
 */
-
 #ifndef TCHANZ_FOURMI_H
 #define TCHANZ_FOURMI_H
 

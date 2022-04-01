@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  prototype du module "nourriture".
 */
-
 #ifndef TCHANZ_NOURRITURE_H
 #define TCHANZ_NOURRITURE_H
 

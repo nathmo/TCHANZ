@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  prototype du module "simulation".
 */
-
 #ifndef TCHANZ_SIMULATION_H
 #define TCHANZ_SIMULATION_H
 

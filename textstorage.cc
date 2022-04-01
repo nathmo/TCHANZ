@@ -71,19 +71,19 @@ vector<string> creation(string line) {
 void importDump(vector<vector<string>> inputBuffer,
                 vector<shared_ptr<Nourriture>> &foodVectorReturn,
                 vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
-    if(not(checksize_line(inputBuffer))) {
+    if(not(checksizeLine(inputBuffer))) {
         exit(0);
     }
-    string quantity_food = inputBuffer[0][0];
-    unsigned int int_quantity_food = stoi(quantity_food);
-    for(unsigned int i(1); i < int_quantity_food+1; i++) {
+    string strQuantityFood = inputBuffer[0][0];
+    unsigned int QuantityFood = stoi(strQuantityFood);
+    for(unsigned int i(1); i < QuantityFood+1; i++) {
         int index = i; //ajoute les nourriture au vecteur
         foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
                                                                  index));
     }
-    unsigned int intermediaire = int_quantity_food + 2; //index de la ligne dans le fichier
-    unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
-    for(unsigned int i(0); i < quantity_anthill; i++) {
+    unsigned int intermediaire = QuantityFood + 2; //index de la ligne dans le fichier
+    unsigned int quantityAnthill = stoi(inputBuffer[intermediaire-1][0]);
+    for(unsigned int i(0); i < quantityAnthill; i++) {
         unsigned int collector = stoi(inputBuffer[intermediaire][6]);
         unsigned int defensor = stoi(inputBuffer[intermediaire][7]);
         unsigned int predator = stoi(inputBuffer[intermediaire][8]);
@@ -126,20 +126,20 @@ vector<vector<string>> exportDump(vector<shared_ptr<Entity>> entityArrayDump) {
     return entityList;
 }
 
-bool checksize_line(vector<vector<string>> intArrayDump) {
+bool checksizeLine(vector<vector<string>> intArrayDump) {
     bool status = true;
-    string quantity_food = intArrayDump[0][0];
-    unsigned int int_quantity_food = stoi(quantity_food);
-    for(unsigned int i(1); i < int_quantity_food+1; i++) {
+    string strQuantityFood = intArrayDump[0][0];
+    unsigned int QuantityFood = stoi(strQuantityFood);
+    for(unsigned int i(1); i < QuantityFood+1; i++) {
         if(intArrayDump[i].size()<2) {
             cout << "not enough argument on a line from the file at index : "
                     + to_string(i) << endl;
             status = false;
         }
     }
-    unsigned int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
-    unsigned int quantity_anthill = stoi(intArrayDump[intermediaire-1][0]);
-    for(unsigned int i(0); i < quantity_anthill; i++) {
+    unsigned int intermediaire = QuantityFood + 2; //position des donnees "grande ligne"
+    unsigned int quantityAnthill = stoi(intArrayDump[intermediaire-1][0]);
+    for(unsigned int i(0); i < quantityAnthill; i++) {
         if(intArrayDump.size()<intermediaire) {
             cout << "not enough line from the file"<< endl;
             status = false;

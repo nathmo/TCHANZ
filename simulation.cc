@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  implémentation du module "simulation".
 */
-
 #include "simulation.h"
 #include "textstorage.h"
 #include "squarecell.h"

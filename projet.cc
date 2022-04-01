@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  implémentation du module principal avec la fonction main()
 */
-
 #include <iostream>
 #include "simulation.h"
 

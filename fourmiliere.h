@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  prototype du module "fourmiliere".
 */
-
 #ifndef TCHANZ_FOURMILIERE_H
 #define TCHANZ_FOURMILIERE_H
 
@@ -23,16 +22,14 @@ private:
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
 
 public:
-    Fourmiliere(Point position, int size, int total_food,
+    Fourmiliere(Point position, int size, int totalFood,
                 int nbC, int nbD, int nbP, int id,
                 std::vector<std::shared_ptr<Fourmi>> FourmiList);
     void update();
     void check();
     void overrideAnts(std::vector<std::shared_ptr<Fourmi>> FourmiList);
-    void checkGenerator();
-    void checkDefensor() ;
     void checkGeneratorUsingCoord();
-    void checkDefensorUsingCoord() ;
+    void checkDefensorUsingCoord();
     static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
             std::vector<std::string> &inputBuffer, int index,
             std::vector<std::shared_ptr<Fourmi>> FourmiList);

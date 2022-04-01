@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  implémentation du module "fourmi".
 */
-
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -42,9 +41,9 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
-    bool condition_food = false;
+    bool conditionFood = false;
     if("true" == inputBuffer[3]) {
-        condition_food = true;
+        conditionFood = true;
     }
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeC, sizeC,
                                                        anyCST);
@@ -53,7 +52,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
                                           overlapList[0].getCoordY());
         exit(EXIT_FAILURE);
     }
-    return make_shared<Collector>(Point(x,y),index ,age,condition_food);
+    return make_shared<Collector>(Point(x,y),index ,age,conditionFood);
     }
 }
 
