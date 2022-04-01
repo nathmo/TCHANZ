@@ -21,8 +21,11 @@ using namespace std;
 vector<vector<char>>  squarecell::Squarecell::hitBoxGrid = vector<vector<char>> (squarecell::g_max,vector<char> (squarecell::g_max));
 
 squarecell::Point::Point(int x,int y) {
-    this->x = x;
-    this->y = y;
+    if(squarecell::Point::checkPoint(x,y))
+    {
+        this->x = x;
+        this->y = y;
+    }
 }
 
 squarecell::Point::Point() {
@@ -43,6 +46,37 @@ void squarecell::Point::setCoordY(int yOrigin) {
 
 int squarecell::Point::getCoordY() {
     return y;
+}
+
+bool squarecell::Point::checkPoint(squarecell::Point point) {
+    bool status = true;
+    if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) { // not in [0;127]
+        cout << error_squarecell::print_index(point.getCoordX(), squarecell::g_max);
+        exit(EXIT_FAILURE);
+        status = false;
+    }
+
+    if(not ((point.getCoordY() >= 0) and (point.getCoordY() < squarecell::g_max))) {// not in [0;127]
+        cout << error_squarecell::print_index(point.getCoordY(), squarecell::g_max);
+        exit(EXIT_FAILURE);
+        status = false;
+    }
+    return status;
+}
+bool squarecell::Point::checkPoint(long int x,long int y) {
+    bool status = true;
+    if(not ((x >= 0) and (x < squarecell::g_max))) { // not in [0;127]
+        cout << error_squarecell::print_index(x, squarecell::g_max-1);
+        exit(EXIT_FAILURE);
+        status = false;
+    }
+
+    if(not ((y >= 0) and (y < squarecell::g_max))) {// not in [0;127]
+        cout << error_squarecell::print_index(y, squarecell::g_max-1);
+        exit(EXIT_FAILURE);
+        status = false;
+    }
+    return status;
 }
 
 squarecell::Squarecell::Squarecell() {
@@ -131,22 +165,6 @@ squarecell::Point squarecell::Squarecell::getHitboxTopRight() {
 
 int squarecell::Squarecell::getgMax() {
     return g_max;
-}
-
-bool squarecell::Point::checkPoint(squarecell::Point point) {
-    bool status = true;
-    if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) { // not in [0;127]
-        cout << error_squarecell::print_index(point.getCoordX(), squarecell::g_max);
-        exit(EXIT_FAILURE);
-        status = false;
-    }
-
-    if(not ((point.getCoordY() >= 0) and (point.getCoordY() < squarecell::g_max))) {// not in [0;127]
-        cout << error_squarecell::print_index(point.getCoordY(), squarecell::g_max);
-        exit(EXIT_FAILURE);
-        status = false;
-    }
-    return status;
 }
 
 bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squarecell::Point cornerBotLeft,

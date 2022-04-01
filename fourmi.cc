@@ -71,10 +71,10 @@ shared_ptr<fourmi::Fourmi> fourmi::Defensor::importFromExtSaveDefensor(vector<st
     if(!(inputBuffer.size()<=3)) {
         cout << "Defensor : number of argument mismatch" << endl;
         exit(0);
-    } else {
-    int x = stoi(inputBuffer[0]);
-    int y = stoi(inputBuffer[1]);
-    int age = stoi(inputBuffer[2]);
+    }else{
+    long int x = stoi(inputBuffer[0]);
+    long int y = stoi(inputBuffer[1]);
+    long int age = stoi(inputBuffer[2]);
     vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(squarecell::Point(x,y),
                                                                                fourmi::sizeD,
                                                                                fourmi::sizeD, anyCST);

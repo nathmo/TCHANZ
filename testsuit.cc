@@ -146,9 +146,6 @@ bool assert_squarecell_Point()
     squarecell::Point testPoint = squarecell::Point(1,3);
     assert(testPoint.getCoordX()==1);
     assert(testPoint.getCoordY()==3);
-    testPoint = squarecell::Point(-1,-3);
-    assert(testPoint.getCoordX()==-1);
-    assert(testPoint.getCoordY()==-3);
     return true;
 }
 
