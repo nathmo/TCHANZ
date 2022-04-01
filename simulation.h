@@ -19,7 +19,7 @@ namespace simulation {
     };
 
 // administrative function outside of class
-    std::vector<std::shared_ptr<entity::Entity>> loadFromFile(std::string path);
-    void saveToFile(std::string path,std::vector<std::shared_ptr<entity::Entity>> worldToDump);
+    std::vector<std::shared_ptr<Entity>> loadFromFile(std::string path);
+    void saveToFile(std::string path,std::vector<std::shared_ptr<Entity>> worldToDump);
 }
 #endif //TCHANZ_SIMULATION_H

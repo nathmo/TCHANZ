@@ -12,14 +12,8 @@
 #include "entity.h"
 #include <memory>
 
-namespace fourmi {
-    constexpr short unsigned sizeG(5) ;
-    constexpr short unsigned sizeC(3) ;
-    constexpr short unsigned sizeD(3) ;
-    constexpr short unsigned sizeP(1) ;
-    constexpr short unsigned bug_life(300) ;
 
-    class Fourmi : public entity::Entity {
+    class Fourmi : public Entity {
         protected:
         int age;
 
@@ -35,7 +29,7 @@ namespace fourmi {
         public:
             Collector(squarecell::Point position, int id, int age, bool carryFood);
             void update();
-            static std::shared_ptr<fourmi::Fourmi> importFromExtSaveCollector
+            static std::shared_ptr<Fourmi> importFromExtSaveCollector
                 (std::vector<std::string> &inputBuffer,int index);
     };
 
@@ -43,7 +37,7 @@ namespace fourmi {
         public:
             Defensor(squarecell::Point position, int id, int age);
             void update();
-            static std::shared_ptr<fourmi::Fourmi> importFromExtSaveDefensor
+            static std::shared_ptr<Fourmi> importFromExtSaveDefensor
             (std::vector<std::string> &inputBuffer,int index);
     };
 
@@ -51,7 +45,7 @@ namespace fourmi {
         public:
             Predator(squarecell::Point position, int id, int age);
             void update();
-            static std::shared_ptr<fourmi::Fourmi> importFromExtSavePredator(std::vector<std::string> &inputBuffer,
+            static std::shared_ptr<Fourmi> importFromExtSavePredator(std::vector<std::string> &inputBuffer,
                                                                               int index);
     };
 
@@ -59,9 +53,8 @@ namespace fourmi {
         public:
             Generator(squarecell::Point position, int id);
             void update();
-            static std::shared_ptr<fourmi::Fourmi> importFromExtSaveGenerator(std::vector<std::string> &inputBuffer,
+            static std::shared_ptr<Fourmi> importFromExtSaveGenerator(std::vector<std::string> &inputBuffer,
                                                                                int index);
     };
-}
 
 #endif //TCHANZ_FOURMI_H

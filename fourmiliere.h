@@ -15,26 +15,26 @@
 #include <memory>
 
 namespace fourmiliere {
-    class Fourmiliere : public entity::Entity {
+    class Fourmiliere : public Entity {
     private:
         int foodReserve;
         int nbC;
         int nbD;
         int nbP;
-        std::vector<std::shared_ptr<fourmi::Fourmi>> memberAnts;
+        std::vector<std::shared_ptr<Fourmi>> memberAnts;
 
     public:
         Fourmiliere(squarecell::Point position,int size,int total_food,int nbC,int nbD,int nbP,int id,
-                    std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
+                    std::vector<std::shared_ptr<Fourmi>> FourmiList);
         void update();
         void check();
-        void overrideAnts(std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
+        void overrideAnts(std::vector<std::shared_ptr<Fourmi>> FourmiList);
         void checkGenerator();
         void checkDefensor() ;
         void checkGeneratorUsingCoord();
         void checkDefensorUsingCoord() ;
         static std::shared_ptr<fourmiliere::Fourmiliere> importFromExtSaveFourmilliere(std::vector<std::string> &inputBuffer, int index,
-                                                                          std::vector<std::shared_ptr<fourmi::Fourmi>> FourmiList);
+                                                                          std::vector<std::shared_ptr<Fourmi>> FourmiList);
     };
 }
 

@@ -16,8 +16,8 @@
 using namespace std;
 
 fourmiliere::Fourmiliere::Fourmiliere(squarecell::Point position,int size,int total_food,
-                                      int nbC,int nbD,int nbP,int id, vector<shared_ptr<fourmi::Fourmi>> FourmiList) :
-                                      entity::Entity(position, size, size, fourmilliereCST, id) {
+                                      int nbC,int nbD,int nbP,int id, vector<shared_ptr<Fourmi>> FourmiList) :
+                                      Entity(position, size, size, fourmilliereCST, id) {
     foodReserve = total_food;
     this->nbC=nbC;
     this->nbD=nbD;
@@ -29,7 +29,7 @@ void fourmiliere::Fourmiliere::update() {
 
 }
 
-void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<fourmi::Fourmi>> FourmiList) {
+void fourmiliere::Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
 }
 void fourmiliere::Fourmiliere::check() {
@@ -131,7 +131,7 @@ void fourmiliere::Fourmiliere::checkDefensorUsingCoord() {
     }
 }
 shared_ptr<fourmiliere::Fourmiliere> fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(vector<string> &inputBuffer, int index,
-                                                                                vector<shared_ptr<fourmi::Fourmi>> FourmiList)
+                                                                                vector<shared_ptr<Fourmi>> FourmiList)
 {
     if(inputBuffer.size()<9)
     {
@@ -150,7 +150,7 @@ shared_ptr<fourmiliere::Fourmiliere> fourmiliere::Fourmiliere::importFromExtSave
         squarecell::Point(x,y),size,size,fourmilliereCST);
         if(overlapList.size()>0)
         {
-            //int indexOtherAnthill = entity::Entity::findIdByOccupingPoint(overlapList, std::vector<std::shared_ptr<entity::Entity>> allEntitys);
+            //int indexOtherAnthill = Entity::findIdByOccupingPoint(overlapList, std::vector<std::shared_ptr<Entity>> allEntitys);
             int indexOtherAnthill = 0;
             cout << message::homes_overlap(index, indexOtherAnthill); // SET INDEX HERE TODO INDEX FUNCTION
             exit(EXIT_FAILURE);

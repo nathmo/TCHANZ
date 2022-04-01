@@ -88,26 +88,26 @@ void textstorage::importDump(vector<vector<string>> inputBuffer,
         unsigned int predator = stoi(inputBuffer[intermediaire][8]);
         unsigned int indexFourmilliere = i;
         unsigned int indexFourmi = i;
-        vector<shared_ptr<fourmi::Fourmi>>  fourmilliereMemberList;
+        vector<shared_ptr<Fourmi>>  fourmilliereMemberList;
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
         shared_ptr<fourmiliere::Fourmiliere> Fourmilliere = fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
                                                                                                                     indexFourmilliere, fourmilliereMemberList);
         fourmilliereVectorReturn.push_back(Fourmilliere);
-        fourmilliereMemberList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire],
+        fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(inputBuffer[intermediaire],
                                                                                        indexFourmi));
         for(unsigned int c(1); c < collector+1; c++) {
             intermediaire = intermediaire+1;
-            fourmilliereMemberList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire],
+            fourmilliereMemberList.push_back(Collector::importFromExtSaveCollector(inputBuffer[intermediaire],
                                                                                            indexFourmi));
         }
         for(unsigned int d(1); d < defensor+1; d++) {
             intermediaire = intermediaire+1;
-            fourmilliereMemberList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire],
+            fourmilliereMemberList.push_back(Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire],
                                                                                          indexFourmi));
         }
         for(unsigned int p(1); p < predator+1; p++) {
             intermediaire = intermediaire+1;
-            fourmilliereMemberList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire],
+            fourmilliereMemberList.push_back(Predator::importFromExtSavePredator(inputBuffer[intermediaire],
                                                                                          indexFourmi));
         }
         (*Fourmilliere).overrideAnts(fourmilliereMemberList);
@@ -115,7 +115,7 @@ void textstorage::importDump(vector<vector<string>> inputBuffer,
     }
 }
 
-vector<vector<string>> textstorage::exportDump(vector<shared_ptr<entity::Entity>> entityArrayDump) {
+vector<vector<string>> textstorage::exportDump(vector<shared_ptr<Entity>> entityArrayDump) {
     vector<vector<string>> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;

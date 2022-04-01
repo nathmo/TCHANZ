@@ -17,8 +17,8 @@
 
 using namespace std;
 
-std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string path) {
-    vector<shared_ptr<entity::Entity>> entityList;
+std::vector<std::shared_ptr<Entity>> simulation::loadFromFile(string path) {
+    vector<shared_ptr<Entity>> entityList;
     vector<shared_ptr<nourriture::Nourriture>> nourritureList;
     vector<shared_ptr<fourmiliere::Fourmiliere>> fourmilliereList;
     textstorage::importDump(textstorage::readtxt(path), nourritureList, fourmilliereList);
@@ -29,6 +29,6 @@ std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string pat
     return entityList;
 }
 
-void simulation::saveToFile(string path,std::vector<std::shared_ptr<entity::Entity>> worldToDump) {
+void simulation::saveToFile(string path,std::vector<std::shared_ptr<Entity>> worldToDump) {
 
 }

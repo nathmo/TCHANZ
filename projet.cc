@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
         cout << "Please provide a file to load" << endl;
         return 0;
     }
-    vector<shared_ptr<entity::Entity>> entityVect(simulation::loadFromFile(string(argv[1])));
+    vector<shared_ptr<Entity>> entityVect(simulation::loadFromFile(string(argv[1])));
     //squarecell::Squarecell::displayRawBoolGrid();
     for(auto entity: entityVect) {
         //cout << (*entity).getSpecie() << endl;

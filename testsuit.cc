@@ -151,7 +151,7 @@ bool assert_squarecell_Point()
 
 bool assert_entity_Entity()
 {
-    shared_ptr<entity::Entity> testEnt = make_shared<entity::Entity>(squarecell::Point(2,4),1,1,'F',0);
+    shared_ptr<Entity> testEnt = make_shared<Entity>(squarecell::Point(2,4),1,1,'F',0);
     assert((*testEnt).getHeight()==1);
     assert((*testEnt).getWidth()==1);
     assert((*testEnt).getPosition().getCoordX()==2);
