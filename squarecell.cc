@@ -58,7 +58,7 @@ squarecell::Squarecell::Squarecell(squarecell::Point position, int width,int hei
     cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
     bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position,
                                                            width, height)
-                       and squarecell::Squarecell::checkPoint(position);
+                       and squarecell::Point::checkPoint(position);
     if(isElligible) {
         for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
             for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
@@ -133,7 +133,7 @@ int squarecell::Squarecell::getgMax() {
     return g_max;
 }
 
-bool squarecell::Squarecell::checkPoint(squarecell::Point point) {
+bool squarecell::Point::checkPoint(squarecell::Point point) {
     bool status = true;
     if(not ((point.getCoordX() >= 0) and (point.getCoordX() < squarecell::g_max))) { // not in [0;127]
         cout << error_squarecell::print_index(point.getCoordX(), squarecell::g_max);
@@ -218,9 +218,9 @@ int squarecell::Squarecell::countOverlap(squarecell::Point position1, int width1
     if((cornerBotLeft2.getCoordY() > cornerTopRight1.getCoordY()) or (cornerBotLeft1.getCoordY() > cornerTopRight2.getCoordY())){
         return 0; // the interval dont overlap (same but for Y coordinate)
     }
-    unsigned int overlapWidth = max(cornerTopRight1.getCoordX(), cornerTopRight2.getCoordX()) - max(cornerBotLeft1.getCoordX(), cornerBotLeft2.getCoordX());
-    unsigned int overlapHeight = max(cornerTopRight1.getCoordY(), cornerTopRight2.getCoordY()) - max(cornerBotLeft1.getCoordY(), cornerBotLeft2.getCoordY());;
-    return overlapWidth * overlapHeight;
+    unsigned int overlapWidth = min(cornerTopRight1.getCoordX(), cornerTopRight2.getCoordX()) - max(cornerBotLeft1.getCoordX(), cornerBotLeft2.getCoordX());
+    unsigned int overlapHeight = min(cornerTopRight1.getCoordY(), cornerTopRight2.getCoordY()) - max(cornerBotLeft1.getCoordY(), cornerBotLeft2.getCoordY());;
+    return (overlapWidth+1) * (overlapHeight+1);
 }
 
 
@@ -273,12 +273,12 @@ squarecell::Point squarecell::Squarecell::computeHitboxTopRight(squarecell::Poin
                                                                 int width, int height) {
     Point topRight;
     if(width%2==0) {
-        topRight.setCoordX(position.getCoordX()+width);
+        topRight.setCoordX(position.getCoordX()+width-1);
     } else if(width%2==1) {
         topRight.setCoordX(position.getCoordX()+(width-1)/2);
     }
     if(height%2==0) {
-        topRight.setCoordY(position.getCoordY()+height);
+        topRight.setCoordY(position.getCoordY()+height-1);
     } else if(height%2==1) {
         topRight.setCoordY(position.getCoordY()+(height-1)/2);
     }

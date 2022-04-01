@@ -27,6 +27,7 @@ namespace squarecell {
         int getCoordX();
         void setCoordY(int yOrigin);
         int getCoordY();
+        static bool checkPoint(Point point);
     };
 
     class Squarecell {
@@ -39,7 +40,6 @@ namespace squarecell {
         Point cornerTopRight;
         bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,
                          int width,int height);
-        bool checkPoint(Point point);
         static std::vector<std::vector<char>> hitBoxGrid ;
 
     public:

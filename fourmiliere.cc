@@ -90,7 +90,6 @@ void fourmiliere::Fourmiliere::checkGeneratorUsingCoord() {
     } else {
         position = (*occupiedSpace).getPosition();
     }
-    cout << position.getCoordY()<<endl;
     int overlapSize = squarecell::Squarecell::countOverlap(
             position, (*occupiedSpace).getWidth()-2,(*occupiedSpace).getHeight()-2,
             (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
@@ -120,13 +119,14 @@ void fourmiliere::Fourmiliere::checkDefensorUsingCoord() {
                     (*(*fourmi).getOccupiedSpace()).getPosition(),
                     (*(*fourmi).getOccupiedSpace()).getWidth(),
                     (*(*fourmi).getOccupiedSpace()).getHeight());
-            if(overlapSize<(sizeD*sizeD*nbD))
+            if(overlapSize<(sizeD*sizeD))
             {
                 cout<< message::defensor_not_within_home(
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
                 exit(EXIT_FAILURE);
             }
+            //squarecell::Squarecell::displayRawBoolGrid();
         }
     }
 }
