@@ -4,13 +4,13 @@
   \date   MARS 2022
   \brief  implémentation du module "nourriture".
 */
+#include <memory>
+#include <iostream>
 #include "nourriture.h"
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
-#include <memory>
-#include <iostream>
 
 using namespace std;
 

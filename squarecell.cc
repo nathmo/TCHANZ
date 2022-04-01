@@ -4,21 +4,21 @@
   \date   MARS 2022
   \brief  implémentation du module "squarecell".
 */
-#include "squarecell.h"
-#include "error_squarecell.h"
-#include "constantes.h"
-#include "message.h"
-#include "entity.h"
 #include <vector>
 #include <string>
 #include <iostream>
 #include <memory>
 #include <algorithm>
+#include "squarecell.h"
+#include "error_squarecell.h"
+#include "constantes.h"
+#include "message.h"
+#include "entity.h"
 
 using namespace std;
 
-vector<vector<char>>  Squarecell::hitBoxGrid = vector<vector<char>> (
-                                                          g_max,vector<char> (g_max));
+vector<vector<char>> Squarecell::hitBoxGrid = vector<vector<char>> (g_max,
+                                                                vector<char> (g_max));
 
 Point::Point(int x,int y) {
     if(Point::checkPoint(x,y))

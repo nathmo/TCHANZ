@@ -4,18 +4,19 @@
   \date   MARS 2022
   \brief  implémentation du module "textstorage".
 */
-#include "textstorage.h"
-#include "squarecell.h"
-#include "fourmi.h"
-#include "fourmiliere.h"
-#include "nourriture.h"
-#include "message.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <memory>
+#include "textstorage.h"
+#include "squarecell.h"
+#include "fourmi.h"
+#include "fourmiliere.h"
+#include "nourriture.h"
+#include "message.h"
+
 
 using namespace std;
 

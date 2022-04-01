@@ -7,13 +7,14 @@
 #ifndef TCHANZ_TEXTSTORAGE_H
 #define TCHANZ_TEXTSTORAGE_H
 
+#include <string>
+#include <vector>
+#include <memory>
 #include "squarecell.h"
 #include "nourriture.h"
 #include "fourmiliere.h"
 #include "entity.h"
-#include <string>
-#include <vector>
-#include <memory>
+
 
 void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
 std::vector<std::vector<std::string>> readtxt(std::string filename);

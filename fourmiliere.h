@@ -7,11 +7,11 @@
 #ifndef TCHANZ_FOURMILIERE_H
 #define TCHANZ_FOURMILIERE_H
 
+#include <vector>
+#include <memory>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"
-#include <vector>
-#include <memory>
 
 class Fourmiliere : public Entity {
 private:

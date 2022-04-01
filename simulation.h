@@ -8,9 +8,9 @@
 #define TCHANZ_SIMULATION_H
 
 #include <string>
-#include "entity.h"
 #include <memory>
 #include <vector>
+#include "entity.h"
 
 class Simulation {
 

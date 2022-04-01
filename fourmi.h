@@ -7,9 +7,9 @@
 #ifndef TCHANZ_FOURMI_H
 #define TCHANZ_FOURMI_H
 
+#include <memory>
 #include "squarecell.h"
 #include "entity.h"
-#include <memory>
 
 class Fourmi : public Entity {
     protected:

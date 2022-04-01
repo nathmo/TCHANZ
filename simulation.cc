@@ -4,15 +4,15 @@
   \date   MARS 2022
   \brief  implémentation du module "simulation".
 */
+#include <iostream>
+#include <string>
+#include <memory>
 #include "simulation.h"
 #include "textstorage.h"
 #include "squarecell.h"
 #include "constantes.h"
 #include "fourmiliere.h"
 #include "message.h"
-#include <iostream>
-#include <string>
-#include <memory>
 
 using namespace std;
 

@@ -4,15 +4,15 @@
   \date   MARS 2022
   \brief  implémentation du module "entity".
 */
+#include <vector>
+#include <string>
+#include <iostream>
+#include <memory>
 #include "entity.h"
 #include "squarecell.h"
 #include "error_squarecell.h"
 #include "constantes.h"
 #include "message.h"
-#include <vector>
-#include <string>
-#include <iostream>
-#include <memory>
 
 using namespace std;
 

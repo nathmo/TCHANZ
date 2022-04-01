@@ -4,13 +4,13 @@
   \date   MARS 2022
   \brief  implémentation du module "fourmiliere".
 */
+#include <iostream>
+#include <memory>
 #include "fourmiliere.h"
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
-#include <iostream>
-#include <memory>
 
 using namespace std;
 

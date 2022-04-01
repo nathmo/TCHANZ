@@ -7,9 +7,9 @@
 #ifndef TCHANZ_NOURRITURE_H
 #define TCHANZ_NOURRITURE_H
 
+#include <memory>
 #include "squarecell.h"
 #include "entity.h"
-#include <memory>
 
 class Nourriture : public Entity {
 public:

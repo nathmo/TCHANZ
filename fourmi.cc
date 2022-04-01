@@ -4,14 +4,14 @@
   \date   MARS 2022
   \brief  implémentation du module "fourmi".
 */
+#include <iostream>
+#include <string>
+#include <memory>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
-#include <iostream>
-#include <string>
-#include <memory>
 
 using namespace std;
 

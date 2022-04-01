@@ -4,10 +4,6 @@
   \date   MARS 2022
   \brief  Implémentation du module de test avec la seconde fonction main() avec test
 */
-#include "textstorage.h"
-#include "squarecell.h"
-#include "constantes.h"
-#include "entity.h"
 #include <cstdio>
 #include <iostream>
 #include <stdexcept>
@@ -17,6 +13,10 @@
 #include <string>
 #include <assert.h>
 #include <memory>
+#include "textstorage.h"
+#include "squarecell.h"
+#include "constantes.h"
+#include "entity.h"
 
 using namespace std;
 
