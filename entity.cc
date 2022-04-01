@@ -54,8 +54,8 @@ shared_ptr<squarecell::Squarecell> entity::Entity::getOccupiedSpace() {
 
 int entity::Entity::findIdByOccupingPoint(squarecell::Point overlappingPoint,
                                           std::vector<std::shared_ptr<entity::Entity>> ListOfEntity, char specie) {
-
-    int x = squarecell::overlappingPoint.getCoordX;
+    /*
+    int x = overlappingPoint.getCoordX;
     int y = squarecell::overlappingPoint.getCoordY;
 
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
@@ -70,6 +70,7 @@ int entity::Entity::findIdByOccupingPoint(squarecell::Point overlappingPoint,
             }
         }
     }
+    */
     return 0; // FAIRE TA FONCTION ICI (SAUF SI MEILLEURE IDEE)
 }
 
