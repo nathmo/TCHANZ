@@ -89,11 +89,11 @@ bool assert_nourriture()
 bool assert_textstorage_readtxt()
 {
     string teststringfin = "0";
-    vector<vector<string>> inputBuffer = textstorage::readtxt("scenario/no_error_collector_move.txt");
+    vector<vector<string>> inputBuffer = readtxt("scenario/no_error_collector_move.txt");
     if(teststringfin == inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1])
     {
         return true;
-    }else{
+    } else {
         cout << "expected : " << teststringfin <<endl;
         cout << "got : " << inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1] <<endl;
         cout << "number of line : " << inputBuffer.size() << endl;
@@ -112,8 +112,8 @@ bool assert_textstorage_writetxt()
 {
     vector<vector<string>> teststring = {{"1","2","3"},{"4","560000","-6","2"}};
     string Stockage_fichiertxt = "scenario/test_ecriture.txt";
-    textstorage::writetxt(Stockage_fichiertxt, teststring);
-    vector<vector<string>> inputBuffer = textstorage::readtxt(Stockage_fichiertxt);
+    writetxt(Stockage_fichiertxt, teststring);
+    vector<vector<string>> inputBuffer = readtxt(Stockage_fichiertxt);
     bool passed = true;
     for(unsigned int i=0; i<teststring.size();i++)
     {

@@ -27,7 +27,8 @@ public:
     //virtual void update();
     //virtual void check();
     static int findIdByOccupingPoint(Point overlappingPoint,
-                                     std::vector<std::shared_ptr<Entity>> ListOfEntity, char specie);
+                                     std::vector<std::shared_ptr<Entity>> listOfEntity,
+                                     char specie);
 };
 
 #endif //TCHANZ_ENTITY_H

@@ -27,7 +27,7 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string>& inputBuffer
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
         if(Squarecell::checkOverlap(Point(x,y),
-                                                1, 1, nourritureCST)) {
+                                    1, 1, nourritureCST)) {
             cout<< message::food_overlap(x,y);
             exit(EXIT_FAILURE);
         }

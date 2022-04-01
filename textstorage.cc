@@ -19,7 +19,7 @@
 
 using namespace std;
 
-void textstorage::writetxt(string filename, vector<vector<string>> lineToWrite) {
+void writetxt(string filename, vector<vector<string>> lineToWrite) {
     fstream txtsave;
     txtsave.open(filename, ios::out);//out ca ecrit dans un fichier extern
     if(txtsave.fail()) {
@@ -37,7 +37,7 @@ void textstorage::writetxt(string filename, vector<vector<string>> lineToWrite) 
     }
 }
 
-vector<vector<string>> textstorage::readtxt(string filename) { //sans espace ni qqch begin #
+vector<vector<string>> readtxt(string filename) { //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<vector<string>> inputBuffer;
@@ -56,7 +56,7 @@ vector<vector<string>> textstorage::readtxt(string filename) { //sans espace ni 
     return inputBuffer;
 }
 
-vector<string> textstorage::creation(string line) {
+vector<string> creation(string line) {
     istringstream iss(line);
     vector<string> tableauValeur;
     string valeur;
@@ -68,17 +68,18 @@ vector<string> textstorage::creation(string line) {
     return tableauValeur;
 }
 
-void textstorage::importDump(vector<vector<string>> inputBuffer,
-                                                           vector<shared_ptr<Nourriture>> &foodVectorReturn,
-                                                           vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
-    if(not(textstorage::checksize_line(inputBuffer))) {
+void importDump(vector<vector<string>> inputBuffer,
+                vector<shared_ptr<Nourriture>> &foodVectorReturn,
+                vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
+    if(not(checksize_line(inputBuffer))) {
         exit(0);
     }
     string quantity_food = inputBuffer[0][0];
     unsigned int int_quantity_food = stoi(quantity_food);
     for(unsigned int i(1); i < int_quantity_food+1; i++) { // ajoute les nourriture au vecteur
         int index = i;
-        foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],index));
+        foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
+                                                                              index));
     }
     unsigned int intermediaire = int_quantity_food + 2; //index de la ligne dans le fichier
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
@@ -90,44 +91,49 @@ void textstorage::importDump(vector<vector<string>> inputBuffer,
         unsigned int indexFourmi = i;
         vector<shared_ptr<Fourmi>>  fourmilliereMemberList;
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
-        shared_ptr<Fourmiliere> Fourmilliere = Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
-                                                                                                                    indexFourmilliere, fourmilliereMemberList);
+        shared_ptr<Fourmiliere> Fourmilliere=
+                Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
+                                                           indexFourmilliere,
+                                                           fourmilliereMemberList);
+
         fourmilliereVectorReturn.push_back(Fourmilliere);
-        fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(inputBuffer[intermediaire],
-                                                                                       indexFourmi));
+        fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(
+                                             inputBuffer[intermediaire],indexFourmi));
+
         for(unsigned int c(1); c < collector+1; c++) {
             intermediaire = intermediaire+1;
-            fourmilliereMemberList.push_back(Collector::importFromExtSaveCollector(inputBuffer[intermediaire],
-                                                                                           indexFourmi));
+            fourmilliereMemberList.push_back(Collector::importFromExtSaveCollector(
+                                            inputBuffer[intermediaire], indexFourmi));
         }
         for(unsigned int d(1); d < defensor+1; d++) {
             intermediaire = intermediaire+1;
-            fourmilliereMemberList.push_back(Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire],
-                                                                                         indexFourmi));
+            fourmilliereMemberList.push_back(Defensor::importFromExtSaveDefensor(
+                                            inputBuffer[intermediaire], indexFourmi));
         }
         for(unsigned int p(1); p < predator+1; p++) {
             intermediaire = intermediaire+1;
-            fourmilliereMemberList.push_back(Predator::importFromExtSavePredator(inputBuffer[intermediaire],
-                                                                                         indexFourmi));
+            fourmilliereMemberList.push_back(Predator::importFromExtSavePredator(
+                                            inputBuffer[intermediaire], indexFourmi));
         }
         (*Fourmilliere).overrideAnts(fourmilliereMemberList);
         intermediaire = intermediaire+1;
     }
 }
 
-vector<vector<string>> textstorage::exportDump(vector<shared_ptr<Entity>> entityArrayDump) {
+vector<vector<string>> exportDump(vector<shared_ptr<Entity>> entityArrayDump) {
     vector<vector<string>> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;
 }
 
-bool textstorage::checksize_line(vector<vector<string>> intArrayDump) {
+bool checksize_line(vector<vector<string>> intArrayDump) {
     bool status = true;
     string quantity_food = intArrayDump[0][0];
     unsigned int int_quantity_food = stoi(quantity_food);
     for(unsigned int i(1); i < int_quantity_food+1; i++) {
         if(intArrayDump[i].size()<2) {
-            cout << "not enough argument on a line from the file at index : "+ to_string(i) << endl;
+            cout << "not enough argument on a line from the file at index : "
+                    + to_string(i) << endl;
             status = false;
         }
     }
@@ -139,7 +145,8 @@ bool textstorage::checksize_line(vector<vector<string>> intArrayDump) {
             status = false;
         }
         if(intArrayDump[intermediaire].size()<9) {
-            cout << "not enough argument on a line from the file at index : "+ to_string(intermediaire) << endl;
+            cout << "not enough argument on a line from the file at index : "
+                    + to_string(intermediaire) << endl;
             status = false;
         }
         int collector = stoi(intArrayDump[intermediaire][6]);

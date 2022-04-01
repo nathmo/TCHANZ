@@ -15,8 +15,8 @@
 class Nourriture : public Entity {
 public:
     Nourriture(Point position, int index);
-    static std::shared_ptr<Nourriture> importFromExtSave(std::vector<std::string>& inputBuffer,
-                                                             int index);
+    static std::shared_ptr<Nourriture> importFromExtSave(
+            std::vector<std::string>& inputBuffer, int index);
 };
 
 #endif //TCHANZ_NOURRITURE_H

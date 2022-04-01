@@ -23,7 +23,8 @@ private:
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
 
 public:
-    Fourmiliere(Point position,int size,int total_food,int nbC,int nbD,int nbP,int id,
+    Fourmiliere(Point position, int size, int total_food,
+                int nbC, int nbD, int nbP, int id,
                 std::vector<std::shared_ptr<Fourmi>> FourmiList);
     void update();
     void check();
@@ -32,8 +33,9 @@ public:
     void checkDefensor() ;
     void checkGeneratorUsingCoord();
     void checkDefensorUsingCoord() ;
-    static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(std::vector<std::string> &inputBuffer, int index,
-                                                                      std::vector<std::shared_ptr<Fourmi>> FourmiList);
+    static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
+            std::vector<std::string> &inputBuffer, int index,
+            std::vector<std::shared_ptr<Fourmi>> FourmiList);
 };
 
 #endif //TCHANZ_FOURMILIERE_H

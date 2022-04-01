@@ -15,16 +15,19 @@
 #include <vector>
 #include <memory>
 
-namespace textstorage {
-    void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
-    std::vector<std::vector<std::string>> readtxt(std::string filename);
-    std::vector<std::string> creation(std::string line);
-    std::vector<std::shared_ptr<Entity>> importDump(std::vector<std::vector<std::string>> intArrayDump);
-    void importDump(std::vector<std::vector<std::string>> inputBuffer,
-                    std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
-                    std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
-    std::vector<std::vector<std::string>> exportDump(std::vector<std::shared_ptr<Entity>> entityArrayDump);
-    bool checksize_line(std::vector<std::vector<std::string>> intArrayDump);
-}
+void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
+std::vector<std::vector<std::string>> readtxt(std::string filename);
+std::vector<std::string> creation(std::string line);
+std::vector<std::shared_ptr<Entity>> importDump(
+                                  std::vector<std::vector<std::string>> intArrayDump);
+
+void importDump(std::vector<std::vector<std::string>> inputBuffer,
+                std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
+                std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
+
+std::vector<std::vector<std::string>> exportDump(
+                                std::vector<std::shared_ptr<Entity>> entityArrayDump);
+
+bool checksize_line(std::vector<std::vector<std::string>> intArrayDump);
 
 #endif //TCHANZ_TEXTSTORAGE_H

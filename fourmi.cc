@@ -31,11 +31,10 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update() {
-
 }
 
 shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBuffer,
-                                                                          int index) {
+                                                         int index) {
     if(!(inputBuffer.size()<=4)) {
         cout << "Collector : number of argument mismatch" << endl;
         exit(0);
@@ -47,11 +46,11 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     if("true" == inputBuffer[3]) {
         condition_food = true;
     }
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y),
-                                                                               sizeC,
-                                                                               sizeC, anyCST);
+    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeC, sizeC,
+                                                       anyCST);
     if(overlapList.size()>0) {
-        cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(), overlapList[0].getCoordY());
+        cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
+                                          overlapList[0].getCoordY());
         exit(EXIT_FAILURE);
     }
     return make_shared<Collector>(Point(x,y),index ,age,condition_food);
@@ -63,23 +62,22 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 void Defensor::update() {
-
 }
 
 shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuffer,
-                                                                        int index) {
+                                                       int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Defensor : number of argument mismatch" << endl;
         exit(0);
-    }else{
+    } else {
     long int x = stoi(inputBuffer[0]);
     long int y = stoi(inputBuffer[1]);
     long int age = stoi(inputBuffer[2]);
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y),
-                                                                               sizeD,
-                                                                               sizeD, anyCST);
+    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeD, sizeD,
+                                                       anyCST);
     if(overlapList.size()>0) {
-        cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(), overlapList[0].getCoordY());
+        cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(),
+                                         overlapList[0].getCoordY());
         exit(EXIT_FAILURE);
     }
     return make_shared<Defensor>(Point(x,y), index,age);
@@ -91,7 +89,6 @@ Predator::Predator(Point position, int id, int age) :
 }
 
 void Predator::update() {
-
 }
 
 shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuffer,
@@ -103,7 +100,8 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP, anyCST);
+    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP,
+                                                       anyCST);
     if(overlapList.size()>0) {
         cout<< message::predator_overlap(x,y);
         exit(EXIT_FAILURE);
@@ -117,17 +115,17 @@ Generator::Generator(Point position, int id) :
 }
 
 void Generator::update() {
-
 }
 
-shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBuffer, int index) {
+shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBuffer,
+                                                         int index) {
     int x = stoi(inputBuffer[3]);
     int y = stoi(inputBuffer[4]);
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y),
-                                                                               sizeG,
-                                                                               sizeG, anyCST);
+    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeG, sizeG,
+                                                       anyCST);
     if(overlapList.size()>0) {
-        cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(), overlapList[0].getCoordY());
+        cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
+                                          overlapList[0].getCoordY());
         exit(EXIT_FAILURE);
     }
     return make_shared<Generator>(Point(x,y), index);

@@ -15,7 +15,7 @@
 using namespace std;
 
 Entity::Entity(Point position, int width, int height, char specie, int id) {
-    occupiedSpace = make_shared<Squarecell>(position, width, height, specie);
+    occupiedSpace = make_shared<Squarecell> (position, width, height, specie);
     this->specie=specie;
     this->id=id;
 }
@@ -53,7 +53,8 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
 }
 
 int Entity::findIdByOccupingPoint(Point overlappingPoint,
-                                          std::vector<std::shared_ptr<Entity>> ListOfEntity, char specie) {
+                                  std::vector<std::shared_ptr<Entity>> listOfEntity,
+                                  char specie) {
     /*
     int x = overlappingPoint.getCoordX;
     int y = overlappingPoint.getCoordY;
