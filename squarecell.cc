@@ -179,7 +179,7 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point position,int width,in
                                                         width,
                                                         squarecell::g_max-1);
                 exit(EXIT_FAILURE);
-            } else if(i%2==1) { // check for Y coordinate error
+            } else if(i%2==1) { // check for Y coordinate error 
                 cout << error_squarecell::print_outside(position.getCoordY(),
                                                         height,
                                                         squarecell::g_max-1);
