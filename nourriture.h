@@ -16,7 +16,7 @@ namespace nourriture {
     class Nourriture : public entity::Entity {
     public:
         Nourriture(squarecell::Point position, int index);
-        static std::shared_ptr<entity::Entity> importFromExtSave(std::vector<std::string>& inputBuffer,
+        static std::shared_ptr<nourriture::Nourriture> importFromExtSave(std::vector<std::string>& inputBuffer,
                                                                  int index);
     };
 }

@@ -68,43 +68,44 @@ vector<string> textstorage::creation(string line) {
     return tableauValeur;
 }
 
-vector<shared_ptr<entity::Entity>> textstorage::importDump(vector<vector<string>> inputBuffer) {
+void textstorage::importDump(vector<vector<string>> inputBuffer,
+                                                           vector<shared_ptr<nourriture::Nourriture>> &foodVectorReturn,
+                                                           vector<shared_ptr<fourmiliere::Fourmiliere>> &fourmilliereVectorReturn) {
     if(not(textstorage::checksize_line(inputBuffer))) {
         exit(0);
     }
-    vector<shared_ptr<entity::Entity>> entityList;
     string quantity_food = inputBuffer[0][0];
     unsigned int int_quantity_food = stoi(quantity_food);
     for(unsigned int i(1); i < int_quantity_food+1; i++) { // ajoute les nourriture au vecteur
         int index = i;
-        entityList.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i],index));
+        foodVectorReturn.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i],index));
     }
     unsigned int intermediaire = int_quantity_food + 2; //index de la ligne dans le fichier
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantity_anthill; i++) {
-        int collector = stoi(inputBuffer[intermediaire][6]);
-        int defensor = stoi(inputBuffer[intermediaire][7]);
-        int predator = stoi(inputBuffer[intermediaire][8]);
-        int indexFourmilliere = i;
-        int indexFourmi = i;
+        unsigned int collector = stoi(inputBuffer[intermediaire][6]);
+        unsigned int defensor = stoi(inputBuffer[intermediaire][7]);
+        unsigned int predator = stoi(inputBuffer[intermediaire][8]);
+        unsigned int indexFourmilliere = i;
+        unsigned int indexFourmi = i;
         vector<shared_ptr<fourmi::Fourmi>>  fourmilliereMemberList;
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
         shared_ptr<fourmiliere::Fourmiliere> Fourmilliere = fourmiliere::Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
                                                                                                                     indexFourmilliere, fourmilliereMemberList);
-        entityList.push_back(Fourmilliere);
+        fourmilliereVectorReturn.push_back(Fourmilliere);
         fourmilliereMemberList.push_back(fourmi::Generator::importFromExtSaveGenerator(inputBuffer[intermediaire],
                                                                                        indexFourmi));
-        for(int c(1); c < collector+1; c++) {
+        for(unsigned int c(1); c < collector+1; c++) {
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(fourmi::Collector::importFromExtSaveCollector(inputBuffer[intermediaire],
                                                                                            indexFourmi));
         }
-        for(int d(1); d < defensor+1; d++) {
+        for(unsigned int d(1); d < defensor+1; d++) {
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(fourmi::Defensor::importFromExtSaveDefensor(inputBuffer[intermediaire],
                                                                                          indexFourmi));
         }
-        for(int p(1); p < predator+1; p++) {
+        for(unsigned int p(1); p < predator+1; p++) {
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(fourmi::Predator::importFromExtSavePredator(inputBuffer[intermediaire],
                                                                                          indexFourmi));
@@ -112,8 +113,6 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump(vector<vector<string>
         (*Fourmilliere).overrideAnts(fourmilliereMemberList);
         intermediaire = intermediaire+1;
     }
-    cout << message::success();
-    return entityList;
 }
 
 vector<vector<string>> textstorage::exportDump(vector<shared_ptr<entity::Entity>> entityArrayDump) {

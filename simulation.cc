@@ -10,6 +10,7 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include "fourmiliere.h"
+#include "message.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -17,12 +18,14 @@
 using namespace std;
 
 std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string path) {
-    vector<shared_ptr<entity::Entity>> entityList(textstorage::importDump(textstorage::readtxt(path)));
-    for(auto fourmilliere : entityList){
-        if ((*fourmilliere).getSpecie() == fourmilliereCST) {
-            //(*fourmilliere).check();
-        }
+    vector<shared_ptr<entity::Entity>> entityList;
+    vector<shared_ptr<nourriture::Nourriture>> nourritureList;
+    vector<shared_ptr<fourmiliere::Fourmiliere>> fourmilliereList;
+    textstorage::importDump(textstorage::readtxt(path), nourritureList, fourmilliereList);
+    for(unsigned int i=0;i<fourmilliereList.size();i++){
+        (*fourmilliereList[i]).check();
     }
+    cout << message::success();
     return entityList;
 }
 

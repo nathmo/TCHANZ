@@ -8,6 +8,8 @@
 #define TCHANZ_TEXTSTORAGE_H
 
 #include "squarecell.h"
+#include "nourriture.h"
+#include "fourmiliere.h"
 #include "entity.h"
 #include <string>
 #include <vector>
@@ -18,6 +20,9 @@ namespace textstorage {
     std::vector<std::vector<std::string>> readtxt(std::string filename);
     std::vector<std::string> creation(std::string line);
     std::vector<std::shared_ptr<entity::Entity>> importDump(std::vector<std::vector<std::string>> intArrayDump);
+    void importDump(std::vector<std::vector<std::string>> inputBuffer,
+                    std::vector<std::shared_ptr<nourriture::Nourriture>> &foodVectorReturn,
+                    std::vector<std::shared_ptr<fourmiliere::Fourmiliere>> &fourmilliereVectorReturn);
     std::vector<std::vector<std::string>> exportDump(std::vector<std::shared_ptr<entity::Entity>> entityArrayDump);
     bool checksize_line(std::vector<std::vector<std::string>> intArrayDump);
 }

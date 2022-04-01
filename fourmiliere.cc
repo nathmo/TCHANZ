@@ -90,6 +90,7 @@ void fourmiliere::Fourmiliere::checkGeneratorUsingCoord() {
     } else {
         position = (*occupiedSpace).getPosition();
     }
+    cout << position.getCoordY()<<endl;
     int overlapSize = squarecell::Squarecell::countOverlap(
             position, (*occupiedSpace).getWidth()-2,(*occupiedSpace).getHeight()-2,
             (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
