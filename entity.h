@@ -1,7 +1,9 @@
-//
-// Created by nathann on 27.03.22.
-//
-
+/*!
+  \file   entity.h
+  \author Nathann Morand (70%) et Felipe Ramirez (30%)
+  \date   MARS 2022
+  \brief  prototype du module "entity".
+*/
 #ifndef TCHANZ_ENTITY_H
 #define TCHANZ_ENTITY_H
 

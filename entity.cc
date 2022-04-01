@@ -1,7 +1,9 @@
-//
-// Created by nathann on 27.03.22.
-//
-
+/*!
+  \file   entity.cc
+  \author Nathann Morand (70%) et Felipe Ramirez (30%)
+  \date   MARS 2022
+  \brief  implémentation du module "entity".
+*/
 #include "entity.h"
 #include "squarecell.h"
 #include "error_squarecell.h"

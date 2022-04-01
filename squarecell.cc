@@ -1,8 +1,8 @@
 /*!
-  \file   calendrier.h
-  \author Nathann Morand et Felipe Ramirez
+  \file   squarecell.cc
+  \author Nathann Morand (90%) et Felipe Ramirez (10%)
   \date   MARS 2022
-  \brief  Implémentation du module "squarecell".
+  \brief  implémentation du module "squarecell".
 */
 
 #include "squarecell.h"
@@ -51,7 +51,7 @@ int Point::getCoordY() {
 
 bool Point::checkPoint(Point point) {
     bool status = true;
-    if(not ((point.getCoordX() >= 0) and (point.getCoordX() < g_max))) { // not in [0;127]
+    if(not ((point.getCoordX() >= 0) and (point.getCoordX() < g_max))) {// not in [0;127]
         cout << error_squarecell::print_index(point.getCoordX(), g_max);
         exit(EXIT_FAILURE);
         status = false;
@@ -175,15 +175,13 @@ bool Squarecell::checkHitbox(Point position, int width, int height) {
     vector<int> PointToCheck ={cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
                                cornerTopRight.getCoordX(),cornerTopRight.getCoordY(),};
     for(int i=0;i<4;i++) {
-        if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < g_max))) {// not in [0;127]
+        if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < g_max))) {//not in [0;127]
             if(i%2==0) { // check for X coordinate error
-                cout << error_squarecell::print_outside(position.getCoordX(),
-                                                        width,
+                cout << error_squarecell::print_outside(position.getCoordX(), width,
                                                         g_max-1);
                 exit(EXIT_FAILURE);
             } else if(i%2==1) { // check for Y coordinate error 
-                cout << error_squarecell::print_outside(position.getCoordY(),
-                                                        height,
+                cout << error_squarecell::print_outside(position.getCoordY(), height,
                                                         g_max-1);
                 exit(EXIT_FAILURE);
             }
@@ -228,9 +226,9 @@ vector<Point> Squarecell::getOverlap(Point position, int width, int height,
     return collisionList;
 }
 int Squarecell::countOverlap(Point position1, int width1,int height1,
-                                                 Point position2, int width2,int height2){
+                             Point position2, int width2,int height2){
     Point cornerBotLeft1 = Squarecell::computeHitboxBotLeft(position1,
-                                                            width1, height1);
+                                                            width1,height1);
     Point cornerTopRight1 = Squarecell::computeHitboxTopRight(position1,
                                                               width1, height1);
     Point cornerBotLeft2 = Squarecell::computeHitboxBotLeft(position2,
@@ -257,7 +255,6 @@ int Squarecell::countOverlap(Point position1, int width1,int height1,
 
     return (overlapWidth+1) * (overlapHeight+1);
 }
-
 
 void Squarecell::displayRawBoolGrid() {
     for(int i=g_max-1;i>=0;i--) {

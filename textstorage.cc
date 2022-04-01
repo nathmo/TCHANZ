@@ -1,6 +1,6 @@
 /*!
   \file   textstorage.cc
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (10%) et Felipe Ramirez (90%)
   \date   MARS 2022
   \brief  implémentation du module "textstorage".
 */
@@ -43,7 +43,7 @@ vector<vector<string>> readtxt(string filename) { //sans espace ni qqch begin #
     vector<vector<string>> inputBuffer;
     txtsave.open(filename,ios::in);//in car tu lis depuis fichier
     if(txtsave.fail()) {
-        cout << "soucis readtxt_filename" << endl;
+        cout << "Fichier non ouvrable ou pas assez de droit" << endl;
         exit(EXIT_FAILURE);
     } else if(txtsave.is_open()) { //checking whether the file is open
         while(getline(txtsave >> ws, line)) { // avec ws j ai plus les tab ou les espaces avant premier caractere
@@ -62,7 +62,7 @@ vector<string> creation(string line) {
     string valeur;
     while(iss >> valeur) {
         if('#' == valeur[0]) break; //passe au suivant
-        if(valeur=="") continue;
+        if(valeur == "") continue;
         tableauValeur.push_back(valeur);
     }
     return tableauValeur;
@@ -76,10 +76,10 @@ void importDump(vector<vector<string>> inputBuffer,
     }
     string quantity_food = inputBuffer[0][0];
     unsigned int int_quantity_food = stoi(quantity_food);
-    for(unsigned int i(1); i < int_quantity_food+1; i++) { // ajoute les nourriture au vecteur
-        int index = i;
+    for(unsigned int i(1); i < int_quantity_food+1; i++) {
+        int index = i; //ajoute les nourriture au vecteur
         foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
-                                                                              index));
+                                                                 index));
     }
     unsigned int intermediaire = int_quantity_food + 2; //index de la ligne dans le fichier
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);

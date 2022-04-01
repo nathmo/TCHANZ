@@ -1,6 +1,6 @@
 /*!
   \file   textstorage.h
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (10%) et Felipe Ramirez (90%)
   \date   MARS 2022
   \brief  prototype du module "textstorage".
 */

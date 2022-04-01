@@ -1,8 +1,8 @@
 /*!
   \file   projet.cc
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (100%) et Felipe Ramirez (0%)
   \date   MARS 2022
-  \brief  Implémentation du module principal avec la fonction main()
+  \brief  implémentation du module principal avec la fonction main()
 */
 
 #include <iostream>
@@ -17,9 +17,5 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     vector<shared_ptr<Entity>> entityVect(loadFromFile(string(argv[1])));
-    //Squarecell::displayRawBoolGrid();
-    for(auto entity: entityVect) {
-        //cout << (*entity).getSpecie() << endl;
-    }
     return 0;
 }

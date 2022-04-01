@@ -1,6 +1,6 @@
 /*!
   \file   nourriture.cc
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (40%) et Felipe Ramirez (60%)
   \date   MARS 2022
   \brief  implémentation du module "nourriture".
 */
@@ -18,7 +18,7 @@ using namespace std;
 Nourriture::Nourriture(Point position, int index) :
         Entity(position, 1, 1, nourritureCST, index) {}
 
-shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string>& inputBuffer,
+shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer,
                                                                      int index) {
     if(!(inputBuffer.size() <= 2)) {
         cout << "nourriture : number of argument mismatch" << endl;

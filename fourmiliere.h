@@ -1,6 +1,6 @@
 /*!
   \file   fourmiliere.h
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (90%) et Felipe Ramirez (10%)
   \date   MARS 2022
   \brief  prototype du module "fourmiliere".
 */

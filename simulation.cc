@@ -1,6 +1,6 @@
 /*!
   \file   simulation.cc
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (100%) et Felipe Ramirez (0%)
   \date   MARS 2022
   \brief  implémentation du module "simulation".
 */

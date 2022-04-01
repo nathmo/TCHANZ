@@ -1,8 +1,8 @@
 /*!
-  \file   calendrier.h
-  \author Nathann Morand et Felipe Ramirez
+  \file   squarecell.h
+  \author Nathann Morand (90%) et Felipe Ramirez (10%)
   \date   MARS 2022
-  \brief  Interface du module "squarecell"
+  \brief  prototype du module "squarecell"
 */
 #ifndef TCHANZ_SQUARECELL_H
 #define TCHANZ_SQUARECELL_H

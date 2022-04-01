@@ -1,6 +1,6 @@
 /*!
   \file   fourmi.cc
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (30%) et Felipe Ramirez (70%)
   \date   MARS 2022
   \brief  implémentation du module "fourmi".
 */
@@ -92,7 +92,7 @@ void Predator::update() {
 }
 
 shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuffer,
-                                                                        int index) {
+                                                       int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Predator : number of argument mismatch" << endl;
         exit(0);

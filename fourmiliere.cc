@@ -1,10 +1,9 @@
 /*!
   \file   fourmiliere.cc
-  \author Nathann Morand et Felipe Ramirez
+  \author Nathann Morand (90%) et Felipe Ramirez (10%)
   \date   MARS 2022
   \brief  implémentation du module "fourmiliere".
 */
-
 #include "fourmiliere.h"
 #include "entity.h"
 #include "squarecell.h"
