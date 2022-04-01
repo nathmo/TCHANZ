@@ -24,6 +24,8 @@ namespace entity {
         char getSpecie();
         int getId();
         std::shared_ptr<squarecell::Squarecell> getOccupiedSpace();
+        //virtual void update();
+        //virtual void check();
         static int findIdByOccupingPoint(squarecell::Point overlappingPoint,
                                          std::vector<std::shared_ptr<entity::Entity>> ListOfEntity);
     };

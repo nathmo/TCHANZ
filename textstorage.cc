@@ -75,11 +75,11 @@ vector<shared_ptr<entity::Entity>> textstorage::importDump(vector<vector<string>
     vector<shared_ptr<entity::Entity>> entityList;
     string quantity_food = inputBuffer[0][0];
     unsigned int int_quantity_food = stoi(quantity_food);
-    for(unsigned int i(1); i < int_quantity_food+1; i++) {
+    for(unsigned int i(1); i < int_quantity_food+1; i++) { // ajoute les nourriture au vecteur
         int index = i;
         entityList.push_back(nourriture::Nourriture::importFromExtSave(inputBuffer[i],index));
     }
-    unsigned int intermediaire = int_quantity_food + 2; //position des donnees "grande ligne"
+    unsigned int intermediaire = int_quantity_food + 2; //index de la ligne dans le fichier
     unsigned int quantity_anthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantity_anthill; i++) {
         int collector = stoi(inputBuffer[intermediaire][6]);

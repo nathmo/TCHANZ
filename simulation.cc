@@ -8,6 +8,8 @@
 #include "simulation.h"
 #include "textstorage.h"
 #include "squarecell.h"
+#include "constantes.h"
+#include "fourmiliere.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -16,6 +18,11 @@ using namespace std;
 
 std::vector<std::shared_ptr<entity::Entity>> simulation::loadFromFile(string path) {
     vector<shared_ptr<entity::Entity>> entityList(textstorage::importDump(textstorage::readtxt(path)));
+    for(auto fourmilliere : entityList){
+        if ((*fourmilliere).getSpecie() == fourmilliereCST) {
+            //(*fourmilliere).check();
+        }
+    }
     return entityList;
 }
 

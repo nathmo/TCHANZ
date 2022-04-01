@@ -58,8 +58,9 @@ namespace squarecell {
         static bool checkOverlap(squarecell::Point position, int width, int height, char kindToCheck);
         static std::vector<squarecell::Point> getOverlap(squarecell::Point position, int width,
                                                          int height, char kindToCheck);
+        static int countOverlap(squarecell::Point position1, int width1,int height1,
+                                        squarecell::Point position2, int width2,int height2);
         static int getgMax();
-        static int countOverlap(Squarecell hitbox1, Squarecell hitbox2);
         static Point computeHitboxBotLeft(squarecell::Point position, int width, int height);
         static Point computeHitboxTopRight(squarecell::Point position, int width, int height);
         static void displayRawBoolGrid();

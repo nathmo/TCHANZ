@@ -14,22 +14,13 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <algorithm>
 
 using namespace std;
 
 vector<vector<char>>  squarecell::Squarecell::hitBoxGrid = vector<vector<char>> (squarecell::g_max,vector<char> (squarecell::g_max));
 
 squarecell::Point::Point(int x,int y) {
-
-    if(x>(g_max-1)) {
-        cout << error_squarecell::print_index(x, g_max-1);
-        exit(EXIT_FAILURE);
-    }
-
-    if(y>(g_max-1)) {
-        cout << error_squarecell::print_index(y, g_max-1);
-        exit(EXIT_FAILURE);
-    }
     this->x = x;
     this->y = y;
 }
@@ -161,10 +152,8 @@ bool squarecell::Squarecell::checkPoint(squarecell::Point point) {
 bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squarecell::Point cornerBotLeft,
                                          squarecell::Point position,int width,int height) {
     bool status = true;
-    vector<int> PointToCheck = {cornerBotLeft.getCoordX(),
-                                cornerBotLeft.getCoordY(),
-                                cornerTopRight.getCoordX(),
-                                cornerTopRight.getCoordY(),};
+    vector<int> PointToCheck = {cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
+                                cornerTopRight.getCoordX(),cornerTopRight.getCoordY(),};
     for(int i=0;i<4;i++) {
         if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < squarecell::g_max))) {// not in [0;127]
             if(i%2==0) { // check for X coordinate error
@@ -181,7 +170,6 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squar
             status = false;
         }
     }
-
     if(not((((height % 2) == 0) and ((width % 2) == 0))or(((height % 2) == 1)and((width % 2) == 1)))) {
         cout << "shape is not a square" << endl;
         status = false;
@@ -218,13 +206,23 @@ vector<squarecell::Point> squarecell::Squarecell::getOverlap(squarecell::Point p
     }
     return collisionList;
 }
-
-int squarecell::Squarecell::countOverlap(squarecell::Squarecell hitbox1,
-                                         squarecell::Squarecell hitbox2) {
-    int overlappingArea = 0;
-
-    return overlappingArea;
+int squarecell::Squarecell::countOverlap(squarecell::Point position1, int width1,int height1,
+                                                 squarecell::Point position2, int width2,int height2){
+    Point cornerBotLeft1 = squarecell::Squarecell::computeHitboxBotLeft(position1, width1, height1);
+    Point cornerTopRight1 = squarecell::Squarecell::computeHitboxTopRight(position1, width1, height1);
+    Point cornerBotLeft2 = squarecell::Squarecell::computeHitboxBotLeft(position2, width2, height2);
+    Point cornerTopRight2 = squarecell::Squarecell::computeHitboxTopRight(position2, width2, height2);
+    if((cornerBotLeft2.getCoordX() > cornerTopRight1.getCoordX()) or (cornerBotLeft1.getCoordX() > cornerTopRight2.getCoordX())){
+        return 0; // the interval dont overlap
+    }
+    if((cornerBotLeft2.getCoordY() > cornerTopRight1.getCoordY()) or (cornerBotLeft1.getCoordY() > cornerTopRight2.getCoordY())){
+        return 0; // the interval dont overlap (same but for Y coordinate)
+    }
+    unsigned int overlapWidth = max(cornerTopRight1.getCoordX(), cornerTopRight2.getCoordX()) - max(cornerBotLeft1.getCoordX(), cornerBotLeft2.getCoordX());
+    unsigned int overlapHeight = max(cornerTopRight1.getCoordY(), cornerTopRight2.getCoordY()) - max(cornerBotLeft1.getCoordY(), cornerBotLeft2.getCoordY());;
+    return overlapWidth * overlapHeight;
 }
+
 
 void squarecell::Squarecell::displayRawBoolGrid() {
     for(int i=g_max-1;i>=0;i--) {

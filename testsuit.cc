@@ -293,11 +293,11 @@ bool assert_files_test()
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 20 passed (./projet scenario/t13.txt)" << endl;
 
-    //cout << "test 21 starting" << endl;
-    //cmdExpected = "combined coordinate 117 and square side 12 do not belong to [ 0, 127 ]";
-    //cmdResult = runCommand("./projet scenario/t14.txt");
-    //assert(stringFuzzyMatch(cmdExpected, cmdResult));
-    //cout << "test 21 passed (./projet scenario/t14.txt)" << endl;
+    cout << "test 21 starting" << endl;
+    cmdExpected = "combined coordinate 117 and square side 12 do not belong to [ 0, 127 ]";
+    cmdResult = runCommand("./projet scenario/t14.txt");
+    assert(stringFuzzyMatch(cmdExpected, cmdResult));
+    cout << "test 21 passed (./projet scenario/t14.txt)" << endl;
 
     cout << "test 22 starting" << endl;
     cmdExpected = "Correct file";
