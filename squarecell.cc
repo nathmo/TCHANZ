@@ -90,8 +90,7 @@ squarecell::Squarecell::Squarecell(squarecell::Point position, int width,int hei
     this->kind = kind;
     cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
     cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
-    bool isElligible = squarecell::Squarecell::checkHitbox(cornerTopRight, cornerBotLeft, position,
-                                                           width, height)
+    bool isElligible = squarecell::Squarecell::checkHitbox(position,width,height)
                        and squarecell::Point::checkPoint(position);
     if(isElligible) {
         for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
@@ -167,8 +166,9 @@ int squarecell::Squarecell::getgMax() {
     return g_max;
 }
 
-bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squarecell::Point cornerBotLeft,
-                                         squarecell::Point position,int width,int height) {
+bool squarecell::Squarecell::checkHitbox(squarecell::Point position,int width,int height) {
+    squarecell::Point cornerBotLeft = squarecell::Squarecell::computeHitboxBotLeft(position, width, height);
+    squarecell::Point cornerTopRight = squarecell::Squarecell::computeHitboxTopRight(position, width, height);
     bool status = true;
     vector<int> PointToCheck = {cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
                                 cornerTopRight.getCoordX(),cornerTopRight.getCoordY(),};
@@ -177,12 +177,12 @@ bool squarecell::Squarecell::checkHitbox(squarecell::Point cornerTopRight, squar
             if(i%2==0) { // check for X coordinate error
                 cout << error_squarecell::print_outside(position.getCoordX(),
                                                         width,
-                                                        squarecell::g_max) << endl;
+                                                        squarecell::g_max-1);
                 exit(EXIT_FAILURE);
             } else if(i%2==1) { // check for Y coordinate error
                 cout << error_squarecell::print_outside(position.getCoordY(),
                                                         height,
-                                                        squarecell::g_max) << endl;
+                                                        squarecell::g_max-1);
                 exit(EXIT_FAILURE);
             }
             status = false;

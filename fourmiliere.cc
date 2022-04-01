@@ -145,6 +145,7 @@ shared_ptr<fourmiliere::Fourmiliere> fourmiliere::Fourmiliere::importFromExtSave
         int nbC = stoi(inputBuffer[6]);
         int nbD = stoi(inputBuffer[7]);
         int nbP = stoi(inputBuffer[8]);
+        squarecell::Squarecell::checkHitbox(squarecell::Point(x,y), size, size);
         vector<squarecell::Point> overlapList = squarecell::Squarecell::getOverlap(
         squarecell::Point(x,y),size,size,fourmilliereCST);
         if(overlapList.size()>0)

@@ -38,8 +38,6 @@ namespace squarecell {
         char kind;
         Point cornerBotLeft;
         Point cornerTopRight;
-        bool checkHitbox(Point cornerTopRight,Point cornerBotLeft,Point position,
-                         int width,int height);
         static std::vector<std::vector<char>> hitBoxGrid ;
 
     public:
@@ -55,6 +53,7 @@ namespace squarecell {
         void setSize(int width,int height);
         Point getHitboxBotLeft();
         Point getHitboxTopRight();
+        static bool checkHitbox(Point position, int width, int height);
         static bool checkOverlap(squarecell::Point position, int width, int height, char kindToCheck);
         static std::vector<squarecell::Point> getOverlap(squarecell::Point position, int width,
                                                          int height, char kindToCheck);
