@@ -73,12 +73,12 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
                              vector<shared_ptr<Nourriture>> &foodVectorReturn,
                           vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
     if(not(checksizeLine(inputBuffer))) {
-        exit(0);
+        exit(0); // ensure there is enough argument in the file, exit otherwise
     }
     string strQuantityFood = inputBuffer[0][0];
     unsigned int QuantityFood = stoi(strQuantityFood);
-    for(unsigned int i(1); i < QuantityFood+1; i++) {
-        int index = i; //ajoute les nourriture au vecteur
+    for(unsigned int i(1); i < QuantityFood+1; i++) {//ajoute la nourriture au vecteur
+        int index = i;
         foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
                                                                  index));
     }
@@ -92,24 +92,24 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
         unsigned int indexFourmi = i;
         vector<shared_ptr<Fourmi>>  fourmilliereMemberList;
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
-        shared_ptr<Fourmiliere> Fourmilliere=
+        shared_ptr<Fourmiliere> Fourmilliere =
                 Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
                                                            indexFourmilliere,
                                                            fourmilliereMemberList);
         fourmilliereVectorReturn.push_back(Fourmilliere);
         fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(
                                              inputBuffer[intermediaire],indexFourmi));
-        for(unsigned int c(1); c < collector+1; c++) {
+        for(unsigned int c(1); c < collector+1; c++) { // ajoute les collector
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(Collector::importFromExtSaveCollector(
                                             inputBuffer[intermediaire], indexFourmi));
         }
-        for(unsigned int d(1); d < defensor+1; d++) {
+        for(unsigned int d(1); d < defensor+1; d++) { // ajoute les defensor
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(Defensor::importFromExtSaveDefensor(
                                             inputBuffer[intermediaire], indexFourmi));
         }
-        for(unsigned int p(1); p < predator+1; p++) {
+        for(unsigned int p(1); p < predator+1; p++) { // ajoute les defensor
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(Predator::importFromExtSavePredator(
                                             inputBuffer[intermediaire], indexFourmi));
