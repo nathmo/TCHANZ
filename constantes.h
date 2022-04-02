@@ -22,6 +22,8 @@ constexpr double prop_free_defensor(0.10);
 constexpr double prop_constrained_collector(0.6);
 constexpr double prop_constrained_defensor(0.1);
 
+constexpr int errorCode(-1);
+
 constexpr char emptyCST(static_cast<char>(0x00));
 constexpr char nourritureCST(static_cast<char>(0x01));
 constexpr char fourmilliereCST(static_cast<char>(0x02));

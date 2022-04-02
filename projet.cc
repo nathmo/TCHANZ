@@ -10,8 +10,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    if(argc < 2) { // delete once GUI is setup
-
+    if(argc < 2) {
         cout << "Please provide a file to load" << endl;
         return 0;
     }
