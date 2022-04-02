@@ -108,7 +108,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         vector<Point> overlapList = Squarecell::getOverlap(
         Point(x,y),size,size,fourmilliereCST);
         int indexOther = 0;
-        if(overlapList.size()>0) { // check the previous anthill to find its id
+        if(overlapList.size()>0) { // check the previous anthill for collisiom
             for(unsigned int i(0); i<previousAnthill.size(); i++) {
                 int overlap = Squarecell::countOverlap(overlapList[0], overlapList[0],
                        (*previousAnthill[i]).getOccupiedSpace()->getHitboxBotLeft(),

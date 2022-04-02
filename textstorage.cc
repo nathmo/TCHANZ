@@ -11,24 +11,22 @@
 #include <vector>
 #include <memory>
 #include "textstorage.h"
-#include "squarecell.h"
 #include "fourmi.h"
 #include "fourmiliere.h"
 #include "nourriture.h"
-#include "message.h"
 
 
 using namespace std;
 
 void TextStorage::writetxt(string filename, vector<vector<string>> lineToWrite) {
     fstream txtsave;
-    txtsave.open(filename, ios::out);//out ca ecrit dans un fichier extern
+    txtsave.open(filename, ios::out);//open file with write access
     if(txtsave.fail()) {
         cout << "soucis writetxt_filename" << endl;
         exit(EXIT_FAILURE);
     } else if(txtsave.is_open()) {
         for(unsigned int i=0; i<lineToWrite.size();i++) {
-            string line ="";
+            string line =""; // dump each line (add space as its a vector of word)
             for(unsigned int j=0; j<lineToWrite[i].size();j++) {
                 line = line + " " + lineToWrite[i][j];
             }
@@ -38,18 +36,18 @@ void TextStorage::writetxt(string filename, vector<vector<string>> lineToWrite) 
     }
 }
 
-vector<vector<string>> TextStorage::readtxt(string filename) { //sans espace ni qqch begin #
+vector<vector<string>> TextStorage::readtxt(string filename) {
     fstream txtsave;
     string line;
     vector<vector<string>> inputBuffer;
-    txtsave.open(filename,ios::in);//in car tu lis depuis fichier
+    txtsave.open(filename,ios::in); //open file with read access
     if(txtsave.fail()) {
         cout << "Fichier non ouvrable ou pas assez de droit" << endl;
         exit(EXIT_FAILURE);
     } else if(txtsave.is_open()) { //checking whether the file is open
-        while(getline(txtsave >> ws, line)) { // avec ws j ai plus les tab ou les espaces avant premier caractere
+        while(getline(txtsave >> ws, line)) {//tokenize each line as a vector of word
             if(line[0]=='#') continue;
-            vector<string> lineBuffer = creation(line); //tokenize each line as a vector of word
+            vector<string> lineBuffer = tokenize(line);
             inputBuffer.push_back(lineBuffer);
         }
         txtsave.close();
@@ -57,7 +55,7 @@ vector<vector<string>> TextStorage::readtxt(string filename) { //sans espace ni 
     return inputBuffer;
 }
 
-vector<string> TextStorage::creation(string line) {
+vector<string> TextStorage::tokenize(string line) {
     istringstream iss(line);
     vector<string> tableauValeur;
     string valeur;
@@ -84,9 +82,9 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
         unsigned int defensor = stoi(inputBuffer[intermediaire][7]);
         unsigned int predator = stoi(inputBuffer[intermediaire][8]);
         unsigned int indexFourmilliere = i, indexFourmi = i;
-        vector<shared_ptr<Fourmi>>  fourmilliereMemberList;
+        vector<shared_ptr<Fourmi>>  fourmilliereMemberList; //ant of each anthill
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
-        shared_ptr<Fourmiliere> Fourmilliere =
+        shared_ptr<Fourmiliere> Fourmilliere = // create+validate the anthill ptr
                 Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
                                                            indexFourmilliere,
                                                            fourmilliereMemberList,
@@ -106,15 +104,16 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
             fourmilliereMemberList.push_back(Predator::importFromExtSavePredator(
                                           inputBuffer[intermediaire+1], indexFourmi));
         }
-        (*Fourmilliere).overrideAnts(fourmilliereMemberList);
-        intermediaire = intermediaire+1;
+        (*Fourmilliere).overrideAnts(fourmilliereMemberList);// modify anthill with
+        intermediaire = intermediaire+1;                     // its ants + run checks
     }
 }
 
 vector<vector<string>> TextStorage::exportDump(
                                         vector<shared_ptr<Entity>> entityArrayDump) {
     vector<vector<string>> entityList;
-    // TODO : write the array of entity and export it as an array of int (reverse of import)
+    // TODO : write the array of entity and export it as an array of int
+    //  (reverse of import)
     return entityList;
 }
 
@@ -129,7 +128,7 @@ bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {
             status = false;
         }
     }
-    unsigned int intermediaire = QuantityFood + 2; //position des donnees "grande ligne"
+    unsigned int intermediaire = QuantityFood + 2; //index des donnees (line)
     unsigned int quantityAnthill = stoi(intArrayDump[intermediaire-1][0]);
     for(unsigned int i(0); i < quantityAnthill; i++) {
         if(intArrayDump.size()<intermediaire) {

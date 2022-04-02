@@ -49,7 +49,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     }
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeC, sizeC,
                                                        anyCST);
-    if(overlapList.size()>0) {
+    if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
         exit(EXIT_FAILURE);
@@ -77,7 +77,7 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     long int age = stoi(inputBuffer[2]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeD, sizeD,
                                                        anyCST);
-    if(overlapList.size()>0) {
+    if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(),
                                          overlapList[0].getCoordY());
         exit(EXIT_FAILURE);
@@ -105,7 +105,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     int age = stoi(inputBuffer[2]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP,
                                                        anyCST);
-    if(overlapList.size()>0) {
+    if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::predator_overlap(x,y);
         exit(EXIT_FAILURE);
     }
@@ -127,7 +127,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     int y = stoi(inputBuffer[4]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeG, sizeG,
                                                        anyCST);
-    if(overlapList.size()>0) {
+    if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
         exit(EXIT_FAILURE);

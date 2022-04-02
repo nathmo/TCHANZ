@@ -17,21 +17,23 @@
 
 class TextStorage {
 public:
-    static void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
-
+    // write a list of tokenized word to a file
+    static void writetxt(std::string filename,
+                         std::vector<std::vector<std::string>> lineToWrite);
+    // convert a file to a list of tokenized word
     static std::vector<std::vector<std::string>> readtxt(std::string filename);
 
-    static std::vector<std::string> creation(std::string line);
-
+    static std::vector<std::string> tokenize(std::string line);
+    // convert the list of tokenized word to usable list of  entitys
     static void importDump(std::vector<std::vector<std::string>> inputBuffer,
-                    std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
-                    std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
-
+                 std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
+                 std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
+    // convert a list of entitys to a list of tokenized word
     static std::vector<std::vector<std::string>> exportDump(
             std::vector<std::shared_ptr<Entity>> entityArrayDump);
-
+    // ensure the file is consistend
     static bool checksizeLine(std::vector<std::vector<std::string>> intArrayDump);
-
+    // used in importDump to import the food elements
     static void importFood(std::vector<std::vector<std::string>> inputBuffer,
                            std::vector<std::shared_ptr<Nourriture>> &foodVectReturn);
 };

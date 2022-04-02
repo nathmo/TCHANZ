@@ -20,16 +20,20 @@ private:
     int nbD;
     int nbP;
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
-
 public:
     Fourmiliere(Point position, int size, int totalFood,
                 int nbC, int nbD, int nbP, int id,
                 std::vector<std::shared_ptr<Fourmi>> FourmiList);
     virtual void update();
+    // bundle all the check used to validate the anthill content
     void check();
+    // remplace the list of member ants
     void overrideAnts(std::vector<std::shared_ptr<Fourmi>> FourmiList);
+    // check that the Generator are in the anthill
     void checkGeneratorUsingCoord();
+    // same for defensor
     void checkDefensorUsingCoord();
+    // create an anthill object from a vector of string + run the check for the anthil
     static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
             std::vector<std::string> &inputBuffer, int index,
             std::vector<std::shared_ptr<Fourmi>> FourmiList,

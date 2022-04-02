@@ -53,18 +53,24 @@ public:
     void setSize(int width,int height);
     Point getHitboxBotLeft();
     Point getHitboxTopRight();
+    //Check that the position + its size still fully fit in the grid
     static bool checkHitbox(Point position, int width, int height);
+    // return true if an shape of the choosen type overlap the given region
     static bool checkOverlap(Point position, int width, int height, char kindToCheck);
+    // return the list of overlapping point if an shape of the choosen type overlap
     static std::vector<Point> getOverlap(Point position, int width,
                                                      int height, char kindToCheck);
+    // return the number of overlapping point between two shape
     static int countOverlap(Point position1, int width1,int height1,
                                     Point position2, int width2,int height2);
     static int countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
                             Point cornerBotLeft2, Point cornerTopRight2);
-    static int getgMax();
+    // return the left bottom corner of the shape
     static Point computeHitboxBotLeft(Point position, int width, int height);
+    // same but for the right top corner of the shape
     static Point computeHitboxTopRight(Point position, int width, int height);
-    static void displayRawBoolGrid();
+    // used to display in the the grid
+    static void displayRawGrid();
 };
     
 #endif //TCHANZ_SQUARECELL_H

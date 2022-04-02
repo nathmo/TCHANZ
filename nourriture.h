@@ -14,6 +14,7 @@
 class Nourriture : public Entity {
 public:
     Nourriture(Point position, int index);
+    // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Nourriture> importFromExtSave(
             std::vector<std::string>& inputBuffer, int index);
     virtual void update();
