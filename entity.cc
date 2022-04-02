@@ -71,9 +71,9 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
             int pointOriginY = (((*listOfEntity[i]).getOccupiedSpace())
                                                     ->getHitboxBotLeft()).getCoordY();
             Point position2(pointOriginX,pointOriginY);
-            if(Squarecell::countOverlap(overlappingPoint, 1, 1,
-                                        position2, largeur, hauteur)) {
-                return 1; // return the id of the overlapping entity
+            if(not(Squarecell::countOverlap(overlappingPoint, 1, 1,
+                                        position2, largeur, hauteur) == 0)) {
+                return (*listOfEntity[i]).getId(); // return the id of the overlapping entity
             }
         }
     }
