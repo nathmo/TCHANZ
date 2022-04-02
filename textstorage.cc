@@ -93,17 +93,17 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
         fourmilliereVectorReturn.push_back(Fourmilliere);
         fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(
                                              inputBuffer[intermediaire],indexFourmi));
-        for(unsigned int c(1); c < collector+1; c++, intermediaire++) {
+        for(unsigned int c(1); c < collector+1; c++, intermediaire++) { // add Collect
             fourmilliereMemberList.push_back(Collector::importFromExtSaveCollector(
-                                            inputBuffer[intermediaire+1], indexFourmi));
+                                          inputBuffer[intermediaire+1], indexFourmi));
         }
-        for(unsigned int d(1); d < defensor+1; d++, intermediaire++) { // ajoute les defensor
+        for(unsigned int d(1); d < defensor+1; d++, intermediaire++) { // add defensor
             fourmilliereMemberList.push_back(Defensor::importFromExtSaveDefensor(
-                                            inputBuffer[intermediaire+1], indexFourmi));
+                                          inputBuffer[intermediaire+1], indexFourmi));
         }
-        for(unsigned int p(1); p < predator+1; p++, intermediaire++) { // ajoute les defensor
+        for(unsigned int p(1); p < predator+1; p++, intermediaire++) { // add defensor
             fourmilliereMemberList.push_back(Predator::importFromExtSavePredator(
-                                            inputBuffer[intermediaire+1], indexFourmi));
+                                          inputBuffer[intermediaire+1], indexFourmi));
         }
         (*Fourmilliere).overrideAnts(fourmilliereMemberList);
         intermediaire = intermediaire+1;
