@@ -21,8 +21,7 @@ vector<vector<char>> Squarecell::hitBoxGrid = vector<vector<char>> (g_max,
                                                                 vector<char> (g_max));
 
 Point::Point(int x,int y) {
-    if(Point::checkPoint(x,y))
-    {
+    if(Point::checkPoint(x,y)) {
         this->x = x;
         this->y = y;
     }

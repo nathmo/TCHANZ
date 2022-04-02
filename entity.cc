@@ -57,24 +57,23 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
 int Entity::findIdByOccupingPoint(Point overlappingPoint,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity,
                                   char specie) {
-    /*
-    int x = overlappingPoint.getCoordX;
-    int y = overlappingPoint.getCoordY;
 
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
-        if((*(*ListOfEntity[i]).getOccupiedSpace()).getSpecie() == specie) { //(*ListOfEntity[i]).getSpecie()
-            int largeur = (*(*ListOfEntity[i]).getOccupiedSpace()).getWidth();
-            int hauteur = (*(*ListOfEntity[i]).getOccupiedSpace()).getHeight();
-            int pointOriginX = ((*(*ListOfEntity[i]).getOccupiedSpace()).getHitboxBotLeft()).getCoordX();
-            int pointOriginY = ((*(*ListOfEntity[i]).getOccupiedSpace()).getHitboxBotLeft()).getCoordY();
-            if((x+pointOriginX)<=largeur and (x+pointOriginX)=>largeur and (y+pointOriginY)<=hauteur and (y+pointOriginY)=>hauteur) {
-                cout << "erreur overlaping fourmiliere" << *(*ListOfEntity[i]).getOccupiedSpace()).getWidth()
+        if((*listOfEntity[i]).getSpecie() == specie) { //
+            int largeur = ((*listOfEntity[i]).getOccupiedSpace()).getWidth();
+            int hauteur = ((*listOfEntity[i]).getOccupiedSpace()).getHeight();
+            int pointOriginX = (((*listOfEntity[i]).getOccupiedSpace()).getHitboxBotLeft()).getCoordX();
+            int pointOriginY = (((*listOfEntity[i]).getOccupiedSpace()).getHitboxBotLeft()).getCoordY();
+            Point position2(pointOriginX,pointOriginY);
 
+            if(not(Squarecell::countOverlap(overlappingPoint, 1, 1, position2, largeur, hauteur) == 0)) {
+                cout << "overlapping" << endl;
+                return 1;
+            } else {
+                return 0;
             }
         }
     }
-    */
-    return 0; // FAIRE TA FONCTION ICI (SAUF SI MEILLEURE IDEE)
 }
 
 /*int Entity::checkOverlap(Entity entity)

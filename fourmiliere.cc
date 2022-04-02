@@ -38,7 +38,7 @@ void Fourmiliere::check() {
 
 void Fourmiliere::checkGeneratorUsingCoord() {
     Point position;
-    if ((*occupiedSpace).getWidth() % 2 == 0) {
+    if((*occupiedSpace).getWidth() % 2 == 0) {
         position = Point(
                 (*occupiedSpace).getPosition().getCoordX() + 1,
                 (*occupiedSpace).getPosition().getCoordY() + 1);
@@ -61,7 +61,7 @@ void Fourmiliere::checkGeneratorUsingCoord() {
 
 void Fourmiliere::checkDefensorUsingCoord() {
     Point position;
-    if ((*occupiedSpace).getWidth() % 2 == 0) {
+    if((*occupiedSpace).getWidth() % 2 == 0) {
         position = Point((*occupiedSpace).getPosition().getCoordX() + 1,
                          (*occupiedSpace).getPosition().getCoordY() + 1);
     } else {
@@ -88,8 +88,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
       vector<string> &inputBuffer, int index, vector<shared_ptr<Fourmi>> FourmiList) {
-    if(inputBuffer.size()<9)
-    {
+    if(inputBuffer.size()<9) {
         cout << "fourmilliere : number of argument mismatch" << endl;
         exit(EXIT_FAILURE);
     } else {
