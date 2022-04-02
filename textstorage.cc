@@ -75,22 +75,19 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
     if(not(checksizeLine(inputBuffer))) {
         exit(0); // ensure there is enough argument in the file, exit otherwise
     }
-    string strQuantityFood = inputBuffer[0][0];
-    unsigned int QuantityFood = stoi(strQuantityFood);
+    unsigned int QuantityFood = stoi(inputBuffer[0][0]);
     for(unsigned int i(1); i < QuantityFood+1; i++) {//ajoute la nourriture au vecteur
         int index = i;
         foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
                                                                  index));
     }
-    salutttttt
     unsigned int intermediaire = QuantityFood + 2; //index de la ligne dans le fichier
     unsigned int quantityAnthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantityAnthill; i++) {
         unsigned int collector = stoi(inputBuffer[intermediaire][6]);
         unsigned int defensor = stoi(inputBuffer[intermediaire][7]);
         unsigned int predator = stoi(inputBuffer[intermediaire][8]);
-        unsigned int indexFourmilliere = i;
-        unsigned int indexFourmi = i;
+        unsigned int indexFourmilliere = i, indexFourmi = i;
         vector<shared_ptr<Fourmi>>  fourmilliereMemberList;
         vector<string> FourmilliereConfig = inputBuffer[intermediaire];
         shared_ptr<Fourmiliere> Fourmilliere =
