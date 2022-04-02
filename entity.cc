@@ -73,7 +73,7 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
             Point position2(pointOriginX,pointOriginY);
             if(not(Squarecell::countOverlap(overlappingPoint, 1, 1,
                                         position2, largeur, hauteur) == 0)) {
-                return (*listOfEntity[i]).getId(); // return the id of the overlapping entity
+                return (*listOfEntity[i]).getId(); //return id of the overlap entity
             }
         }
     }
