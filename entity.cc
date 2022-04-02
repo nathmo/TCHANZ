@@ -72,5 +72,5 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
             }
         }
     }
-    return -1; // return -1 to show
+    return errorCode; // return a value that show no entity where found
 }

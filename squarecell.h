@@ -10,14 +10,15 @@
 #include <vector>
 #include <cmath>
 #include <memory>
+#include "constantes.h"
 
 constexpr short unsigned g_dim(7);
 constexpr short unsigned g_max(128);
 
 class Point {
 private:
-    int x=-1;
-    int y=-1;
+    int x=errorCode;
+    int y=errorCode;
     bool checkPoint(long int x,long int y);
 public:
     Point(int x,int y);
