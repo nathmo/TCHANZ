@@ -20,7 +20,7 @@
 
 using namespace std;
 
-void writetxt(string filename, vector<vector<string>> lineToWrite) {
+void TextStorage::writetxt(string filename, vector<vector<string>> lineToWrite) {
     fstream txtsave;
     txtsave.open(filename, ios::out);//out ca ecrit dans un fichier extern
     if(txtsave.fail()) {
@@ -38,7 +38,7 @@ void writetxt(string filename, vector<vector<string>> lineToWrite) {
     }
 }
 
-vector<vector<string>> readtxt(string filename) { //sans espace ni qqch begin #
+vector<vector<string>> TextStorage::readtxt(string filename) { //sans espace ni qqch begin #
     fstream txtsave;
     string line;
     vector<vector<string>> inputBuffer;
@@ -57,7 +57,7 @@ vector<vector<string>> readtxt(string filename) { //sans espace ni qqch begin #
     return inputBuffer;
 }
 
-vector<string> creation(string line) {
+vector<string> TextStorage::creation(string line) {
     istringstream iss(line);
     vector<string> tableauValeur;
     string valeur;
@@ -69,9 +69,9 @@ vector<string> creation(string line) {
     return tableauValeur;
 }
 
-void importDump(vector<vector<string>> inputBuffer,
-                vector<shared_ptr<Nourriture>> &foodVectorReturn,
-                vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
+void TextStorage::importDump(vector<vector<string>> inputBuffer,
+                             vector<shared_ptr<Nourriture>> &foodVectorReturn,
+                          vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
     if(not(checksizeLine(inputBuffer))) {
         exit(0);
     }
@@ -96,11 +96,9 @@ void importDump(vector<vector<string>> inputBuffer,
                 Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
                                                            indexFourmilliere,
                                                            fourmilliereMemberList);
-
         fourmilliereVectorReturn.push_back(Fourmilliere);
         fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(
                                              inputBuffer[intermediaire],indexFourmi));
-
         for(unsigned int c(1); c < collector+1; c++) {
             intermediaire = intermediaire+1;
             fourmilliereMemberList.push_back(Collector::importFromExtSaveCollector(
@@ -121,13 +119,14 @@ void importDump(vector<vector<string>> inputBuffer,
     }
 }
 
-vector<vector<string>> exportDump(vector<shared_ptr<Entity>> entityArrayDump) {
+vector<vector<string>> TextStorage::exportDump(
+                                        vector<shared_ptr<Entity>> entityArrayDump) {
     vector<vector<string>> entityList;
     // TODO : write the array of entity and export it as an array of int (reverse of import)
     return entityList;
 }
 
-bool checksizeLine(vector<vector<string>> intArrayDump) {
+bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {
     bool status = true;
     string strQuantityFood = intArrayDump[0][0];
     unsigned int QuantityFood = stoi(strQuantityFood);

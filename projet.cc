@@ -14,6 +14,6 @@ int main(int argc, char *argv[]) {
         cout << "Please provide a file to load" << endl;
         return 0;
     }
-    Simulation::startHeadless(argv[1]);
+    Simulation::startHeadless(argv[1]); // for now, No GUI
     return 0;
 }

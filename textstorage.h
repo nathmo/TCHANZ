@@ -15,20 +15,21 @@
 #include "fourmiliere.h"
 #include "entity.h"
 
+class TextStorage {
+public:
+    static void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
 
-void writetxt(std::string filename, std::vector<std::vector<std::string>> lineToWrite);
-std::vector<std::vector<std::string>> readtxt(std::string filename);
-std::vector<std::string> creation(std::string line);
-std::vector<std::shared_ptr<Entity>> importDump(
-                                  std::vector<std::vector<std::string>> intArrayDump);
+    static std::vector<std::vector<std::string>> readtxt(std::string filename);
 
-void importDump(std::vector<std::vector<std::string>> inputBuffer,
-                std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
-                std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
+    static std::vector<std::string> creation(std::string line);
 
-std::vector<std::vector<std::string>> exportDump(
-                                std::vector<std::shared_ptr<Entity>> entityArrayDump);
+    static void importDump(std::vector<std::vector<std::string>> inputBuffer,
+                    std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
+                    std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
 
-bool checksizeLine(std::vector<std::vector<std::string>> intArrayDump);
+    static std::vector<std::vector<std::string>> exportDump(
+            std::vector<std::shared_ptr<Entity>> entityArrayDump);
 
+    static bool checksizeLine(std::vector<std::vector<std::string>> intArrayDump);
+};
 #endif //TCHANZ_TEXTSTORAGE_H

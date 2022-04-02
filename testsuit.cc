@@ -40,16 +40,22 @@ bool stringFuzzyMatch(string str1, string str2);
 
 int main()
 {
+    cout << "---------------------------------------------------------------" << endl;
     cout << "beginning unit test" << endl;
+    cout << "---------------------------------------------------------------" << endl;
     assert(assertTextstorage());
     assert(assertSquarecell());
     assert(assertEntity());
     assert(assertFourmi());
     assert(assertFourmilliere());
     assert(assertNourriture());
+    cout << "---------------------------------------------------------------" << endl;
     cout << "beginning integration test" << endl;
+    cout << "---------------------------------------------------------------" << endl;
     assert(assertFilesTest());
+    cout << "---------------------------------------------------------------" << endl;
     cout << "all test passed successfully" << endl;
+    cout << "---------------------------------------------------------------" << endl;
     return 0;
 }
 
@@ -64,31 +70,36 @@ bool assertTextstorage()
 bool assertSquarecell()
 {
     assertSquarecellPoint();
+    cout << "-> Squarecell done" << endl;
     return true;
 }
 
 bool assertEntity()
 {
     assertEntityEntity();
+    cout << "-> Entity done" << endl;
     return true;
 }
 bool assertFourmi()
 {
+    cout << "-> Fourmi done" << endl;
     return true;
 }
 bool assertFourmilliere()
 {
+    cout << "-> Fourmilliere done" << endl;
     return true;
 }
 bool assertNourriture()
 {
+    cout << "-> Nourriture done" << endl;
     return true;
 }
 
 bool assertTextstorageReadtxt()
 {
     string teststringfin = "0";
-    vector<vector<string>> inputBuffer = readtxt("scenario/no_error_collector_move.txt");
+    vector<vector<string>> inputBuffer = TextStorage::readtxt("scenario/no_error_collector_move.txt");
     if(teststringfin == inputBuffer[inputBuffer.size() - 1][inputBuffer[inputBuffer.size() - 1].size() - 1])
     {
         return true;
@@ -111,8 +122,8 @@ bool assertTextstorageWritetxt()
 {
     vector<vector<string>> teststring = {{"1","2","3"},{"4","560000","-6","2"}};
     string Stockage_fichiertxt = "scenario/test_ecriture.txt";
-    writetxt(Stockage_fichiertxt, teststring);
-    vector<vector<string>> inputBuffer = readtxt(Stockage_fichiertxt);
+    TextStorage::writetxt(Stockage_fichiertxt, teststring);
+    vector<vector<string>> inputBuffer = TextStorage::readtxt(Stockage_fichiertxt);
     bool passed = true;
     for(unsigned int i=0; i<teststring.size();i++)
     {
