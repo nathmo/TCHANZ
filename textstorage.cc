@@ -76,11 +76,7 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
         exit(0); // ensure there is enough argument in the file, exit otherwise
     }
     unsigned int QuantityFood = stoi(inputBuffer[0][0]);
-    for(unsigned int i(1); i < QuantityFood+1; i++) {//ajoute la nourriture au vecteur
-        int index = i;
-        foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
-                                                                 index));
-    }
+    TextStorage::importFood(inputBuffer, foodVectorReturn);
     unsigned int intermediaire = QuantityFood + 2; //index de la ligne dans le fichier
     unsigned int quantityAnthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantityAnthill; i++) {
@@ -157,4 +153,14 @@ bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {
         }
     }
     return status;
+}
+
+void TextStorage::importFood(vector<vector<string>> inputBuffer,
+                       vector<shared_ptr<Nourriture>> &foodVectReturn){
+    unsigned int QuantityFood = stoi(inputBuffer[0][0]);
+    for(unsigned int i(1); i < QuantityFood+1; i++) {//ajoute la nourriture au vecteur
+        int index = i;
+        foodVectReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
+                                                                 index));
+    }
 }

@@ -31,5 +31,8 @@ public:
             std::vector<std::shared_ptr<Entity>> entityArrayDump);
 
     static bool checksizeLine(std::vector<std::vector<std::string>> intArrayDump);
+
+    static void importFood(std::vector<std::vector<std::string>> inputBuffer,
+                           std::vector<std::shared_ptr<Nourriture>> &foodVectReturn);
 };
 #endif //TCHANZ_TEXTSTORAGE_H
