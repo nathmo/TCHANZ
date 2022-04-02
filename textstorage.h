@@ -35,4 +35,5 @@ public:
     static void importFood(std::vector<std::vector<std::string>> inputBuffer,
                            std::vector<std::shared_ptr<Nourriture>> &foodVectReturn);
 };
+
 #endif //TCHANZ_TEXTSTORAGE_H
