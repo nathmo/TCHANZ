@@ -13,11 +13,12 @@
 #include "entity.h"
 
 class Simulation {
-
+public:
+    static std::vector<std::shared_ptr<Entity>> loadFromFile(std::string path);
+    static void saveToFile(std::string path,
+                           std::vector<std::shared_ptr<Entity>> worldToDump);
+    static void startHeadless(std::string path);
+    static void simulateStep(std::vector<std::shared_ptr<Entity>> entityList);
 };
-
-// administrative function outside of class
-std::vector<std::shared_ptr<Entity>> loadFromFile(std::string path);
-void saveToFile(std::string path,std::vector<std::shared_ptr<Entity>> worldToDump);
 
 #endif //TCHANZ_SIMULATION_H

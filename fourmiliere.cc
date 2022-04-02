@@ -26,6 +26,7 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
 }
 
 void Fourmiliere::update() {
+    cout << "updating the Fourmiliere with id "+to_string(id) << endl;
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {

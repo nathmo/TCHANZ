@@ -54,6 +54,11 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
     return occupiedSpace;
 }
 
+void Entity::update(){
+    cout << "trying to update a generic entity" << endl;
+    exit(EXIT_FAILURE);
+}
+
 int Entity::findIdByOccupingPoint(Point overlappingPoint,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity,
                                   char specie) {

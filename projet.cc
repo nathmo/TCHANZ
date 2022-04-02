@@ -14,6 +14,6 @@ int main(int argc, char *argv[]) {
         cout << "Please provide a file to load" << endl;
         return 0;
     }
-    vector<shared_ptr<Entity>> entityVect(loadFromFile(string(argv[1])));
+    Simulation::startHeadless(argv[1]);
     return 0;
 }
