@@ -25,7 +25,7 @@ public:
     Fourmiliere(Point position, int size, int totalFood,
                 int nbC, int nbD, int nbP, int id,
                 std::vector<std::shared_ptr<Fourmi>> FourmiList);
-    void update();
+    virtual void update();
     void check();
     void overrideAnts(std::vector<std::shared_ptr<Fourmi>> FourmiList);
     void checkGeneratorUsingCoord();

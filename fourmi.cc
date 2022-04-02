@@ -22,6 +22,7 @@ Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
 
 void Fourmi::update() {
     cout << "error, trying to update a generic fourmi object" << endl;
+    exit(EXIT_FAILURE);
 }
 
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
@@ -30,6 +31,7 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update() {
+    cout << "updating the Collector with id "+to_string(id) << endl;
 }
 
 shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBuffer,
@@ -61,6 +63,7 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 void Defensor::update() {
+    cout << "updating the Defensor with id "+to_string(id) << endl;
 }
 
 shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuffer,
@@ -88,6 +91,7 @@ Predator::Predator(Point position, int id, int age) :
 }
 
 void Predator::update() {
+    cout << "updating the Predator with id "+to_string(id) << endl;
 }
 
 shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuffer,
@@ -114,6 +118,7 @@ Generator::Generator(Point position, int id) :
 }
 
 void Generator::update() {
+    cout << "updating the Generator with id "+to_string(id) << endl;
 }
 
 shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBuffer,

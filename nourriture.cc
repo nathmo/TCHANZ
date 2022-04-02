@@ -33,3 +33,7 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer
         return make_shared<Nourriture>(Point(x,y), index);
     }
 }
+
+void Nourriture::update(){
+    cout << "updating the Nourriture with id "+to_string(id) << endl;
+}

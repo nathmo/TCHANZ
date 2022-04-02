@@ -16,6 +16,7 @@ public:
     Nourriture(Point position, int index);
     static std::shared_ptr<Nourriture> importFromExtSave(
             std::vector<std::string>& inputBuffer, int index);
+    virtual void update();
 };
 
 #endif //TCHANZ_NOURRITURE_H

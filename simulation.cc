@@ -16,7 +16,7 @@
 
 using namespace std;
 
-std::vector<std::shared_ptr<Entity>> loadFromFile(string path) {
+std::vector<std::shared_ptr<Entity>> Simulation::loadFromFile(string path) {
     vector<shared_ptr<Entity>> entityList;
     vector<shared_ptr<Nourriture>> nourritureList;
     vector<shared_ptr<Fourmiliere>> fourmilliereList;
@@ -28,5 +28,17 @@ std::vector<std::shared_ptr<Entity>> loadFromFile(string path) {
     return entityList;
 }
 
-void saveToFile(string path,std::vector<std::shared_ptr<Entity>> worldToDump) {
+void Simulation::saveToFile(string path,
+                            std::vector<std::shared_ptr<Entity>> worldToDump) {
+
+}
+
+void Simulation::startHeadless(std::string path){
+    std::vector<std::shared_ptr<Entity>> entityList = Simulation::loadFromFile(path);
+}
+
+void Simulation::simulateStep(std::vector<std::shared_ptr<Entity>> entityList){
+    for(auto entity:entityList){
+        entity->update();
+    }
 }

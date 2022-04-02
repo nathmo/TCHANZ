@@ -25,8 +25,7 @@ public:
     char getSpecie();
     int getId();
     std::shared_ptr<Squarecell> getOccupiedSpace();
-    //virtual void update();
-    //virtual void check();
+    virtual void update();
     static int findIdByOccupingPoint(Point overlappingPoint,
                                      std::vector<std::shared_ptr<Entity>> listOfEntity,
                                      char specie);
