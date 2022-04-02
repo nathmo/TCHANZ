@@ -82,6 +82,7 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
         foodVectorReturn.push_back(Nourriture::importFromExtSave(inputBuffer[i],
                                                                  index));
     }
+    salutttttt
     unsigned int intermediaire = QuantityFood + 2; //index de la ligne dans le fichier
     unsigned int quantityAnthill = stoi(inputBuffer[intermediaire-1][0]);
     for(unsigned int i(0); i < quantityAnthill; i++) {
