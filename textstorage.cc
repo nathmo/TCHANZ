@@ -89,7 +89,8 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
         shared_ptr<Fourmiliere> Fourmilliere =
                 Fourmiliere::importFromExtSaveFourmilliere(FourmilliereConfig,
                                                            indexFourmilliere,
-                                                           fourmilliereMemberList);
+                                                           fourmilliereMemberList,
+                                                           fourmilliereVectorReturn);
         fourmilliereVectorReturn.push_back(Fourmilliere);
         fourmilliereMemberList.push_back(Generator::importFromExtSaveGenerator(
                                              inputBuffer[intermediaire],indexFourmi));

@@ -223,6 +223,7 @@ vector<Point> Squarecell::getOverlap(Point position, int width, int height,
     }
     return collisionList;
 }
+
 int Squarecell::countOverlap(Point position1, int width1,int height1,
                              Point position2, int width2,int height2){
     Point cornerBotLeft1 = Squarecell::computeHitboxBotLeft(position1,
@@ -239,6 +240,29 @@ int Squarecell::countOverlap(Point position1, int width1,int height1,
     }
     if((cornerBotLeft2.getCoordY() > cornerTopRight1.getCoordY()) or
                           (cornerBotLeft1.getCoordY() > cornerTopRight2.getCoordY())){
+        return 0; // the interval dont overlap (same but for Y coordinate)
+    }
+    unsigned int overlapWidth = min(cornerTopRight1.getCoordX(),
+                                    cornerTopRight2.getCoordX()) -
+                                max(cornerBotLeft1.getCoordX(),
+                                    cornerBotLeft2.getCoordX());
+
+    unsigned int overlapHeight = min(cornerTopRight1.getCoordY(),
+                                     cornerTopRight2.getCoordY()) -
+                                 max(cornerBotLeft1.getCoordY(),
+                                     cornerBotLeft2.getCoordY());;
+
+    return (overlapWidth+1) * (overlapHeight+1);
+}
+
+int Squarecell::countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
+                             Point cornerBotLeft2, Point cornerTopRight2){
+    if((cornerBotLeft2.getCoordX() > cornerTopRight1.getCoordX()) or
+       (cornerBotLeft1.getCoordX() > cornerTopRight2.getCoordX())){
+        return 0; // the interval dont overlap
+    }
+    if((cornerBotLeft2.getCoordY() > cornerTopRight1.getCoordY()) or
+       (cornerBotLeft1.getCoordY() > cornerTopRight2.getCoordY())){
         return 0; // the interval dont overlap (same but for Y coordinate)
     }
     unsigned int overlapWidth = min(cornerTopRight1.getCoordX(),

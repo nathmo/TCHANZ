@@ -10,9 +10,7 @@
 #include <memory>
 #include "entity.h"
 #include "squarecell.h"
-#include "error_squarecell.h"
 #include "constantes.h"
-#include "message.h"
 
 using namespace std;
 
@@ -71,8 +69,8 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
             int pointOriginY = (((*listOfEntity[i]).getOccupiedSpace())
                                                     ->getHitboxBotLeft()).getCoordY();
             Point position2(pointOriginX,pointOriginY);
-            if(not(Squarecell::countOverlap(overlappingPoint, 1, 1,
-                                        position2, largeur, hauteur) == 0)) {
+            if(Squarecell::countOverlap(overlappingPoint, 1, 1,
+                                        position2, largeur, hauteur)) {
                 return (*listOfEntity[i]).getId(); //return id of the overlap entity
             }
         }

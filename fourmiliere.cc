@@ -27,6 +27,9 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
 
 void Fourmiliere::update() {
     cout << "updating the Fourmiliere with id "+to_string(id) << endl;
+    for(auto entity:memberAnts){
+        entity->update();
+    }
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
@@ -88,7 +91,8 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
-      vector<string> &inputBuffer, int index, vector<shared_ptr<Fourmi>> FourmiList) {
+      vector<string> &inputBuffer, int index, vector<shared_ptr<Fourmi>> FourmiList,
+      std::vector<std::shared_ptr<Fourmiliere>> previousAnthill) {
     if(inputBuffer.size()<9) {
         cout << "fourmilliere : number of argument mismatch" << endl;
         exit(EXIT_FAILURE);
@@ -103,11 +107,18 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         Squarecell::checkHitbox(Point(x,y), size, size);
         vector<Point> overlapList = Squarecell::getOverlap(
         Point(x,y),size,size,fourmilliereCST);
-        if(overlapList.size()>0) {
-            //int indexOtherAnthill = Entity::findIdByOccupingPoint(overlapList,
-            //                       std::vector<std::shared_ptr<Entity>> allEntitys);
-            int indexOtherAnthill = 0;
-            cout << message::homes_overlap(index, indexOtherAnthill); // SET INDEX HERE TODO INDEX FUNCTION
+        int indexOther = 0;
+        if(overlapList.size()>0) { // check the previous anthill to find its id
+            for(unsigned int i(0); i<previousAnthill.size(); i++) {
+                int overlap = Squarecell::countOverlap(overlapList[0], overlapList[0],
+                       (*previousAnthill[i]).getOccupiedSpace()->getHitboxBotLeft(),
+                       (*previousAnthill[i]).getOccupiedSpace()->getHitboxTopRight());
+                if(overlap) {
+                    indexOther = (*previousAnthill[i]).getId();
+                    break;
+                }
+            }
+            cout << message::homes_overlap(index, indexOther);
             exit(EXIT_FAILURE);
         }
         return make_shared<Fourmiliere>(Point(x,y), size, totalFood, nbC, nbD, nbP,

@@ -32,7 +32,8 @@ public:
     void checkDefensorUsingCoord();
     static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
             std::vector<std::string> &inputBuffer, int index,
-            std::vector<std::shared_ptr<Fourmi>> FourmiList);
+            std::vector<std::shared_ptr<Fourmi>> FourmiList,
+            std::vector<std::shared_ptr<Fourmiliere>> previousAnthill);
 };
 
 #endif //TCHANZ_FOURMILIERE_H

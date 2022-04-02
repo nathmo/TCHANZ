@@ -59,6 +59,8 @@ public:
                                                      int height, char kindToCheck);
     static int countOverlap(Point position1, int width1,int height1,
                                     Point position2, int width2,int height2);
+    static int countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
+                            Point cornerBotLeft2, Point cornerTopRight2);
     static int getgMax();
     static Point computeHitboxBotLeft(Point position, int width, int height);
     static Point computeHitboxTopRight(Point position, int width, int height);

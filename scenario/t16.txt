@@ -1,20 +1,40 @@
-# collector with coordinates 14 18 overlaps with another exclusive entity at least on 15 17 => public test already provided
+# Generator overlap => new public test file resulting in error message:
+#
+# correct file
 #
 
 # nb food
-1
+4
 
 # food
-104 50
+75 75
+75 78
+78 78
+80 90
 
-
-1 # nb anthill
-	50 50 19 103 103 99 1 0 0 # anthill #1
+2 # nb anthill
+	100 100 18 103 103 99 3 2 1 # anthill #1
 	
 	# collectors:
-	105 50 3 true
+	50 50 3 true
+	35 35 10 false
+	16 16 1 false
+	
+	# defensors:
+	108 102 2
+	102 107 22
+	
+	# predators:
+	6 80 4
 
-
-
+	0 0 12 3 3 100 0 0 1 # anthill #2
+	
+	# collectors:
+	
+	# defensors:
+	
+	# predators:
+	22 24 10
+	
 
 

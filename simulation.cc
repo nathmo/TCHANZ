@@ -38,6 +38,7 @@ void Simulation::saveToFile(string path,
 void Simulation::startHeadless(std::string path){
     std::vector<std::shared_ptr<Entity>> entityList = Simulation::loadFromFile(path);
     //Simulation::simulateStep(entityList);
+    //Simulation::saveToFile(path+"Plus1Step",entityList);
 }
 
 void Simulation::simulateStep(std::vector<std::shared_ptr<Entity>> entityList){
