@@ -58,7 +58,7 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity,
                                   char specie) {
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
-        if((*listOfEntity[i]).getSpecie() == specie) { //
+        if((*listOfEntity[i]).getSpecie() == specie) {
             int largeur = ((*listOfEntity[i]).getOccupiedSpace())->getWidth();
             int hauteur = ((*listOfEntity[i]).getOccupiedSpace())->getHeight();
             int pointOriginX = (((*listOfEntity[i]).getOccupiedSpace())
@@ -69,9 +69,8 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
             if(Squarecell::countOverlap(overlappingPoint, 1, 1,
                                         position2, largeur, hauteur)) {
                 return 1; // return the id of the overlapping entity
-            } else {
-                return -1; // return -1 to show
             }
         }
     }
+    return -1; // return -1 to show
 }
