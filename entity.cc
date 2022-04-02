@@ -1,6 +1,6 @@
 /*!
   \file   entity.cc
-  \author Nathann Morand (70%) et Felipe Ramirez (30%)
+  \author Nathann Morand (50%) et Felipe Ramirez (50%)
   \date   MARS 2022
   \brief  implémentation du module "entity".
 */
@@ -57,27 +57,21 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
 int Entity::findIdByOccupingPoint(Point overlappingPoint,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity,
                                   char specie) {
-
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
         if((*listOfEntity[i]).getSpecie() == specie) { //
-            int largeur = ((*listOfEntity[i]).getOccupiedSpace()).getWidth();
-            int hauteur = ((*listOfEntity[i]).getOccupiedSpace()).getHeight();
-            int pointOriginX = (((*listOfEntity[i]).getOccupiedSpace()).getHitboxBotLeft()).getCoordX();
-            int pointOriginY = (((*listOfEntity[i]).getOccupiedSpace()).getHitboxBotLeft()).getCoordY();
+            int largeur = ((*listOfEntity[i]).getOccupiedSpace())->getWidth();
+            int hauteur = ((*listOfEntity[i]).getOccupiedSpace())->getHeight();
+            int pointOriginX = (((*listOfEntity[i]).getOccupiedSpace())
+                                                    ->getHitboxBotLeft()).getCoordX();
+            int pointOriginY = (((*listOfEntity[i]).getOccupiedSpace())
+                                                    ->getHitboxBotLeft()).getCoordY();
             Point position2(pointOriginX,pointOriginY);
-
-            if(not(Squarecell::countOverlap(overlappingPoint, 1, 1, position2, largeur, hauteur) == 0)) {
-                cout << "overlapping" << endl;
-                return 1;
+            if(Squarecell::countOverlap(overlappingPoint, 1, 1,
+                                        position2, largeur, hauteur)) {
+                return 1; // return the id of the overlapping entity
             } else {
-                return 0;
+                return -1; // return -1 to show
             }
         }
     }
 }
-
-/*int Entity::checkOverlap(Entity entity)
-{
-    // remove if not used
-    return 0;
-}*/
