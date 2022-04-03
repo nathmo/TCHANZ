@@ -118,6 +118,8 @@ vector<vector<string>> TextStorage::exportDump(
     vector<vector<string>> vecVecStrgAnthill = anthillVecToExport(listOfEntity,
                                                                   quantityFood);
 
+    //note a moi meme on va push back le nombre de anthill ici faut faire fonction fin pour le moment mais en vrai faisable en fourmiliere.cc
+
 
     //for(auto entity:listOfEntity) {
       //  vecVecStringToExport.add((*entity).export());

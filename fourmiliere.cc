@@ -142,17 +142,24 @@ int Fourmiliere::getNbP() {
     return nbP;
 }
 
-
 vector<vector<string>> Fourmiliere::anthillVecToExport(vector<string> &listOfEntity,
-                                          int quantityFood){
-    string coordX = to_string(((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getPosition).getCoordX;
-    string coordY = to_string(((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getPosition).getCoordY;
-    string height = to_string((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getHeight;
-    string width = to_string((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getWidth;
-    //position generator
-    string totalFood = to_string((*listOfEntity[quantityFood+1]).get);
-    string
+                                                       int quantityFood){
 
+     //boucle while ou for pour faire chaque fourmiliere qui est presente dans la liste
+
+        string coordX = to_string(((*listOfEntity[quantityFood +1])->getOccupiedSpace)->getPosition).getCoordX;
+        string coordY = to_string(((*listOfEntity[quantityFood +1])->getOccupiedSpace)->getPosition).getCoordY;
+        string height = to_string((*listOfEntity[quantityFood + 1])->getOccupiedSpace)->getHeight;
+        //string width = to_string((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getWidth; // vu qu on part du principe fourmiliere forcement carre
+        //position generator
+        string totalFood = to_string((*listOfEntity[quantityFood + 1]).getFoodReserve);
+        string nbC = to_string((*listOfEntity[quantityFood + 1]).getNbC);
+        string nbD = to_string((*listOfEntity[quantityFood + 1]).getNbD);
+        string nbP = to_string((*listOfEntity[quantityFood + 1]).getNbP);
+        vector<vector<string>> vecVecStringAnthillAnt.push_back({coordX, coordY, height, height, GENERATOR, totalFood, nbC, nbD, nbP}); //manque generator
+
+
+        //appeler les differentes fonction des fourmis pour les insert ici
 
     return vecVecStringAnthillAnt;
 }
