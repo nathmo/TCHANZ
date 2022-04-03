@@ -110,11 +110,14 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
 }
 
 vector<vector<string>> TextStorage::exportDump(
-                                        vector<shared_ptr<Entity>> entityArrayDump) {
-    vector<vector<string>> entityList;
-    // TODO : write the array of entity and export it as an array of int
-    //  (reverse of import)
-    return entityList;
+                                        vector<shared_ptr<Entity>> listOfEntity) {
+    vector<vector<string>> vecVecStringToExport;
+
+
+    for(auto entity:listOfEntity) {
+        vecVecStringToExport.add((*entity).export());
+    }
+    return vecVecStringToExport;
 }
 
 bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {

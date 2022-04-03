@@ -36,3 +36,28 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer
 void Nourriture::update(){
     cout << "updating the Nourriture with id "+to_string(id) << endl;
 }
+
+vector<vector<string>> foodVecToExport(vector<shared_ptr<Entity>> &listOfEntity)) {
+    vector<vector<string>> vecVecStringFood;
+    int count(0);
+
+    for(unsigned int i(0); i < listOfEntity.size(); i++) {
+        if((*listOfEntity[i])->getSpecie == food) {
+            count = count + 1;
+        } else {
+            break;
+        }
+    }
+
+    vecVecStringFood.push_back(to_string(count));
+    for(unsigned int i(0); i < count; i++) {
+        int coordX = (((*listOfEntity[i])->getOccupiedSpace)->getPosition).getCoordX;
+        int coordY = (((*listOfEntity[i])->getOccupiedSpace)->getPosition).getCoordY;
+        string stringCoordX = to_string(coordX);
+        string stringCoordY = to_string(coordY);
+
+        vecVecStringFood.push_back({stringCoordX, stringCoordY});
+    }
+
+    return vecVecStringFood;
+}

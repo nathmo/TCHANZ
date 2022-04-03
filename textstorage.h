@@ -32,7 +32,7 @@ public:
     static std::vector<std::vector<std::string>> exportDump(
             std::vector<std::shared_ptr<Entity>> entityArrayDump);
     // ensure the file is consistend
-    static bool checksizeLine(std::vector<std::vector<std::string>> intArrayDump);
+    static bool checksizeLine(std::vector<std::vector<std::string>> listOfEntity);
     // used in importDump to import the food elements
     static void importFood(std::vector<std::vector<std::string>> inputBuffer,
                            std::vector<std::shared_ptr<Nourriture>> &foodVectReturn);

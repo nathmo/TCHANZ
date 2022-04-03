@@ -18,6 +18,7 @@ int age;
 public:
     Fourmi(Point position, int age, char type, int id, int size);
     virtual void update();
+    virtual std::vector<str::vector<std::string>> export();
 };
 
 class Collector : public Fourmi {
@@ -27,6 +28,7 @@ private:
 public:
     Collector(Point position, int id, int age, bool carryFood);
     virtual void update();
+    virtual std::vector<str::vector<std::string>> export();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveCollector(
             std::vector<std::string> &inputBuffer, int index);
@@ -36,6 +38,7 @@ class Defensor : public Fourmi {
 public:
     Defensor(Point position, int id, int age);
     virtual void update();
+    virtual std::vector<str::vector<std::string>> export();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveDefensor(
             std::vector<std::string> &inputBuffer, int index);
@@ -45,6 +48,7 @@ class Predator : public Fourmi {
 public:
     Predator(Point position, int id, int age);
     virtual void update();
+    virtual std::vector<str::vector<std::string>> export();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSavePredator(
             std::vector<std::string> &inputBuffer, int index);
@@ -54,6 +58,7 @@ class Generator : public Fourmi {
 public:
     Generator(Point position, int id);
     virtual void update();
+    virtual std::vector<str::vector<std::string>> export();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveGenerator(
                                     std::vector<std::string> &inputBuffer, int index);
