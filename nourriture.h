@@ -18,6 +18,8 @@ public:
     static std::shared_ptr<Nourriture> importFromExtSave(
             std::vector<std::string>& inputBuffer, int index);
     virtual void update();
+    virtual std::vector<str::vector<std::string>> foodVecToExport(
+                                            vector<shared_ptr<Entity>> &listOfEntity);
 };
 
 #endif //TCHANZ_NOURRITURE_H

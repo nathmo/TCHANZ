@@ -110,11 +110,12 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
 }
 
 vector<vector<string>> TextStorage::exportDump(
-                                        vector<shared_ptr<Entity>> entityArrayDump) {
+                                        vector<shared_ptr<Entity>> listOfEntity) {
     vector<vector<string>> vecVecStringToExport;
-    for(auto entity:entityArrayDump)
-    {
-        vecVecStringToExport.push_back(entity.export());
+
+
+    for(auto entity:listOfEntity) {
+        vecVecStringToExport.add((*entity).export());
     }
     return vecVecStringToExport;
 }
