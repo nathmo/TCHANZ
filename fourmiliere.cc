@@ -125,3 +125,35 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
                                         index, FourmiList);
     }
 }
+
+int Fourmiliere::getFoodReserve() {
+    return foodReserve;
+}
+
+int Fourmiliere::getNbC() {
+    return nbC;
+}
+
+int Fourmiliere::getNbD() {
+    return nbD;
+}
+
+int Fourmiliere::getNbP() {
+    return nbP;
+}
+
+
+vector<vector<string>> Fourmiliere::anthillVecToExport(vector<string> &listOfEntity,
+                                          int quantityFood){
+    string coordX = to_string(((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getPosition).getCoordX;
+    string coordY = to_string(((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getPosition).getCoordY;
+    string height = to_string((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getHeight;
+    string width = to_string((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getWidth;
+    //position generator
+    string totalFood = to_string((*listOfEntity[quantityFood+1]).get);
+    string
+
+
+    return vecVecStringAnthillAnt;
+}
+

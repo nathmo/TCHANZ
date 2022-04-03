@@ -110,13 +110,18 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
 }
 
 vector<vector<string>> TextStorage::exportDump(
-                                        vector<shared_ptr<Entity>> listOfEntity) {
-    vector<vector<string>> vecVecStringToExport;
+                                            vector<shared_ptr<Entity>> listOfEntity) {
+    vector<vector<string>> vecVecStringToExport = foodVecToExport(listOfEntity);
+    //move pour eviter le insert begin end et gagner des lignes
+    int quantityFood = stoi(foodVecToExport[0][0]); //jsp si ca va etre utile
+
+    vector<vector<string>> vecVecStrgAnthill = anthillVecToExport(listOfEntity,
+                                                                  quantityFood);
 
 
-    for(auto entity:listOfEntity) {
-        vecVecStringToExport.add((*entity).export());
-    }
+    //for(auto entity:listOfEntity) {
+      //  vecVecStringToExport.add((*entity).export());
+    //}
     return vecVecStringToExport;
 }
 
