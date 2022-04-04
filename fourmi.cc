@@ -42,9 +42,17 @@ void Collector::update() {
 }
 
 vector<vector<string>> Collector::export(){
-    vector<vector<string>> toExport;
     cout << "exporting an collector" << endl;
-    return toExport;
+    vector<vector<string>> vecVecStringFood;
+    string x = to_string(OccupiedSpace->getPosition().getCoordX);
+    string y = to_string(OccupiedSpace->getPosition().getCoordy);
+    string carryFoodString = "False"
+    if(carryFood){
+        carryFoodString = "True";
+    }
+    string ageString = to_string(age);
+    vecVecStringFood.push_back({x,y,ageString,carryFoodString)});
+    return vecVecStringFood;
 }
 
 shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBuffer,
@@ -80,9 +88,13 @@ void Defensor::update() {
 }
 
 vector<vector<string>> Defensor::export(){
-    vector<vector<string>> toExport;
     cout << "exporting a Defensor" << endl;
-    return toExport;
+    vector<vector<string>> vecVecStringFood;
+    string x = to_string(OccupiedSpace->getPosition().getCoordX);
+    string y = to_string(OccupiedSpace->getPosition().getCoordy);
+    string ageString = to_string(age);
+    vecVecStringFood.push_back({x,y,ageString)});
+    return vecVecStringFood;
 }
 
 shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuffer,
@@ -114,9 +126,12 @@ void Predator::update() {
 }
 
 vector<vector<string>> Predator::export(){
-    vector<vector<string>> toExport;
     cout << "exporting a predator" << endl;
-    return toExport;
+    vector<vector<string>> vecVecStringFood;
+    string x = to_string(OccupiedSpace->getPosition().getCoordX);
+    string y = to_string(OccupiedSpace->getPosition().getCoordy);
+    string ageString = to_string(age);
+    vecVecStringFood.push_back({x,y,ageString)});
 }
 
 shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuffer,
@@ -144,12 +159,16 @@ Generator::Generator(Point position, int id) :
 
 void Generator::update() {
     cout << "updating the Generator with id "+to_string(id) << endl;
+
 }
 
 vector<vector<string>> Generator::export(){
-    vector<vector<string>> toExport;
     cout << "exporting a Generator" << endl;
-    return toExport;
+    vector<vector<string>> vecVecStringFood;
+    string x = to_string(OccupiedSpace->getPosition().getCoordX);
+    string y = to_string(OccupiedSpace->getPosition().getCoordy);
+    string ageString = to_string(age);
+    vecVecStringFood.push_back({x,y,ageString)});
 }
 
 shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBuffer,
