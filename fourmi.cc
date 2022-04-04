@@ -25,6 +25,13 @@ void Fourmi::update() {
     exit(EXIT_FAILURE);
 }
 
+vector<vector<string>> Fourmi::export(){
+    vector<vector<string>> toExport;
+    cout << "ERROR : exporting a generic ant type" << endl;
+    exit(EXIT_FAILURE);
+    return toExport;
+}
+
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
         Fourmi(position, age,fourmiCollectorCST,id,sizeC) {
     this->carryFood = carryFood;
@@ -32,6 +39,12 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update() {
     cout << "updating the Collector with id "+to_string(id) << endl;
+}
+
+vector<vector<string>> Collector::export(){
+    vector<vector<string>> toExport;
+    cout << "exporting an collector" << endl;
+    return toExport;
 }
 
 shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBuffer,
@@ -66,6 +79,12 @@ void Defensor::update() {
     cout << "updating the Defensor with id "+to_string(id) << endl;
 }
 
+vector<vector<string>> Defensor::export(){
+    vector<vector<string>> toExport;
+    cout << "exporting a Defensor" << endl;
+    return toExport;
+}
+
 shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuffer,
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
@@ -94,6 +113,12 @@ void Predator::update() {
     cout << "updating the Predator with id "+to_string(id) << endl;
 }
 
+vector<vector<string>> Predator::export(){
+    vector<vector<string>> toExport;
+    cout << "exporting a predator" << endl;
+    return toExport;
+}
+
 shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuffer,
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
@@ -119,6 +144,12 @@ Generator::Generator(Point position, int id) :
 
 void Generator::update() {
     cout << "updating the Generator with id "+to_string(id) << endl;
+}
+
+vector<vector<string>> Generator::export(){
+    vector<vector<string>> toExport;
+    cout << "exporting a Generator" << endl;
+    return toExport;
 }
 
 shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBuffer,

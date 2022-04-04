@@ -37,7 +37,13 @@ void Nourriture::update(){
     cout << "updating the Nourriture with id "+to_string(id) << endl;
 }
 
-vector<vector<string>> Nourriture::foodVecToExport(
+vector<vector<string>> Nourriture::export(){
+    vector<vector<string>> toExport;
+    cout << "exporting a nourriture" << endl;
+    return toExport;
+}
+
+vector<vector<string>> Nourriture::export(
                                           vector<shared_ptr<Entity>> &listOfEntity)) {
     vector<vector<string>> vecVecStringFood;
     int count(0);

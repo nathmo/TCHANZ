@@ -57,6 +57,11 @@ void Entity::update(){
     exit(EXIT_FAILURE);
 }
 
+vector<vector<string>> export(){
+    cout << "trying to export a generic entity" << endl;
+    exit(EXIT_FAILURE);
+}
+
 int Entity::findIdByOccupingPoint(Point overlappingPoint,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity,
                                   char specie) {

@@ -32,6 +32,12 @@ void Fourmiliere::update() {
     }
 }
 
+vector<vector<string>> Fourmiliere::export(){
+    vector<vector<string>> toExport;
+    cout << "exporting an anthill" << endl;
+    return toExport;
+}
+
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
 }
