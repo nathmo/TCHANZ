@@ -8,6 +8,7 @@
 #define TCHANZ_ENTITY_H
 
 #include "squarecell.h"
+#include <string>
 
 class Entity {
 protected:
