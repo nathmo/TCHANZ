@@ -41,8 +41,6 @@ public:
             std::vector<std::string> &inputBuffer, int index,
             std::vector<std::shared_ptr<Fourmi>> FourmiList,
             std::vector<std::shared_ptr<Fourmiliere>> previousAnthill);
-    virtual std::vector<std::vector<std::string>> anthillVecToExport(
-                           std::vector<std::string> &listOfEntity, int quantityFood);
     int getFoodReserve();
     int getNbC();
     int getNbD();
