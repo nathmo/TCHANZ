@@ -7,8 +7,9 @@
 #ifndef TCHANZ_ENTITY_H
 #define TCHANZ_ENTITY_H
 
-#include "squarecell.h"
 #include <string>
+#include <vector>
+#include "squarecell.h"
 
 class Entity {
 protected:
