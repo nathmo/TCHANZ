@@ -57,7 +57,7 @@ void Entity::update(){
     exit(EXIT_FAILURE);
 }
 
-vector<vector<string>> export(){
+vector<vector<string>> Entity::export(){
     cout << "trying to export a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
