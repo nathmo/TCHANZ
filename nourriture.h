@@ -20,8 +20,6 @@ public:
     virtual void update();
     // export the entity to something that can be written in a file
     virtual std::vector<str::vector<std::string>> export();
-    virtual std::vector<std::vector<std::string>> foodVecToExport(
-                                       std::vector<shared_ptr<Entity>> &listOfEntity);
 };
 
 #endif //TCHANZ_NOURRITURE_H

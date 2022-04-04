@@ -124,6 +124,26 @@ vector<vector<string>> TextStorage::exportDump(
     //for(auto entity:listOfEntity) {
       //  vecVecStringToExport.add((*entity).export());
     //}
+
+    // ton code de nourriture :
+    int count(0);
+
+    for(unsigned int i(0); i < listOfEntity.size(); i++) {
+        if((*listOfEntity[i])->getSpecie == nourritureCST) {
+            count = count + 1;
+        } else {
+            break;
+        }
+    }
+
+    vecVecStringFood.push_back(to_string(count));
+    for(unsigned int i(0); i < count; i++) {
+        int coordX = (((*listOfEntity[i]).getOccupiedSpace)->getPosition).getCoordX;
+        int coordY = (((*listOfEntity[i]).getOccupiedSpace)->getPosition).getCoordY;
+        string stringCoordX = to_string(coordX);
+        string stringCoordY = to_string(coordY);
+
+    }
     return vecVecStringToExport;
 }
 

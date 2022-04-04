@@ -37,34 +37,10 @@ void Nourriture::update(){
     cout << "updating the Nourriture with id "+to_string(id) << endl;
 }
 
-vector<vector<string>> Nourriture::export(){
-    vector<vector<string>> toExport;
-    cout << "exporting a nourriture" << endl;
-    return toExport;
-}
-
-vector<vector<string>> Nourriture::export(
-                                          vector<shared_ptr<Entity>> &listOfEntity)) {
+vector<vector<string>> Nourriture::export() {
     vector<vector<string>> vecVecStringFood;
-    int count(0);
-
-    for(unsigned int i(0); i < listOfEntity.size(); i++) {
-        if((*listOfEntity[i])->getSpecie == nourritureCST) {
-            count = count + 1;
-        } else {
-            break;
-        }
-    }
-
-    vecVecStringFood.push_back(to_string(count));
-    for(unsigned int i(0); i < count; i++) {
-        int coordX = (((*listOfEntity[i]).getOccupiedSpace)->getPosition).getCoordX;
-        int coordY = (((*listOfEntity[i]).getOccupiedSpace)->getPosition).getCoordY;
-        string stringCoordX = to_string(coordX);
-        string stringCoordY = to_string(coordY);
-
-        vecVecStringFood.push_back({stringCoordX, stringCoordY});
-    }
-
+    string x = to_string(OccupiedSpace->getPosition().getCoordX);
+    string y = to_string(OccupiedSpace->getPosition().getCoordy);
+    vecVecStringFood.push_back({x,y)});
     return vecVecStringFood;
 }
