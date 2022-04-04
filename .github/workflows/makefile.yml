@@ -11,7 +11,7 @@
       runs-on: ubuntu-latest
       steps:
       - name: install dependency
-        run: apt install libgtkmm-3.0-dev
+        run: sudo apt install libgtkmm-3.0-dev
       - name: checkout repo
         uses: actions/checkout@v2
       - name: build application
