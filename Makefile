@@ -16,7 +16,7 @@ all: projet
 
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
-	@/bin/rm -f *.o *.x *.cc~ *.h~ projet
+	@/bin/rm -f *.o *.x *.cc~ *.h~ projet test
 # ----------------------------------------------------------------------------------------------------------------------
 error_squarecell.o : error_squarecell.cc error_squarecell.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@
