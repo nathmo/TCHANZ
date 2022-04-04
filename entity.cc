@@ -52,12 +52,12 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
     return occupiedSpace;
 }
 
-std::vector<std::vector<std::string>> Entity::update(){
+void Entity::update(){
     cout << "trying to update a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
 
-vector<vector<string>> Entity::export(){
+vector<vector<string>> Entity::exportToString(){
     cout << "trying to export a generic entity" << endl;
     exit(EXIT_FAILURE);
 }

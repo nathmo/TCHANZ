@@ -19,7 +19,7 @@ public:
     Fourmi(Point position, int age, char type, int id, int size);
     virtual void update();
     // export the entity to something that can be written in a file
-    virtual std::vector<str::vector<std::string>> export();
+    virtual std::vector<std::vector<std::string>> exportToString();
 };
 
 class Collector : public Fourmi {
@@ -30,7 +30,7 @@ public:
     Collector(Point position, int id, int age, bool carryFood);
     virtual void update();
     // export the entity to something that can be written in a file
-    virtual std::vector<str::vector<std::string>> export();
+    virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveCollector(
             std::vector<std::string> &inputBuffer, int index);
@@ -41,7 +41,7 @@ public:
     Defensor(Point position, int id, int age);
     virtual void update();
     // export the entity to something that can be written in a file
-    virtual std::vector<str::vector<std::string>> export();
+    virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveDefensor(
             std::vector<std::string> &inputBuffer, int index);
@@ -52,7 +52,7 @@ public:
     Predator(Point position, int id, int age);
     virtual void update();
     // export the entity to something that can be written in a file
-    virtual std::vector<str::vector<std::string>> export();
+    virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSavePredator(
             std::vector<std::string> &inputBuffer, int index);
@@ -63,7 +63,7 @@ public:
     Generator(Point position, int id);
     virtual void update();
     // export the entity to something that can be written in a file
-    virtual std::vector<str::vector<std::string>> export();
+    virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveGenerator(
                                     std::vector<std::string> &inputBuffer, int index);

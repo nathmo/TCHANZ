@@ -9,6 +9,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "squarecell.h"
 
 class Entity {
@@ -27,8 +28,8 @@ public:
     char getSpecie();
     int getId();
     std::shared_ptr<Squarecell> getOccupiedSpace();
+    virtual std::vector<std::vector<std::string>> exportToString();
     virtual void update();
-    virtual std::vector<std::vector<std::string>> export();
     // return the id of a selected specie lying on a point if it exist
     static int findIdByOccupingPoint(Point overlappingPoint,
                                      std::vector<std::shared_ptr<Entity>> listOfEntity,

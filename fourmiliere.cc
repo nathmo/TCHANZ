@@ -32,7 +32,7 @@ void Fourmiliere::update() {
     }
 }
 
-vector<vector<string>> Fourmiliere::export(){
+vector<vector<string>> Fourmiliere::exportToString(){
     vector<vector<string>> toExport;
     cout << "exporting an anthill" << endl;
     /*

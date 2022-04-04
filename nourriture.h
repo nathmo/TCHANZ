@@ -19,7 +19,7 @@ public:
             std::vector<std::string>& inputBuffer, int index);
     virtual void update();
     // export the entity to something that can be written in a file
-    virtual std::vector<str::vector<std::string>> export();
+    virtual std::vector<std::vector<std::string>> exportToString();
 };
 
 #endif //TCHANZ_NOURRITURE_H

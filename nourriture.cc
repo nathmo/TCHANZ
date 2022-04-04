@@ -37,10 +37,11 @@ void Nourriture::update(){
     cout << "updating the Nourriture with id "+to_string(id) << endl;
 }
 
-vector<vector<string>> Nourriture::export() {
+vector<vector<string>> Nourriture::exportToString() {
     vector<vector<string>> vecVecStringFood;
-    string x = to_string(OccupiedSpace->getPosition().getCoordX);
-    string y = to_string(OccupiedSpace->getPosition().getCoordy);
-    vecVecStringFood.push_back({x,y)});
+    Point position = (*occupiedSpace).getPosition();
+    string x = to_string(position.getCoordX());
+    string y = to_string(position.getCoordY());
+    vecVecStringFood.push_back({x,y});
     return vecVecStringFood;
 }

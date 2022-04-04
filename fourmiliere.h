@@ -27,7 +27,7 @@ public:
                 std::vector<std::shared_ptr<Fourmi>> FourmiList);
     virtual void update();
     // export the entity to something that can be written in a file
-    virtual std::vector<std::vector<std::string>> export();
+    virtual std::vector<std::vector<std::string>> exportToString();
     // bundle all the check used to validate the anthill content
     void check();
     // remplace the list of member ants

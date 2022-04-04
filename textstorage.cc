@@ -111,40 +111,17 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
 
 vector<vector<string>> TextStorage::exportDump(
                                             vector<shared_ptr<Entity>> listOfEntity) {
-    vector<vector<string>> vecVecStringToExport = foodVecToExport(listOfEntity);
-    //move pour eviter le insert begin end et gagner des lignes
-    int quantityFood = stoi(foodVecToExport[0][0]); //jsp si ca va etre utile
-
-    vector<vector<string>> vecVecStrgAnthill = anthillVecToExport(listOfEntity,
-                                                                  quantityFood);
-
-    //note a moi meme on va push back le nombre de anthill ici faut faire fonction fin pour le moment mais en vrai faisable en fourmiliere.cc
-
-
-    //for(auto entity:listOfEntity) {
-      //  vecVecStringToExport.add((*entity).export());
-    //}
-
-    // ton code de nourriture :
-    int count(0);
-
-    for(unsigned int i(0); i < listOfEntity.size(); i++) {
-        if((*listOfEntity[i])->getSpecie == nourritureCST) {
-            count = count + 1;
-        } else {
-            break;
+    vector<vector<string>> toExport = {{"0"}};
+    int nOfFood=0;
+    for(auto entity:listOfEntity){
+        vector<vector<string>> temp = (*entity).exportToString();
+        toExport.insert(toExport.end(), temp.begin(), temp.end());
+        if((*entity).getSpecie() == nourritureCST) {
+            nOfFood++;
         }
     }
-
-    vecVecStringFood.push_back(to_string(count));
-    for(unsigned int i(0); i < count; i++) {
-        int coordX = (((*listOfEntity[i]).getOccupiedSpace)->getPosition).getCoordX;
-        int coordY = (((*listOfEntity[i]).getOccupiedSpace)->getPosition).getCoordY;
-        string stringCoordX = to_string(coordX);
-        string stringCoordY = to_string(coordY);
-
-    }
-    return vecVecStringToExport;
+    toExport[0][0]=to_string(nOfFood);
+    return toExport;
 }
 
 bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {
