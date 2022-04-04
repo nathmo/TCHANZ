@@ -18,15 +18,15 @@
 
 using namespace std;
 
-void importTXT(std::string filename,
-               std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
-               std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn){
+void TextStorage::importTXT(std::string filename,
+               vector<shared_ptr<Nourriture>> &foodVectorReturn,
+               vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn){
     TextStorage::importDump(TextStorage::readtxt(filename),
                             foodVectorReturn, fourmilliereVectorReturn);
 }
 
-static void exportTXT(std::string filename,
-                      std::vector<std::shared_ptr<Entity>> entityToExport){
+void TextStorage::exportTXT(std::string filename,
+                      vector<shared_ptr<Entity>> entityToExport){
     TextStorage::writetxt(filename, TextStorage::exportDump(entityToExport));
 }
 
