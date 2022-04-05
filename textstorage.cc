@@ -18,6 +18,18 @@
 
 using namespace std;
 
+void TextStorage::importTXT(std::string filename,
+               vector<shared_ptr<Nourriture>> &foodVectorReturn,
+               vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn){
+    TextStorage::importDump(TextStorage::readtxt(filename),
+                            foodVectorReturn, fourmilliereVectorReturn);
+}
+
+void TextStorage::exportTXT(std::string filename,
+                      vector<shared_ptr<Entity>> entityToExport){
+    TextStorage::writetxt(filename, TextStorage::exportDump(entityToExport));
+}
+
 void TextStorage::writetxt(string filename, vector<vector<string>> lineToWrite) {
     fstream txtsave;
     txtsave.open(filename, ios::out);//open file with write access

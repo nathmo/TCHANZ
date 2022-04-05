@@ -20,7 +20,7 @@ std::vector<std::shared_ptr<Entity>> Simulation::loadFromFile(string path) {
     vector<shared_ptr<Entity>> entityList;
     vector<shared_ptr<Nourriture>> nourritureList;
     vector<shared_ptr<Fourmiliere>> anthillList;
-    TextStorage::importDump(TextStorage::readtxt(path), nourritureList, anthillList);
+    TextStorage::importTXT(path,nourritureList,anthillList);
     for(unsigned int i=0;i<anthillList.size();i++){
         (*anthillList[i]).check();
     }
