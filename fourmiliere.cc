@@ -50,6 +50,11 @@ vector<vector<string>> Fourmiliere::exportToString(){
                                      {coordX, coordY, height, height, coordXGenerator,
                                       coordYGenerator,totalFood, nbC, nbD, nbP});
 
+    for(auto fourmi:memberAnts) {
+        vector<vector<string>> temp = (*fourmi).exportToString();
+        toExport.insert(toExport.end(), temp.begin(), temp.end());
+    }
+
     return toExport;
 }
 
