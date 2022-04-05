@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"

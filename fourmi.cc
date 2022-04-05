@@ -52,7 +52,7 @@ vector<vector<string>> Collector::exportToString() {
         carryFoodString = "True";
     }
     string ageString = to_string(age);
-    vecVecStringFood.push_back({x,y,ageString,carryFoodString});
+    vecVecStringCollector.push_back({x,y,ageString,carryFoodString});
     return vecVecStringCollector;
 }
 
@@ -95,7 +95,7 @@ vector<vector<string>> Defensor::exportToString() {
     string x = to_string(position.getCoordX());
     string y = to_string(position.getCoordY());
     string ageString = to_string(age);
-    vecVecStringFood.push_back({x,y,ageString});
+    vecVecStringDefensor.push_back({x,y,ageString});
     return vecVecStringDefensor;
 }
 
@@ -134,7 +134,7 @@ vector<vector<string>> Predator::exportToString() {
     string x = to_string(position.getCoordX());
     string y = to_string(position.getCoordY());
     string ageString = to_string(age);
-    vecVecStringFood.push_back({x,y,ageString});
+    vecVecStringPredator.push_back({x,y,ageString});
     return vecVecStringPredator;
 }
 
@@ -173,7 +173,7 @@ vector<vector<string>> Generator::exportToString() {
     string x = to_string(position.getCoordX());
     string y = to_string(position.getCoordY());
     string ageString = to_string(age);
-    vecVecStringFood.push_back({x,y,ageString});
+    vecVecStringGenerator.push_back({x,y,ageString});
     return vecVecStringGenerator;
 }
 

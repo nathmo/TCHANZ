@@ -6,6 +6,7 @@
 */
 #include <iostream>
 #include <memory>
+#include <string>
 #include "fourmiliere.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -36,19 +37,18 @@ vector<vector<string>> Fourmiliere::exportToString(){
     vector<vector<string>> toExport;
     cout << "exporting an anthill" << endl;
 
-    string coordX = to_string((getOccupiedSpace())->getPosition()).getCoordX();
-    string coordY = to_string((getOccupiedSpace())->getPosition()).getCoordY();
-    string height = to_string((getOccupiedSpace())->getHeight();
-    string coordXGenerator = to_string((*memberAnts[0]).getPosition).getCoordX();
-    string coordXGenerator = to_string((*memberAnts[0]).getPosition).getCoordY();
+    string coordX = to_string((getOccupiedSpace())->getPosition().getCoordX());
+    string coordY = to_string((getOccupiedSpace())->getPosition().getCoordY());
+    string height = to_string(getOccupiedSpace()->getHeight());
+    string generatorX = to_string((*memberAnts[0]).getPosition().getCoordX());
+    string generatorY = to_string((*memberAnts[0]).getPosition().getCoordY());
     string totalFood = to_string(foodReserve);
-    string nbC = to_string(NbC);
-    string nbD = to_string(NbD);
-    string nbP = to_string(NbP);
+    string strC = to_string(nbC);
+    string strD = to_string(nbD);
+    string strP = to_string(nbP);
 
-    vector<vector<string>> vecVecStringAnthillAnt.push_back(
-                                     {coordX, coordY, height, height, coordXGenerator,
-                                      coordYGenerator,totalFood, nbC, nbD, nbP});
+    toExport.push_back({coordX, coordY, height, height, generatorX,generatorY,
+                        totalFood, strC, strD, strP});
 
     for(auto fourmi:memberAnts) {
         vector<vector<string>> temp = (*fourmi).exportToString();

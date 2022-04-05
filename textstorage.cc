@@ -124,15 +124,21 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
 vector<vector<string>> TextStorage::exportDump(
                                             vector<shared_ptr<Entity>> listOfEntity) {
     vector<vector<string>> toExport = {{"0"}};
-    int nOfFood=0;
+    int nOfFood(0);
+    int count(0);
     for(auto entity:listOfEntity) {
         vector<vector<string>> temp = (*entity).exportToString();
         toExport.insert(toExport.end(), temp.begin(), temp.end());
         if((*entity).getSpecie() == nourritureCST) {
             nOfFood++;
+        } else if(((*entity).getSpecie()) == fourmilliereCST && count == 0) {
+            count++;
+            string strNbAnthill = to_string((listOfEntity.size() + 1) - nOfFood);
+            toExport.push_back({strNbAnthill});
         }
     }
     toExport[0][0]=to_string(nOfFood);
+
     return toExport;
 }
 
