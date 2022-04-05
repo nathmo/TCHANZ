@@ -41,11 +41,6 @@ public:
             std::vector<std::string> &inputBuffer, int index,
             std::vector<std::shared_ptr<Fourmi>> FourmiList,
             std::vector<std::shared_ptr<Fourmiliere>> previousAnthill);
-    int getFoodReserve();
-    int getNbC();
-    int getNbD();
-    int getNbP();
-
 };
 
 #endif //TCHANZ_FOURMILIERE_H

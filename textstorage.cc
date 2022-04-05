@@ -113,7 +113,7 @@ vector<vector<string>> TextStorage::exportDump(
                                             vector<shared_ptr<Entity>> listOfEntity) {
     vector<vector<string>> toExport = {{"0"}};
     int nOfFood=0;
-    for(auto entity:listOfEntity){
+    for(auto entity:listOfEntity) {
         vector<vector<string>> temp = (*entity).exportToString();
         toExport.insert(toExport.end(), temp.begin(), temp.end());
         if((*entity).getSpecie() == nourritureCST) {

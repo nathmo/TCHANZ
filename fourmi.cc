@@ -41,19 +41,19 @@ void Collector::update() {
     cout << "updating the Collector with id "+to_string(id) << endl;
 }
 
-vector<vector<string>> Collector::exportToString(){
+vector<vector<string>> Collector::exportToString() {
     cout << "exporting an collector" << endl;
-    vector<vector<string>> vecVecStringFood;
+    vector<vector<string>> vecVecStringCollector;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
     string y = to_string(position.getCoordY());
     string carryFoodString = "False";
-    if(carryFood){
+    if(carryFood) {
         carryFoodString = "True";
     }
     string ageString = to_string(age);
     vecVecStringFood.push_back({x,y,ageString,carryFoodString});
-    return vecVecStringFood;
+    return vecVecStringCollector;
 }
 
 shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBuffer,
@@ -88,15 +88,15 @@ void Defensor::update() {
     cout << "updating the Defensor with id "+to_string(id) << endl;
 }
 
-vector<vector<string>> Defensor::exportToString(){
+vector<vector<string>> Defensor::exportToString() {
     cout << "exporting a Defensor" << endl;
-    vector<vector<string>> vecVecStringFood;
+    vector<vector<string>> vecVecStringDefensor;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
     string y = to_string(position.getCoordY());
     string ageString = to_string(age);
     vecVecStringFood.push_back({x,y,ageString});
-    return vecVecStringFood;
+    return vecVecStringDefensor;
 }
 
 shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuffer,
@@ -127,15 +127,15 @@ void Predator::update() {
     cout << "updating the Predator with id "+to_string(id) << endl;
 }
 
-vector<vector<string>> Predator::exportToString(){
+vector<vector<string>> Predator::exportToString() {
     cout << "exporting a predator" << endl;
-    vector<vector<string>> vecVecStringFood;
+    vector<vector<string>> vecVecStringPredator;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
     string y = to_string(position.getCoordY());
     string ageString = to_string(age);
     vecVecStringFood.push_back({x,y,ageString});
-    return vecVecStringFood;
+    return vecVecStringPredator;
 }
 
 shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuffer,
@@ -166,15 +166,15 @@ void Generator::update() {
 
 }
 
-vector<vector<string>> Generator::exportToString(){
+vector<vector<string>> Generator::exportToString() {
     cout << "exporting a Generator" << endl;
-    vector<vector<string>> vecVecStringFood;
+    vector<vector<string>> vecVecStringGenerator;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
     string y = to_string(position.getCoordY());
     string ageString = to_string(age);
     vecVecStringFood.push_back({x,y,ageString});
-    return vecVecStringFood;
+    return vecVecStringGenerator;
 }
 
 shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBuffer,

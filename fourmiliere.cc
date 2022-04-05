@@ -35,31 +35,28 @@ void Fourmiliere::update() {
 vector<vector<string>> Fourmiliere::exportToString(){
     vector<vector<string>> toExport;
     cout << "exporting an anthill" << endl;
-    /*
 
-        //boucle while ou for pour faire chaque fourmiliere qui est presente dans la liste
+    string coordX = to_string((getOccupiedSpace())->getPosition()).getCoordX();
+    string coordY = to_string((getOccupiedSpace())->getPosition()).getCoordY();
+    string height = to_string((getOccupiedSpace())->getHeight();
+    string coordXGenerator = to_string((*memberAnts[0]).getPosition).getCoordX();
+    string coordXGenerator = to_string((*memberAnts[0]).getPosition).getCoordY();
+    string totalFood = to_string(foodReserve);
+    string nbC = to_string(NbC);
+    string nbD = to_string(NbD);
+    string nbP = to_string(NbP);
 
-        string coordX = to_string(((*listOfEntity[quantityFood +1])->getOccupiedSpace)->getPosition).getCoordX;
-        string coordY = to_string(((*listOfEntity[quantityFood +1])->getOccupiedSpace)->getPosition).getCoordY;
-        string height = to_string((*listOfEntity[quantityFood + 1])->getOccupiedSpace)->getHeight;
-        //string width = to_string((*listOfEntity[quantityFood+1])->getOccupiedSpace)->getWidth; // vu qu on part du principe fourmiliere forcement carre
-        //position generator
-        string totalFood = to_string((*listOfEntity[quantityFood + 1]).getFoodReserve);
-        string nbC = to_string((*listOfEntity[quantityFood + 1]).getNbC);
-        string nbD = to_string((*listOfEntity[quantityFood + 1]).getNbD);
-        string nbP = to_string((*listOfEntity[quantityFood + 1]).getNbP);
-        vector<vector<string>> vecVecStringAnthillAnt.push_back({coordX, coordY, height, height, GENERATOR, totalFood, nbC, nbD, nbP}); //manque generator
+    vector<vector<string>> vecVecStringAnthillAnt.push_back(
+                                     {coordX, coordY, height, height, coordXGenerator,
+                                      coordYGenerator,totalFood, nbC, nbD, nbP});
 
-
-        //appeler les differentes fonction des fourmis pour les insert ici
-
-     */
     return toExport;
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
 }
+
 void Fourmiliere::check() {
     Fourmiliere::checkGeneratorUsingCoord();
     Fourmiliere::checkDefensorUsingCoord();
@@ -68,19 +65,17 @@ void Fourmiliere::check() {
 void Fourmiliere::checkGeneratorUsingCoord() {
     Point position;
     if((*occupiedSpace).getWidth() % 2 == 0) {
-        position = Point(
-                (*occupiedSpace).getPosition().getCoordX() + 1,
-                (*occupiedSpace).getPosition().getCoordY() + 1);
+        position = Point((*occupiedSpace).getPosition().getCoordX() + 1,
+                         (*occupiedSpace).getPosition().getCoordY() + 1);
     } else {
         position = (*occupiedSpace).getPosition();
     }
-    int overlapSize = Squarecell::countOverlap(
-            position, (*occupiedSpace).getWidth()-2,(*occupiedSpace).getHeight()-2,
-            (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
-            (*(*memberAnts[0]).getOccupiedSpace()).getWidth(),
-            (*(*memberAnts[0]).getOccupiedSpace()).getHeight());
-    if(overlapSize<(sizeG*sizeG))
-    {
+    int overlapSize = Squarecell::countOverlap(position,
+                         (*occupiedSpace).getWidth()-2,(*occupiedSpace).getHeight()-2,
+                         (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
+                         (*(*memberAnts[0]).getOccupiedSpace()).getWidth(),
+                         (*(*memberAnts[0]).getOccupiedSpace()).getHeight());
+    if(overlapSize<(sizeG*sizeG)) {
         cout<< message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
@@ -97,15 +92,14 @@ void Fourmiliere::checkDefensorUsingCoord() {
         position = (*occupiedSpace).getPosition();
     }
     for(auto fourmi : memberAnts) {
-        if ((*fourmi).getSpecie() == fourmiDefensorCST) {
+        if((*fourmi).getSpecie() == fourmiDefensorCST) {
             int overlapSize = Squarecell::countOverlap(position,
                                         (*occupiedSpace).getWidth()-2,
                                         (*occupiedSpace).getHeight()-2,
                                         (*(*fourmi).getOccupiedSpace()).getPosition(),
                                         (*(*fourmi).getOccupiedSpace()).getWidth(),
                                         (*(*fourmi).getOccupiedSpace()).getHeight());
-            if(overlapSize<(sizeD*sizeD))
-            {
+            if(overlapSize<(sizeD*sizeD)) {
                 cout<< message::defensor_not_within_home(
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
@@ -151,19 +145,4 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
     }
 }
 
-int Fourmiliere::getFoodReserve() {
-    return foodReserve;
-}
-
-int Fourmiliere::getNbC() {
-    return nbC;
-}
-
-int Fourmiliere::getNbD() {
-    return nbD;
-}
-
-int Fourmiliere::getNbP() {
-    return nbP;
-}
 
