@@ -27,24 +27,30 @@ int Gui::window() {
 
     Graphic area;
     win.add(area);
-    area.show();
+    //area.show();
 
     return app->run(win);
 }
 
 
 Gui::Gui() :
-        m_Box_Top(Gtk::ORIENTATION_VERTICAL),
-        m_Box1(Gtk::ORIENTATION_HORIZONTAL, 10),
-        m_Box2(Gtk::ORIENTATION_HORIZONTAL, 10),
-        m_Label_Salutation("Formule de Salutation"),
-        m_Label_Destinataire("A qui s'adresse-t-on ?"),
-        m_Label_Fin("Les meilleures choses ont une fin\n éventuellement sur plusieurs lignes"),
-        m_Button_Hello("Hello"),
-        m_Button_Bonjour("Bonjour"),
-        m_Button_Monsieur("Monsieur"),
-        m_Button_Madame("Madame"),
-        m_Button_Fin("Fin")
+        m_box_Gui(Gtk::ORIENTATION_VERTICAL),
+        m_box_command(Gtk::ORIENTATION_VERTICAL),
+        m_Box_General(Gtk::ORIENTATION_VERTICAL),
+        m_Box_FoodInfo(Gtk::ORIENTATION_VERTICAL),
+        m_Box_AnthInfo(Gtk::ORIENTATION_VERTICAL),
+        m_Label_General("General"),
+        m_Label_FoodInfo("Info"),
+        m_Label_FoodInfoValue("Nb food: 0"),
+        m_Label_AnthInfo("Anthill Info"),
+        m_Label_AnthInfoValue("None selected"),
+        m_Button_Exit("exit"),
+        m_Button_Open("open"),
+        m_Button_Save("save"),
+        m_Button_StartStop("start"),
+        m_Button_Step("step"),
+        m_Button_Previous("previous"),
+        m_Button_Next("next")
 {
     // Set title and border of the window
     set_title("layout buttons");
@@ -52,46 +58,49 @@ Gui::Gui() :
 
     // Add outer box to the window (because the window
     // can only contain a single widget)
-    add(m_Box_Top);
+    add(m_box_Gui);
 
     //Put the inner boxes and the separator in the outer box:
-    m_Box_Top.pack_start(m_Label_Salutation);
-    m_Box_Top.pack_start(m_Box1);
-    m_Box_Top.pack_start(m_Separator1);
-    m_Box_Top.pack_start(m_Label_Destinataire);
-    m_Box_Top.pack_start(m_Box2);
-    m_Box_Top.pack_start(m_Separator2);
-    m_Box_Top.pack_start(m_Label_Fin);
-    m_Box_Top.pack_start(m_Button_Fin);
+    m_box_Gui.pack_start(m_box_command);
 
-    // Set the inner boxes' borders
-    m_Box2.set_border_width(10);
-    m_Box1.set_border_width(10);
+    m_box_command.pack_start(m_Box_General);
+    m_box_command.pack_start(m_Box_FoodInfo);
+    m_box_command.pack_start(m_Box_AnthInfo);
 
-    // Put Hello / Bonjour buttons in Box1:
-    m_Box1.pack_start(m_Button_Hello);
-    m_Box1.pack_start(m_Button_Bonjour);
+    m_Box_General.pack_start(m_Label_General);
+    m_Box_General.pack_start(m_Button_Exit);
+    m_Box_General.pack_start(m_Button_Open);
+    m_Box_General.pack_start(m_Button_Save);
+    m_Box_General.pack_start(m_Button_StartStop);
+    m_Box_General.pack_start(m_Button_Step);
 
-    // Put Madame / Monsieur buttons in Box2:
-    m_Box2.pack_start(m_Button_Madame);
-    m_Box2.pack_start(m_Button_Monsieur);
+    m_Box_FoodInfo.pack_start(m_Label_FoodInfo);
+    m_Box_FoodInfo.pack_start(m_Label_FoodInfoValue);
 
-    // Connect the clicked signal of the button to
-    // thier signal handler
-    m_Button_Hello.signal_clicked().connect(sigc::mem_fun(*this,
-                                                          &Gui::on_button_clicked_Hello) );
+    m_Box_AnthInfo.pack_start(m_Label_AnthInfo);
+    m_Box_AnthInfo.pack_start(m_Button_Previous);
+    m_Box_AnthInfo.pack_start(m_Button_Next);
+    m_Box_AnthInfo.pack_start(m_Label_AnthInfoValue);
 
-    m_Button_Bonjour.signal_clicked().connect(sigc::mem_fun(*this,
-                                                            &Gui::on_button_clicked_Bonjour) );
+    // Set the box borders
+    m_box_command.set_border_width(10);
 
-    m_Button_Monsieur.signal_clicked().connect(sigc::mem_fun(*this,
-                                                             &Gui::on_button_clicked_Monsieur) );
 
-    m_Button_Madame.signal_clicked().connect(sigc::mem_fun(*this,
-                                                           &Gui::on_button_clicked_Madame) );
-
-    m_Button_Fin.signal_clicked().connect(sigc::mem_fun(*this,
-                                                        &Gui::on_button_clicked_Fin) );
+    // Connect the clicked signal of the button to their signal handler
+    m_Button_Exit.signal_clicked().connect(
+            sigc::mem_fun(*this, &Gui::on_button_clicked_Exit));
+    m_Button_Open.signal_clicked().connect(
+            sigc::mem_fun(*this, &Gui::on_button_clicked_Open));
+    m_Button_Save.signal_clicked().connect(
+            sigc::mem_fun(*this, &Gui::on_button_clicked_Save));
+    m_Button_StartStop.signal_clicked().connect(
+            sigc::mem_fun(*this,&Gui::on_button_clicked_StartStop));
+    m_Button_Step.signal_clicked().connect(
+            sigc::mem_fun(*this, &Gui::on_button_clicked_Step));
+    m_Button_Previous.signal_clicked().connect(
+            sigc::mem_fun(*this, &Gui::on_button_clicked_Previous));
+    m_Button_Next.signal_clicked().connect(
+            sigc::mem_fun(*this, &Gui::on_button_clicked_Next));
 
     // Show all children of the window
     show_all_children();
@@ -101,27 +110,24 @@ Gui::~Gui()
 {
 }
 
-void Gui::on_button_clicked_Hello()
-{
-    cout << "Hello " ;
-}
-
-void Gui::on_button_clicked_Bonjour()
-{
-    cout << "Bonjour " ;
-}
-
-void Gui::on_button_clicked_Monsieur()
-{
-    cout << "Monsieur" << endl;
-}
-
-void Gui::on_button_clicked_Madame()
-{
-    cout << "Madame" << endl;
-}
-
-void Gui::on_button_clicked_Fin()
-{
+void Gui::on_button_clicked_Exit(){
     hide(); //to close the application.
+}
+void Gui::on_button_clicked_Open(){
+    cout << "open" << endl;
+}
+void Gui::on_button_clicked_Save(){
+    cout << "save" << endl;
+}
+void Gui::on_button_clicked_StartStop(){
+    cout << "start" << endl;
+}
+void Gui::on_button_clicked_Step(){
+    cout << "step" << endl;
+}
+void Gui::on_button_clicked_Previous(){
+    cout << "previous" << endl;
+}
+void Gui::on_button_clicked_Next(){
+    cout << "next" << endl;
 }

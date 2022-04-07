@@ -19,24 +19,30 @@ private:
     Frame frame;
 protected:
     //Signal handlers:
-    void on_button_clicked_Hello();
-    void on_button_clicked_Bonjour();
-    void on_button_clicked_Monsieur();
-    void on_button_clicked_Madame();
-    void on_button_clicked_Fin();
+    void on_button_clicked_Exit();
+    void on_button_clicked_Open();
+    void on_button_clicked_Save();
+    void on_button_clicked_StartStop();
+    void on_button_clicked_Step();
+    void on_button_clicked_Previous();
+    void on_button_clicked_Next();
 
     //Child widgets:
-    Gtk::Box m_Box_Top, m_Box1, m_Box2;
+    Gtk::Box m_box_Gui,m_box_command, m_Box_General, m_Box_FoodInfo, m_Box_AnthInfo;
     Gtk::Separator m_Separator1;
     Gtk::Separator m_Separator2;
-    Gtk::Label  m_Label_Salutation;
-    Gtk::Label  m_Label_Destinataire;
-    Gtk::Label  m_Label_Fin;
-    Gtk::Button m_Button_Hello;
-    Gtk::Button m_Button_Bonjour;
-    Gtk::Button m_Button_Monsieur;
-    Gtk::Button m_Button_Madame;
-    Gtk::Button m_Button_Fin;
+    Gtk::Label  m_Label_General;
+    Gtk::Label  m_Label_FoodInfo;
+    Gtk::Label  m_Label_FoodInfoValue;
+    Gtk::Label  m_Label_AnthInfo;
+    Gtk::Label m_Label_AnthInfoValue;
+    Gtk::Button m_Button_Exit;
+    Gtk::Button m_Button_Open;
+    Gtk::Button m_Button_Save;
+    Gtk::Button m_Button_StartStop;
+    Gtk::Button m_Button_Step;
+    Gtk::Button m_Button_Previous;
+    Gtk::Button m_Button_Next;
 public:
     Gui();
     virtual ~Gui();
