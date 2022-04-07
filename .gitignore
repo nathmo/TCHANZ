@@ -14,4 +14,5 @@
 /test
 /world.o
 /entity.o
-/*.zip
+/gui.o
+/graphic.o
