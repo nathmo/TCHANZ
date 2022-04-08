@@ -127,3 +127,5 @@ void Gui::on_button_clicked_Previous(){
 void Gui::on_button_clicked_Next(){
     cout << "next" << endl;
 }
+
+
