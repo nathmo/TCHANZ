@@ -95,17 +95,23 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     Graphic::orthographic_projection(cr, frame);
 
     //set width and color
-    cr->set_line_width(10);
-    cr->set_source_rgb(0.8, 0., 0.0);
+    cr->set_line_width(5);
+    cr->set_source_rgb(0.3, 0., 0.8);
 
     //Now we can draw directly in the Model space
 
     // first line
     cr->move_to(-50., -50);
     cr->line_to(50. , 50);
+
+    cr->move_to(-50, 0);
+    cr->line_to(50. , 0);
     //draw second line
     cr->move_to(-50. , 50);
     cr->line_to(50.  ,-50.);
+
+    cr->move_to(0, -50);
+    cr->line_to(0. , 50);
 
     cr->stroke();
 

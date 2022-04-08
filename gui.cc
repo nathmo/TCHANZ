@@ -56,8 +56,8 @@ Gui::Gui() :
     add(m_box_Gui);
 
     //Put the inner boxes and the separator in the outer box:
-    m_box_Gui.pack_start(m_box_command);
     m_box_Gui.pack_start(graphic);
+    m_box_Gui.pack_start(m_box_command);
 
     m_box_command.pack_start(m_Box_General);
     m_box_command.pack_start(m_Box_FoodInfo);

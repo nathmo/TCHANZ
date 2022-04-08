@@ -29,7 +29,7 @@ protected:
 
     //Child widgets:
     Graphic graphic;
-    Gtk::Box m_box_Gui,m_box_command, m_Box_General, m_Box_FoodInfo, m_Box_AnthInfo;
+    Gtk::Box m_box_Gui, m_box_command, m_Box_General, m_Box_FoodInfo, m_Box_AnthInfo;
     Gtk::Separator m_Separator1;
     Gtk::Separator m_Separator2;
     Gtk::Label  m_Label_General;
