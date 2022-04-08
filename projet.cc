@@ -47,7 +47,6 @@ void startHeadless(string path) {
 
 void startGui(string path) {
     Simulation simulation(path);
-    simulation.loadFromFile();
     Gui::window(simulation);
     //Simulation::simulateStep(entityList);
     //Simulation::saveToFile(path+"Plus1Step",entityList);

@@ -24,7 +24,8 @@ Simulation::Simulation(string path){
 }
 
 void Simulation::loadFromFile() {
-
+    nourritureList.clear(); // empty the memory to load the new array
+    anthillList.clear();
     try {
         TextStorage::importTXT(path, nourritureList, anthillList);
         for (unsigned int i = 0; i < anthillList.size(); i++) {
@@ -38,7 +39,7 @@ void Simulation::loadFromFile() {
 }
 
 void Simulation::saveToFile() {
-
+    TextStorage::exportTXT(path,nourritureList,anthillList);
 }
 
 void Simulation::startHeadless() {
