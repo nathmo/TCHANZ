@@ -121,6 +121,7 @@ void Graphic::drawEmptyCell(int x,int y,const Cairo::RefPtr<Cairo::Context>& cr)
     cr->set_line_width(widthpx);
     cr->move_to(x*widthpx, y*widthpx+widthpx/2);
     cr->line_to((x+1)*widthpx+widthpx,y*widthpx+widthpx/2);
+    cr->stroke();
     // draw white box
     cr->set_source_rgb(1, 1, 1);
     cr->set_line_width(1);
