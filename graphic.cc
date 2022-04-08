@@ -11,6 +11,7 @@
 #include <iostream>
 #include "graphic.h"
 #include "constantes.h"
+#include "simulation.h"
 
 using namespace std;
 
@@ -18,9 +19,10 @@ static Frame default_frame = {-(g_max*resolution/2), (g_max*resolution/2),
                               -(g_max*resolution/2), (g_max*resolution/2),
                               1, taille_dessin, taille_dessin};
 
-Graphic::Graphic()
+Graphic::Graphic(shared_ptr<Simulation> simulation)
 {
     setFrame(default_frame);
+    this->simulationPtr = simulation;
 }
 
 Graphic::~Graphic()
@@ -99,6 +101,10 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
     //redraw the grid
     Graphic::drawFullGrid(cr);
+    // add the entity
+    for(auto entity:(*simulationPtr).getListEntity()){
+        (*entity).draw(cr);
+    }
 
     return true;
 }

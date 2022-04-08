@@ -49,11 +49,12 @@ vector<vector<string>> Nourriture::exportToString() {
 }
 
 void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+    cout << "displaying nourriture" <<endl;
     int x = (*occupiedSpace).getPosition().getCoordX();
     int y = (*occupiedSpace).getPosition().getCoordY();
     // draw white diamond
     cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(1);
+    cr->set_line_width(8);
 
     cr->move_to((x+0.5)*resolution, y*resolution);
     cr->line_to((x)*resolution,(y+0.5)*resolution);
@@ -66,6 +67,6 @@ void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 
     cr->move_to((x+1)*resolution,(y+0.5)*resolution);
     cr->line_to((x+0.5)*resolution, y*resolution);
-    cr->fill_preserve(); // might fill out the shape
+    //cr->fill_preserve(); // might fill out the shape
     cr->stroke();
 }

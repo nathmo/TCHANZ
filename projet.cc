@@ -39,15 +39,13 @@ int main(int argc, char *argv[]) {
 }
 
 void startHeadless(string path) {
-    Simulation simulation(path);
-    simulation.loadFromFile();
+    shared_ptr<Simulation> simulatiom = make_shared<Simulation>(path);
+    (*simulatiom).loadFromFile();
     //Simulation::simulateStep(entityList);
     //Simulation::saveToFile(path+"Plus1Step",entityList);
 }
 
 void startGui(string path) {
-    Simulation simulation(path);
-    Gui::window(simulation);
-    //Simulation::simulateStep(entityList);
-    //Simulation::saveToFile(path+"Plus1Step",entityList);
+    shared_ptr<Simulation> simulatiom = make_shared<Simulation>(path);
+    Gui::window(simulatiom);
 }

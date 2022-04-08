@@ -22,6 +22,7 @@ private:
 public:
     Simulation();
     Simulation(std::string path);
+    std::vector<std::shared_ptr<Entity>> getListEntity();
     void loadFromFile();
     void saveToFile();
     void startHeadless();

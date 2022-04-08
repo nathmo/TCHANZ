@@ -13,6 +13,7 @@
 #include "constantes.h"
 #include "fourmiliere.h"
 #include "message.h"
+#include "entity.h"
 
 using namespace std;
 
@@ -21,6 +22,14 @@ Simulation::Simulation(){
 
 Simulation::Simulation(string path){
     this->path = path;
+}
+
+vector<shared_ptr<Entity>> Simulation::getListEntity(){
+    vector<shared_ptr<Entity>> entityToExport;
+    entityToExport.insert(entityToExport.end(),nourritureList.begin(),
+                                               nourritureList.end());
+    entityToExport.insert(entityToExport.end(),anthillList.begin(),anthillList.end());
+    return entityToExport;
 }
 
 void Simulation::loadFromFile() {

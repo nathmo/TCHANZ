@@ -15,22 +15,40 @@
 
 using namespace std;
 
-int Gui::window(Simulation simulation) {
-    auto app = Gtk::Application::create("org.gtkmm.example");
 
-    Gui gui(simulation);
-    gui.set_title("TCHANZ 296190_331471");
-    gui.set_default_size(820, 350);
-
-    gui.show();
-
-    return app->run(gui);
+void Gui::on_button_clicked_Exit(){
+    hide(); //to close the application.
+}
+void Gui::on_button_clicked_Open(){
+    cout << "open" << endl;
+    (*simulationPtr).loadFromFile();
+}
+void Gui::on_button_clicked_Save(){
+    cout << "save" << endl;
+    (*simulationPtr).saveToFile();
+}
+void Gui::on_button_clicked_StartStop(){
+    if(m_Button_StartStop.get_label()=="start"){
+        m_Button_StartStop.set_label("stop");
+        cout << "start" << endl;
+    } else if (m_Button_StartStop.get_label()=="stop") {
+        m_Button_StartStop.set_label("start");
+        cout << "stop" << endl;
+    }
+}
+void Gui::on_button_clicked_Step(){
+    cout << "step" << endl;
+    (*simulationPtr).simulateStep();
+}
+void Gui::on_button_clicked_Previous(){
+    cout << "previous" << endl;
+}
+void Gui::on_button_clicked_Next(){
+    cout << "next" << endl;
 }
 
-
-Gui::Gui(Simulation simulation) :
-        simulation(),
-        graphic(),
+Gui::Gui(shared_ptr<Simulation> simulation) :
+        graphic(simulation),
         m_box_Gui(Gtk::ORIENTATION_HORIZONTAL),
         m_box_command(Gtk::ORIENTATION_VERTICAL),
         m_Box_General(Gtk::ORIENTATION_VERTICAL),
@@ -49,7 +67,7 @@ Gui::Gui(Simulation simulation) :
         m_Button_Previous("previous"),
         m_Button_Next("next")
 {
-    this->simulation = simulation;
+    simulationPtr = simulation;
     // Set title and border of the window
     set_title("layout buttons");
     set_border_width(0);
@@ -109,33 +127,14 @@ Gui::~Gui()
 {
 }
 
-void Gui::on_button_clicked_Exit(){
-    hide(); //to close the application.
-}
-void Gui::on_button_clicked_Open(){
-    cout << "open" << endl;
-    simulation.loadFromFile();
-}
-void Gui::on_button_clicked_Save(){
-    cout << "save" << endl;
-    simulation.saveToFile();
-}
-void Gui::on_button_clicked_StartStop(){
-    if(m_Button_StartStop.get_label()=="start"){
-        m_Button_StartStop.set_label("stop");
-        cout << "start" << endl;
-    } else if (m_Button_StartStop.get_label()=="stop") {
-        m_Button_StartStop.set_label("start");
-        cout << "stop" << endl;
-    }
-}
-void Gui::on_button_clicked_Step(){
-    cout << "step" << endl;
-    simulation.simulateStep();
-}
-void Gui::on_button_clicked_Previous(){
-    cout << "previous" << endl;
-}
-void Gui::on_button_clicked_Next(){
-    cout << "next" << endl;
+int Gui::window(shared_ptr<Simulation> simulation) {
+    auto app = Gtk::Application::create("org.gtkmm.example");
+
+    Gui gui(simulation);
+    gui.set_title("TCHANZ 296190_331471");
+    gui.set_default_size(820, 350);
+
+    gui.show();
+
+    return app->run(gui);
 }

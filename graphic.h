@@ -10,6 +10,8 @@
 
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
+#include "entity.h"
+#include "simulation.h"
 
 constexpr unsigned taille_dessin(500);
 
@@ -28,11 +30,12 @@ class Graphic : public Gtk::DrawingArea
 {
 private:
     Frame frame;
+    std::shared_ptr<Simulation> simulationPtr;
 protected:
     //Override default signal handler:
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
 public:
-    Graphic();
+    Graphic(std::shared_ptr<Simulation> simulation);
     virtual ~Graphic();
     void setFrame(Frame f);
     void adjustFrame();

@@ -18,7 +18,7 @@ class Gui : public Gtk::Window
 {
 private:
     Frame frame;
-    Simulation simulation;
+    std::shared_ptr<Simulation> simulationPtr;
 protected:
     //Signal handlers:
     void on_button_clicked_Exit();
@@ -47,8 +47,8 @@ protected:
     Gtk::Button m_Button_Previous;
     Gtk::Button m_Button_Next;
 public:
-    Gui(Simulation simulation);
+    Gui(std::shared_ptr<Simulation> simulation);
     virtual ~Gui();
-    static int window(Simulation simulation);
+    static int window(std::shared_ptr<Simulation> simulation);
 };
 #endif //TCHANZ_GUI_H
