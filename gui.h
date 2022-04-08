@@ -12,11 +12,13 @@
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
 #include "graphic.h"
+#include "simulation.h"
 
 class Gui : public Gtk::Window
 {
 private:
     Frame frame;
+    Simulation simulation;
 protected:
     //Signal handlers:
     void on_button_clicked_Exit();
@@ -45,8 +47,8 @@ protected:
     Gtk::Button m_Button_Previous;
     Gtk::Button m_Button_Next;
 public:
-    Gui();
+    Gui(Simulation simulation);
     virtual ~Gui();
-    static int window();
+    static int window(Simulation simulation);
 };
 #endif //TCHANZ_GUI_H

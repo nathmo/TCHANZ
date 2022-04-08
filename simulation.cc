@@ -16,38 +16,39 @@
 
 using namespace std;
 
-vector<shared_ptr<Entity>> Simulation::loadFromFile(string path) {
-    vector<shared_ptr<Entity>> entityList;
-    vector<shared_ptr<Nourriture>> nourritureList;
-    vector<shared_ptr<Fourmiliere>> anthillList;
+Simulation::Simulation(){
+}
+
+Simulation::Simulation(string path){
+    this->path = path;
+}
+
+void Simulation::loadFromFile() {
+
     try {
         TextStorage::importTXT(path, nourritureList, anthillList);
         for (unsigned int i = 0; i < anthillList.size(); i++) {
             (*anthillList[i]).check();
         }
         cout << message::success();
-        entityList.insert(entityList.end(),
-                          nourritureList.begin(), nourritureList.end());
-        entityList.insert(entityList.end(), anthillList.begin(), anthillList.end());
-        return entityList;
     }
     catch (int code){
-        return entityList;
+        return;
     }
 }
 
-void Simulation::saveToFile(string path, vector<shared_ptr<Entity>> worldToDump) {
+void Simulation::saveToFile() {
 
 }
 
-void Simulation::startHeadless(string path) {
-    vector<shared_ptr<Entity>> entityList = Simulation::loadFromFile(path);
+void Simulation::startHeadless() {
+    loadFromFile();
     //Simulation::simulateStep(entityList);
     //Simulation::saveToFile(path+"Plus1Step",entityList);
 }
 
-void Simulation::simulateStep(vector<shared_ptr<Entity>> entityList){
-    for(auto entity:entityList){
+void Simulation::simulateStep(){
+    for(auto entity:anthillList){
         entity->update();
     }
 }

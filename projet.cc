@@ -39,14 +39,16 @@ int main(int argc, char *argv[]) {
 }
 
 void startHeadless(string path) {
-    vector<shared_ptr<Entity>> entityList = Simulation::loadFromFile(path);
+    Simulation simulation(path);
+    simulation.loadFromFile();
     //Simulation::simulateStep(entityList);
     //Simulation::saveToFile(path+"Plus1Step",entityList);
 }
 
 void startGui(string path) {
-    vector<shared_ptr<Entity>> entityList = Simulation::loadFromFile(path);
-    Gui::window();
+    Simulation simulation(path);
+    simulation.loadFromFile();
+    Gui::window(simulation);
     //Simulation::simulateStep(entityList);
     //Simulation::saveToFile(path+"Plus1Step",entityList);
 }

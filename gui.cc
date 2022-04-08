@@ -11,13 +11,14 @@
 #include <iostream>
 #include "gui.h"
 #include "graphic.h"
+#include "simulation.h"
 
 using namespace std;
 
-int Gui::window() {
+int Gui::window(Simulation simulation) {
     auto app = Gtk::Application::create("org.gtkmm.example");
 
-    Gui gui;
+    Gui gui(simulation);
     gui.set_title("TCHANZ 296190_331471");
     gui.set_default_size(820, 350);
 
@@ -27,7 +28,8 @@ int Gui::window() {
 }
 
 
-Gui::Gui() :
+Gui::Gui(Simulation simulation) :
+        simulation(),
         graphic(),
         m_box_Gui(Gtk::ORIENTATION_HORIZONTAL),
         m_box_command(Gtk::ORIENTATION_VERTICAL),
@@ -47,6 +49,7 @@ Gui::Gui() :
         m_Button_Previous("previous"),
         m_Button_Next("next")
 {
+    this->simulation = simulation;
     // Set title and border of the window
     set_title("layout buttons");
     set_border_width(0);
@@ -111,15 +114,24 @@ void Gui::on_button_clicked_Exit(){
 }
 void Gui::on_button_clicked_Open(){
     cout << "open" << endl;
+    simulation.loadFromFile();
 }
 void Gui::on_button_clicked_Save(){
     cout << "save" << endl;
+    simulation.saveToFile();
 }
 void Gui::on_button_clicked_StartStop(){
-    cout << "start" << endl;
+    if(m_Button_StartStop.get_label()=="start"){
+        m_Button_StartStop.set_label("stop");
+        cout << "start" << endl;
+    } else if (m_Button_StartStop.get_label()=="stop") {
+        m_Button_StartStop.set_label("start");
+        cout << "stop" << endl;
+    }
 }
 void Gui::on_button_clicked_Step(){
     cout << "step" << endl;
+    simulation.simulateStep();
 }
 void Gui::on_button_clicked_Previous(){
     cout << "previous" << endl;
