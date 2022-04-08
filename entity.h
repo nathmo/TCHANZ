@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
 #include "squarecell.h"
 
 class Entity {
@@ -30,6 +32,7 @@ public:
     std::shared_ptr<Squarecell> getOccupiedSpace();
     virtual std::vector<std::vector<std::string>> exportToString();
     virtual void update();
+    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
     // return the id of a selected specie lying on a point if it exist
     static int findIdByOccupingPoint(Point overlappingPoint,
                                      std::vector<std::shared_ptr<Entity>> listOfEntity,

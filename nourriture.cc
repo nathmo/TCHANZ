@@ -6,6 +6,8 @@
 */
 #include <memory>
 #include <iostream>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
 #include "nourriture.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -44,4 +46,8 @@ vector<vector<string>> Nourriture::exportToString() {
     string y = to_string(position.getCoordY());
     vecVecStringFood.push_back({x,y});
     return vecVecStringFood;
+}
+
+virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr){
+
 }

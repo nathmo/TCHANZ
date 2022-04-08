@@ -10,6 +10,8 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -29,6 +31,8 @@ public:
     virtual void update();
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
+
+    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
     // bundle all the check used to validate the anthill content
     void check();
     // remplace the list of member ants

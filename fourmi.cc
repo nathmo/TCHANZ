@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -30,6 +32,11 @@ vector<vector<string>> Fourmi::exportToString(){
     cout << "ERROR : exporting a generic ant type" << endl;
     exit(EXIT_FAILURE);
     return toExport;
+}
+
+void Fourmi::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+    cout << "trying to draw a generic fourmi" << endl;
+    exit(EXIT_FAILURE);
 }
 
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
@@ -79,6 +86,10 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     }
 }
 
+void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+
+}
+
 Defensor::Defensor(Point position, int id, int age) :
         Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
 }
@@ -115,6 +126,10 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     }
     return make_shared<Defensor>(Point(x,y), index,age);
     }
+}
+
+void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+
 }
 
 Predator::Predator(Point position, int id, int age) :
@@ -154,6 +169,10 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     }
 }
 
+void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+
+}
+
 Generator::Generator(Point position, int id) :
         Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
 }
@@ -187,3 +206,6 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     return make_shared<Generator>(Point(x,y), index);
 }
 
+void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+
+}

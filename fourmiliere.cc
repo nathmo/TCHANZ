@@ -7,6 +7,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
 #include "fourmiliere.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -56,6 +58,10 @@ vector<vector<string>> Fourmiliere::exportToString(){
     }
 
     return toExport;
+}
+
+void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
@@ -149,5 +155,3 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
                                         index, FourmiList);
     }
 }
-
-
