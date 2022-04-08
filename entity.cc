@@ -8,6 +8,8 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
@@ -54,6 +56,11 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
 
 void Entity::update(){
     cout << "trying to update a generic entity" << endl;
+    exit(EXIT_FAILURE);
+}
+
+void Entity::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+    cout << "trying to draw a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
 

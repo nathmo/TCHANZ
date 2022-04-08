@@ -8,6 +8,8 @@
 #define TCHANZ_NOURRITURE_H
 
 #include <memory>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
 #include "squarecell.h"
 #include "entity.h"
 
@@ -20,6 +22,8 @@ public:
     virtual void update();
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
+
+    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
 };
 
 #endif //TCHANZ_NOURRITURE_H
