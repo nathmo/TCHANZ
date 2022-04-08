@@ -27,7 +27,7 @@
 	# predators:
 	6 80 4
 
-	0 0 12 13 3 100 0 0 1 # anthill #2
+	0 0 12 3 3 100 0 0 1 # anthill #2
 	
 	# collectors:
 	
