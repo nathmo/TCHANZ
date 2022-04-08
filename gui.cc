@@ -37,8 +37,11 @@ void Gui::on_button_clicked_StartStop(){
     }
 }
 void Gui::on_button_clicked_Step(){
-    cout << "step" << endl;
-    (*simulationPtr).simulateStep();
+    if(m_Button_StartStop.get_label()=="start")
+    { // step only if not actively simulating
+        cout << "step" << endl;
+        (*simulationPtr).simulateStep();
+    }
 }
 void Gui::on_button_clicked_Previous(){
     cout << "previous" << endl;
