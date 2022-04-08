@@ -57,26 +57,26 @@ Gui::Gui() :
 
     //Put the inner boxes and the separator in the outer box:
     m_box_Gui.pack_start(graphic);
-    m_box_Gui.pack_start(m_box_command);
+    m_box_Gui.pack_start(m_box_command, true, false);
 
-    m_box_command.pack_start(m_Box_General);
-    m_box_command.pack_start(m_Box_FoodInfo);
-    m_box_command.pack_start(m_Box_AnthInfo);
+    m_box_command.pack_start(m_Box_General, true, false);
+    m_box_command.pack_start(m_Box_FoodInfo, true, false);
+    m_box_command.pack_start(m_Box_AnthInfo, true, false);
 
-    m_Box_General.pack_start(m_Label_General);
-    m_Box_General.pack_start(m_Button_Exit);
-    m_Box_General.pack_start(m_Button_Open);
-    m_Box_General.pack_start(m_Button_Save);
-    m_Box_General.pack_start(m_Button_StartStop);
-    m_Box_General.pack_start(m_Button_Step);
+    m_Box_General.pack_start(m_Label_General, true, false);
+    m_Box_General.pack_start(m_Button_Exit), true, false;
+    m_Box_General.pack_start(m_Button_Open, true, false);
+    m_Box_General.pack_start(m_Button_Save, true, false);
+    m_Box_General.pack_start(m_Button_StartStop, true, false);
+    m_Box_General.pack_start(m_Button_Step, true, false);
 
-    m_Box_FoodInfo.pack_start(m_Label_FoodInfo);
-    m_Box_FoodInfo.pack_start(m_Label_FoodInfoValue);
+    m_Box_FoodInfo.pack_start(m_Label_FoodInfo, true, false);
+    m_Box_FoodInfo.pack_start(m_Label_FoodInfoValue, true, false);
 
-    m_Box_AnthInfo.pack_start(m_Label_AnthInfo);
-    m_Box_AnthInfo.pack_start(m_Button_Previous);
-    m_Box_AnthInfo.pack_start(m_Button_Next);
-    m_Box_AnthInfo.pack_start(m_Label_AnthInfoValue);
+    m_Box_AnthInfo.pack_start(m_Label_AnthInfo, true, false);
+    m_Box_AnthInfo.pack_start(m_Button_Previous, true, false);
+    m_Box_AnthInfo.pack_start(m_Button_Next, true, false);
+    m_Box_AnthInfo.pack_start(m_Label_AnthInfoValue, true, false);
 
     // Set the box borders
     m_box_command.set_border_width(10);
