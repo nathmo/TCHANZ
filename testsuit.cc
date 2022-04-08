@@ -113,7 +113,6 @@ bool assertImportExport()
     entityList.insert(entityList.end(), anthillList.begin(), anthillList.end());
 
     vector<vector<string>> exportation = TextStorage::exportDump(entityList);
-
 /*
     for(auto element : exportation) {
         for(auto element2 : element) {
