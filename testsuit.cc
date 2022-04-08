@@ -17,6 +17,8 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include "entity.h"
+#include "simulation.h"
+#include "fourmiliere.h"
 
 using namespace std;
 
@@ -26,6 +28,7 @@ bool assertEntity();
 bool assertFourmi();
 bool assertFourmilliere();
 bool assertNourriture();
+bool assertImportExport();
 
 bool assertTextstorageReadtxt();
 bool assertTextstorageWritetxt();
@@ -33,6 +36,7 @@ bool assertTextstorageWritetxt();
 bool assertSquarecellPoint();
 bool assertEntityEntity();
 bool assertSquarecellSquarecell();
+bool assertSquarecell();
 
 bool assertFilesTest();
 string runCommand(const char* command);
@@ -49,6 +53,7 @@ int main()
     assert(assertFourmi());
     assert(assertFourmilliere());
     assert(assertNourriture());
+    assert(assertImportExport());
     cout << "---------------------------------------------------------------" << endl;
     cout << "beginning integration test" << endl;
     cout << "---------------------------------------------------------------" << endl;
@@ -93,6 +98,31 @@ bool assertFourmilliere()
 bool assertNourriture()
 {
     cout << "-> Nourriture done" << endl;
+    return true;
+}
+
+bool assertImportExport()
+{
+    string path = "scenario/t16.txt";
+    vector<shared_ptr<Entity>> entityList;
+    vector<shared_ptr<Nourriture>> nourritureList;
+    vector<shared_ptr<Fourmiliere>> anthillList;
+    TextStorage::importTXT(path, nourritureList, anthillList);
+
+    entityList.insert(entityList.end(), nourritureList.begin(), nourritureList.end());
+    entityList.insert(entityList.end(), anthillList.begin(), anthillList.end());
+
+    vector<vector<string>> exportation = TextStorage::exportDump(entityList);
+
+/*
+    for(auto element : exportation) {
+        for(auto element2 : element) {
+            cout << element2 << " ";
+        }
+        cout << endl;
+    }
+*/
+    cout << "-> Import and Export done" << endl;
     return true;
 }
 
@@ -180,12 +210,15 @@ bool assertFilesTest()
 {
     cout << runCommand("make build") << endl; // force normal rebuild
 
+    string cmdExpected;
+    string cmdResult;
+    /*
     cout << "test 1 starting (./projet)" << endl;
-    string cmdExpected = "Please provide a file to load";
-    string cmdResult =runCommand("./projet ");
+    cmdExpected = "Please provide a file to load";
+    cmdResult =runCommand("./projet ");
     assert(stringFuzzyMatch(cmdExpected, cmdResult));
     cout << "test 1 passed " << endl;
-
+    */
     cout << "test 2 starting (./projet scenario/no_error_collector_move.txt)" << endl;
     cmdExpected = "Correct file";
     cmdResult = runCommand("./projet scenario/no_error_collector_move.txt");

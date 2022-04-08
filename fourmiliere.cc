@@ -35,8 +35,6 @@ void Fourmiliere::update() {
 
 vector<vector<string>> Fourmiliere::exportToString(){
     vector<vector<string>> toExport;
-    cout << "exporting an anthill" << endl;
-
     string coordX = to_string((getOccupiedSpace())->getPosition().getCoordX());
     string coordY = to_string((getOccupiedSpace())->getPosition().getCoordY());
     string height = to_string(getOccupiedSpace()->getHeight());
@@ -47,12 +45,14 @@ vector<vector<string>> Fourmiliere::exportToString(){
     string strD = to_string(nbD);
     string strP = to_string(nbP);
 
-    toExport.push_back({coordX, coordY, height, height, generatorX,generatorY,
+    toExport.push_back({coordX, coordY, height, generatorX, generatorY,
                         totalFood, strC, strD, strP});
 
     for(auto fourmi:memberAnts) {
-        vector<vector<string>> temp = (*fourmi).exportToString();
-        toExport.insert(toExport.end(), temp.begin(), temp.end());
+        if(not((*fourmi).getSpecie()==fourmiGeneratorCST)) {
+            vector <vector<string>> temp = (*fourmi).exportToString();
+            toExport.insert(toExport.end(), temp.begin(), temp.end());
+        }
     }
 
     return toExport;

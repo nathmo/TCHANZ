@@ -16,12 +16,12 @@
 
 using namespace std;
 
-std::vector<std::shared_ptr<Entity>> Simulation::loadFromFile(string path) {
+vector<shared_ptr<Entity>> Simulation::loadFromFile(string path) {
     vector<shared_ptr<Entity>> entityList;
     vector<shared_ptr<Nourriture>> nourritureList;
     vector<shared_ptr<Fourmiliere>> anthillList;
-    TextStorage::importTXT(path,nourritureList,anthillList);
-    for(unsigned int i=0;i<anthillList.size();i++){
+    TextStorage::importTXT(path, nourritureList, anthillList);
+    for(unsigned int i=0;i<anthillList.size();i++) {
         (*anthillList[i]).check();
     }
     cout << message::success();
@@ -30,18 +30,17 @@ std::vector<std::shared_ptr<Entity>> Simulation::loadFromFile(string path) {
     return entityList;
 }
 
-void Simulation::saveToFile(string path,
-                            std::vector<std::shared_ptr<Entity>> worldToDump) {
+void Simulation::saveToFile(string path, vector<shared_ptr<Entity>> worldToDump) {
 
 }
 
-void Simulation::startHeadless(std::string path){
-    std::vector<std::shared_ptr<Entity>> entityList = Simulation::loadFromFile(path);
+void Simulation::startHeadless(string path) {
+    vector<shared_ptr<Entity>> entityList = Simulation::loadFromFile(path);
     //Simulation::simulateStep(entityList);
     //Simulation::saveToFile(path+"Plus1Step",entityList);
 }
 
-void Simulation::simulateStep(std::vector<std::shared_ptr<Entity>> entityList){
+void Simulation::simulateStep(vector<shared_ptr<Entity>> entityList){
     for(auto entity:entityList){
         entity->update();
     }

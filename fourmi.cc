@@ -42,7 +42,6 @@ void Collector::update() {
 }
 
 vector<vector<string>> Collector::exportToString() {
-    cout << "exporting an collector" << endl;
     vector<vector<string>> vecVecStringCollector;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
@@ -89,7 +88,6 @@ void Defensor::update() {
 }
 
 vector<vector<string>> Defensor::exportToString() {
-    cout << "exporting a Defensor" << endl;
     vector<vector<string>> vecVecStringDefensor;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
@@ -128,7 +126,6 @@ void Predator::update() {
 }
 
 vector<vector<string>> Predator::exportToString() {
-    cout << "exporting a predator" << endl;
     vector<vector<string>> vecVecStringPredator;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
@@ -167,7 +164,6 @@ void Generator::update() {
 }
 
 vector<vector<string>> Generator::exportToString() {
-    cout << "exporting a Generator" << endl;
     vector<vector<string>> vecVecStringGenerator;
     Point position = (*occupiedSpace).getPosition();
     string x = to_string(position.getCoordX());
