@@ -80,7 +80,7 @@ vector<string> TextStorage::tokenize(string line) {
 }
 
 void TextStorage::importDump(vector<vector<string>> inputBuffer,
-                             vector<shared_ptr<Nourriture>> &foodVectorReturn,
+                          vector<shared_ptr<Nourriture>> &foodVectorReturn,
                           vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
     if(not(checksizeLine(inputBuffer))) {
         exit(0); // ensure there is enough argument in the file, exit otherwise
