@@ -48,6 +48,6 @@ vector<vector<string>> Nourriture::exportToString() {
     return vecVecStringFood;
 }
 
-void draw(const Cairo::RefPtr<Cairo::Context>& cr){
+void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 
 }
