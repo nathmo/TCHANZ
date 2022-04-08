@@ -33,7 +33,7 @@ void Fourmiliere::update() {
     }
 }
 
-vector<vector<string>> Fourmiliere::exportToString(){
+vector<vector<string>> Fourmiliere::exportToString() {
     vector<vector<string>> toExport;
     string coordX = to_string((getOccupiedSpace())->getPosition().getCoordX());
     string coordY = to_string((getOccupiedSpace())->getPosition().getCoordY());
