@@ -29,7 +29,7 @@ int Gui::window() {
 
 Gui::Gui() :
         graphic(),
-        m_box_Gui(Gtk::ORIENTATION_VERTICAL),
+        m_box_Gui(Gtk::ORIENTATION_HORIZONTAL),
         m_box_command(Gtk::ORIENTATION_VERTICAL),
         m_Box_General(Gtk::ORIENTATION_VERTICAL),
         m_Box_FoodInfo(Gtk::ORIENTATION_VERTICAL),
