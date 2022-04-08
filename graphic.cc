@@ -96,9 +96,9 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
     //set width and color
     cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(3000);
-    cr->move_to(-1500., 0);
-    cr->line_to(1500. , 0);
+    cr->set_line_width(100);
+    cr->move_to(-100., 0);
+    cr->line_to(100. , 0);
 
     cr->set_line_width(5);
     cr->set_source_rgb(0.2, 0., 0.8);
