@@ -21,19 +21,16 @@ int Gui::window() {
     win.set_title("TCHANZ 296190_331471");
     win.set_default_size(820, 350);
 
-    Gui button;
-    win.add(button);
-    button.show();
-
-    Graphic area;
-    win.add(area);
-    //area.show();
+    Gui gui;
+    win.add(gui);
+    gui.show();
 
     return app->run(win);
 }
 
 
 Gui::Gui() :
+        graphic(),
         m_box_Gui(Gtk::ORIENTATION_VERTICAL),
         m_box_command(Gtk::ORIENTATION_VERTICAL),
         m_Box_General(Gtk::ORIENTATION_VERTICAL),
@@ -62,6 +59,7 @@ Gui::Gui() :
 
     //Put the inner boxes and the separator in the outer box:
     m_box_Gui.pack_start(m_box_command);
+    m_box_Gui.pack_start(graphic);
 
     m_box_command.pack_start(m_Box_General);
     m_box_command.pack_start(m_Box_FoodInfo);
