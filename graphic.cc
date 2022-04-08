@@ -95,33 +95,46 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     Graphic::orthographic_projection(cr, frame);
 
     //set width and color
-    cr->set_source_rgb(0, 0, 0);
-    cr->set_line_width(10);
-    cr->move_to(45, 45);
-    cr->line_to(90, 90);
-    cr->stroke();
+    cr->set_source_rgb(1, 1, 1);
+    cr->set_line_width(100);
+    cr->move_to(-100., 0);
+    cr->line_to(100. , 0);
 
     cr->set_line_width(5);
     cr->set_source_rgb(0.2, 0., 0.8);
 
     //Now we can draw directly in the Model space
-
-    // first line
-    cr->move_to(-50., -50);
-    cr->line_to(50. , 50);
-
-    cr->move_to(-50, 0);
-    cr->line_to(50. , 0);
-    //draw second line
-    cr->move_to(-50. , 50);
-    cr->line_to(50.  ,-50.);
-
-    cr->move_to(0, -50);
-    cr->line_to(0. , 50);
-
-    cr->stroke();
+    for(int x=0;x<32;x++){
+        for(int y=0;y<32;y++){
+            Graphic::drawEmptyCell(x,y,cr);
+        }
+    }
+    //cr->stroke();
 
     return true;
 }
 
+void Graphic::drawEmptyCell(int x,int y,const Cairo::RefPtr<Cairo::Context>& cr){
+    // set background to black
+    int widthpx = 8;
+    cr->set_source_rgb(0, 0, 0);
+    cr->set_line_width(widthpx);
+    cr->move_to(x*widthpx, y*widthpx);
+    cr->line_to((x+1)*widthpx,y*widthpx);
+    // draw white box
+    cr->set_source_rgb(1, 1, 1);
+    cr->set_line_width(1);
+    cr->move_to(x*widthpx, y*widthpx);
+    cr->line_to((x+1)*widthpx,y*widthpx);
 
+    cr->move_to((x+1)*widthpx,y*widthpx);
+    cr->line_to((x+1)*widthpx,(y+1)*widthpx);
+
+    cr->move_to((x+1)*widthpx,(y+1)*widthpx);
+    cr->line_to((x)*widthpx,(y+1)*widthpx);
+
+    cr->move_to((x)*widthpx,(y+1)*widthpx);
+    cr->line_to((x)*widthpx,(y)*widthpx);
+
+    cr->stroke();
+}
