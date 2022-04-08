@@ -36,7 +36,7 @@ public:
     void adjustFrame();
     static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
                                         Frame frame);
-    static int window();
+    void drawEmptyCell(int x,int y,const Cairo::RefPtr<Cairo::Context>& cr);
 };
 
 #endif //TCHANZ_GRAPHIC_H
