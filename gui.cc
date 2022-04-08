@@ -56,27 +56,27 @@ Gui::Gui() :
     add(m_box_Gui);
 
     //Put the inner boxes and the separator in the outer box:
-    m_box_Gui.pack_start(graphic, false, true);
-    m_box_Gui.pack_start(m_box_command, true, false);
+    m_box_Gui.pack_start(graphic);
+    m_box_Gui.pack_start(m_box_command, false, true);
 
-    m_box_command.pack_start(m_Box_General, true, false);
-    m_box_command.pack_start(m_Box_FoodInfo, true, false);
-    m_box_command.pack_start(m_Box_AnthInfo, true, false);
+    m_box_command.pack_start(m_Box_General, false, true);
+    m_box_command.pack_start(m_Box_FoodInfo, false, true);
+    m_box_command.pack_start(m_Box_AnthInfo, false, true);
 
-    m_Box_General.pack_start(m_Label_General, true, false);
-    m_Box_General.pack_start(m_Button_Exit), true, false;
-    m_Box_General.pack_start(m_Button_Open, true, false);
-    m_Box_General.pack_start(m_Button_Save, true, false);
-    m_Box_General.pack_start(m_Button_StartStop, true, false);
-    m_Box_General.pack_start(m_Button_Step, true, false);
+    m_Box_General.pack_start(m_Label_General, false, true);
+    m_Box_General.pack_start(m_Button_Exit, false, true);
+    m_Box_General.pack_start(m_Button_Open, false, true);
+    m_Box_General.pack_start(m_Button_Save, false, true);
+    m_Box_General.pack_start(m_Button_StartStop, false, true);
+    m_Box_General.pack_start(m_Button_Step, false, true);
 
-    m_Box_FoodInfo.pack_start(m_Label_FoodInfo, true, false);
-    m_Box_FoodInfo.pack_start(m_Label_FoodInfoValue, true, false);
+    m_Box_FoodInfo.pack_start(m_Label_FoodInfo, false, true);
+    m_Box_FoodInfo.pack_start(m_Label_FoodInfoValue, false, true);
 
-    m_Box_AnthInfo.pack_start(m_Label_AnthInfo, true, false);
-    m_Box_AnthInfo.pack_start(m_Button_Previous, true, false);
-    m_Box_AnthInfo.pack_start(m_Button_Next, true, false);
-    m_Box_AnthInfo.pack_start(m_Label_AnthInfoValue, true, false);
+    m_Box_AnthInfo.pack_start(m_Label_AnthInfo, false, true);
+    m_Box_AnthInfo.pack_start(m_Button_Previous, false, true);
+    m_Box_AnthInfo.pack_start(m_Button_Next, false, true);
+    m_Box_AnthInfo.pack_start(m_Label_AnthInfoValue, false, true);
 
     // Set the box borders
     m_box_command.set_border_width(10);
