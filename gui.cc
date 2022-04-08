@@ -29,9 +29,11 @@ void Gui::on_button_clicked_Save(){
 }
 void Gui::on_button_clicked_StartStop(){
     if(m_Button_StartStop.get_label()=="start"){
+        m_Button_Step.set_sensitive(false);
         m_Button_StartStop.set_label("stop");
         cout << "start" << endl;
     } else if (m_Button_StartStop.get_label()=="stop") {
+        m_Button_Step.set_sensitive(true);
         m_Button_StartStop.set_label("start");
         cout << "stop" << endl;
     }
