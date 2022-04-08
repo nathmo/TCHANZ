@@ -4,6 +4,8 @@
 enum Etat_fourmiliere{FREE, CONSTRAINED};
 enum Etat_collector{EMPTY, LOADED};
 
+constexpr short unsigned g_dim(7);
+constexpr short unsigned g_max(128);
 constexpr short unsigned maxF(25);
 constexpr short unsigned sizeG(5);
 constexpr short unsigned sizeC(3);

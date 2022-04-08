@@ -11,6 +11,8 @@
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
 
+constexpr short unsigned resolution(16);
+
 struct Frame // Model Framing and window parameters
 {
     double xMin; // frame parameters

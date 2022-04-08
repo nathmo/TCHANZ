@@ -10,10 +10,13 @@
 #include <cairomm/context.h>
 #include <iostream>
 #include "graphic.h"
+#include "constantes.h"
 
 using namespace std;
 
-static Frame default_frame = {-150., 150., -100., 100., 1.5, 300, 200};
+static Frame default_frame = {-(g_max*resolution/2), (g_max*resolution/2),
+                              -(g_max*resolution/2), (g_max*resolution/2),
+                              1, 500, 500};
 
 Graphic::Graphic()
 {
@@ -94,18 +97,9 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     adjustFrame();
     Graphic::orthographic_projection(cr, frame);
 
-    //set width and color
-    cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(100);
-    cr->move_to(-100., 0);
-    cr->line_to(100. , 0);
-
-    cr->set_line_width(5);
-    cr->set_source_rgb(0.2, 0., 0.8);
-
     //Now we can draw directly in the Model space
-    for(int x=-16;x<16;x++){
-        for(int y=-16;y<16;y++){
+    for(int x=-63;x<=64;x++){
+        for(int y=-63;y<=64;y++){
             Graphic::drawEmptyCell(x,y,cr);
         }
     }
@@ -116,12 +110,12 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 
 void Graphic::drawEmptyCell(int x,int y,const Cairo::RefPtr<Cairo::Context>& cr){
     // set background to black
-    int widthpx = 8;
-    cr->set_source_rgb(0, 0, 0);
-    cr->set_line_width(widthpx);
-    cr->move_to(x*widthpx, y*widthpx+widthpx/2);
-    cr->line_to((x+1)*widthpx+widthpx,y*widthpx+widthpx/2);
-    cr->stroke();
+    const int widthpx = resolution;
+    //cr->set_source_rgb(0, 0, 0);
+    //cr->set_line_width(widthpx);
+    //cr->move_to(x*widthpx, y*widthpx+widthpx/2);
+    //cr->line_to((x+1)*widthpx+widthpx,y*widthpx+widthpx/2);
+    //cr->stroke();
     // draw white box
     cr->set_source_rgb(1, 1, 1);
     cr->set_line_width(1);
