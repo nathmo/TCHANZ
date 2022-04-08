@@ -12,6 +12,7 @@
 #include <gtkmm/frame.h>
 
 constexpr short unsigned resolution(16);
+constexpr unsigned taille_dessin(500);
 
 struct Frame // Model Framing and window parameters
 {
@@ -38,7 +39,9 @@ public:
     void adjustFrame();
     static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
                                         Frame frame);
-    void drawEmptyCell(int x,int y,const Cairo::RefPtr<Cairo::Context>& cr);
+    static void drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr);
+    static void drawEmptyCell(int x, int y, bool isBorder,
+                       const Cairo::RefPtr<Cairo::Context>& cr);
 };
 
 #endif //TCHANZ_GRAPHIC_H

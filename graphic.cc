@@ -16,7 +16,7 @@ using namespace std;
 
 static Frame default_frame = {-(g_max*resolution/2), (g_max*resolution/2),
                               -(g_max*resolution/2), (g_max*resolution/2),
-                              1, 500, 500};
+                              1, taille_dessin, taille_dessin};
 
 Graphic::Graphic()
 {
@@ -97,25 +97,41 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     adjustFrame();
     Graphic::orthographic_projection(cr, frame);
 
-    //Now we can draw directly in the Model space
-    for(int x=-63;x<=64;x++){
-        for(int y=-63;y<=64;y++){
-            Graphic::drawEmptyCell(x,y,cr);
-        }
-    }
-    //cr->stroke();
+    //redraw the grid
+    Graphic::drawFullGrid(cr);
 
     return true;
 }
 
-void Graphic::drawEmptyCell(int x,int y,const Cairo::RefPtr<Cairo::Context>& cr){
-    // set background to black
+void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr){
+    bool isBorder = false;
+    for(int x=0;x<g_max;x++){
+        for(int y=0;y<g_max;y++){
+            if((x == 0)or(x == (g_max-1))or(y == 0)or(y == (g_max-1))){
+                isBorder = true;
+            } else {
+                isBorder = false;
+            }
+            Graphic::drawEmptyCell(x,y,isBorder, cr);
+        }
+    }
+}
+
+void Graphic::drawEmptyCell(int x,int y,bool isBorder,
+                            const Cairo::RefPtr<Cairo::Context>& cr){
     const int widthpx = resolution;
-    //cr->set_source_rgb(0, 0, 0);
-    //cr->set_line_width(widthpx);
-    //cr->move_to(x*widthpx, y*widthpx+widthpx/2);
-    //cr->line_to((x+1)*widthpx+widthpx,y*widthpx+widthpx/2);
-    //cr->stroke();
+    x = x-(g_max/2);
+    y = y-(g_max/2);
+    // set background to black (or white if border)
+    if(isBorder){
+        cr->set_source_rgb(1, 1, 1);
+    } else {
+        cr->set_source_rgb(0, 0, 0);
+    }
+    cr->set_line_width(widthpx);
+    cr->move_to(x*widthpx, y*widthpx+widthpx/2);
+    cr->line_to((x+1)*widthpx,y*widthpx+widthpx/2);
+    cr->stroke();
     // draw white box
     cr->set_source_rgb(1, 1, 1);
     cr->set_line_width(1);
