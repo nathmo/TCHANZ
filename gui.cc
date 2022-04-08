@@ -17,15 +17,13 @@ using namespace std;
 int Gui::window() {
     auto app = Gtk::Application::create("org.gtkmm.example");
 
-    Gtk::Window win;
-    win.set_title("TCHANZ 296190_331471");
-    win.set_default_size(820, 350);
-
     Gui gui;
-    win.add(gui);
+    gui.set_title("TCHANZ 296190_331471");
+    gui.set_default_size(820, 350);
+
     gui.show();
 
-    return app->run(win);
+    return app->run(gui);
 }
 
 

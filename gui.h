@@ -13,7 +13,7 @@
 #include <gtkmm/frame.h>
 #include "graphic.h"
 
-class Gui
+class Gui : public Gtk::Window
 {
 private:
     Frame frame;
