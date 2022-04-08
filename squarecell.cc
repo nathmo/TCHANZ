@@ -51,13 +51,13 @@ bool Point::checkPoint(Point point) {
     bool status = true;
     if(not ((point.getCoordX() >= 0) and (point.getCoordX() < g_max))) {
         cout << error_squarecell::print_index(point.getCoordX(), g_max);
-        exit(EXIT_FAILURE);
+        throw (-1);
         status = false;
     }
 
     if(not ((point.getCoordY() >= 0) and (point.getCoordY() < g_max))) {
         cout << error_squarecell::print_index(point.getCoordY(), g_max);
-        exit(EXIT_FAILURE);
+        throw (-1);
         status = false;
     }
     return status;
@@ -66,13 +66,13 @@ bool Point::checkPoint(long int x,long int y) {
     bool status = true;
     if(not ((x >= 0) and (x < g_max))) { // not in [0;127]
         cout << error_squarecell::print_index(x, g_max-1);
-        exit(EXIT_FAILURE);
+        throw (-1);
         status = false;
     }
 
     if(not ((y >= 0) and (y < g_max))) {// not in [0;127]
         cout << error_squarecell::print_index(y, g_max-1);
-        exit(EXIT_FAILURE);
+        throw (-1);
         status = false;
     }
     return status;
@@ -172,11 +172,11 @@ bool Squarecell::checkHitbox(Point position, int width, int height) {
             if(i%2==0) { // check for X coordinate error
                 cout << error_squarecell::print_outside(position.getCoordX(), width,
                                                         g_max-1);
-                exit(EXIT_FAILURE);
+                throw (-1);
             } else if(i%2==1) { // check for Y coordinate error 
                 cout << error_squarecell::print_outside(position.getCoordY(), height,
                                                         g_max-1);
-                exit(EXIT_FAILURE);
+                throw (-1);
             }
             status = false;
         }
@@ -185,7 +185,7 @@ bool Squarecell::checkHitbox(Point position, int width, int height) {
                                                                ((width % 2) == 1)))) {
         cout << "shape is not a square" << endl;
         status = false;
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return status; // true if it fit, false otherwise (and display the set message)
 }

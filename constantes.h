@@ -11,6 +11,7 @@ constexpr short unsigned sizeG(5);
 constexpr short unsigned sizeC(3);
 constexpr short unsigned sizeD(3);
 constexpr short unsigned sizeP(1);
+constexpr short unsigned resolution(8);
 
 constexpr short unsigned bug_life(300);
 

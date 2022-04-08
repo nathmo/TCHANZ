@@ -11,7 +11,6 @@
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
 
-constexpr short unsigned resolution(16);
 constexpr unsigned taille_dessin(500);
 
 struct Frame // Model Framing and window parameters

@@ -66,7 +66,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
                                                          int index) {
     if(!(inputBuffer.size()<=4)) {
         cout << "Collector : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
@@ -80,7 +80,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Collector>(Point(x,y),index ,age,conditionFood);
     }
@@ -112,7 +112,7 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Defensor : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     long int x = stoi(inputBuffer[0]);
     long int y = stoi(inputBuffer[1]);
@@ -122,7 +122,7 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(),
                                          overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Defensor>(Point(x,y), index,age);
     }
@@ -154,7 +154,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Predator : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
@@ -163,7 +163,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
                                                        anyCST);
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::predator_overlap(x,y);
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Predator>(Point(x,y),index,age);
     }
@@ -201,7 +201,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Generator>(Point(x,y), index);
 }

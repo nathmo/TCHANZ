@@ -133,7 +133,7 @@ void Graphic::drawEmptyCell(int x,int y,bool isBorder,
     cr->line_to((x+1)*widthpx,y*widthpx+widthpx/2);
     cr->stroke();
     // draw white box
-    cr->set_source_rgb(1, 1, 1);
+    cr->set_source_rgb(0.8, 0.8, 0.8); // slight grey, better contrast with white item
     cr->set_line_width(1);
     cr->move_to(x*widthpx, y*widthpx);
     cr->line_to((x+1)*widthpx,y*widthpx);

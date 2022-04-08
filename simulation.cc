@@ -20,14 +20,20 @@ vector<shared_ptr<Entity>> Simulation::loadFromFile(string path) {
     vector<shared_ptr<Entity>> entityList;
     vector<shared_ptr<Nourriture>> nourritureList;
     vector<shared_ptr<Fourmiliere>> anthillList;
-    TextStorage::importTXT(path, nourritureList, anthillList);
-    for(unsigned int i=0;i<anthillList.size();i++) {
-        (*anthillList[i]).check();
+    try {
+        TextStorage::importTXT(path, nourritureList, anthillList);
+        for (unsigned int i = 0; i < anthillList.size(); i++) {
+            (*anthillList[i]).check();
+        }
+        cout << message::success();
+        entityList.insert(entityList.end(),
+                          nourritureList.begin(), nourritureList.end());
+        entityList.insert(entityList.end(), anthillList.begin(), anthillList.end());
+        return entityList;
     }
-    cout << message::success();
-    entityList.insert(entityList.end(), nourritureList.begin(), nourritureList.end());
-    entityList.insert(entityList.end(), anthillList.begin(), anthillList.end());
-    return entityList;
+    catch (int code){
+        return entityList;
+    }
 }
 
 void Simulation::saveToFile(string path, vector<shared_ptr<Entity>> worldToDump) {
