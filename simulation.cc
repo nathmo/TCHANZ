@@ -58,7 +58,34 @@ void Simulation::startHeadless() {
 }
 
 void Simulation::simulateStep(){
-    for(auto entity:anthillList){
-        entity->update();
+    // create food randomly
+    shared_ptr<Nourriture> food = Nourriture::randomCreate();
+    if(food != nullptr){
+        nourritureList.push_back(food);
     }
+    for(auto Fourmilliere:anthillList){
+        Fourmilliere->update();
+    }
+    for(unsigned int i=0;i<anthillList.size();i++){
+        if((anthillList[i])->getEnd_of_klan()){
+            anthillList.erase(anthillList.begin()+i);
+        }
+    }
+}
+
+int Simulation::getFoodNb(){
+    return nourritureList.size();
+}
+
+int Simulation::getAnthNb(){
+    return anthillList.size();
+}
+
+vector<int> Simulation::getAnthInfoStat(int id){
+    vector<int> stat;
+    stat.push_back((*anthillList[id]).getfoodReserve());
+    stat.push_back((*anthillList[id]).getnbC());
+    stat.push_back((*anthillList[id]).getnbD());
+    stat.push_back((*anthillList[id]).getnbP());
+    return stat;
 }

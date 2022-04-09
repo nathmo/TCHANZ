@@ -26,12 +26,46 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     this->nbD=nbD;
     this->nbP=nbP;
     memberAnts = FourmiList;
+    end_of_klan = false;
+}
+
+int Fourmiliere::getnbC(){
+    return nbC;
+}
+
+int Fourmiliere::getnbD(){
+    return nbD;
+}
+
+int Fourmiliere::getnbP(){
+    return nbP;
+}
+
+int Fourmiliere::getfoodReserve(){
+    return foodReserve;
+}
+
+bool Fourmiliere::getEnd_of_klan(){
+    return end_of_klan;
 }
 
 void Fourmiliere::update() {
-    cout << "updating the Fourmiliere with id "+to_string(id) << endl;
+    foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate);
+    if(foodReserve<=0){
+        end_of_klan = true;
+    }
     for(auto entity:memberAnts){
         entity->update();
+    }
+    if((memberAnts[0])->getEnd_of_klan()) {
+        end_of_klan = true;// if generator disapear, this too
+    }
+    for(unsigned int i=0;i<memberAnts.size();i++){
+        if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST){
+            if((memberAnts[i])->getAge()>bug_life){
+                memberAnts.erase(memberAnts.begin()+i);
+            }
+        }
     }
 }
 

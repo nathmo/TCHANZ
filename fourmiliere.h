@@ -23,11 +23,16 @@ private:
     int nbD;
     int nbP;
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
-
+    bool end_of_klan;
 public:
     Fourmiliere(Point position, int size, int totalFood,
                 int nbC, int nbD, int nbP, int id,
                 std::vector<std::shared_ptr<Fourmi>> FourmiList);
+    int getnbC();
+    int getnbD();
+    int getnbP();
+    int getfoodReserve();
+    bool getEnd_of_klan();
     virtual void update();
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();

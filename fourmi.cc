@@ -20,6 +20,15 @@ using namespace std;
 Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
         Entity(position, size, size, type, id) {
     this->age = age;
+    end_of_klan = false;
+}
+
+bool Fourmi::getEnd_of_klan(){
+    return end_of_klan;
+}
+
+int Fourmi::getAge(){
+    return age;
 }
 
 void Fourmi::update() {
@@ -45,7 +54,7 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update() {
-    cout << "updating the Collector with id "+to_string(id) << endl;
+    age++;
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -103,7 +112,7 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 void Defensor::update() {
-    cout << "updating the Defensor with id "+to_string(id) << endl;
+    age++;
 }
 
 vector<vector<string>> Defensor::exportToString() {
@@ -153,7 +162,7 @@ Predator::Predator(Point position, int id, int age) :
 }
 
 void Predator::update() {
-    cout << "updating the Predator with id "+to_string(id) << endl;
+    age++;
 }
 
 vector<vector<string>> Predator::exportToString() {
@@ -202,8 +211,7 @@ Generator::Generator(Point position, int id) :
 }
 
 void Generator::update() {
-    cout << "updating the Generator with id "+to_string(id) << endl;
-
+    age++;
 }
 
 vector<vector<string>> Generator::exportToString() {
