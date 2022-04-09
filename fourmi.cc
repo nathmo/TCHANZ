@@ -14,6 +14,7 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
+#include "graphic.h"
 
 using namespace std;
 
@@ -101,7 +102,6 @@ void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     int originX = (*occupiedSpace).getPosition().getCoordX();
     int originY = (*occupiedSpace).getPosition().getCoordY();
     int side = (*occupiedSpace).getHeight();
-    int id = (*occupiedSpace).getId();
     bool lightColor = false;
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
@@ -173,7 +173,6 @@ void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     int originX = (*occupiedSpace).getPosition().getCoordX();
     int originY = (*occupiedSpace).getPosition().getCoordY();
     int side = (*occupiedSpace).getHeight();
-    int id = (*occupiedSpace).getId();
     bool lightColor = true;
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
@@ -241,24 +240,12 @@ void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
-    int id = (*occupiedSpace).getId();
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
         for(int j(0); j < side; j++) {
             Graphic::drawSquare(x+i, y+i, id, false, cr);
         }
     }
-
-
-    /*
-    int negBias = (-g_max*resolution/2+1);
-    // draw square
-    cr->set_source_rgb(1, 0, 0.2);
-    cr->set_line_width((resolution));
-    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
-    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
-    cr->stroke();
-     */
 }
 
 Generator::Generator(Point position, int id) :
@@ -297,7 +284,6 @@ void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX(); //on prend point en bas, plus simple
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
-    int id = (*occupiedSpace).getId();
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
         for(int j(0); j < side; j++) {

@@ -196,7 +196,7 @@ void Graphic::drawSquare(int x, int y, int id, bool lightColor, const Cairo::Ref
     double G(0);
     double B(0);
 
-    color(R, G, B, id, lightColor); //probleme apparement peut pas appeler ??
+    Graphic::color(R, G, B, id, lightColor);
 
     cr->set_source_rgb(R, G, B); // slight grey, better contrast with white item
     cr->set_line_width(1);

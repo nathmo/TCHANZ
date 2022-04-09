@@ -40,7 +40,7 @@ public:
     static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
                                         Frame frame);
     static void drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr);
-    void color(double &R, double &G, double &B, int id, bool lightColor);
+    static void color(double &R, double &G, double &B, int id, bool lightColor);
     static void drawSquare(int x, int y, int id, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr);
 
 };
