@@ -8,6 +8,8 @@
 #include <gtkmm/application.h>
 #include <gtkmm/window.h>
 #include <cairomm/context.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <iostream>
 #include "gui.h"
 #include "graphic.h"
@@ -16,20 +18,20 @@
 using namespace std;
 
 
-void Gui::on_button_clicked_Exit(){
+void Gui::onButtonClickedExit(){
     hide(); //to close the application.
 }
 
-void Gui::on_button_clicked_Open(){
+void Gui::onButtonClickedOpen(){
     (*simulationPtr).loadFromFile();
     Gui::refreshSimulation();
 }
 
-void Gui::on_button_clicked_Save(){
+void Gui::onButtonClickedSave(){
     (*simulationPtr).saveToFile();
 }
 
-void Gui::on_button_clicked_StartStop(){
+void Gui::onButtonClickedStartStop(){
     if(m_Button_StartStop.get_label()=="start"){
         m_Button_Step.set_sensitive(false);
         m_Button_StartStop.set_label("stop");
@@ -39,7 +41,7 @@ void Gui::on_button_clicked_StartStop(){
     }
 }
 
-void Gui::on_button_clicked_Step(){
+void Gui::onButtonClickedStep(){
     if(m_Button_StartStop.get_label()=="start")
     { // step only if not actively simulating
         timer++;
@@ -48,7 +50,7 @@ void Gui::on_button_clicked_Step(){
     }
 }
 
-bool Gui::on_tick(){
+bool Gui::onTick(){
     if(m_Button_StartStop.get_label()=="stop")
     { // step only if actively simulating
         timer++;
@@ -58,7 +60,7 @@ bool Gui::on_tick(){
     return true;
 }
 
-void Gui::on_button_clicked_Previous(){
+void Gui::onButtonClickedPrevious(){
     if(idAnthillSelected==-1)
     {
         idAnthillSelected=(*simulationPtr).getAnthNb()-1;
@@ -68,7 +70,7 @@ void Gui::on_button_clicked_Previous(){
     Gui::refreshAnthInfo();
 }
 
-void Gui::on_button_clicked_Next(){
+void Gui::onButtonClickedNext(){
     if(idAnthillSelected==(*simulationPtr).getAnthNb()-1)
     {
         idAnthillSelected=-1;
@@ -76,6 +78,31 @@ void Gui::on_button_clicked_Next(){
         idAnthillSelected++;
     }
     Gui::refreshAnthInfo();
+}
+
+bool Gui::on_key_press_event(GdkEventKey* event)
+{
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 's'))
+    {
+        Gui::onButtonClickedStartStop();
+        return true;
+    }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == '1'))
+    {
+        Gui::onButtonClickedStep();
+        return true;
+    }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'n'))
+    {
+        Gui::onButtonClickedNext();
+        return true;
+    }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'p'))
+    {
+        Gui::onButtonClickedPrevious();
+        return true;
+    }
+    return false;
 }
 
 void Gui::refreshSimulation(){
@@ -161,21 +188,26 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     m_box_command.set_border_width(10);// Set the box borders
     // Connect the clicked signal of the button to their signal handler
     m_Button_Exit.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Exit));
+            sigc::mem_fun(*this, &Gui::onButtonClickedExit));
     m_Button_Open.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Open));
+            sigc::mem_fun(*this, &Gui::onButtonClickedOpen));
     m_Button_Save.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Save));
+            sigc::mem_fun(*this, &Gui::onButtonClickedSave));
     m_Button_StartStop.signal_clicked().connect(
-            sigc::mem_fun(*this,&Gui::on_button_clicked_StartStop));
+            sigc::mem_fun(*this,&Gui::onButtonClickedStartStop));
     m_Button_Step.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Step));
+            sigc::mem_fun(*this, &Gui::onButtonClickedStep));
     m_Button_Previous.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Previous));
+            sigc::mem_fun(*this, &Gui::onButtonClickedPrevious));
     m_Button_Next.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Next));
+            sigc::mem_fun(*this, &Gui::onButtonClickedNext));
+    add_events(Gdk::KEY_RELEASE_MASK);
+
+
+
+
     //create the timer
-    Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::on_tick), msPerFrame );
+    Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::onTick), msPerFrame);
     show_all_children();// Show all children of the window
 }
 

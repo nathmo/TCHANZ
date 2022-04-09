@@ -198,7 +198,7 @@ void Graphic::drawSquare(int x, int y, int id, bool lightColor, const Cairo::Ref
 
     Graphic::color(R, G, B, id, lightColor);
 
-    cr->set_source_rgb(R, G, B); // slight grey, better contrast with white item
+    cr->set_source_rgb(R, G, B);
     cr->set_line_width(1);
     cr->move_to(x*widthpx, y*widthpx);
     cr->line_to((x+1)*widthpx,y*widthpx);

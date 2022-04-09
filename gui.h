@@ -25,14 +25,15 @@ private:
     long timer = 0;
 protected:
     //Signal handlers:
-    void on_button_clicked_Exit();
-    void on_button_clicked_Open();
-    void on_button_clicked_Save();
-    void on_button_clicked_StartStop();
-    void on_button_clicked_Step();
-    bool on_tick();
-    void on_button_clicked_Previous();
-    void on_button_clicked_Next();
+    void onButtonClickedExit();
+    void onButtonClickedOpen();
+    void onButtonClickedSave();
+    void onButtonClickedStartStop();
+    void onButtonClickedStep();
+    bool onTick();
+    void onButtonClickedPrevious();
+    void onButtonClickedNext();
+    bool on_key_press_event(GdkEventKey* event);
     void refreshSimulation();
     void refreshFoodInfo();
     void refreshAnthInfo();

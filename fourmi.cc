@@ -101,13 +101,12 @@ void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int originX = (*occupiedSpace).getPosition().getCoordX();
     int originY = (*occupiedSpace).getPosition().getCoordY();
-    int side = (*occupiedSpace).getHeight();
+    int side = (*occupiedSpace).getWidth();
     bool lightColor = false;
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
         for(int j(0); j < side; j++) {
             Graphic::drawSquare(x+i, y+i, id, lightColor, cr);
-
             if(lightColor == true) {
                 lightColor = false;
             } else {
