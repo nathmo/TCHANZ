@@ -21,6 +21,7 @@ void Gui::on_button_clicked_Exit(){
 }
 void Gui::on_button_clicked_Open(){
     cout << "open" << endl;
+    graphic.queue_draw();//trigger refresh
     (*simulationPtr).loadFromFile();
 }
 void Gui::on_button_clicked_Save(){
@@ -42,14 +43,29 @@ void Gui::on_button_clicked_Step(){
     if(m_Button_StartStop.get_label()=="start")
     { // step only if not actively simulating
         cout << "step" << endl;
-        (*simulationPtr).simulateStep();
+        Gui::refreshSimulation();
     }
 }
+bool Gui::on_tick(){
+    if(m_Button_StartStop.get_label()=="stop")
+    { // step only if actively simulating
+        cout << "tick" << endl;
+        Gui::refreshSimulation();
+    }
+    return true;
+}
+
 void Gui::on_button_clicked_Previous(){
     cout << "previous" << endl;
 }
+
 void Gui::on_button_clicked_Next(){
     cout << "next" << endl;
+}
+
+void Gui::refreshSimulation(){
+    (*simulationPtr).simulateStep();
+    graphic.queue_draw();//trigger refresh
 }
 
 Gui::Gui(shared_ptr<Simulation> simulation) :
@@ -72,6 +88,8 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
         m_Button_Previous("previous"),
         m_Button_Next("next")
 {
+    //create the timer
+    Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::on_tick), msPerFrame );
     simulationPtr = simulation;
     // Set title and border of the window
     set_title("layout buttons");

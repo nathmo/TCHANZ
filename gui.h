@@ -14,6 +14,8 @@
 #include "graphic.h"
 #include "simulation.h"
 
+constexpr long msPerFrame(20);
+
 class Gui : public Gtk::Window
 {
 private:
@@ -26,8 +28,10 @@ protected:
     void on_button_clicked_Save();
     void on_button_clicked_StartStop();
     void on_button_clicked_Step();
+    bool on_tick();
     void on_button_clicked_Previous();
     void on_button_clicked_Next();
+    void refreshSimulation();
 
     //Child widgets:
     Graphic graphic;
