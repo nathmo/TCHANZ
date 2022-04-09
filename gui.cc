@@ -20,43 +20,40 @@ void Gui::on_button_clicked_Exit(){
     hide(); //to close the application.
 }
 void Gui::on_button_clicked_Open(){
-    cout << "open" << endl;
     (*simulationPtr).loadFromFile();
     Gui::refreshSimulation();
 }
 void Gui::on_button_clicked_Save(){
-    cout << "save" << endl;
     (*simulationPtr).saveToFile();
 }
 void Gui::on_button_clicked_StartStop(){
     if(m_Button_StartStop.get_label()=="start"){
         m_Button_Step.set_sensitive(false);
         m_Button_StartStop.set_label("stop");
-        cout << "start" << endl;
     } else if (m_Button_StartStop.get_label()=="stop") {
         m_Button_Step.set_sensitive(true);
         m_Button_StartStop.set_label("start");
-        cout << "stop" << endl;
     }
 }
 void Gui::on_button_clicked_Step(){
     if(m_Button_StartStop.get_label()=="start")
     { // step only if not actively simulating
-        cout << "step" << endl;
+        timer++;
+        cout << "tick : "+to_string(timer) << endl;
         Gui::refreshSimulation();
     }
 }
 bool Gui::on_tick(){
     if(m_Button_StartStop.get_label()=="stop")
     { // step only if actively simulating
-        cout << "tick" << endl;
+        timer++;
+        cout << "tick : "+to_string(timer) << endl;
         Gui::refreshSimulation();
     }
     return true;
 }
 
 void Gui::on_button_clicked_Previous(){
-    cout << "previous" << endl;
     if(idAnthillSelected==-1)
     {
         idAnthillSelected=(*simulationPtr).getAnthNb()-1;
@@ -67,7 +64,6 @@ void Gui::on_button_clicked_Previous(){
 }
 
 void Gui::on_button_clicked_Next(){
-    cout << "next" << endl;
     if(idAnthillSelected==(*simulationPtr).getAnthNb()-1)
     {
         idAnthillSelected=-1;

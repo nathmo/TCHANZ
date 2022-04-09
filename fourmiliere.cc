@@ -45,7 +45,6 @@ int Fourmiliere::getfoodReserve(){
 }
 
 void Fourmiliere::update() {
-    cout << "updating the Fourmiliere with id "+to_string(id) << endl;
     for(auto entity:memberAnts){
         entity->update();
     }

@@ -22,6 +22,7 @@ private:
     Frame frame;
     std::shared_ptr<Simulation> simulationPtr;
     int idAnthillSelected = -1;
+    long timer = 0;
 protected:
     //Signal handlers:
     void on_button_clicked_Exit();
