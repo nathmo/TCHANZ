@@ -99,6 +99,7 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     adjustFrame();
     Graphic::orthographic_projection(cr, frame);
 
+
     //redraw the grid
     Graphic::drawFullGrid(cr);
     // add the entity
@@ -110,17 +111,31 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 }
 
 void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr){
-    bool isBorder = false;
-    for(int x=0;x<g_max;x++){
-        for(int y=0;y<g_max;y++){
-            if((x == 0)or(x == (g_max-1))or(y == 0)or(y == (g_max-1))){
-                isBorder = true;
-            } else {
-                isBorder = false;
-            }
-            Graphic::drawEmptyCell(x,y,isBorder, cr);
-        }
+    //white border
+    cr->set_line_width(g_max*resolution);
+    cr->set_source_rgb(1, 1, 1);
+    cr->move_to(-g_max*resolution/2+1, 0);
+    cr->line_to(g_max*resolution/2, 0);
+    cr->stroke();
+    // black bacground
+    cr->set_line_width((g_max-2)*resolution);
+    cr->set_source_rgb(0, 0, 0);
+    cr->move_to(-g_max*resolution/2+1+resolution, 0);
+    cr->line_to(g_max*resolution/2-resolution, 0);
+    cr->stroke();
+    // vertical line
+    cr->set_source_rgb(0.8, 0.8, 0.8); // slight grey, better contrast with white item
+    cr->set_line_width(1);
+    for(int x=(1-g_max/2);x<g_max/2;x++){
+        cr->move_to(x*resolution, -g_max*resolution/2+1);
+        cr->line_to(x*resolution, g_max*resolution/2);
     }
+    // horizonal line
+    for(int y=(1-g_max/2);y<g_max/2;y++){
+        cr->move_to(-g_max*resolution/2+1, y*resolution);
+        cr->line_to(g_max*resolution/2,y*resolution);
+    }
+    cr->stroke();
 }
 
 void Graphic::drawEmptyCell(int x,int y,bool isBorder,
@@ -129,6 +144,7 @@ void Graphic::drawEmptyCell(int x,int y,bool isBorder,
     x = x-(g_max/2);
     y = y-(g_max/2);
     // set background to black (or white if border)
+    cr->save();
     if(isBorder){
         cr->set_source_rgb(1, 1, 1);
     } else {
@@ -154,4 +170,5 @@ void Graphic::drawEmptyCell(int x,int y,bool isBorder,
     cr->line_to((x)*widthpx,(y)*widthpx);
 
     cr->stroke();
+    cr->restore();
 }
