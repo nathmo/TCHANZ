@@ -35,6 +35,14 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer
     }
 }
 
+shared_ptr<Nourriture> Nourriture::randomCreate(){
+    int x = 0;
+    int y = 0;
+    int index = -1;
+    return nullptr;
+    return make_shared<Nourriture>(Point(x,y), index);
+}
+
 void Nourriture::update(){
 
 }

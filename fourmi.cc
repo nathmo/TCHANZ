@@ -20,6 +20,11 @@ using namespace std;
 Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
         Entity(position, size, size, type, id) {
     this->age = age;
+    end_of_klan = false;
+}
+
+bool Fourmi::getEnd_of_klan(){
+    return end_of_klan;
 }
 
 void Fourmi::update() {

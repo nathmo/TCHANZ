@@ -19,13 +19,16 @@ using namespace std;
 void Gui::on_button_clicked_Exit(){
     hide(); //to close the application.
 }
+
 void Gui::on_button_clicked_Open(){
     (*simulationPtr).loadFromFile();
     Gui::refreshSimulation();
 }
+
 void Gui::on_button_clicked_Save(){
     (*simulationPtr).saveToFile();
 }
+
 void Gui::on_button_clicked_StartStop(){
     if(m_Button_StartStop.get_label()=="start"){
         m_Button_Step.set_sensitive(false);
@@ -35,6 +38,7 @@ void Gui::on_button_clicked_StartStop(){
         m_Button_StartStop.set_label("start");
     }
 }
+
 void Gui::on_button_clicked_Step(){
     if(m_Button_StartStop.get_label()=="start")
     { // step only if not actively simulating
@@ -43,6 +47,7 @@ void Gui::on_button_clicked_Step(){
         Gui::refreshSimulation();
     }
 }
+
 bool Gui::on_tick(){
     if(m_Button_StartStop.get_label()=="stop")
     { // step only if actively simulating
@@ -60,7 +65,7 @@ void Gui::on_button_clicked_Previous(){
     } else {
         idAnthillSelected--;
     }
-    Gui::refreshSimulation();
+    Gui::refreshAnthInfo();
 }
 
 void Gui::on_button_clicked_Next(){
@@ -70,7 +75,7 @@ void Gui::on_button_clicked_Next(){
     } else {
         idAnthillSelected++;
     }
-    Gui::refreshSimulation();
+    Gui::refreshAnthInfo();
 }
 
 void Gui::refreshSimulation(){
@@ -86,7 +91,10 @@ void Gui::refreshFoodInfo(){
 }
 void Gui::refreshAnthInfo(){
 
-    (*simulationPtr).getAnthNb();
+
+    if(idAnthillSelected >= (*simulationPtr).getAnthNb()){
+        idAnthillSelected =(*simulationPtr).getAnthNb()-1;
+    }
     if(idAnthillSelected == -1)
     {
         string statToDisplay = "None selected";

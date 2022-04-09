@@ -58,8 +58,18 @@ void Simulation::startHeadless() {
 }
 
 void Simulation::simulateStep(){
-    for(auto entity:anthillList){
-        entity->update();
+    // create food randomly
+    shared_ptr<Nourriture> food = Nourriture::randomCreate();
+    if(food != nullptr){
+        nourritureList.push_back(food);
+    }
+    for(auto Fourmilliere:anthillList){
+        Fourmilliere->update();
+    }
+    for(unsigned int i=0;i<anthillList.size();i++){
+        if((anthillList[i])->getEnd_of_klan()){
+            anthillList.erase(anthillList.begin()+i);
+        }
     }
 }
 
