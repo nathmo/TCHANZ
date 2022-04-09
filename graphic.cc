@@ -98,8 +98,6 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     // adjust the frame (cadrage) to prevent distortion when changing the window size
     adjustFrame();
     Graphic::orthographic_projection(cr, frame);
-
-
     //redraw the grid
     Graphic::drawFullGrid(cr);
     // add the entity
@@ -111,6 +109,7 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
 }
 
 void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr){
+    cr->save();
     //white border
     cr->set_line_width(g_max*resolution);
     cr->set_source_rgb(1, 1, 1);
@@ -136,24 +135,15 @@ void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr){
         cr->line_to(g_max*resolution/2,y*resolution);
     }
     cr->stroke();
+    cr->restore();
 }
 
-void Graphic::drawEmptyCell(int x,int y,bool isBorder,
+void Graphic::drawEmptyCell(int x,int y,bool isBorder, int red, int green, int blue,
                             const Cairo::RefPtr<Cairo::Context>& cr){
     const int widthpx = resolution;
     x = x-(g_max/2);
     y = y-(g_max/2);
-    // set background to black (or white if border)
     cr->save();
-    if(isBorder){
-        cr->set_source_rgb(1, 1, 1);
-    } else {
-        cr->set_source_rgb(0, 0, 0);
-    }
-    cr->set_line_width(widthpx);
-    cr->move_to(x*widthpx, y*widthpx+widthpx/2);
-    cr->line_to((x+1)*widthpx,y*widthpx+widthpx/2);
-    cr->stroke();
     // draw white box
     cr->set_source_rgb(0.8, 0.8, 0.8); // slight grey, better contrast with white item
     cr->set_line_width(1);

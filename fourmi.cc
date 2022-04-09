@@ -87,7 +87,15 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
 }
 
 void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(0.8, 0.2, 0.8);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -129,7 +137,15 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
 }
 
 void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(0, 0.2, 1);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }
 
 Predator::Predator(Point position, int id, int age) :
@@ -170,7 +186,15 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
 }
 
 void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(1, 0, 0.2);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }
 
 Generator::Generator(Point position, int id) :
@@ -207,5 +231,13 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
 }
 
 void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(0, 0.5, 0.5);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }

@@ -42,7 +42,7 @@ public:
     static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
                                         Frame frame);
     static void drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr);
-    static void drawEmptyCell(int x, int y, bool isBorder,
+    static void drawEmptyCell(int x, int y, bool isBorder, int red, int green, int blue,
                        const Cairo::RefPtr<Cairo::Context>& cr);
 };
 
