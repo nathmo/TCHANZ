@@ -10,14 +10,19 @@
 #include <cairomm/context.h>
 #include <iostream>
 #include "graphic.h"
+#include "constantes.h"
+#include "simulation.h"
 
 using namespace std;
 
-static Frame default_frame = {-150., 150., -100., 100., 1.5, 300, 200};
+static Frame default_frame = {-(g_max*resolution/2), (g_max*resolution/2),
+                              -(g_max*resolution/2), (g_max*resolution/2),
+                              1, taille_dessin, taille_dessin};
 
-Graphic::Graphic()
+Graphic::Graphic(shared_ptr<Simulation> simulation)
 {
     setFrame(default_frame);
+    this->simulationPtr = simulation;
 }
 
 Graphic::~Graphic()
@@ -93,37 +98,54 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     // adjust the frame (cadrage) to prevent distortion when changing the window size
     adjustFrame();
     Graphic::orthographic_projection(cr, frame);
-
-    //set width and color
-    cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(100);
-    cr->move_to(-100., 0);
-    cr->line_to(100. , 0);
-
-    cr->set_line_width(5);
-    cr->set_source_rgb(0.2, 0., 0.8);
-
-    //Now we can draw directly in the Model space
-    for(int x=-16;x<16;x++){
-        for(int y=-16;y<16;y++){
-            Graphic::drawEmptyCell(x,y,cr);
-        }
+    //redraw the grid
+    Graphic::drawFullGrid(cr);
+    // add the entity
+    for(auto entity:(*simulationPtr).getListEntity()){
+        (*entity).draw(cr);
     }
-    //cr->stroke();
 
     return true;
 }
 
-void Graphic::drawEmptyCell(int x, int y, const Cairo::RefPtr<Cairo::Context>& cr){
-    // set background to black
-    int widthpx = 8;
-    cr->set_source_rgb(0, 0, 0);
-    cr->set_line_width(widthpx);
-    cr->move_to(x*widthpx, y*widthpx+widthpx/2);
-    cr->line_to((x+1)*widthpx+widthpx,y*widthpx+widthpx/2);
-    cr->stroke();
-    // draw white box
+void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr){
+    cr->save();
+    //white border
+    cr->set_line_width(g_max*resolution);
     cr->set_source_rgb(1, 1, 1);
+    cr->move_to(-g_max*resolution/2+1, 0);
+    cr->line_to(g_max*resolution/2, 0);
+    cr->stroke();
+    // black bacground
+    cr->set_line_width((g_max-2)*resolution);
+    cr->set_source_rgb(0, 0, 0);
+    cr->move_to(-g_max*resolution/2+1+resolution, 0);
+    cr->line_to(g_max*resolution/2-resolution, 0);
+    cr->stroke();
+    // vertical line
+    cr->set_source_rgb(0.8, 0.8, 0.8); // slight grey, better contrast with white item
+    cr->set_line_width(1);
+    for(int x=(1-g_max/2);x<g_max/2;x++){
+        cr->move_to(x*resolution, -g_max*resolution/2+1);
+        cr->line_to(x*resolution, g_max*resolution/2);
+    }
+    // horizonal line
+    for(int y=(1-g_max/2);y<g_max/2;y++){
+        cr->move_to(-g_max*resolution/2+1, y*resolution);
+        cr->line_to(g_max*resolution/2,y*resolution);
+    }
+    cr->stroke();
+    cr->restore();
+}
+
+void Graphic::drawEmptyCell(int x,int y,bool isBorder, int red, int green, int blue,
+                            const Cairo::RefPtr<Cairo::Context>& cr){
+    const int widthpx = resolution;
+    x = x-(g_max/2);
+    y = y-(g_max/2);
+    cr->save();
+    // draw white box
+    cr->set_source_rgb(0.8, 0.8, 0.8); // slight grey, better contrast with white item
     cr->set_line_width(1);
     cr->move_to(x*widthpx, y*widthpx);
     cr->line_to((x+1)*widthpx,y*widthpx);
@@ -138,4 +160,5 @@ void Graphic::drawEmptyCell(int x, int y, const Cairo::RefPtr<Cairo::Context>& c
     cr->line_to((x)*widthpx,(y)*widthpx);
 
     cr->stroke();
+    cr->restore();
 }

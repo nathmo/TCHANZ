@@ -22,7 +22,8 @@ public:
                 std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
 
     static void exportTXT(std::string filename,
-                          std::vector<std::shared_ptr<Entity>> entityToExport);
+                std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
+                std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
     // write a list of tokenized word to a file
     static void writetxt(std::string filename,
                          std::vector<std::vector<std::string>> lineToWrite);

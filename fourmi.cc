@@ -66,7 +66,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
                                                          int index) {
     if(!(inputBuffer.size()<=4)) {
         cout << "Collector : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
@@ -80,14 +80,22 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Collector>(Point(x,y),index ,age,conditionFood);
     }
 }
 
 void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(0.8, 0.2, 0.8);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -112,7 +120,7 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Defensor : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     long int x = stoi(inputBuffer[0]);
     long int y = stoi(inputBuffer[1]);
@@ -122,14 +130,22 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(),
                                          overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Defensor>(Point(x,y), index,age);
     }
 }
 
 void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(0, 0.2, 1);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }
 
 Predator::Predator(Point position, int id, int age) :
@@ -154,7 +170,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Predator : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
@@ -163,14 +179,22 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
                                                        anyCST);
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::predator_overlap(x,y);
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Predator>(Point(x,y),index,age);
     }
 }
 
 void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(1, 0, 0.2);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }
 
 Generator::Generator(Point position, int id) :
@@ -201,11 +225,19 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Generator>(Point(x,y), index);
 }
 
 void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    // draw square
+    cr->set_source_rgb(0, 0.5, 0.5);
+    cr->set_line_width((resolution));
+    cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
+    cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
+    cr->stroke();
 }

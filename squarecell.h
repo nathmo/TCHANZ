@@ -12,9 +12,6 @@
 #include <memory>
 #include "constantes.h"
 
-constexpr short unsigned g_dim(7);
-constexpr short unsigned g_max(128);
-
 class Point {
 private:
     int x=errorCode;

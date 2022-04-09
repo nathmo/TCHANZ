@@ -23,13 +23,13 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer
                                                      int index) {
     if(!(inputBuffer.size() <= 2)) {
         cout << "nourriture : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
         if(Squarecell::checkOverlap(Point(x,y), 1, 1, nourritureCST)) {
             cout<< message::food_overlap(x,y);
-            exit(EXIT_FAILURE);
+            throw (-1);
         }
         return make_shared<Nourriture>(Point(x,y), index);
     }
@@ -48,17 +48,16 @@ vector<vector<string>> Nourriture::exportToString() {
     return vecVecStringFood;
 }
 
-void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr, int valeurTaille) {
-    int widthpx = ; //calculer taille zone dessin calcul par rapport a pixel/grille
-    //getter taille de dessin
+void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+    int x = (*occupiedSpace).getPosition().getCoordX();
+    int y = (*occupiedSpace).getPosition().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    float sinBias = 0.353553391;
+    float tanBias = 0.707106781;
+    // draw white diamond
     cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(widthpx);
-
-    Point position = (*occupiedSpace).getPosition();
-    int coordX = position.getCoordX();
-    int coordY = position.getCoordY();
-
-    cr->move_to(point du bas, );
-    cr->line_to(,);
+    cr->set_line_width(tanBias*(resolution));
+    cr->move_to((x)*resolution+negBias+1, (y)*resolution+negBias+1);
+    cr->line_to((x+1-sinBias)*resolution+negBias,(y+1-sinBias)*resolution+negBias);
     cr->stroke();
 }

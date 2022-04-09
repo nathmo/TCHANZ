@@ -61,7 +61,32 @@ vector<vector<string>> Fourmiliere::exportToString() {
 }
 
 void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+    int xTopRight = (*occupiedSpace).getHitboxTopRight().getCoordX();
+    int yTopRight = (*occupiedSpace).getHitboxTopRight().getCoordY();
+    int xBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int yBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int negBias = (-g_max*resolution/2+1);
+    cr->save();
+    // draw box
+    cr->set_source_rgb(0.8, 0.3, 0.3); // slight grey, better contrast with white item
+    cr->set_line_width(5);
+    cr->move_to(xTopRight*resolution+negBias, yTopRight*resolution+negBias);
+    cr->line_to(xBotLeft*resolution+negBias, yTopRight*resolution+negBias);
 
+    cr->move_to(xBotLeft*resolution+negBias, yTopRight*resolution+negBias);
+    cr->line_to(xBotLeft*resolution+negBias, yBotLeft*resolution+negBias);
+
+    cr->move_to(xBotLeft*resolution+negBias, yBotLeft*resolution+negBias);
+    cr->line_to(xTopRight*resolution+negBias, yBotLeft*resolution+negBias);
+
+    cr->move_to(xTopRight*resolution+negBias, yBotLeft*resolution+negBias);
+    cr->line_to(xTopRight*resolution+negBias, yTopRight*resolution+negBias);
+
+    cr->stroke();
+    cr->restore();
+    for(auto ant:memberAnts){
+        (*ant).draw(cr);
+    }
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
@@ -90,7 +115,7 @@ void Fourmiliere::checkGeneratorUsingCoord() {
         cout<< message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
 }
 
@@ -114,7 +139,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
                 cout<< message::defensor_not_within_home(
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
-                exit(EXIT_FAILURE);
+                throw (-1);
             }
         }
     }
@@ -125,7 +150,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
       std::vector<std::shared_ptr<Fourmiliere>> previousAnthill) {
     if(inputBuffer.size()<9) {
         cout << "fourmilliere : number of argument mismatch" << endl;
-        exit(EXIT_FAILURE);
+        throw (-1);
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
@@ -149,7 +174,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
                 }
             }
             cout << message::homes_overlap(index, indexOther);
-            exit(EXIT_FAILURE);
+            throw (-1);
         }
         return make_shared<Fourmiliere>(Point(x,y), size, totalFood, nbC, nbD, nbP,
                                         index, FourmiList);

@@ -12,11 +12,15 @@
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
 #include "graphic.h"
+#include "simulation.h"
+
+constexpr long msPerFrame(20);
 
 class Gui : public Gtk::Window
 {
 private:
     Frame frame;
+    std::shared_ptr<Simulation> simulationPtr;
 protected:
     //Signal handlers:
     void on_button_clicked_Exit();
@@ -24,8 +28,10 @@ protected:
     void on_button_clicked_Save();
     void on_button_clicked_StartStop();
     void on_button_clicked_Step();
+    bool on_tick();
     void on_button_clicked_Previous();
     void on_button_clicked_Next();
+    void refreshSimulation();
 
     //Child widgets:
     Graphic graphic;
@@ -45,8 +51,8 @@ protected:
     Gtk::Button m_Button_Previous;
     Gtk::Button m_Button_Next;
 public:
-    Gui();
+    Gui(std::shared_ptr<Simulation> simulation);
     virtual ~Gui();
-    static int window();
+    static int window(std::shared_ptr<Simulation> simulation);
 };
 #endif //TCHANZ_GUI_H
