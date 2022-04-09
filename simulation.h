@@ -27,6 +27,9 @@ public:
     void saveToFile();
     void startHeadless();
     void simulateStep();
+    int getFoodNb();
+    int getAnthNb();
+    std::vector<int> getAnthInfoStat(int id);
 };
 
 #endif //TCHANZ_SIMULATION_H

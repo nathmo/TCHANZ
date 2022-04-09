@@ -28,6 +28,22 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     memberAnts = FourmiList;
 }
 
+int Fourmiliere::getnbC(){
+    return nbC;
+}
+
+int Fourmiliere::getnbD(){
+    return nbD;
+}
+
+int Fourmiliere::getnbP(){
+    return nbP;
+}
+
+int Fourmiliere::getfoodReserve(){
+    return foodReserve;
+}
+
 void Fourmiliere::update() {
     cout << "updating the Fourmiliere with id "+to_string(id) << endl;
     for(auto entity:memberAnts){

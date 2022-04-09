@@ -62,3 +62,20 @@ void Simulation::simulateStep(){
         entity->update();
     }
 }
+
+int Simulation::getFoodNb(){
+    return nourritureList.size();
+}
+
+int Simulation::getAnthNb(){
+    return anthillList.size();
+}
+
+vector<int> Simulation::getAnthInfoStat(int id){
+    vector<int> stat;
+    stat.push_back((*anthillList[id]).getfoodReserve());
+    stat.push_back((*anthillList[id]).getnbC());
+    stat.push_back((*anthillList[id]).getnbD());
+    stat.push_back((*anthillList[id]).getnbP());
+    return stat;
+}

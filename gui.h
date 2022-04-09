@@ -21,6 +21,7 @@ class Gui : public Gtk::Window
 private:
     Frame frame;
     std::shared_ptr<Simulation> simulationPtr;
+    int idAnthillSelected = -1;
 protected:
     //Signal handlers:
     void on_button_clicked_Exit();
@@ -32,6 +33,8 @@ protected:
     void on_button_clicked_Previous();
     void on_button_clicked_Next();
     void refreshSimulation();
+    void refreshFoodInfo();
+    void refreshAnthInfo();
 
     //Child widgets:
     Graphic graphic;

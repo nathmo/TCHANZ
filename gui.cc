@@ -21,8 +21,8 @@ void Gui::on_button_clicked_Exit(){
 }
 void Gui::on_button_clicked_Open(){
     cout << "open" << endl;
-    graphic.queue_draw();//trigger refresh
     (*simulationPtr).loadFromFile();
+    Gui::refreshSimulation();
 }
 void Gui::on_button_clicked_Save(){
     cout << "save" << endl;
@@ -57,15 +57,53 @@ bool Gui::on_tick(){
 
 void Gui::on_button_clicked_Previous(){
     cout << "previous" << endl;
+    if(idAnthillSelected==-1)
+    {
+        idAnthillSelected=(*simulationPtr).getAnthNb()-1;
+    } else {
+        idAnthillSelected--;
+    }
+    Gui::refreshSimulation();
 }
 
 void Gui::on_button_clicked_Next(){
     cout << "next" << endl;
+    if(idAnthillSelected==(*simulationPtr).getAnthNb()-1)
+    {
+        idAnthillSelected=-1;
+    } else {
+        idAnthillSelected++;
+    }
+    Gui::refreshSimulation();
 }
 
 void Gui::refreshSimulation(){
+    Gui::refreshAnthInfo();
+    Gui::refreshFoodInfo();
     (*simulationPtr).simulateStep();
     graphic.queue_draw();//trigger refresh
+}
+
+void Gui::refreshFoodInfo(){
+    string nbFood = to_string((*simulationPtr).getFoodNb());
+    m_Label_FoodInfoValue.set_text("Nb food: "+nbFood);
+}
+void Gui::refreshAnthInfo(){
+
+    (*simulationPtr).getAnthNb();
+    if(idAnthillSelected == -1)
+    {
+        string statToDisplay = "None selected";
+        m_Label_AnthInfoValue.set_text(statToDisplay);
+    } else {
+        vector<int> stat = (*simulationPtr).getAnthInfoStat(idAnthillSelected);
+        string statToDisplay = "id: "+to_string(idAnthillSelected)+"\n"+
+                "Total food: "+to_string(stat[0])+"\n"+"\n"+
+                "nbC: "+to_string(stat[1])+"\n"+
+                "nbD: "+to_string(stat[2])+"\n"+
+                "nbP: "+to_string(stat[3])+"\n";
+        m_Label_AnthInfoValue.set_text(statToDisplay);
+    }
 }
 
 Gui::Gui(shared_ptr<Simulation> simulation) :
@@ -88,17 +126,12 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
         m_Button_Previous("previous"),
         m_Button_Next("next")
 {
-    //create the timer
-    Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::on_tick), msPerFrame );
     simulationPtr = simulation;
     // Set title and border of the window
     set_title("layout buttons");
     set_border_width(0);
-
-    // Add outer box to the window (because the window
-    // can only contain a single widget)
+    // Add outer box to the window (the window can only contain a single widget)
     add(m_box_Gui);
-
     //Put the inner boxes and the separator in the outer box:
     m_box_Gui.pack_start(graphic);
     m_box_Gui.pack_start(m_box_command, false, true);
@@ -121,11 +154,7 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     m_Box_AnthInfo.pack_start(m_Button_Previous, false, true);
     m_Box_AnthInfo.pack_start(m_Button_Next, false, true);
     m_Box_AnthInfo.pack_start(m_Label_AnthInfoValue, false, true);
-
-    // Set the box borders
-    m_box_command.set_border_width(10);
-
-
+    m_box_command.set_border_width(10);// Set the box borders
     // Connect the clicked signal of the button to their signal handler
     m_Button_Exit.signal_clicked().connect(
             sigc::mem_fun(*this, &Gui::on_button_clicked_Exit));
@@ -141,9 +170,9 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
             sigc::mem_fun(*this, &Gui::on_button_clicked_Previous));
     m_Button_Next.signal_clicked().connect(
             sigc::mem_fun(*this, &Gui::on_button_clicked_Next));
-
-    // Show all children of the window
-    show_all_children();
+    //create the timer
+    Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::on_tick), msPerFrame );
+    show_all_children();// Show all children of the window
 }
 
 Gui::~Gui()
@@ -152,12 +181,9 @@ Gui::~Gui()
 
 int Gui::window(shared_ptr<Simulation> simulation) {
     auto app = Gtk::Application::create("org.gtkmm.example");
-
     Gui gui(simulation);
     gui.set_title("TCHANZ 296190_331471");
-    gui.set_default_size(820, 350);
-
+    gui.set_default_size(1000, 800);
     gui.show();
-
     return app->run(gui);
 }
