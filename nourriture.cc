@@ -48,6 +48,17 @@ vector<vector<string>> Nourriture::exportToString() {
     return vecVecStringFood;
 }
 
-void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr, int valeurTaille) {
+    int widthpx = ; //calculer taille zone dessin calcul par rapport a pixel/grille
+    //getter taille de dessin
+    cr->set_source_rgb(1, 1, 1);
+    cr->set_line_width(widthpx);
 
+    Point position = (*occupiedSpace).getPosition();
+    int coordX = position.getCoordX();
+    int coordY = position.getCoordY();
+
+    cr->move_to(point du bas, );
+    cr->line_to(,);
+    cr->stroke();
 }

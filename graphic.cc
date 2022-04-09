@@ -114,7 +114,7 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
     return true;
 }
 
-void Graphic::drawEmptyCell(int x,int y,const Cairo::RefPtr<Cairo::Context>& cr){
+void Graphic::drawEmptyCell(int x, int y, const Cairo::RefPtr<Cairo::Context>& cr){
     // set background to black
     int widthpx = 8;
     cr->set_source_rgb(0, 0, 0);
