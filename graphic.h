@@ -15,8 +15,7 @@
 
 constexpr unsigned taille_dessin(500);
 
-struct Frame // Model Framing and window parameters
-{
+struct Frame {// Model Framing and window parameters
     double xMin; // frame parameters
     double xMax;
     double yMin;
@@ -26,8 +25,7 @@ struct Frame // Model Framing and window parameters
     int width;   // window width
 };
 
-class Graphic : public Gtk::DrawingArea
-{
+class Graphic : public Gtk::DrawingArea {
 private:
     Frame frame;
     std::shared_ptr<Simulation> simulationPtr;
@@ -42,8 +40,9 @@ public:
     static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
                                         Frame frame);
     static void drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr);
-    static void drawEmptyCell(int x, int y, bool isBorder, int red, int green, int blue,
-                       const Cairo::RefPtr<Cairo::Context>& cr);
+    void color(double &R, double &G, double &B, int id, bool lightColor);
+    static void drawSquare(int x, int y, int id, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr);
+
 };
 
 #endif //TCHANZ_GRAPHIC_H

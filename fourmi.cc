@@ -96,15 +96,37 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
 }
 
 void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-    int x = (*occupiedSpace).getPosition().getCoordX();
-    int y = (*occupiedSpace).getPosition().getCoordY();
-    int negBias = (-g_max*resolution/2+1);
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int originX = (*occupiedSpace).getPosition().getCoordX();
+    int originY = (*occupiedSpace).getPosition().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    int id = (*occupiedSpace).getId();
+    bool lightColor = false;
+
+    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+i, id, lightColor, cr);
+
+            if(lightColor == true) {
+                lightColor = false;
+            } else {
+                lightColor = true;
+            }
+        }
+    }
+    Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
+
+
+    /*
+     int negBias = (-g_max*resolution/2+1);
     // draw square
     cr->set_source_rgb(0.8, 0.2, 0.8);
     cr->set_line_width((resolution));
     cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
     cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
     cr->stroke();
+     */
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -146,15 +168,36 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
 }
 
 void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-    int x = (*occupiedSpace).getPosition().getCoordX();
-    int y = (*occupiedSpace).getPosition().getCoordY();
-    int negBias = (-g_max*resolution/2+1);
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int originX = (*occupiedSpace).getPosition().getCoordX();
+    int originY = (*occupiedSpace).getPosition().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    int id = (*occupiedSpace).getId();
+    bool lightColor = true;
+
+    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+i, id, lightColor, cr);
+
+            if(lightColor == true) {
+                lightColor = false;
+            } else {
+                lightColor = true;
+            }
+        }
+    }
+    Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
+
+   /*
+   int negBias = (-g_max*resolution/2+1);
     // draw square
     cr->set_source_rgb(0, 0.2, 1);
     cr->set_line_width((resolution));
     cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
     cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
     cr->stroke();
+    */
 }
 
 Predator::Predator(Point position, int id, int age) :
@@ -195,8 +238,19 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
 }
 
 void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-    int x = (*occupiedSpace).getPosition().getCoordX();
-    int y = (*occupiedSpace).getPosition().getCoordY();
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    int id = (*occupiedSpace).getId();
+
+    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+i, id, false, cr);
+        }
+    }
+
+
+    /*
     int negBias = (-g_max*resolution/2+1);
     // draw square
     cr->set_source_rgb(1, 0, 0.2);
@@ -204,6 +258,7 @@ void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
     cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
     cr->stroke();
+     */
 }
 
 Generator::Generator(Point position, int id) :
@@ -239,13 +294,22 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
 }
 
 void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-    int x = (*occupiedSpace).getPosition().getCoordX();
-    int y = (*occupiedSpace).getPosition().getCoordY();
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX(); //on prend point en bas, plus simple
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    int id = (*occupiedSpace).getId();
+
+    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+i, id, false, cr);
+        }
+    }
+    /*
     int negBias = (-g_max*resolution/2+1);
-    // draw square
     cr->set_source_rgb(0, 0.5, 0.5);
     cr->set_line_width((resolution));
     cr->move_to((x)*resolution+negBias+1, (y+0.5)*resolution+negBias+1);
     cr->line_to((x+1)*resolution+negBias,(y+0.5)*resolution+negBias);
     cr->stroke();
+     */
 }
