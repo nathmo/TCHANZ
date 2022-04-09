@@ -21,6 +21,7 @@ bool end_of_klan;
 public:
     Fourmi(Point position, int age, char type, int id, int size);
     bool getEnd_of_klan();
+    int getAge();
     virtual void update();
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();

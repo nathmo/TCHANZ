@@ -27,6 +27,10 @@ bool Fourmi::getEnd_of_klan(){
     return end_of_klan;
 }
 
+int Fourmi::getAge(){
+    return age;
+}
+
 void Fourmi::update() {
     cout << "error, trying to update a generic fourmi object" << endl;
     exit(EXIT_FAILURE);
@@ -50,7 +54,7 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update() {
-
+    age++;
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -108,7 +112,7 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 void Defensor::update() {
-
+    age++;
 }
 
 vector<vector<string>> Defensor::exportToString() {
@@ -158,7 +162,7 @@ Predator::Predator(Point position, int id, int age) :
 }
 
 void Predator::update() {
-
+    age++;
 }
 
 vector<vector<string>> Predator::exportToString() {
@@ -207,8 +211,7 @@ Generator::Generator(Point position, int id) :
 }
 
 void Generator::update() {
-
-
+    age++;
 }
 
 vector<vector<string>> Generator::exportToString() {

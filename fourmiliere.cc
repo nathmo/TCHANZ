@@ -61,8 +61,10 @@ void Fourmiliere::update() {
         end_of_klan = true;// if generator disapear, this too
     }
     for(unsigned int i=0;i<memberAnts.size();i++){
-        if((memberAnts[i])->getEnd_of_klan()){
-            memberAnts.erase(memberAnts.begin()+i);
+        if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST){
+            if((memberAnts[i])->getAge()>bug_life){
+                memberAnts.erase(memberAnts.begin()+i);
+            }
         }
     }
 }
