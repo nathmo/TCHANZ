@@ -102,6 +102,11 @@ bool Gui::on_key_press_event(GdkEventKey* event)
         Gui::onButtonClickedPrevious();
         return true;
     }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'q'))
+    {
+        Gui::onButtonClickedExit();
+        return true;
+    }
     return false;
 }
 
