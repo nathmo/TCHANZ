@@ -128,62 +128,20 @@ void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr) {
 }
 
 void Graphic::color(double &R, double &G, double &B, int id, bool lightColor) {
-    int indexColor = id%6;
-    if(indexColor == 0) {
-        if(lightColor == true) { //rouge
-            R = 1;
-            G = 0.30;
-            B = 0.30;
-        }
-        R = 1;
-        G = 0;
-        B = 0;
-    } else if(indexColor == 1) { //vert
-        if(lightColor == true) {
-            R = 0.50;
-            G = 1;
-            B = 0.50;
-        }
-        R = 0;
-        G = 1;
-        B = 0;
-    } else if(indexColor == 2) { //bleu
-        if(lightColor == true) {
-            R = 0.30;
-            G = 0.50;
-            B = 1;
-        }
-        R = 0;
-        G = 0;
-        B = 1;
-    } else if(indexColor == 3) { //jaune
-        if(lightColor == true) {
-            R = 0.92;
-            G = 1;
-            B = 0.5;
-        }
-        R = 1;
-        G = 1;
-        B = 0.2;
-    } else if(indexColor == 4) { //magenta
-        if(lightColor == true) {
-            R = 0.88;
-            G = 0.30;
-            B = 1;
-        }
-        R = 1;
-        G = 0.11;
-        B = 0.81;
-    } else if(indexColor == 5) { //cyan
-        if(lightColor == true) {
-            R = 0.40;
-            G = 1;
-            B = 1;
-        }
-        R = 0;
-        G = 1;
-        B = 1;
+                                        //light     solid
+    vector<vector<double>> colorTable ={{1,0.5,0.5},{1,0,0}, // red
+                                       {0.5,1,0.5},{0,1,0}, // green
+                                       {0.5,0.6,1},{0.3,0.3,1}, //bleu
+                                       {0.92,1,0.5},{1,1,0.2}, // jaune
+                                       {0.92,0.5,1},{1,0.11,0.81}, // magenta
+                                       {0.6,1,1},{0,1,1}}; // cyan
+    int indexColor = (id%6)*2;
+    if(not lightColor){
+        indexColor++;
     }
+    R=colorTable[indexColor][0];
+    G=colorTable[indexColor][1];
+    B=colorTable[indexColor][2];
 }
 
 void Graphic::drawSquare(int x, int y, int id, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr) {
@@ -199,36 +157,43 @@ void Graphic::drawSquare(int x, int y, int id, bool lightColor, const Cairo::Ref
     Graphic::color(R, G, B, id, lightColor);
 
     cr->set_source_rgb(R, G, B);
-    cr->set_line_width(1);
-    cr->move_to(x*widthpx, y*widthpx);
-    cr->line_to((x+1)*widthpx,y*widthpx);
+    cr->set_line_width(2); //ca donne un truc homogene
 
-    cr->move_to((x+1)*widthpx,y*widthpx);
-    cr->line_to((x+1)*widthpx,(y+1)*widthpx);
+    for(int i(0); i < widthpx; i++) {
+            cr->move_to((x * widthpx), (y * widthpx) + i);
+            cr->line_to(((x+1) * widthpx), (y * widthpx) + i);
+            cr->stroke();
+    }
+    cr->restore();
+}
 
-    cr->move_to((x+1)*widthpx,(y+1)*widthpx);
-    cr->line_to((x)*widthpx,(y+1)*widthpx);
+void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id, int sizeSide, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr) {
+    const int widthpx = resolution;
+    int x = xBotLeft-(g_max/2);
+    int y = yBotLeft-(g_max/2);
+    cr->save();
 
-    cr->move_to((x)*widthpx,(y+1)*widthpx);
-    cr->line_to((x)*widthpx,(y)*widthpx);
+    double R(0);
+    double G(0);
+    double B(0);
+
+    Graphic::color(R, G, B, id, lightColor);
+
+    cr->set_source_rgb(R, G, B);
+    cr->set_line_width(3); //ca donne un truc homogene
+
+    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx);
+    cr->line_to((x-0.5+sizeSide) * widthpx, (y+0.5) * widthpx);
+
+    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx);
+    cr->line_to((x+0.5)  * widthpx, (y-0.5+sizeSide) * widthpx);
+
+    cr->move_to((x+sizeSide-0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
+    cr->line_to((x+0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
+
+    cr->move_to((x+sizeSide-0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
+    cr->line_to((x+sizeSide-0.5) * widthpx, (y+0.5) * widthpx);
 
     cr->stroke();
     cr->restore();
 }
-
-
-/*
-int count(0);
-if(specie == fourmiDefensorCST) {
-count++;
-}
-if(specie == fourmiCollectorCST) continue; //savoir si on commence par foncé ou clair
-
-for(int i(0); i < sizeSide; i++) {
-if((count%2)==0) {
-
-} else {
-
-}
-}
-*/

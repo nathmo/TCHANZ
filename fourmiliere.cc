@@ -14,6 +14,7 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
+#include "graphic.h"
 
 using namespace std;
 
@@ -95,13 +96,25 @@ vector<vector<string>> Fourmiliere::exportToString() {
 }
 
 void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-    int xTopRight = (*occupiedSpace).getHitboxTopRight().getCoordX();
-    int yTopRight = (*occupiedSpace).getHitboxTopRight().getCoordY();
+    //int xTopRight = (*occupiedSpace).getHitboxTopRight().getCoordX();
+    //int yTopRight = (*occupiedSpace).getHitboxTopRight().getCoordY();
     int xBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int yBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int sizeSide = (*occupiedSpace).getHeight();
+    int id = getId();
+
+    Graphic::drawPerimeter(xBotLeft, yBotLeft, id, sizeSide, false, cr);
+
+    for(auto ant:memberAnts){
+        (*ant).draw(cr);
+    }
+
+
+
+
+
+    /*
     int negBias = (-g_max*resolution/2+1);
-    cr->save();
-    // draw box
     cr->set_source_rgb(0.8, 0.3, 0.3); // slight grey, better contrast with white item
     cr->set_line_width(5);
     cr->move_to(xTopRight*resolution+negBias, yTopRight*resolution+negBias);
@@ -121,6 +134,7 @@ void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     for(auto ant:memberAnts){
         (*ant).draw(cr);
     }
+     */
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {

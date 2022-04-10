@@ -47,5 +47,6 @@ void startHeadless(string path) {
 
 void startGui(string path) {
     shared_ptr<Simulation> simulatiom = make_shared<Simulation>(path);
+    (*simulatiom).loadFromFile();
     Gui::window(simulatiom);
 }

@@ -42,7 +42,7 @@ public:
     static void drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr);
     static void color(double &R, double &G, double &B, int id, bool lightColor);
     static void drawSquare(int x, int y, int id, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr);
-
+    static void drawPerimeter(int x, int y, int id, int sizeSide, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr);
 };
 
 #endif //TCHANZ_GRAPHIC_H
