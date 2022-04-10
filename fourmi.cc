@@ -106,7 +106,7 @@ void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
         for(int j(0); j < side; j++) {
-            Graphic::drawSquare(x+i, y+i, id, lightColor, cr);
+            Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
             if(lightColor == true) {
                 lightColor = false;
             } else {
@@ -115,7 +115,6 @@ void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
         }
     }
     Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
-
 
     /*
      int negBias = (-g_max*resolution/2+1);
@@ -176,7 +175,7 @@ void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
         for(int j(0); j < side; j++) {
-            Graphic::drawSquare(x+i, y+i, id, lightColor, cr);
+            Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
 
             if(lightColor == true) {
                 lightColor = false;
@@ -242,7 +241,7 @@ void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
         for(int j(0); j < side; j++) {
-            Graphic::drawSquare(x+i, y+i, id, false, cr);
+            Graphic::drawSquare(x+i, y+j, id, false, cr);
         }
     }
 }
@@ -286,7 +285,7 @@ void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 
     for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
         for(int j(0); j < side; j++) {
-            Graphic::drawSquare(x+i, y+i, id, false, cr);
+            Graphic::drawSquare(x+i, y+j, id, false, cr);
         }
     }
     /*
