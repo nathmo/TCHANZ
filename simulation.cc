@@ -43,6 +43,8 @@ void Simulation::loadFromFile() {
         cout << message::success();
     }
     catch (int code){
+        nourritureList = {};
+        anthillList = {};
         return;
     }
 }
