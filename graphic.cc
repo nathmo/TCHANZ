@@ -132,7 +132,7 @@ void Graphic::color(double &R, double &G, double &B, int id, bool lightColor) {
     vector<vector<double>> colorTable ={{1,0.5,0.5},{1,0,0}, // red
                                        {0.5,1,0.5},{0,1,0}, // green
                                        {0.5,0.6,1},{0.3,0.3,1}, //bleu
-                                       {0.7,0.7,0},{1,1,0}, // jaune
+                                       {0.81,0.81,0},{1,1,0}, // jaune
                                        {0.92,0.5,1},{1,0.11,0.81}, // magenta
                                        {0.6,1,1},{0,1,1}}; // cyan
     int indexColor = (id%6)*2;
