@@ -19,6 +19,7 @@ private:
     std::string path;
     std::vector<std::shared_ptr<Nourriture>> nourritureList;
     std::vector<std::shared_ptr<Fourmiliere>> anthillList;
+
 public:
     Simulation();
     Simulation(std::string path);

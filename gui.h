@@ -23,6 +23,7 @@ private:
     std::shared_ptr<Simulation> simulationPtr;
     int idAnthillSelected = -1;
     long timer = 0;
+
 protected:
     //Signal handlers:
     void onButtonClickedExit();
@@ -55,6 +56,7 @@ protected:
     Gtk::Button m_Button_Step;
     Gtk::Button m_Button_Previous;
     Gtk::Button m_Button_Next;
+
 public:
     Gui(std::shared_ptr<Simulation> simulation);
     virtual ~Gui();

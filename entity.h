@@ -19,6 +19,7 @@ protected:
     std::shared_ptr<Squarecell> occupiedSpace;
     char specie;
     unsigned long id;
+
 public:
     Entity(Point position, int width, int height, char specie, int id);
     void setPosition(Point newPosition);

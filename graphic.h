@@ -29,9 +29,11 @@ class Graphic : public Gtk::DrawingArea {
 private:
     Frame frame;
     std::shared_ptr<Simulation> simulationPtr;
+
 protected:
     //Override default signal handler:
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
+
 public:
     Graphic(std::shared_ptr<Simulation> simulation);
     virtual ~Graphic();
@@ -41,8 +43,11 @@ public:
                                         Frame frame);
     static void drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr);
     static void color(double &R, double &G, double &B, int id, bool lightColor);
-    static void drawSquare(int x, int y, int id, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr);
-    static void drawPerimeter(int x, int y, int id, int sizeSide, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr);
+    static void drawSquare(int x, int y, int id, bool lightColor,
+                           const Cairo::RefPtr<Cairo::Context>& cr);
+    static void drawPerimeter(int x, int y, int id,
+                              int sizeSide, bool lightColor,
+                              const Cairo::RefPtr<Cairo::Context>& cr);
 };
 
 #endif //TCHANZ_GRAPHIC_H

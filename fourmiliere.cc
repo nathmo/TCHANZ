@@ -30,23 +30,23 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     end_of_klan = false;
 }
 
-int Fourmiliere::getnbC(){
+int Fourmiliere::getnbC() {
     return nbC;
 }
 
-int Fourmiliere::getnbD(){
+int Fourmiliere::getnbD() {
     return nbD;
 }
 
-int Fourmiliere::getnbP(){
+int Fourmiliere::getnbP() {
     return nbP;
 }
 
-int Fourmiliere::getfoodReserve(){
+int Fourmiliere::getfoodReserve() {
     return foodReserve;
 }
 
-bool Fourmiliere::getEnd_of_klan(){
+bool Fourmiliere::getEnd_of_klan() {
     return end_of_klan;
 }
 
@@ -95,9 +95,7 @@ vector<vector<string>> Fourmiliere::exportToString() {
     return toExport;
 }
 
-void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-    //int xTopRight = (*occupiedSpace).getHitboxTopRight().getCoordX();
-    //int yTopRight = (*occupiedSpace).getHitboxTopRight().getCoordY();
+void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     int xBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int yBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int sizeSide = (*occupiedSpace).getHeight();
@@ -108,33 +106,6 @@ void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     for(auto ant:memberAnts){
         (*ant).draw(cr);
     }
-
-
-
-
-
-    /*
-    int negBias = (-g_max*resolution/2+1);
-    cr->set_source_rgb(0.8, 0.3, 0.3); // slight grey, better contrast with white item
-    cr->set_line_width(5);
-    cr->move_to(xTopRight*resolution+negBias, yTopRight*resolution+negBias);
-    cr->line_to(xBotLeft*resolution+negBias, yTopRight*resolution+negBias);
-
-    cr->move_to(xBotLeft*resolution+negBias, yTopRight*resolution+negBias);
-    cr->line_to(xBotLeft*resolution+negBias, yBotLeft*resolution+negBias);
-
-    cr->move_to(xBotLeft*resolution+negBias, yBotLeft*resolution+negBias);
-    cr->line_to(xTopRight*resolution+negBias, yBotLeft*resolution+negBias);
-
-    cr->move_to(xTopRight*resolution+negBias, yBotLeft*resolution+negBias);
-    cr->line_to(xTopRight*resolution+negBias, yTopRight*resolution+negBias);
-
-    cr->stroke();
-    cr->restore();
-    for(auto ant:memberAnts){
-        (*ant).draw(cr);
-    }
-     */
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {

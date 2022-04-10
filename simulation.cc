@@ -17,14 +17,14 @@
 
 using namespace std;
 
-Simulation::Simulation(){
+Simulation::Simulation() {
 }
 
-Simulation::Simulation(string path){
+Simulation::Simulation(string path) {
     this->path = path;
 }
 
-vector<shared_ptr<Entity>> Simulation::getListEntity(){
+vector<shared_ptr<Entity>> Simulation::getListEntity() {
     vector<shared_ptr<Entity>> entityToExport;
     entityToExport.insert(entityToExport.end(),nourritureList.begin(),
                                                nourritureList.end());
@@ -59,31 +59,31 @@ void Simulation::startHeadless() {
     //Simulation::saveToFile(path+"Plus1Step",entityList);
 }
 
-void Simulation::simulateStep(){
+void Simulation::simulateStep() {
     // create food randomly
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
-    if(food != nullptr){
+    if(food != nullptr) {
         nourritureList.push_back(food);
     }
-    for(auto Fourmilliere:anthillList){
+    for(auto Fourmilliere:anthillList) {
         Fourmilliere->update();
     }
-    for(unsigned int i=0;i<anthillList.size();i++){
-        if((anthillList[i])->getEnd_of_klan()){
+    for(unsigned int i=0;i<anthillList.size();i++) {
+        if((anthillList[i])->getEnd_of_klan()) {
             anthillList.erase(anthillList.begin()+i);
         }
     }
 }
 
-int Simulation::getFoodNb(){
+int Simulation::getFoodNb() {
     return nourritureList.size();
 }
 
-int Simulation::getAnthNb(){
+int Simulation::getAnthNb() {
     return anthillList.size();
 }
 
-vector<int> Simulation::getAnthInfoStat(int id){
+vector<int> Simulation::getAnthInfoStat(int id) {
     vector<int> stat;
     stat.push_back((*anthillList[id]).getfoodReserve());
     stat.push_back((*anthillList[id]).getnbC());

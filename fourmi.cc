@@ -87,7 +87,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     }
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeC, sizeC,
                                                        anyCST);
-    if(overlapList.size()>0) { // ensure the ant does not collide with something else
+    if(overlapList.size()>0) { //ensure the ant does not collide with something else
         cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
         throw (-1);
@@ -105,7 +105,7 @@ void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     bool lightColor = false;
     int id = getId();
 
-    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+    for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
         for(int j(0); j < side; j++) {
             Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
             if(lightColor == true) {
@@ -165,7 +165,7 @@ void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     bool lightColor = true;
     int id = getId();
 
-    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+    for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
         for(int j(0); j < side; j++) {
             Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
 
@@ -180,7 +180,7 @@ void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 }
 
 Predator::Predator(Point position, int id, int age) :
-        Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
+                       Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
 }
 
 void Predator::update() {
@@ -216,7 +216,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     }
 }
 
-void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
@@ -253,7 +253,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     int y = stoi(inputBuffer[4]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeG, sizeG,
                                                        anyCST);
-    if(overlapList.size()>0) { // ensure the ant does not collide with something else
+    if(overlapList.size()>0) { //ensure the ant does not collide with something else
         cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
         throw (-1);
@@ -261,13 +261,13 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     return make_shared<Generator>(Point(x,y), index);
 }
 
-void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
-    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX(); //on prend point en bas, plus simple
+void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();//point bas, plus simple
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
     int id = getId();
 
-    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+    for(int i(0); i < side; i++) {//depuis bas jusqu'en haut on dessine case par case
         for(int j(0); j < side; j++) {
             Graphic::drawSquare(x+i, y+j, id, false, cr);
         }

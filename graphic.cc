@@ -48,7 +48,7 @@ void Graphic::adjustFrame() {
 
     // use the reference framing as a Graphicde for preventing distortion
     double new_aspect_ratio((double)width/height);
-    if( new_aspect_ratio > default_frame.asp) { // keep yMax and yMin. Adjust xMax and xMin
+    if( new_aspect_ratio > default_frame.asp) {//keep yMax/yMin. Adjust xMax/xMin
         frame.yMax = default_frame.yMax ;
         frame.yMin = default_frame.yMin ;
 
@@ -70,7 +70,7 @@ void Graphic::adjustFrame() {
 }
 
 void Graphic::orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
-                                  Frame frame) {
+                                      Frame frame) {
     // déplace l'origine au centre de la fenêtre
     cr->translate(frame.width/2, frame.height/2);
 
@@ -112,7 +112,7 @@ void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr) {
     cr->line_to(g_max*resolution/2-resolution, 0);
     cr->stroke();
     // vertical line
-    cr->set_source_rgb(0.8, 0.8, 0.8); // slight grey, better contrast with white item
+    cr->set_source_rgb(0.8, 0.8, 0.8); //slight grey, better contrast with white item
     cr->set_line_width(1);
     for(int x=(1-g_max/2);x<g_max/2;x++){
         cr->move_to(x*resolution, -g_max*resolution/2+1);
@@ -132,11 +132,11 @@ void Graphic::color(double &R, double &G, double &B, int id, bool lightColor) {
     vector<vector<double>> colorTable ={{1,0.5,0.5},{1,0,0}, // red
                                        {0.5,1,0.5},{0,1,0}, // green
                                        {0.5,0.6,1},{0.3,0.3,1}, //bleu
-                                       {0.92,1,0.5},{1,1,0.2}, // jaune
+                                       {0.92,0.9,0},{1,1,0}, // jaune
                                        {0.92,0.5,1},{1,0.11,0.81}, // magenta
                                        {0.6,1,1},{0,1,1}}; // cyan
     int indexColor = (id%6)*2;
-    if(not lightColor){
+    if(not lightColor) {
         indexColor++;
     }
     R=colorTable[indexColor][0];
@@ -144,7 +144,8 @@ void Graphic::color(double &R, double &G, double &B, int id, bool lightColor) {
     B=colorTable[indexColor][2];
 }
 
-void Graphic::drawSquare(int x, int y, int id, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr) {
+void Graphic::drawSquare(int x, int y, int id, bool lightColor,
+                         const Cairo::RefPtr<Cairo::Context>& cr) {
     const int widthpx = resolution;
     x = x-(g_max/2);
     y = y-(g_max/2);
@@ -157,7 +158,7 @@ void Graphic::drawSquare(int x, int y, int id, bool lightColor, const Cairo::Ref
     Graphic::color(R, G, B, id, lightColor);
 
     cr->set_source_rgb(R, G, B);
-    cr->set_line_width(2); //ca donne un truc homogene
+    cr->set_line_width(2);
 
     for(int i(0); i < widthpx; i++) {
             cr->move_to((x * widthpx), (y * widthpx) + i);
@@ -167,7 +168,9 @@ void Graphic::drawSquare(int x, int y, int id, bool lightColor, const Cairo::Ref
     cr->restore();
 }
 
-void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id, int sizeSide, bool lightColor, const Cairo::RefPtr<Cairo::Context>& cr) {
+void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id,
+                            int sizeSide, bool lightColor,
+                            const Cairo::RefPtr<Cairo::Context>& cr) {
     const int widthpx = resolution;
     int x = xBotLeft-(g_max/2);
     int y = yBotLeft-(g_max/2);
@@ -180,12 +183,12 @@ void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id, int sizeSide, bo
     Graphic::color(R, G, B, id, lightColor);
 
     cr->set_source_rgb(R, G, B);
-    cr->set_line_width(3); //ca donne un truc homogene
+    cr->set_line_width(3);
 
-    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx);
+    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx); //vertical line
     cr->line_to((x-0.5+sizeSide) * widthpx, (y+0.5) * widthpx);
 
-    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx);
+    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx); //horizontal line
     cr->line_to((x+0.5)  * widthpx, (y-0.5+sizeSide) * widthpx);
 
     cr->move_to((x+sizeSide-0.5) * widthpx, (y+sizeSide-0.5) * widthpx);

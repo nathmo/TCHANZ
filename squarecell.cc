@@ -166,9 +166,9 @@ bool Squarecell::checkHitbox(Point position, int width, int height) {
     Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height);
     bool status = true;
     vector<int> PointToCheck ={cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
-                               cornerTopRight.getCoordX(),cornerTopRight.getCoordY(),};
+                               cornerTopRight.getCoordX(),cornerTopRight.getCoordY()};
     for(int i=0;i<4;i++) {
-        if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < g_max))) {//not in [0;127]
+        if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < g_max))) {//not in[0;127]
             if(i%2==0) { // check for X coordinate error
                 cout << error_squarecell::print_outside(position.getCoordX(), width,
                                                         g_max-1);
