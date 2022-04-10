@@ -183,7 +183,7 @@ bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {
 }
 
 void TextStorage::importFood(vector<vector<string>> inputBuffer,
-                       vector<shared_ptr<Nourriture>> &foodVectReturn){
+                             vector<shared_ptr<Nourriture>> &foodVectReturn) {
     unsigned int QuantityFood = stoi(inputBuffer[0][0]);
     for(unsigned int i(1); i < QuantityFood+1; i++) {//ajoute la nourriture au vecteur
         int index = i;

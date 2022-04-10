@@ -37,6 +37,8 @@ public:
     static int findIdByOccupingPoint(Point overlappingPoint,
                                      std::vector<std::shared_ptr<Entity>> listOfEntity,
                                      char specie);
+    std::vector<Point> findSpecie(char specie);
+    bool isThere();
 };
 
 #endif //TCHANZ_ENTITY_H

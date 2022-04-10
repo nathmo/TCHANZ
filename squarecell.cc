@@ -191,7 +191,7 @@ bool Squarecell::checkHitbox(Point position, int width, int height) {
 }
 
 bool Squarecell::checkOverlap(Point position, int width, int height,
-                                          char kindToCheck) {
+                              char kindToCheck) {
     Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height);
     Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height);
     for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
@@ -328,3 +328,6 @@ Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
     }
     return topRight;
 }
+
+
+
