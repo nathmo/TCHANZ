@@ -113,7 +113,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
                                           overlapList[0].getCoordY());
         throw (-1);
     }
-    return make_shared<Collector>(Point(x,y),index ,age,conditionFood);
+    return make_shared<Collector>(Point(x,y), index , age, conditionFood);
     }
 }
 
@@ -128,6 +128,7 @@ void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
 
     for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
         for(int j(0); j < side; j++) {
+            //(x+i, y+j, id, lightColor, squareType)
             Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
             if(lightColor == true) {
                 lightColor = false;

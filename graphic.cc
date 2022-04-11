@@ -90,8 +90,30 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     //redraw the grid
     Graphic::drawFullGrid(cr);
     // add the entity
-    for(auto entity:(*simulationPtr).getListEntity()){
-        (*entity).draw(cr);
+    for(auto entity:(*simulationPtr).getListEntity()) {
+        // vector storing drawings parameters
+        vector<vector<int>> drawCommandList = (*entity).draw();
+        for(auto drawCommand:drawCommandList){
+            switch(drawCommand[4]){
+                case 0:
+                    // carre plein
+                    Graphic::drawSquare(drawCommand[0], drawCommand[1],
+                                        drawCommand[2], drawCommand[3],
+                                        Cairo::RefPtr<Cairo::Context>& cr);
+                    break;
+                case 1:
+                    // bordure
+                    Graphic::drawPerimeter(drawCommand[0], drawCommand[1],
+                                           drawCommand[2], drawCommand[3],
+                                           Cairo::RefPtr<Cairo::Context>& cr);
+                    break;
+                case 2:
+                    // losange
+                    break;
+                default:
+                    // code block
+            }
+        }
     }
 
     return true;
@@ -169,8 +191,7 @@ void Graphic::drawSquare(int x, int y, int id, bool lightColor,
 }
 
 void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id,
-                            int sizeSide, bool lightColor,
-                            const Cairo::RefPtr<Cairo::Context>& cr) {
+                            int sizeSide, const Cairo::RefPtr<Cairo::Context>& cr) {
     const int widthpx = resolution;
     int x = xBotLeft-(g_max/2);
     int y = yBotLeft-(g_max/2);
@@ -180,7 +201,7 @@ void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id,
     double G(0);
     double B(0);
 
-    Graphic::color(R, G, B, id, lightColor);
+    Graphic::color(R, G, B, id, false);
 
     cr->set_source_rgb(R, G, B);
     cr->set_line_width(3);
