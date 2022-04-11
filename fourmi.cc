@@ -55,7 +55,7 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update() {
-
+/*
     vector<Point> listSpecie = Entity::findSpecie(nourritureCST);
     vector<Point> listSpecieTrie;
 
@@ -76,6 +76,7 @@ void Collector::update() {
 
 
     age++;
+    */
 }
 
 vector<vector<string>> Collector::exportToString() {

@@ -90,7 +90,7 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
     return errorCode; //return a value that show no entity where found
 }
 
-vector<Point> Entity::findSpecie(char specie) {
+vector<Point> Entity::findSpecie(Point position, char specie) {
     vector<Point> listSpecie;
 
     for(int i(0); i<listOfEntity.size(); i++){
@@ -100,9 +100,29 @@ vector<Point> Entity::findSpecie(char specie) {
             listSpecie.push_back(Point(x,y));
         }
     }
+
+    double ditanceInitial = distance2Points(position, listSpecie[0].getPosition);
+
+    for(int i(1); i<listSpecie.size(); i++) {
+        if(distanceInitial > distance2Point(position, listSpecie[i].getPositon())) {
+            //faut switch les deux dans le tableau
+            distanceInitial = distance2Points(position, listSpecie[i].getPositon());
+        }
+    }
     return listSpecie;
+}
+
+double distance2Points(Point position, Point positionSpecie) {
+    int x =getPosition().getCoordX();
+    int y =getPosition().getCoordY();
+    int x2 = listSpecie[0].getPosition()).getCoordX();
+    int y2 = listSpecie[0].getPosition()).getCoordY();
+    double distance = sqr((x2-x)*(x2-x) + (y2-y)*(y2-y));
+
+    return distance;
 }
 
 bool isThere() {
     return true;
 }
+
