@@ -70,7 +70,7 @@ vector<vector<string>> Entity::exportToString(){
 }
 
 int Entity::findIdByOccupingPoint(Point overlappingPoint,
-                                  std::vector<std::shared_ptr<Entity>> listOfEntity,
+                                  vector<shared_ptr<Entity>> listOfEntity,
                                   char specie) {
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
         if((*listOfEntity[i]).getSpecie() == specie) {
@@ -87,5 +87,22 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
             }
         }
     }
-    return errorCode; // return a value that show no entity where found
+    return errorCode; //return a value that show no entity where found
+}
+
+vector<Point> Entity::findSpecie(char specie) {
+    vector<Point> listSpecie;
+
+    for(int i(0); i<listOfEntity.size(); i++){
+        if(((*listOfEntity[i]).getSpecie()) == specie) {
+            int x=(((*listOfEntity[i]).getOccupiedSpace())->getPosition()).getCoordX();
+            int y=(((*listOfEntity[i]).getOccupiedSpace())->getPosition()).getCoordY();
+            listSpecie.push_back(Point(x,y));
+        }
+    }
+    return listSpecie;
+}
+
+bool isThere() {
+    return true;
 }

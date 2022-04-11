@@ -12,20 +12,32 @@
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
 #include "graphic.h"
+#include "simulation.h"
+
+constexpr long msPerFrame(20);
 
 class Gui : public Gtk::Window
 {
 private:
     Frame frame;
+    std::shared_ptr<Simulation> simulationPtr;
+    int idAnthillSelected = -1;
+    long timer = 0;
+
 protected:
     //Signal handlers:
-    void on_button_clicked_Exit();
-    void on_button_clicked_Open();
-    void on_button_clicked_Save();
-    void on_button_clicked_StartStop();
-    void on_button_clicked_Step();
-    void on_button_clicked_Previous();
-    void on_button_clicked_Next();
+    void onButtonClickedExit();
+    void onButtonClickedOpen();
+    void onButtonClickedSave();
+    void onButtonClickedStartStop();
+    void onButtonClickedStep();
+    bool onTick();
+    void onButtonClickedPrevious();
+    void onButtonClickedNext();
+    bool on_key_press_event(GdkEventKey* event);
+    void refreshSimulation();
+    void refreshFoodInfo();
+    void refreshAnthInfo();
 
     //Child widgets:
     Graphic graphic;
@@ -44,9 +56,10 @@ protected:
     Gtk::Button m_Button_Step;
     Gtk::Button m_Button_Previous;
     Gtk::Button m_Button_Next;
+
 public:
-    Gui();
+    Gui(std::shared_ptr<Simulation> simulation);
     virtual ~Gui();
-    static int window();
+    static int window(std::shared_ptr<Simulation> simulation);
 };
 #endif //TCHANZ_GUI_H

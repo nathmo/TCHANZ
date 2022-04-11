@@ -14,12 +14,22 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
+#include "graphic.h"
 
 using namespace std;
 
 Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
         Entity(position, size, size, type, id) {
     this->age = age;
+    end_of_klan = false;
+}
+
+bool Fourmi::getEnd_of_klan(){
+    return end_of_klan;
+}
+
+int Fourmi::getAge(){
+    return age;
 }
 
 void Fourmi::update() {
@@ -45,7 +55,27 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update() {
-    cout << "updating the Collector with id "+to_string(id) << endl;
+
+    vector<Point> listSpecie = Entity::findSpecie(nourritureCST);
+    vector<Point> listSpecieTrie;
+
+    int xOrigin = getPosition().getCoordX();
+    int yOrigin = getPosition().getCoordY();
+
+    bool case = (xOrigin+yOrigin)%2; //savoir si case noir ou blanche
+
+    //classer les food qui sont sur meme couleur case
+    for(auto entity : listSpecie) {
+        int x = entity.getCoordX();
+        int y = entity.getCoordY();
+        if((x+y)%2 == case) {
+            listSpecieTrie.push_back(entity);
+        }
+    }
+
+
+
+    age++;
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -66,7 +96,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
                                                          int index) {
     if(!(inputBuffer.size()<=4)) {
         cout << "Collector : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
@@ -77,17 +107,35 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     }
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeC, sizeC,
                                                        anyCST);
-    if(overlapList.size()>0) { // ensure the ant does not collide with something else
+    if(overlapList.size()>0) { //ensure the ant does not collide with something else
         cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Collector>(Point(x,y),index ,age,conditionFood);
     }
 }
 
 void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int originX = (*occupiedSpace).getPosition().getCoordX();
+    int originY = (*occupiedSpace).getPosition().getCoordY();
+    int side = (*occupiedSpace).getWidth();
+    bool lightColor = false;
+    int id = getId();
 
+    for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
+            if(lightColor == true) {
+                lightColor = false;
+            } else {
+                lightColor = true;
+            }
+        }
+    }
+    Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -95,7 +143,7 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 void Defensor::update() {
-    cout << "updating the Defensor with id "+to_string(id) << endl;
+    age++;
 }
 
 vector<vector<string>> Defensor::exportToString() {
@@ -112,7 +160,7 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Defensor : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     long int x = stoi(inputBuffer[0]);
     long int y = stoi(inputBuffer[1]);
@@ -122,22 +170,41 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(),
                                          overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Defensor>(Point(x,y), index,age);
     }
 }
 
 void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int originX = (*occupiedSpace).getPosition().getCoordX();
+    int originY = (*occupiedSpace).getPosition().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    bool lightColor = true;
+    int id = getId();
 
+    for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
+
+            if(lightColor == true) {
+                lightColor = false;
+            } else {
+                lightColor = true;
+            }
+        }
+    }
+    Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
 }
 
 Predator::Predator(Point position, int id, int age) :
-        Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
+                       Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
 }
 
 void Predator::update() {
-    cout << "updating the Predator with id "+to_string(id) << endl;
+    age++;
 }
 
 vector<vector<string>> Predator::exportToString() {
@@ -154,7 +221,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
                                                        int index) {
     if(!(inputBuffer.size()<=3)) {
         cout << "Predator : number of argument mismatch" << endl;
-        exit(0);
+        throw (-1);
     } else {
     int x = stoi(inputBuffer[0]);
     int y = stoi(inputBuffer[1]);
@@ -163,14 +230,23 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
                                                        anyCST);
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::predator_overlap(x,y);
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Predator>(Point(x,y),index,age);
     }
 }
 
-void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    int id = getId();
 
+    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+j, id, false, cr);
+        }
+    }
 }
 
 Generator::Generator(Point position, int id) :
@@ -178,8 +254,7 @@ Generator::Generator(Point position, int id) :
 }
 
 void Generator::update() {
-    cout << "updating the Generator with id "+to_string(id) << endl;
-
+    age++;
 }
 
 vector<vector<string>> Generator::exportToString() {
@@ -198,14 +273,23 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     int y = stoi(inputBuffer[4]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeG, sizeG,
                                                        anyCST);
-    if(overlapList.size()>0) { // ensure the ant does not collide with something else
+    if(overlapList.size()>0) { //ensure the ant does not collide with something else
         cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
     return make_shared<Generator>(Point(x,y), index);
 }
 
-void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();//point bas, plus simple
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    int id = getId();
 
+    for(int i(0); i < side; i++) {//depuis bas jusqu'en haut on dessine case par case
+        for(int j(0); j < side; j++) {
+            Graphic::drawSquare(x+i, y+j, id, false, cr);
+        }
+    }
 }

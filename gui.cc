@@ -8,27 +8,142 @@
 #include <gtkmm/application.h>
 #include <gtkmm/window.h>
 #include <cairomm/context.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <iostream>
 #include "gui.h"
 #include "graphic.h"
+#include "simulation.h"
 
 using namespace std;
 
-int Gui::window() {
-    auto app = Gtk::Application::create("org.gtkmm.example");
 
-    Gui gui;
-    gui.set_title("TCHANZ 296190_331471");
-    gui.set_default_size(820, 350);
-
-    gui.show();
-
-    return app->run(gui);
+void Gui::onButtonClickedExit(){
+    hide(); //to close the application.
 }
 
+void Gui::onButtonClickedOpen(){
+    (*simulationPtr).loadFromFile();
+    Gui::refreshSimulation();
+}
 
-Gui::Gui() :
-        graphic(),
+void Gui::onButtonClickedSave(){
+    (*simulationPtr).saveToFile();
+}
+
+void Gui::onButtonClickedStartStop(){
+    if(m_Button_StartStop.get_label()=="start"){
+        m_Button_Step.set_sensitive(false);
+        m_Button_StartStop.set_label("stop");
+    } else if (m_Button_StartStop.get_label()=="stop") {
+        m_Button_Step.set_sensitive(true);
+        m_Button_StartStop.set_label("start");
+    }
+}
+
+void Gui::onButtonClickedStep(){
+    if(m_Button_StartStop.get_label()=="start")
+    { // step only if not actively simulating
+        timer++;
+        cout << "tick : "+to_string(timer) << endl;
+        Gui::refreshSimulation();
+    }
+}
+
+bool Gui::onTick(){
+    if(m_Button_StartStop.get_label()=="stop")
+    { // step only if actively simulating
+        timer++;
+        cout << "tick : "+to_string(timer) << endl;
+        Gui::refreshSimulation();
+    }
+    return true;
+}
+
+void Gui::onButtonClickedPrevious(){
+    if(idAnthillSelected==-1)
+    {
+        idAnthillSelected=(*simulationPtr).getAnthNb()-1;
+    } else {
+        idAnthillSelected--;
+    }
+    Gui::refreshAnthInfo();
+}
+
+void Gui::onButtonClickedNext(){
+    if(idAnthillSelected==(*simulationPtr).getAnthNb()-1)
+    {
+        idAnthillSelected=-1;
+    } else {
+        idAnthillSelected++;
+    }
+    Gui::refreshAnthInfo();
+}
+
+bool Gui::on_key_press_event(GdkEventKey* event)
+{
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 's'))
+    {
+        Gui::onButtonClickedStartStop();
+        return true;
+    }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == '1'))
+    {
+        Gui::onButtonClickedStep();
+        return true;
+    }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'n'))
+    {
+        Gui::onButtonClickedNext();
+        return true;
+    }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'p'))
+    {
+        Gui::onButtonClickedPrevious();
+        return true;
+    }
+    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'q'))
+    {
+        Gui::onButtonClickedExit();
+        return true;
+    }
+    return false;
+}
+
+void Gui::refreshSimulation(){
+    Gui::refreshAnthInfo();
+    Gui::refreshFoodInfo();
+    (*simulationPtr).simulateStep();
+    graphic.queue_draw();//trigger refresh
+}
+
+void Gui::refreshFoodInfo(){
+    string nbFood = to_string((*simulationPtr).getFoodNb());
+    m_Label_FoodInfoValue.set_text("Nb food: "+nbFood);
+}
+void Gui::refreshAnthInfo(){
+
+
+    if(idAnthillSelected >= (*simulationPtr).getAnthNb()){
+        idAnthillSelected =(*simulationPtr).getAnthNb()-1;
+    }
+    if(idAnthillSelected == -1)
+    {
+        string statToDisplay = "None selected";
+        m_Label_AnthInfoValue.set_text(statToDisplay);
+    } else {
+        vector<int> stat = (*simulationPtr).getAnthInfoStat(idAnthillSelected);
+        string statToDisplay = "id: "+to_string(idAnthillSelected)+"\n"+
+                "Total food: "+to_string(stat[0])+"\n"+"\n"+
+                "nbC: "+to_string(stat[1])+"\n"+
+                "nbD: "+to_string(stat[2])+"\n"+
+                "nbP: "+to_string(stat[3])+"\n";
+        m_Label_AnthInfoValue.set_text(statToDisplay);
+    }
+}
+
+Gui::Gui(shared_ptr<Simulation> simulation) :
+        graphic(simulation),
         m_box_Gui(Gtk::ORIENTATION_HORIZONTAL),
         m_box_command(Gtk::ORIENTATION_VERTICAL),
         m_Box_General(Gtk::ORIENTATION_VERTICAL),
@@ -47,14 +162,12 @@ Gui::Gui() :
         m_Button_Previous("previous"),
         m_Button_Next("next")
 {
+    simulationPtr = simulation;
     // Set title and border of the window
     set_title("layout buttons");
     set_border_width(0);
-
-    // Add outer box to the window (because the window
-    // can only contain a single widget)
+    // Add outer box to the window (the window can only contain a single widget)
     add(m_box_Gui);
-
     //Put the inner boxes and the separator in the outer box:
     m_box_Gui.pack_start(graphic);
     m_box_Gui.pack_start(m_box_command, false, true);
@@ -77,53 +190,41 @@ Gui::Gui() :
     m_Box_AnthInfo.pack_start(m_Button_Previous, false, true);
     m_Box_AnthInfo.pack_start(m_Button_Next, false, true);
     m_Box_AnthInfo.pack_start(m_Label_AnthInfoValue, false, true);
-
-    // Set the box borders
-    m_box_command.set_border_width(10);
-
-
+    m_box_command.set_border_width(10);// Set the box borders
     // Connect the clicked signal of the button to their signal handler
     m_Button_Exit.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Exit));
+            sigc::mem_fun(*this, &Gui::onButtonClickedExit));
     m_Button_Open.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Open));
+            sigc::mem_fun(*this, &Gui::onButtonClickedOpen));
     m_Button_Save.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Save));
+            sigc::mem_fun(*this, &Gui::onButtonClickedSave));
     m_Button_StartStop.signal_clicked().connect(
-            sigc::mem_fun(*this,&Gui::on_button_clicked_StartStop));
+            sigc::mem_fun(*this,&Gui::onButtonClickedStartStop));
     m_Button_Step.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Step));
+            sigc::mem_fun(*this, &Gui::onButtonClickedStep));
     m_Button_Previous.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Previous));
+            sigc::mem_fun(*this, &Gui::onButtonClickedPrevious));
     m_Button_Next.signal_clicked().connect(
-            sigc::mem_fun(*this, &Gui::on_button_clicked_Next));
+            sigc::mem_fun(*this, &Gui::onButtonClickedNext));
+    add_events(Gdk::KEY_RELEASE_MASK);
 
-    // Show all children of the window
-    show_all_children();
+
+
+
+    //create the timer
+    Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::onTick), msPerFrame);
+    show_all_children();// Show all children of the window
 }
 
 Gui::~Gui()
 {
 }
 
-void Gui::on_button_clicked_Exit(){
-    hide(); //to close the application.
-}
-void Gui::on_button_clicked_Open(){
-    cout << "open" << endl;
-}
-void Gui::on_button_clicked_Save(){
-    cout << "save" << endl;
-}
-void Gui::on_button_clicked_StartStop(){
-    cout << "start" << endl;
-}
-void Gui::on_button_clicked_Step(){
-    cout << "step" << endl;
-}
-void Gui::on_button_clicked_Previous(){
-    cout << "previous" << endl;
-}
-void Gui::on_button_clicked_Next(){
-    cout << "next" << endl;
+int Gui::window(shared_ptr<Simulation> simulation) {
+    auto app = Gtk::Application::create("org.gtkmm.example");
+    Gui gui(simulation);
+    gui.set_title("TCHANZ 296190_331471");
+    gui.set_default_size(1000, 800);
+    gui.show();
+    return app->run(gui);
 }

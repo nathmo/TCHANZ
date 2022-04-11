@@ -23,25 +23,30 @@ private:
     int nbD;
     int nbP;
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
+    bool end_of_klan;
 
 public:
     Fourmiliere(Point position, int size, int totalFood,
                 int nbC, int nbD, int nbP, int id,
                 std::vector<std::shared_ptr<Fourmi>> FourmiList);
+    int getnbC();
+    int getnbD();
+    int getnbP();
+    int getfoodReserve();
+    bool getEnd_of_klan();
     virtual void update();
-    // export the entity to something that can be written in a file
+    //export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
-
     virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
-    // bundle all the check used to validate the anthill content
+    //bundle all the check used to validate the anthill content
     void check();
-    // remplace the list of member ants
+    //remplace the list of member ants
     void overrideAnts(std::vector<std::shared_ptr<Fourmi>> FourmiList);
-    // check that the Generator are in the anthill
+    //check that the Generator are in the anthill
     void checkGeneratorUsingCoord();
-    // same for defensor
+    //same for defensor
     void checkDefensorUsingCoord();
-    // create an anthill object from a vector of string + run the check for the anthil
+    //create an anthill object from a vector of string + run the check for the anthill
     static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
             std::vector<std::string> &inputBuffer, int index,
             std::vector<std::shared_ptr<Fourmi>> FourmiList,

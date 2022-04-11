@@ -14,6 +14,7 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
+#include "graphic.h"
 
 using namespace std;
 
@@ -26,16 +27,50 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     this->nbD=nbD;
     this->nbP=nbP;
     memberAnts = FourmiList;
+    end_of_klan = false;
+}
+
+int Fourmiliere::getnbC() {
+    return nbC;
+}
+
+int Fourmiliere::getnbD() {
+    return nbD;
+}
+
+int Fourmiliere::getnbP() {
+    return nbP;
+}
+
+int Fourmiliere::getfoodReserve() {
+    return foodReserve;
+}
+
+bool Fourmiliere::getEnd_of_klan() {
+    return end_of_klan;
 }
 
 void Fourmiliere::update() {
-    cout << "updating the Fourmiliere with id "+to_string(id) << endl;
+    foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate);
+    if(foodReserve<=0){
+        end_of_klan = true;
+    }
     for(auto entity:memberAnts){
         entity->update();
     }
+    if((memberAnts[0])->getEnd_of_klan()) {
+        end_of_klan = true;// if generator disapear, this too
+    }
+    for(unsigned int i=0;i<memberAnts.size();i++){
+        if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST){
+            if((memberAnts[i])->getAge()>bug_life){
+                memberAnts.erase(memberAnts.begin()+i);
+            }
+        }
+    }
 }
 
-vector<vector<string>> Fourmiliere::exportToString(){
+vector<vector<string>> Fourmiliere::exportToString() {
     vector<vector<string>> toExport;
     string coordX = to_string((getOccupiedSpace())->getPosition().getCoordX());
     string coordY = to_string((getOccupiedSpace())->getPosition().getCoordY());
@@ -60,8 +95,17 @@ vector<vector<string>> Fourmiliere::exportToString(){
     return toExport;
 }
 
-void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+    int xBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int yBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int sizeSide = (*occupiedSpace).getHeight();
+    int id = getId();
 
+    Graphic::drawPerimeter(xBotLeft, yBotLeft, id, sizeSide, false, cr);
+
+    for(auto ant:memberAnts){
+        (*ant).draw(cr);
+    }
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
@@ -90,7 +134,7 @@ void Fourmiliere::checkGeneratorUsingCoord() {
         cout<< message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
-        exit(EXIT_FAILURE);
+        throw (-1);
     }
 }
 
@@ -114,7 +158,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
                 cout<< message::defensor_not_within_home(
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
                         (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
-                exit(EXIT_FAILURE);
+                throw (-1);
             }
         }
     }
@@ -125,7 +169,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
       std::vector<std::shared_ptr<Fourmiliere>> previousAnthill) {
     if(inputBuffer.size()<9) {
         cout << "fourmilliere : number of argument mismatch" << endl;
-        exit(EXIT_FAILURE);
+        throw (-1);
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
@@ -149,7 +193,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
                 }
             }
             cout << message::homes_overlap(index, indexOther);
-            exit(EXIT_FAILURE);
+            throw (-1);
         }
         return make_shared<Fourmiliere>(Point(x,y), size, totalFood, nbC, nbD, nbP,
                                         index, FourmiList);

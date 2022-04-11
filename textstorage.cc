@@ -26,7 +26,13 @@ void TextStorage::importTXT(string filename,
 }
 
 void TextStorage::exportTXT(string filename,
-                            vector<shared_ptr<Entity>> entityToExport) {
+                            vector<shared_ptr<Nourriture>> &foodVectorReturn,
+                            vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
+    vector<shared_ptr<Entity>> entityToExport;
+    entityToExport.insert(entityToExport.end(),foodVectorReturn.begin(),
+                          foodVectorReturn.end());
+    entityToExport.insert(entityToExport.end(),fourmilliereVectorReturn.begin(),
+                          fourmilliereVectorReturn.end());
     TextStorage::writetxt(filename, TextStorage::exportDump(entityToExport));
 }
 
@@ -35,7 +41,7 @@ void TextStorage::writetxt(string filename, vector<vector<string>> lineToWrite) 
     txtsave.open(filename, ios::out);//open file with write access
     if(txtsave.fail()) {
         cout << "soucis writetxt_filename" << endl;
-        exit(EXIT_FAILURE);
+        throw (-1);
     } else if(txtsave.is_open()) {
         for(unsigned int i=0; i<lineToWrite.size();i++) {
             string line =""; // dump each line (add space as its a vector of word)
@@ -55,7 +61,7 @@ vector<vector<string>> TextStorage::readtxt(string filename) {
     txtsave.open(filename,ios::in); //open file with read access
     if(txtsave.fail()) {
         cout << "Fichier non ouvrable ou pas assez de droit" << endl;
-        exit(EXIT_FAILURE);
+        throw (-1);
     } else if(txtsave.is_open()) { //checking whether the file is open
         while(getline(txtsave >> ws, line)) {//tokenize each line as a vector of word
             if(line[0]=='#') continue;
@@ -83,7 +89,7 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
                           vector<shared_ptr<Nourriture>> &foodVectorReturn,
                           vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
     if(not(checksizeLine(inputBuffer))) {
-        exit(0); // ensure there is enough argument in the file, exit otherwise
+        throw (-1); // ensure there is enough argument in the file
     }
     unsigned int QuantityFood = stoi(inputBuffer[0][0]);
     TextStorage::importFood(inputBuffer, foodVectorReturn);
@@ -177,7 +183,7 @@ bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {
 }
 
 void TextStorage::importFood(vector<vector<string>> inputBuffer,
-                       vector<shared_ptr<Nourriture>> &foodVectReturn){
+                             vector<shared_ptr<Nourriture>> &foodVectReturn) {
     unsigned int QuantityFood = stoi(inputBuffer[0][0]);
     for(unsigned int i(1); i < QuantityFood+1; i++) {//ajoute la nourriture au vecteur
         int index = i;

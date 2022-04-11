@@ -11,14 +11,26 @@
 #include <memory>
 #include <vector>
 #include "entity.h"
+#include "nourriture.h"
+#include "fourmiliere.h"
 
 class Simulation {
+private:
+    std::string path;
+    std::vector<std::shared_ptr<Nourriture>> nourritureList;
+    std::vector<std::shared_ptr<Fourmiliere>> anthillList;
+
 public:
-    static std::vector<std::shared_ptr<Entity>> loadFromFile(std::string path);
-    static void saveToFile(std::string path,
-                           std::vector<std::shared_ptr<Entity>> worldToDump);
-    static void startHeadless(std::string path);
-    static void simulateStep(std::vector<std::shared_ptr<Entity>> entityList);
+    Simulation();
+    Simulation(std::string path);
+    std::vector<std::shared_ptr<Entity>> getListEntity();
+    void loadFromFile();
+    void saveToFile();
+    void startHeadless();
+    void simulateStep();
+    int getFoodNb();
+    int getAnthNb();
+    std::vector<int> getAnthInfoStat(int id);
 };
 
 #endif //TCHANZ_SIMULATION_H
