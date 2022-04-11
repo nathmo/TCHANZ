@@ -329,13 +329,15 @@ Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
     return topRight;
 }
 
-void Squarecell::square(int x, int y, int id, bool lightColor,
-                         const Cairo::RefPtr<Cairo::Context>& cr) {
+vector<vector<<int>> Squarecell::square(int x, int y) {
+    vector<vector<<int>> linesToDraw;
 
+    for(int i(0); i < 3 )
+
+    return linesToDraw;
 }
 
-void Squarecell::perimeter(int xBotLeft, int yBotLeft, int id, int sizeSide,
-                               const Cairo::RefPtr<Cairo::Context>& cr) {
+void Squarecell::perimeter(int xBotLeft, int yBotLeft, int id, int sizeSide,) {
 
 }
 

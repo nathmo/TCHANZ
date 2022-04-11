@@ -92,7 +92,7 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     // add the entity
     for(auto entity:(*simulationPtr).getListEntity()) {
         // vector storing drawings parameters
-        vector<vector<int>> drawCommandList = (*entity).draw(); //tableau contenant x,y,id,lightcolor/size, type square
+        vector<vector<int>> drawCommandList = (*entity).draw(); //tableau contenant xStart,yStart,xStop, yStop, couleur, largeur
         for(auto drawCommand:drawCommandList) {
             switch(drawCommand[4]) {
                 case 0:
@@ -117,6 +117,10 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     }
 
     return true;
+}
+
+void Graphic::drawLine(double xStart, double yStart, double xStop, double yStop, double largeur, int colorCode, const Cairo::RefPtr<Cairo::Context>& cr){
+
 }
 
 void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr) {
@@ -168,6 +172,11 @@ void Graphic::color(double &R, double &G, double &B, int id, bool lightColor) {
 
 void Graphic::drawSquare(int x, int y, int id, bool lightColor,
                          const Cairo::RefPtr<Cairo::Context>& cr) {
+
+    = Squarecell::square(int x, int y);
+
+
+
     const int widthpx = resolution;
     x = x-(g_max/2);
     y = y-(g_max/2);
