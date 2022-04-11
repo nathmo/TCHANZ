@@ -36,7 +36,8 @@ public:
     static int findIdByOccupingPoint(Point overlappingPoint,
                                      std::vector<std::shared_ptr<Entity>> listOfEntity,
                                      char specie);
-    //std::vector<Point> findSpecie(char specie);
+    //std::vector<Point> findSpecie(cPoint position, char specie);
+    //double distance2Points(Point position, Point positionSpecie);
     //bool isThere();
 };
 

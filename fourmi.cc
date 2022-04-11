@@ -55,26 +55,28 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update() {
-
-    //vector<Point> listSpecie = Entity::findSpecie(nourritureCST);
+/*
+    vector<Point> listSpecie = Entity::findSpecie(nourritureCST);
     vector<Point> listSpecieTrie;
 
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
 
-    bool caseColor = (xOrigin+yOrigin)%2; //savoir si case noir ou blanche
+    bool case = (xOrigin+yOrigin)%2; //savoir si case noir ou blanche
 
-    /*
     //classer les food qui sont sur meme couleur case
     for(auto entity : listSpecie) {
         int x = entity.getCoordX();
         int y = entity.getCoordY();
-        if((x+y)%2 == caseColor) {
+        if((x+y)%2 == case) {
             listSpecieTrie.push_back(entity);
         }
     }
-    */
+
+
+
     age++;
+    */
 }
 
 vector<vector<string>> Collector::exportToString() {
