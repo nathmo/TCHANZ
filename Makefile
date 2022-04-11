@@ -8,8 +8,8 @@ CXX         = g++
 CXXFLAGS    = -g -Wall -std=c++11
 LINKING = `pkg-config --cflags gtkmm-3.0`
 LDLIBS = `pkg-config --libs gtkmm-3.0`
-OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o entity.o gui.o graphic.o
-OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o entity.o gui.o graphic.o
+OFILESBUILD = projet.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o entity.o gui.o graphic.o world.o
+OFILESTEST  = testsuit.o error_squarecell.o fourmi.o fourmiliere.o message.o nourriture.o simulation.o squarecell.o textstorage.o entity.o gui.o graphic.o world.o
 
 build: projet
 all: projet
@@ -49,6 +49,9 @@ gui.o : gui.cc gui.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@
 
 graphic.o : graphic.cc graphic.h
+	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@
+
+world.o : world.cc world.h
 	$(CXX) $(CXXFLAGS) $(LINKING) -c $< -o $@
 
 projet.o : projet.cc
