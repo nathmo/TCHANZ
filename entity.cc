@@ -89,7 +89,7 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
     }
     return errorCode; //return a value that show no entity where found
 }
-
+/*
 vector<Point> Entity::findSpecie(char specie) {
     vector<Point> listSpecie;
 
@@ -100,9 +100,11 @@ vector<Point> Entity::findSpecie(char specie) {
             listSpecie.push_back(Point(x,y));
         }
     }
+    // sort
     return listSpecie;
 }
 
 bool isThere() {
     return true;
 }
+*/
