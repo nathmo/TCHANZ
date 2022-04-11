@@ -25,7 +25,7 @@ public:
     virtual void update();
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
-    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
+    virtual std::vector<std::vector<int>> draw();
 };
 
 class Collector : public Fourmi {
@@ -40,7 +40,7 @@ public:
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveCollector(
             std::vector<std::string> &inputBuffer, int index);
-    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
+    virtual std::vector<std::vector<int>> draw();
 };
 
 class Defensor : public Fourmi {
@@ -52,7 +52,8 @@ public:
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveDefensor(
             std::vector<std::string> &inputBuffer, int index);
-    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
+    virtual std::vector<std::vector<int>> draw();
+
 };
 
 class Predator : public Fourmi {
@@ -65,7 +66,7 @@ public:
     static std::shared_ptr<Fourmi> importFromExtSavePredator(
             std::vector<std::string> &inputBuffer, int index);
 
-    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
+    virtual std::vector<std::vector<int>> draw();
 };
 
 class Generator : public Fourmi {
@@ -77,7 +78,7 @@ public:
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveGenerator(
                                     std::vector<std::string> &inputBuffer, int index);
-    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
+    virtual std::vector<std::vector<int>> draw();
 };
 
 #endif //TCHANZ_FOURMI_H

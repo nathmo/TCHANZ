@@ -329,5 +329,18 @@ Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
     return topRight;
 }
 
+void Squarecell::square(int x, int y, int id, bool lightColor,
+                         const Cairo::RefPtr<Cairo::Context>& cr) {
+
+}
+
+void Squarecell::perimeter(int xBotLeft, int yBotLeft, int id, int sizeSide,
+                               const Cairo::RefPtr<Cairo::Context>& cr) {
+
+}
+
+void Squarecell::losange(int x, int y, const Cairo::RefPtr<Cairo::Context>& cr) {
+
+}
 
 

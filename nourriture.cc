@@ -56,7 +56,17 @@ vector<vector<string>> Nourriture::exportToString() {
     return vecVecStringFood;
 }
 
-void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+vector<vector<int>> Nourriture::draw() {
+    vector <vector<int>> list;
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int id = getId(); //pas sur pour id??
+
+    list.push_back({x, y , id, 1, 2});
+    return list;
+}
+
+/*
     int x = (*occupiedSpace).getPosition().getCoordX();
     int y = (*occupiedSpace).getPosition().getCoordY();
     int negBias = (-g_max*resolution/2+1);
@@ -69,3 +79,4 @@ void Nourriture::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     cr->line_to((x+1-sinBias)*resolution+negBias,(y+1-sinBias)*resolution+negBias);
     cr->stroke();
 }
+ */

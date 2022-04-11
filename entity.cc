@@ -90,6 +90,9 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
     return errorCode; //return a value that show no entity where found
 }
 
+
+/*
+
 vector<Point> Entity::findSpecie(Point position, char specie) {
     vector<Point> listSpecie;
 
@@ -103,7 +106,7 @@ vector<Point> Entity::findSpecie(Point position, char specie) {
 
     sort(listSpecie.begin(), listSpecie.end(), Entity::distance2Points());
 
-    /*
+  /*
     double distanceInitial = distance2Points(position, listSpecie[0]);
 
     for(unsigned int i(1); i<listSpecie.size(); i++) {
@@ -114,7 +117,7 @@ vector<Point> Entity::findSpecie(Point position, char specie) {
         }
     }
     */
-
+/*
     return listSpecie;
 }
 

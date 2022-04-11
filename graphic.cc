@@ -92,9 +92,9 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     // add the entity
     for(auto entity:(*simulationPtr).getListEntity()) {
         // vector storing drawings parameters
-        vector<vector<int>> drawCommandList = (*entity).draw();
-        for(auto drawCommand:drawCommandList){
-            switch(drawCommand[4]){
+        vector<vector<int>> drawCommandList = (*entity).draw(); //tableau contenant x,y,id,lightcolor/size, type square
+        for(auto drawCommand:drawCommandList) {
+            switch(drawCommand[4]) {
                 case 0:
                     // carre plein
                     Graphic::drawSquare(drawCommand[0], drawCommand[1],
@@ -109,9 +109,9 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
                     break;
                 case 2:
                     // losange
+                    Graphic::drawLosange(drawCommand[0], drawCommand[1]);
                     break;
                 default:
-                    // code block
             }
         }
     }
@@ -220,4 +220,16 @@ void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id,
 
     cr->stroke();
     cr->restore();
+}
+
+void Graphic::drawLosange(int x, int y, const Cairo::RefPtr<Cairo::Context>& cr) {
+    int negBias = (-g_max*resolution/2+1);
+    float sinBias = 0.353553391;
+    float largeur = 0.707106781;
+    // draw white diamond
+    cr->set_source_rgb(1, 1, 1);
+    cr->set_line_width(largeur*(resolution));
+    cr->move_to((x)*resolution+negBias+1, (y)*resolution+negBias+1);
+    cr->line_to((x+1-sinBias)*resolution+negBias,(y+1-sinBias)*resolution+negBias);
+    cr->stroke();
 }

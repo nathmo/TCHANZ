@@ -44,7 +44,7 @@ vector<vector<string>> Fourmi::exportToString(){
     return toExport;
 }
 
-void Fourmi::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+vector<vector<int>> Fourmi::draw(){
     cout << "trying to draw a generic fourmi" << endl;
     exit(EXIT_FAILURE);
 }
@@ -117,15 +117,27 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     }
 }
 
-void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+vector<vector<int>> Collector::draw() {
+    vector <vector<int>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int originX = (*occupiedSpace).getPosition().getCoordX();
-    int originY = (*occupiedSpace).getPosition().getCoordY();
-    int side = (*occupiedSpace).getWidth();
-    bool lightColor = false;
+    int side = 3;
+    int lightColor = 0;
     int id = getId();
 
+    for (int i(0); i < side; i++) {
+        for (int j(0); j < side; i++) {
+            list.push_back({x + j, y + i, id, lightColor, 0}); //le centre ca joue vu que ca alterne bien
+            if (lightColor == 1) {
+                lightColor = 0;
+            } else {
+                lightColor = 1;
+            }
+        }
+    }
+    return list;
+}
+/*
     for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
         for(int j(0); j < side; j++) {
             //(x+i, y+j, id, lightColor, squareType)
@@ -139,6 +151,7 @@ void Collector::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     }
     Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
 }
+*/
 
 Defensor::Defensor(Point position, int id, int age) :
         Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
@@ -178,7 +191,29 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     }
 }
 
-void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+vector<vector<int>> Defensor::draw() {
+    vector <vector<int>> list;
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int side = 3;
+    int lightColor = 0;
+    int id = getId();
+
+    for (int i(0); i < side; i++) {
+        for (int j(0); j < side; i++) {
+            list.push_back({x + j, y + i, id, lightColor, 0}); //le centre ca joue pas vu que ca alterne pas bien
+            if (lightColor == 1) {
+                lightColor = 0;
+            } else {
+                lightColor = 1;
+            }
+        }
+    }
+    list[4][3] = 0; //mettre le centre a foncé
+    return list;
+}
+
+/*
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int originX = (*occupiedSpace).getPosition().getCoordX();
@@ -200,6 +235,8 @@ void Defensor::draw(const Cairo::RefPtr<Cairo::Context>& cr){
     }
     Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
 }
+*/
+
 
 Predator::Predator(Point position, int id, int age) :
                        Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
@@ -238,7 +275,18 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     }
 }
 
-void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+vector<vector<int>> Predator::draw() {
+    vector <vector<int>> list;
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int id = getId();
+
+    list.push_back({x, y, id, 0, 0}); //le centre ca joue pas vu que ca alterne pas bien
+
+    return list;;
+
+}
+/*
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
@@ -250,6 +298,7 @@ void Predator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
         }
     }
 }
+*/
 
 Generator::Generator(Point position, int id) :
         Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
@@ -283,7 +332,25 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     return make_shared<Generator>(Point(x,y), index);
 }
 
-void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+vector<vector<int>> Generator::draw() {
+    vector <vector<int>> list;
+    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
+    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
+    int side = (*occupiedSpace).getHeight();
+    int id = getId();
+
+    for (int i(0); i < side; i++) {
+        for (int j(0); j < side; i++) {
+            list.push_back({x + j, y + i, id, side, 0});
+        }
+    }
+    return list;
+}
+
+   /*
+
+
+
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();//point bas, plus simple
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
@@ -291,7 +358,8 @@ void Generator::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
     for(int i(0); i < side; i++) {//depuis bas jusqu'en haut on dessine case par case
         for(int j(0); j < side; j++) {
-            Graphic::drawSquare(x+i, y+j, id, false, cr);
+            (x+i, y+j, id, side, 1);
         }
     }
 }
+    */

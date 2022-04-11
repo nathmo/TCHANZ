@@ -24,7 +24,7 @@ public:
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
 
-    virtual void draw(const Cairo::RefPtr<Cairo::Context>& cr);
+    virtual std::vector<std::vector<int>> draw();
 };
 
 #endif //TCHANZ_NOURRITURE_H
