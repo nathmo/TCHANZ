@@ -8,8 +8,6 @@
 #include <string>
 #include <iostream>
 #include <memory>
-#include <gtkmm/drawingarea.h>
-#include <gtkmm/frame.h>
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"

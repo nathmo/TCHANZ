@@ -10,8 +10,6 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include <gtkmm/drawingarea.h>
-#include <gtkmm/frame.h>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"

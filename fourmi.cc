@@ -7,8 +7,6 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include <gtkmm/drawingarea.h>
-#include <gtkmm/frame.h>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"

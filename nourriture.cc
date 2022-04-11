@@ -6,8 +6,6 @@
 */
 #include <memory>
 #include <iostream>
-#include <gtkmm/drawingarea.h>
-#include <gtkmm/frame.h>
 #include "nourriture.h"
 #include "entity.h"
 #include "squarecell.h"
