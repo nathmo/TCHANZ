@@ -57,7 +57,7 @@ void Entity::update(){
     exit(EXIT_FAILURE);
 }
 
-void Entity::draw(const Cairo::RefPtr<Cairo::Context>& cr){
+vector<vector<double>> Entity::draw(){
     cout << "trying to draw a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
@@ -133,3 +133,4 @@ bool Entity::isThere() {
     return true;
 }
 
+*/

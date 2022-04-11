@@ -93,17 +93,20 @@ vector<vector<string>> Fourmiliere::exportToString() {
     return toExport;
 }
 
-void Fourmiliere::draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+vector<vector<double>> Fourmiliere::draw() {
     int xBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int yBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int sizeSide = (*occupiedSpace).getHeight();
     int id = getId();
 
-    Graphic::drawPerimeter(xBotLeft, yBotLeft, id, sizeSide, false, cr);
-
+    vector<vector<double>> commandList;
+    commandList = Squarecell::perimeter(xBotLeft, yBotLeft, sizeSide, id%6);
     for(auto ant:memberAnts){
-        (*ant).draw(cr);
+        vector<vector<double>> commandListAnt = (*ant).draw();
+        commandList.insert(commandList.end(),
+                           commandListAnt.begin(), commandListAnt.end());
     }
+    return commandList;
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {

@@ -88,157 +88,57 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     adjustFrame();
     Graphic::orthographic_projection(cr, frame);
     //redraw the grid
-    Graphic::drawFullGrid(cr);
+    vector<vector<double>> drawCommandList = Squarecell::FullGrid();
+    for(auto drawCommand:drawCommandList) {
+        Graphic::drawLine(drawCommand[0], drawCommand[1], drawCommand[2],
+                          drawCommand[3], drawCommand[4], drawCommand[5], cr);
+
+    }
     // add the entity
     for(auto entity:(*simulationPtr).getListEntity()) {
         // vector storing drawings parameters
-        vector<vector<int>> drawCommandList = (*entity).draw(); //tableau contenant xStart,yStart,xStop, yStop, couleur, largeur
+        vector<vector<double>> drawCommandList = (*entity).draw(); //tableau contenant xStart,yStart,xStop, yStop, couleur, largeur
         for(auto drawCommand:drawCommandList) {
-            switch(drawCommand[4]) {
-                case 0:
-                    // carre plein
-                    Graphic::drawSquare(drawCommand[0], drawCommand[1],
-                                        drawCommand[2], drawCommand[3],
-                                        Cairo::RefPtr<Cairo::Context>& cr);
-                    break;
-                case 1:
-                    // bordure
-                    Graphic::drawPerimeter(drawCommand[0], drawCommand[1],
-                                           drawCommand[2], drawCommand[3],
-                                           Cairo::RefPtr<Cairo::Context>& cr);
-                    break;
-                case 2:
-                    // losange
-                    Graphic::drawLosange(drawCommand[0], drawCommand[1]);
-                    break;
-                default:
-            }
+            Graphic::drawLine(drawCommand[0],drawCommand[1], drawCommand[2],
+                              drawCommand[3],drawCommand[4], drawCommand[5], cr);
         }
     }
-
     return true;
 }
 
 void Graphic::drawLine(double xStart, double yStart, double xStop, double yStop, double largeur, int colorCode, const Cairo::RefPtr<Cairo::Context>& cr){
-
-}
-
-void Graphic::drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr) {
+    double r = 0;
+    double g = 0;
+    double b = 0;
+    Graphic::color(r,g,b, colorCode);
     cr->save();
-    //white border
-    cr->set_line_width(g_max*resolution);
-    cr->set_source_rgb(1, 1, 1);
-    cr->move_to(-g_max*resolution/2+1, 0);
-    cr->line_to(g_max*resolution/2, 0);
-    cr->stroke();
-    // black bacground
-    cr->set_line_width((g_max-2)*resolution);
-    cr->set_source_rgb(0, 0, 0);
-    cr->move_to(-g_max*resolution/2+1+resolution, 0);
-    cr->line_to(g_max*resolution/2-resolution, 0);
-    cr->stroke();
-    // vertical line
-    cr->set_source_rgb(0.8, 0.8, 0.8); //slight grey, better contrast with white item
-    cr->set_line_width(1);
-    for(int x=(1-g_max/2);x<g_max/2;x++){
-        cr->move_to(x*resolution, -g_max*resolution/2+1);
-        cr->line_to(x*resolution, g_max*resolution/2);
-    }
-    // horizonal line
-    for(int y=(1-g_max/2);y<g_max/2;y++){
-        cr->move_to(-g_max*resolution/2+1, y*resolution);
-        cr->line_to(g_max*resolution/2,y*resolution);
-    }
+    cr->set_line_width(largeur*resolution);
+    cr->set_source_rgb(r, g, b);
+    cr->move_to(xStart*resolution-g_max*resolution/2+resolution,
+                yStart*resolution-g_max*resolution/2+resolution);
+    cr->line_to(xStop*resolution-g_max*resolution/2+resolution,
+                yStop*resolution-g_max*resolution/2+resolution);
     cr->stroke();
     cr->restore();
 }
 
-void Graphic::color(double &R, double &G, double &B, int id, bool lightColor) {
-                                        //light     solid
-    vector<vector<double>> colorTable ={{1,0.5,0.5},{1,0,0}, //red
-                                       {0.5,1,0.5},{0,1,0}, //green
-                                       {0.5,0.6,1},{0.3,0.3,1}, //bleu
-                                       {0.81,0.81,0},{1,1,0}, //jaune
-                                       {0.92,0.5,1},{1,0.11,0.81}, //magenta
-                                       {0.6,1,1},{0,1,1}}; //cyan
-    int indexColor = (id%6)*2;
-    if(not lightColor) {
-        indexColor++;
-    }
-    R=colorTable[indexColor][0];
-    G=colorTable[indexColor][1];
-    B=colorTable[indexColor][2];
-}
-
-void Graphic::drawSquare(int x, int y, int id, bool lightColor,
-                         const Cairo::RefPtr<Cairo::Context>& cr) {
-
-    = Squarecell::square(int x, int y);
-
-
-
-    const int widthpx = resolution;
-    x = x-(g_max/2);
-    y = y-(g_max/2);
-    cr->save();
-
-    double R(0);
-    double G(0);
-    double B(0);
-
-    Graphic::color(R, G, B, id, lightColor);
-
-    cr->set_source_rgb(R, G, B);
-    cr->set_line_width(2);
-
-    for(int i(0); i < widthpx; i++) {
-            cr->move_to((x * widthpx), (y * widthpx) + i);
-            cr->line_to(((x+1) * widthpx), (y * widthpx) + i);
-            cr->stroke();
-    }
-    cr->restore();
-}
-
-void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id,
-                            int sizeSide, const Cairo::RefPtr<Cairo::Context>& cr) {
-    const int widthpx = resolution;
-    int x = xBotLeft-(g_max/2);
-    int y = yBotLeft-(g_max/2);
-    cr->save();
-
-    double R(0);
-    double G(0);
-    double B(0);
-
-    Graphic::color(R, G, B, id, false);
-
-    cr->set_source_rgb(R, G, B);
-    cr->set_line_width(3);
-
-    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx); //vertical line
-    cr->line_to((x-0.5+sizeSide) * widthpx, (y+0.5) * widthpx);
-
-    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx); //horizontal line
-    cr->line_to((x+0.5)  * widthpx, (y-0.5+sizeSide) * widthpx);
-
-    cr->move_to((x+sizeSide-0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
-    cr->line_to((x+0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
-
-    cr->move_to((x+sizeSide-0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
-    cr->line_to((x+sizeSide-0.5) * widthpx, (y+0.5) * widthpx);
-
-    cr->stroke();
-    cr->restore();
-}
-
-void Graphic::drawLosange(int x, int y, const Cairo::RefPtr<Cairo::Context>& cr) {
-    int negBias = (-g_max*resolution/2+1);
-    float sinBias = 0.353553391;
-    float largeur = 0.707106781;
-    // draw white diamond
-    cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(largeur*(resolution));
-    cr->move_to((x)*resolution+negBias+1, (y)*resolution+negBias+1);
-    cr->line_to((x+1-sinBias)*resolution+negBias,(y+1-sinBias)*resolution+negBias);
-    cr->stroke();
+void Graphic::color(double &r, double &g, double &b, int colorCode) {
+    vector<vector<double>> colorTable ={{1,0,0},                 //red
+                                        {0,1,0},                 //green
+                                        {0.3,0.3,1},             //bleu
+                                        {1,1,0},                 //jaune
+                                        {1,0.11,0.81},           //magenta
+                                        {0,1,1},                 //cyan
+                                        {1,0.5,0.5},             // light red
+                                        {0.5,1,0.5},             // light green
+                                        {0.5,0.6,1},             // light blue
+                                        {0.81,0.81,0},           // light yellow
+                                        {0.92,0.5,1},            // light magenta
+                                        {0.6,1,1},               // light cyan
+                                        {1,1,1},                 // white
+                                        {0.5,0.5,0.5},           // grey
+                                        {0,0,0}};                // black
+    r=colorTable[colorCode][0];
+    g=colorTable[colorCode][1];
+    b=colorTable[colorCode][2];
 }

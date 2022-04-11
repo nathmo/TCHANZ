@@ -54,8 +54,8 @@ vector<vector<string>> Nourriture::exportToString() {
     return vecVecStringFood;
 }
 
-vector<vector<int>> Nourriture::draw() {
-    vector <vector<int>> list;
+vector<vector<double>> Nourriture::draw() {
+    vector <vector<double>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int id = getId(); //pas sur pour id??

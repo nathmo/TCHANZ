@@ -21,7 +21,8 @@ private:
     std::vector<std::shared_ptr<Fourmiliere>> anthillList;
 public:
     World();
-    void addEntity(std::shared_ptr<Entity> entity);
+    void addNourriture(std::shared_ptr<Nourriture> nourriture);
+    void addFourmilliere(std::shared_ptr<Fourmiliere> fourmilliere);
     void delEntity(std::shared_ptr<Entity> entity);
 };
 

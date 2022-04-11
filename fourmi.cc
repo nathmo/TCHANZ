@@ -42,9 +42,10 @@ vector<vector<string>> Fourmi::exportToString(){
     return toExport;
 }
 
-vector<vector<int>> Fourmi::draw(){
+vector<vector<double>> Fourmi::draw(){
     cout << "trying to draw a generic fourmi" << endl;
     exit(EXIT_FAILURE);
+    return {{}};
 }
 
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
@@ -115,14 +116,14 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     }
 }
 
-vector<vector<int>> Collector::draw() {
-    vector <vector<int>> list;
+vector<vector<double>> Collector::draw() {
+    vector <vector<double>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
     int lightColor = 0;
     int id = getId();
-
+    /*
     for (int i(0); i < side; i++) {
         for (int j(0); j < side; i++) {
             list.push_back({x + j, y + i, id, lightColor, 0}); //le centre ca joue vu que ca alterne bien
@@ -133,6 +134,7 @@ vector<vector<int>> Collector::draw() {
             }
         }
     }
+    */
     return list;
 }
 /*
@@ -189,14 +191,14 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     }
 }
 
-vector<vector<int>> Defensor::draw() {
-    vector <vector<int>> list;
+vector<vector<double>> Defensor::draw() {
+    vector <vector<double>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
     int lightColor = 0;
     int id = getId();
-
+/*
     for (int i(0); i < side; i++) {
         for (int j(0); j < side; i++) {
             list.push_back({x + j, y + i, id, lightColor, 0}); //le centre ca joue pas vu que ca alterne pas bien
@@ -208,6 +210,7 @@ vector<vector<int>> Defensor::draw() {
         }
     }
     list[4][3] = 0; //mettre le centre a foncé
+*/
     return list;
 }
 
@@ -273,14 +276,14 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     }
 }
 
-vector<vector<int>> Predator::draw() {
-    vector <vector<int>> list;
+vector<vector<double>> Predator::draw() {
+    vector <vector<double>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int id = getId();
-
+/*
     list.push_back({x, y, id, 0, 0}); //le centre ca joue pas vu que ca alterne pas bien
-
+*/
     return list;;
 
 }
@@ -330,18 +333,19 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     return make_shared<Generator>(Point(x,y), index);
 }
 
-vector<vector<int>> Generator::draw() {
-    vector <vector<int>> list;
+vector<vector<double>> Generator::draw() {
+    vector <vector<double>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
     int id = getId();
-
+    /*
     for (int i(0); i < side; i++) {
         for (int j(0); j < side; i++) {
             list.push_back({x + j, y + i, id, side, 0});
         }
     }
+     */
     return list;
 }
 

@@ -16,10 +16,10 @@
 using namespace std;
 
 void World::addNourriture(shared_ptr<Nourriture> nourriture){
-    nourritureList.push_back(nourriture);
+    //nourritureList.push_back(nourriture);
 }
 void World::addFourmilliere(shared_ptr<Fourmiliere> fourmilliere){
-    nourritureList.push_back(fourmilliere);
+    //nourritureList.push_back(fourmilliere);
 }
 
 void World::delEntity(shared_ptr<Entity> entity){

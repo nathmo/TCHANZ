@@ -41,17 +41,12 @@ public:
     void adjustFrame();
     static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
                                         Frame frame);
-    static void Graphic::drawLine(double xStart, double yStart,
+    static void drawLine(double xStart, double yStart,
                                   double xStop, double yStop,
                                   double largeur, int colorCode,
                                   const Cairo::RefPtr<Cairo::Context>& cr);
-    static void drawFullGrid(const Cairo::RefPtr<Cairo::Context>& cr);
-    static void color(double &R, double &G, double &B, int id, bool lightColor);
-    static void drawSquare(int x, int y, int id, bool lightColor,
-                           const Cairo::RefPtr<Cairo::Context>& cr);
-    static void drawPerimeter(int x, int y, int id,
-                              int sizeSide, bool lightColor,
-                              const Cairo::RefPtr<Cairo::Context>& cr);
+    static void color(double &r, double &g, double &b, int colorCode);
+
 };
 
 #endif //TCHANZ_GRAPHIC_H
