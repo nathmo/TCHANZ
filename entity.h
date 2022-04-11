@@ -10,8 +10,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <gtkmm/drawingarea.h>
-#include <gtkmm/frame.h>
 #include "squarecell.h"
 
 class Entity {

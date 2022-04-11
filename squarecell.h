@@ -68,11 +68,9 @@ public:
     static Point computeHitboxTopRight(Point position, int width, int height);
     // used to display in the the grid
     static void displayRawGrid();
-    void square(int x, int y, int id, bool lightColor,
-                    const Cairo::RefPtr<Cairo::Context>& cr);
-    void perimeter(int xBotLeft, int yBotLeft, int id,
-                       int sizeSide, const Cairo::RefPtr<Cairo::Context>& cr);
-    void losange(int x, int y, const Cairo::RefPtr<Cairo::Context>& cr);
+    void square(int x, int y, int id, bool lightColor);
+    void perimeter(int xBotLeft, int yBotLeft, int id, int sizeSide);
+    void losange(int x, int y);
 };
     
 #endif //TCHANZ_SQUARECELL_H

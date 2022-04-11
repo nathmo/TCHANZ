@@ -8,8 +8,6 @@
 #define TCHANZ_NOURRITURE_H
 
 #include <memory>
-#include <gtkmm/drawingarea.h>
-#include <gtkmm/frame.h>
 #include "squarecell.h"
 #include "entity.h"
 
