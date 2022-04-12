@@ -55,13 +55,14 @@ vector<vector<string>> Nourriture::exportToString() {
 }
 
 vector<vector<double>> Nourriture::draw() {
-    vector <vector<double>> list;
+    vector<vector<double>> commandList;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int id = getId(); //pas sur pour id??
+    //int id = getId(); //pas sur pour id??
 
-    list.push_back({x, y , id, 1, 2});
-    return list;
+    commandList = Squarecell::losange(x, y, 12);  //x,y,couleur pas besoin de plus pour losange
+
+    return commandList;
 }
 
 /*

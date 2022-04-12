@@ -123,21 +123,21 @@ void Graphic::drawLine(double xStart, double yStart, double xStop, double yStop,
 }
 
 void Graphic::color(double &r, double &g, double &b, int colorCode) {
-    vector<vector<double>> colorTable ={{1,0,0},                 //red
-                                        {0,1,0},                 //green
-                                        {0.3,0.3,1},             //bleu
-                                        {1,1,0},                 //jaune
-                                        {1,0.11,0.81},           //magenta
-                                        {0,1,1},                 //cyan
-                                        {1,0.5,0.5},             // light red
-                                        {0.5,1,0.5},             // light green
-                                        {0.5,0.6,1},             // light blue
-                                        {0.81,0.81,0},           // light yellow
-                                        {0.92,0.5,1},            // light magenta
-                                        {0.6,1,1},               // light cyan
-                                        {1,1,1},                 // white
-                                        {0.5,0.5,0.5},           // grey
-                                        {0,0,0}};                // black
+    vector<vector<double>> colorTable ={{1,0,0},                 //0 red
+                                        {0,1,0},                 //1 green
+                                        {0.3,0.3,1},             //2 bleu
+                                        {1,1,0},                 //3 jaune
+                                        {1,0.11,0.81},           //4 magenta
+                                        {0,1,1},                 //5 cyan
+                                        {1,0.5,0.5},             //6 light red
+                                        {0.5,1,0.5},             //7 light green
+                                        {0.5,0.6,1},             //8 light blue
+                                        {0.81,0.81,0},           //9 light yellow
+                                        {0.92,0.5,1},            //10 light magenta
+                                        {0.6,1,1},               //11 light cyan
+                                        {1,1,1},                 //12 white
+                                        {0.5,0.5,0.5},           //13 grey
+                                        {0,0,0}};                //14 black
     r=colorTable[colorCode][0];
     g=colorTable[colorCode][1];
     b=colorTable[colorCode][2];

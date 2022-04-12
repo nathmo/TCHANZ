@@ -338,16 +338,20 @@ vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
 vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode) {
     vector<vector<double>> linesToDraw;
 
-    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.5, colorCode}); //ligne horizontal
-    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.5, colorCode}); //ligne vertical en bas gauche
-    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.5, colorCode}); //ligne verticale depuis le haut
-    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.5, colorCode}); //ligne horizontal depuis le haut
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.2, colorCode}); //ligne horizontal
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.2, colorCode}); //ligne vertical en bas gauche
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.2, colorCode}); //ligne verticale depuis le haut
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.2, colorCode}); //ligne horizontal depuis le haut
 
     return linesToDraw;
 }
 
 vector<vector<double>> Squarecell::losange(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
+    float sinBias = 0.353553391;
+    float largeur = 0.707106781;
+
+    linesToDraw.push_back({x+sinBias, y+sinBias, x+1-sinBias, y+1-sinBias, largeur, 12});
 
     return linesToDraw;
 }
