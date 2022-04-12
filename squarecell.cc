@@ -331,6 +331,9 @@ Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
 
 vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
+    int largeur = 1;
+
+    linesToDraw.push_back({x, y+0.5, x+1, y+0.5, largeur, colorCode});
 
     return linesToDraw;
 }

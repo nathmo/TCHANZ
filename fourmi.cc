@@ -71,9 +71,6 @@ void Collector::update() {
             listSpecieTrie.push_back(entity);
         }
     }
-
-
-
     age++;
     */
 }
@@ -117,25 +114,28 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
 }
 
 vector<vector<double>> Collector::draw() {
-    vector<vector<double>> list;
+    vector<vector<double>> commandList;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
-    int lightColor = 0;
-    int id = getId();
-    /*
+    int id = getId()%6;
+    int lightColor = id+6;
+    int colorCode = id; //on commence en bas a gauche donc foncé au debut
+
+   // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
+
     for (int i(0); i < side; i++) {
-        for (int j(0); j < side; i++) {
-            list.push_back({x + j, y + i, id, lightColor, 0}); //le centre ca joue vu que ca alterne bien
-            if (lightColor == 1) {
-                lightColor = 0;
+        for (int j(0); j < side; j++) {
+            vector<vector<double>> cmd = Squarecell::square(x + j, y + i, colorCode);
+            commandList.insert(commandList.end(), cmd.begin(), cmd.end());
+            if (colorCode == id) {
+                colorCode = lightColor;
             } else {
-                lightColor = 1;
+                colorCode = id;
             }
         }
     }
-    */
-    return list;
+    return commandList;
 }
 /*
     for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
