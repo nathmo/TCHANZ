@@ -341,18 +341,18 @@ vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
 vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode) {
     vector<vector<double>> linesToDraw;
 
-    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.2, colorCode}); //ligne horizontal
-    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.2, colorCode}); //ligne vertical en bas gauche
-    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.2, colorCode}); //ligne verticale depuis le haut
-    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.2, colorCode}); //ligne horizontal depuis le haut
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, colorCode}); //ligne horizontal
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne vertical en bas gauche
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, colorCode}); //ligne verticale depuis le haut
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne horizontal depuis le haut
 
     return linesToDraw;
 }
 
 vector<vector<double>> Squarecell::losange(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
-    float sinBias = 0.353553391;
-    float largeur = 0.707106781;
+    float sinBias = 0.27; //0.353553391
+    float largeur = 0.72; //0.707106781
 
     linesToDraw.push_back({x+sinBias, y+sinBias, x+1-sinBias, y+1-sinBias, largeur, 12});
 
@@ -363,90 +363,16 @@ vector<vector<double>> Squarecell::FullGrid() {
     vector<vector<double>> commandList;
     //white border
     //xStart, yStart, xStop, yStop, largeur, colorCode
-    commandList.push_back({0, g_max/-1, g_max-1, g_max/2-1, g_max, 12});
+    commandList.push_back({0, g_max/2, g_max, g_max/2, g_max+1, 12});
     // black bacground
-    commandList.push_back({1, g_max/2-0.5, g_max-2, g_max/2-0.5, g_max-3, 14});
+    commandList.push_back({1, g_max/2, g_max-1, g_max/2, g_max-2, 14});
     // vertical line
-    for(int x=0;x<g_max;x++){
-        commandList.push_back({x, 0, x, g_max-1, 0.1, 13});
+    for(int x=0;x<g_max+1;x++) {
+        commandList.push_back({x, 0, x, g_max, 0.1, 13});
     }
     // horizonal line
-    for(int y=0;y<g_max;y++){
-        commandList.push_back({0, y, g_max-1, y, 0.1, 13});
+    for(int y=0;y<g_max+1;y++) {
+        commandList.push_back({0, y, g_max, y, 0.1, 13});
     }
     return commandList;
 }
-/*
-void Graphic::drawSquare(int x, int y, int id, bool lightColor,
-                         const Cairo::RefPtr<Cairo::Context>& cr) {
-
-    = Squarecell::square(int x, int y);
-
-
-
-    const int widthpx = resolution;
-    x = x-(g_max/2);
-    y = y-(g_max/2);
-    cr->save();
-
-    double R(0);
-    double G(0);
-    double B(0);
-
-    Graphic::color(R, G, B, id, lightColor);
-
-    cr->set_source_rgb(R, G, B);
-    cr->set_line_width(2);
-
-    for(int i(0); i < widthpx; i++) {
-        cr->move_to((x * widthpx), (y * widthpx) + i);
-        cr->line_to(((x+1) * widthpx), (y * widthpx) + i);
-        cr->stroke();
-    }
-    cr->restore();
-}
-
-void Graphic::drawPerimeter(int xBotLeft, int yBotLeft, int id,
-                            int sizeSide, const Cairo::RefPtr<Cairo::Context>& cr) {
-    const int widthpx = resolution;
-    int x = xBotLeft-(g_max/2);
-    int y = yBotLeft-(g_max/2);
-    cr->save();
-
-    double R(0);
-    double G(0);
-    double B(0);
-
-    Graphic::color(R, G, B, id, false);
-
-    cr->set_source_rgb(R, G, B);
-    cr->set_line_width(3);
-
-    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx); //vertical line
-    cr->line_to((x-0.5+sizeSide) * widthpx, (y+0.5) * widthpx);
-
-    cr->move_to((x+0.5) * widthpx, (y+0.5) * widthpx); //horizontal line
-    cr->line_to((x+0.5)  * widthpx, (y-0.5+sizeSide) * widthpx);
-
-    cr->move_to((x+sizeSide-0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
-    cr->line_to((x+0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
-
-    cr->move_to((x+sizeSide-0.5) * widthpx, (y+sizeSide-0.5) * widthpx);
-    cr->line_to((x+sizeSide-0.5) * widthpx, (y+0.5) * widthpx);
-
-    cr->stroke();
-    cr->restore();
-}
-
-void Graphic::drawLosange(int x, int y, const Cairo::RefPtr<Cairo::Context>& cr) {
-    int negBias = (-g_max*resolution/2+1);
-    float sinBias = 0.353553391;
-    float largeur = 0.707106781;
-    // draw white diamond
-    cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(largeur*(resolution));
-    cr->move_to((x)*resolution+negBias+1, (y)*resolution+negBias+1);
-    cr->line_to((x+1-sinBias)*resolution+negBias,(y+1-sinBias)*resolution+negBias);
-    cr->stroke();
-}
- */

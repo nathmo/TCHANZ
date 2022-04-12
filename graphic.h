@@ -13,7 +13,7 @@
 #include "entity.h"
 #include "simulation.h"
 
-constexpr unsigned taille_dessin(500);
+constexpr unsigned taille_dessin(512);
 
 struct Frame {// Model Framing and window parameters
     double xMin; // frame parameters
@@ -46,7 +46,6 @@ public:
                                   double largeur, int colorCode,
                                   const Cairo::RefPtr<Cairo::Context>& cr);
     static void color(double &r, double &g, double &b, int colorCode);
-
 };
 
 #endif //TCHANZ_GRAPHIC_H
