@@ -355,8 +355,8 @@ vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,  int si
 
 vector<vector<double>> Squarecell::losange(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
-    float sinBias = 0.27; //0.353553391
-    float largeur = 0.72; //0.707106781
+    float sinBias = 0.27;
+    float largeur = 0.72;
 
     linesToDraw.push_back({x+sinBias, y+sinBias,
                            x+1-sinBias, y+1-sinBias, largeur, 12});
