@@ -101,7 +101,7 @@ vector<vector<double>> Fourmiliere::draw() {
 
     vector<vector<double>> commandList;
     commandList = Squarecell::perimeter(xBotLeft, yBotLeft, sizeSide, id%6);
-    for(auto ant:memberAnts){
+    for(auto ant:memberAnts) {
         vector<vector<double>> commandListAnt = (*ant).draw();
         commandList.insert(commandList.end(),
                            commandListAnt.begin(), commandListAnt.end());

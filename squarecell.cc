@@ -332,13 +332,16 @@ Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
 vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
 
-    for(int i(0); i < 3 ;i++)
-
     return linesToDraw;
 }
 
 vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode) {
     vector<vector<double>> linesToDraw;
+
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.5, colorCode}); //ligne horizontal
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.5, colorCode}); //ligne vertical en bas gauche
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.5, colorCode}); //ligne verticale depuis le haut
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.5, colorCode}); //ligne horizontal depuis le haut
 
     return linesToDraw;
 }

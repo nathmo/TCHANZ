@@ -117,7 +117,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
 }
 
 vector<vector<double>> Collector::draw() {
-    vector <vector<double>> list;
+    vector<vector<double>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;

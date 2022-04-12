@@ -97,7 +97,7 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     // add the entity
     for(auto entity:(*simulationPtr).getListEntity()) {
         // vector storing drawings parameters
-        vector<vector<double>> drawCommandList = (*entity).draw(); //tableau contenant xStart,yStart,xStop, yStop, couleur, largeur
+        vector<vector<double>> drawCommandList = (*entity).draw(); //tableau contenant xStart, yStart, xStop, yStop, largeur, couleur
         for(auto drawCommand:drawCommandList) {
             Graphic::drawLine(drawCommand[0],drawCommand[1], drawCommand[2],
                               drawCommand[3],drawCommand[4], drawCommand[5], cr);
