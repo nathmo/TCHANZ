@@ -121,9 +121,7 @@ vector<vector<double>> Collector::draw() {
     int id = getId()%6;
     int lightColor = id+6;
     int colorCode = id; //on commence en bas a gauche donc foncé au debut
-
    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
-
     for (int i(0); i < side; i++) {
         for (int j(0); j < side; j++) {
             vector<vector<double>> cmd = Squarecell::square(x + j, y + i, colorCode);
@@ -137,21 +135,6 @@ vector<vector<double>> Collector::draw() {
     }
     return commandList;
 }
-/*
-    for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
-        for(int j(0); j < side; j++) {
-            //(x+i, y+j, id, lightColor, squareType)
-            Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
-            if(lightColor == true) {
-                lightColor = false;
-            } else {
-                lightColor = true;
-            }
-        }
-    }
-    Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
-}
-*/
 
 Defensor::Defensor(Point position, int id, int age) :
         Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
@@ -192,52 +175,30 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
 }
 
 vector<vector<double>> Defensor::draw() {
-    vector <vector<double>> list;
+    vector<vector<double>> commandList;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
-    int lightColor = 0;
-    int id = getId();
-/*
+    int id = getId()%6;
+    int lightColor = id+6;
+    int colorCode = lightColor; //on commence en bas a gauche donc clair au debut
+
+    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
+
     for (int i(0); i < side; i++) {
-        for (int j(0); j < side; i++) {
-            list.push_back({x + j, y + i, id, lightColor, 0}); //le centre ca joue pas vu que ca alterne pas bien
-            if (lightColor == 1) {
-                lightColor = 0;
+        for (int j(0); j < side; j++) {
+            vector<vector<double>> cmd = Squarecell::square(x + j, y + i, colorCode);
+            commandList.insert(commandList.end(), cmd.begin(), cmd.end());
+            if (colorCode == id) {
+                colorCode = lightColor;
             } else {
-                lightColor = 1;
+                colorCode = id;
             }
         }
     }
-    list[4][3] = 0; //mettre le centre a foncé
-*/
-    return list;
+    commandList[4][5] = id; // change color of center back to dark
+    return commandList;
 }
-
-/*
-    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
-    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int originX = (*occupiedSpace).getPosition().getCoordX();
-    int originY = (*occupiedSpace).getPosition().getCoordY();
-    int side = (*occupiedSpace).getHeight();
-    bool lightColor = true;
-    int id = getId();
-
-    for(int i(0); i < side; i++) { //depuis bas jusqu'en haut on dessine case par case
-        for(int j(0); j < side; j++) {
-            Graphic::drawSquare(x+i, y+j, id, lightColor, cr);
-
-            if(lightColor == true) {
-                lightColor = false;
-            } else {
-                lightColor = true;
-            }
-        }
-    }
-    Graphic::drawSquare(originX, originY, id, false, cr); //mettre le centre foncé
-}
-*/
-
 
 Predator::Predator(Point position, int id, int age) :
                        Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
@@ -280,26 +241,10 @@ vector<vector<double>> Predator::draw() {
     vector <vector<double>> list;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int id = getId();
-/*
-    list.push_back({x, y, id, 0, 0}); //le centre ca joue pas vu que ca alterne pas bien
-*/
-    return list;;
-
+    int id = getId()%6;
+    list = Squarecell::square(x, y, id);
+    return list;
 }
-/*
-    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
-    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int side = (*occupiedSpace).getHeight();
-    int id = getId();
-
-    for(int i(0); i < side; i++) { //depuis en bas jusqu a en haut on dessine case par case
-        for(int j(0); j < side; j++) {
-            Graphic::drawSquare(x+i, y+j, id, false, cr);
-        }
-    }
-}
-*/
 
 Generator::Generator(Point position, int id) :
         Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
@@ -334,34 +279,16 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
 }
 
 vector<vector<double>> Generator::draw() {
-    vector <vector<double>> list;
+    vector <vector<double>> commandList;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
     int id = getId();
-    /*
     for (int i(0); i < side; i++) {
-        for (int j(0); j < side; i++) {
-            list.push_back({x + j, y + i, id, side, 0});
+        for (int j(0); j < side; j++) {
+            vector<vector<double>> cmd = Squarecell::square(x + j, y + i, id%6);
+            commandList.insert(commandList.end(), cmd.begin(), cmd.end());
         }
     }
-     */
-    return list;
+    return commandList;
 }
-
-   /*
-
-
-
-    int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();//point bas, plus simple
-    int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int side = (*occupiedSpace).getHeight();
-    int id = getId();
-
-    for(int i(0); i < side; i++) {//depuis bas jusqu'en haut on dessine case par case
-        for(int j(0); j < side; j++) {
-            (x+i, y+j, id, side, 1);
-        }
-    }
-}
-    */

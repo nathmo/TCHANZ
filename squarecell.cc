@@ -363,9 +363,9 @@ vector<vector<double>> Squarecell::FullGrid() {
     vector<vector<double>> commandList;
     //white border
     //xStart, yStart, xStop, yStop, largeur, colorCode
-    commandList.push_back({0, g_max/2, g_max-1, g_max/2, g_max, 12});
+    commandList.push_back({0, g_max/-1, g_max-1, g_max/2-1, g_max, 12});
     // black bacground
-    commandList.push_back({1, g_max/2, g_max-2, g_max/2, g_max-2, 14});
+    commandList.push_back({1, g_max/2-0.5, g_max-2, g_max/2-0.5, g_max-3, 14});
     // vertical line
     for(int x=0;x<g_max;x++){
         commandList.push_back({x, 0, x, g_max-1, 0.1, 13});

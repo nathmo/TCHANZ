@@ -92,7 +92,6 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     for(auto drawCommand:drawCommandList) {
         Graphic::drawLine(drawCommand[0], drawCommand[1], drawCommand[2],
                           drawCommand[3], drawCommand[4], drawCommand[5], cr);
-
     }
     // add the entity
     for(auto entity:(*simulationPtr).getListEntity()) {
@@ -136,7 +135,7 @@ void Graphic::color(double &r, double &g, double &b, int colorCode) {
                                         {0.92,0.5,1},            //10 light magenta
                                         {0.6,1,1},               //11 light cyan
                                         {1,1,1},                 //12 white
-                                        {0.5,0.5,0.5},           //13 grey
+                                        {0.7,0.7,0.7},           //13 grey
                                         {0,0,0}};                //14 black
     r=colorTable[colorCode][0];
     g=colorTable[colorCode][1];
