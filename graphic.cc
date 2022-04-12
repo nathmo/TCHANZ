@@ -48,7 +48,7 @@ void Graphic::adjustFrame() {
 
     // use the reference framing as a Graphicde for preventing distortion
     double new_aspect_ratio((double)width/height);
-    if( new_aspect_ratio > default_frame.asp) {//keep yMax/yMin. Adjust xMax/xMin
+    if(new_aspect_ratio > default_frame.asp) {//keep yMax/yMin. Adjust xMax/xMin
         frame.yMax = default_frame.yMax ;
         frame.yMin = default_frame.yMin ;
 
@@ -96,7 +96,7 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     // add the entity
     for(auto entity:(*simulationPtr).getListEntity()) {
         // vector storing drawings parameters
-        vector<vector<double>> drawCommandList = (*entity).draw(); //tableau contenant xStart, yStart, xStop, yStop, largeur, couleur
+        vector<vector<double>> drawCommandList = (*entity).draw();//tableau contenant xStart, yStart, xStop, yStop, largeur, couleur
         for(auto drawCommand:drawCommandList) {
             Graphic::drawLine(drawCommand[0],drawCommand[1], drawCommand[2],
                               drawCommand[3],drawCommand[4], drawCommand[5], cr);
@@ -105,7 +105,9 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     return true;
 }
 
-void Graphic::drawLine(double xStart, double yStart, double xStop, double yStop, double largeur, int colorCode, const Cairo::RefPtr<Cairo::Context>& cr){
+void Graphic::drawLine(double xStart, double yStart,
+                       double xStop, double yStop, double largeur,
+                       int colorCode, const Cairo::RefPtr<Cairo::Context>& cr) {
     double r = 0;
     double g = 0;
     double b = 0;

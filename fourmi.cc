@@ -185,11 +185,11 @@ vector<vector<double>> Defensor::draw() {
 
     // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
 
-    for (int i(0); i < side; i++) {
-        for (int j(0); j < side; j++) {
+    for(int i(0); i < side; i++) {
+        for(int j(0); j < side; j++) {
             vector<vector<double>> cmd = Squarecell::square(x + j, y + i, colorCode);
             commandList.insert(commandList.end(), cmd.begin(), cmd.end());
-            if (colorCode == id) {
+            if(colorCode == id) {
                 colorCode = lightColor;
             } else {
                 colorCode = id;
@@ -284,8 +284,8 @@ vector<vector<double>> Generator::draw() {
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
     int id = getId();
-    for (int i(0); i < side; i++) {
-        for (int j(0); j < side; j++) {
+    for(int i(0); i < side; i++) {
+        for(int j(0); j < side; j++) {
             vector<vector<double>> cmd = Squarecell::square(x + j, y + i, id%6);
             commandList.insert(commandList.end(), cmd.begin(), cmd.end());
         }

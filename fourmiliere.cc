@@ -157,8 +157,8 @@ void Fourmiliere::checkDefensorUsingCoord() {
                                         (*(*fourmi).getOccupiedSpace()).getHeight());
             if(overlapSize<(sizeD*sizeD)) {
                 cout<< message::defensor_not_within_home(
-                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
-                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
+                       (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
+                       (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
                 throw (-1);
             }
         }

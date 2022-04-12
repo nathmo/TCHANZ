@@ -250,13 +250,13 @@ int Squarecell::countOverlap(Point position1, int width1,int height1,
 }
 
 int Squarecell::countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
-                             Point cornerBotLeft2, Point cornerTopRight2){
+                             Point cornerBotLeft2, Point cornerTopRight2) {
     if((cornerBotLeft2.getCoordX() > cornerTopRight1.getCoordX()) or
-       (cornerBotLeft1.getCoordX() > cornerTopRight2.getCoordX())){
+       (cornerBotLeft1.getCoordX() > cornerTopRight2.getCoordX())) {
         return 0; // the interval dont overlap
     }
     if((cornerBotLeft2.getCoordY() > cornerTopRight1.getCoordY()) or
-       (cornerBotLeft1.getCoordY() > cornerTopRight2.getCoordY())){
+       (cornerBotLeft1.getCoordY() > cornerTopRight2.getCoordY())) {
         return 0; // the interval dont overlap (same but for Y coordinate)
     }
     unsigned int overlapWidth = min(cornerTopRight1.getCoordX(),
@@ -341,10 +341,14 @@ vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
 vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode) {
     vector<vector<double>> linesToDraw;
 
-    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, colorCode}); //ligne horizontal
-    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne vertical en bas gauche
-    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, colorCode}); //ligne verticale depuis le haut
-    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5, xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne horizontal depuis le haut
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5,
+                           yBotLeft+0.5, 0.3, colorCode}); //ligne horizontal
+    linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5,
+                           yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne vertical en bas gauche
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
+                           xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, colorCode}); //ligne verticale depuis le haut
+    linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
+                           xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne horizontal depuis le haut
 
     return linesToDraw;
 }
@@ -354,7 +358,8 @@ vector<vector<double>> Squarecell::losange(int x, int y, int colorCode) {
     float sinBias = 0.27; //0.353553391
     float largeur = 0.72; //0.707106781
 
-    linesToDraw.push_back({x+sinBias, y+sinBias, x+1-sinBias, y+1-sinBias, largeur, 12});
+    linesToDraw.push_back({x+sinBias, y+sinBias,
+                           x+1-sinBias, y+1-sinBias, largeur, 12});
 
     return linesToDraw;
 }

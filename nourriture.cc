@@ -41,7 +41,7 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
     return make_shared<Nourriture>(Point(x,y), index);
 }
 
-void Nourriture::update(){
+void Nourriture::update() {
 
 }
 
@@ -59,7 +59,7 @@ vector<vector<double>> Nourriture::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
 
-    commandList = Squarecell::losange(x, y, 12);  //x,y,couleur pas besoin de plus pour losange
+    commandList = Squarecell::losange(x, y, 12);
 
     return commandList;
 }
