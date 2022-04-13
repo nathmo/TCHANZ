@@ -331,9 +331,11 @@ Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
 
 vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
-    int largeur = 1;
-
-    linesToDraw.push_back({x, y+0.5, x+1, y+0.5, largeur, colorCode});
+    double largeur = 1;
+    double xCoord = (double)x;
+    double yCoord = (double)y;
+    double color = colorCode;
+    linesToDraw.push_back({xCoord, yCoord+0.5, xCoord+1, yCoord+0.5, largeur, color});
 
     return linesToDraw;
 }
@@ -341,15 +343,15 @@ vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
 vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,
                                              int sizeSide, int colorCode) {
     vector<vector<double>> linesToDraw;
-
+    double color = (double)colorCode;
     linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5,
-                           yBotLeft+0.5, 0.3, colorCode}); //ligne horizontal
+                           yBotLeft+0.5, 0.3, color}); //ligne horizontal
     linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5,
-                           yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne vertical en bas gauche
+                           yBotLeft+sizeSide-0.5, 0.3, color}); //ligne vertical en bas gauche
     linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
-                           xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, colorCode}); //ligne verticale depuis le haut
+                           xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, color}); //ligne verticale depuis le haut
     linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
-                           xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, colorCode}); //ligne horizontal depuis le haut
+                           xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, color}); //ligne horizontal depuis le haut
 
     return linesToDraw;
 }
@@ -373,11 +375,11 @@ vector<vector<double>> Squarecell::FullGrid() {
     // black bacground
     commandList.push_back({1, g_max/2, g_max-1, g_max/2, g_max-2, 14});
     // vertical line
-    for(int x=0;x<g_max+1;x++) {
+    for(double x=0;x<g_max+1;x++) {
         commandList.push_back({x, 0, x, g_max, 0.1, 13});
     }
     // horizonal line
-    for(int y=0;y<g_max+1;y++) {
+    for(double y=0;y<g_max+1;y++) {
         commandList.push_back({0, y, g_max, y, 0.1, 13});
     }
     return commandList;

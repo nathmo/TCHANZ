@@ -21,7 +21,6 @@ private:
     int nbD;
     int nbP;
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
-    bool end_of_klan;
 
 public:
     Fourmiliere(Point position, int size, int totalFood,

@@ -17,7 +17,7 @@ protected:
     std::shared_ptr<Squarecell> occupiedSpace;
     char specie;
     unsigned long id;
-
+    bool endOfLife;
 public:
     Entity(Point position, int width, int height, char specie, int id);
     void setPosition(Point newPosition);
@@ -33,7 +33,7 @@ public:
     virtual std::vector<std::vector<double>> draw();
     // return the id of a selected specie lying on a point if it exist
     static int findIdByOccupingPoint(Point overlappingPoint,
-                                     std::vector<std::shared_ptr<Entity>>listOfEntity,
+                                     std::vector<std::shared_ptr<Entity>> listOfEntity,
                                      char specie);
    // std::vector<Point> findSpecie(Point position, char specie);
    // double distance2Points(Point position, Point positionSpecie);
