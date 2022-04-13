@@ -207,10 +207,6 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     m_Button_Next.signal_clicked().connect(
             sigc::mem_fun(*this, &Gui::onButtonClickedNext));
     add_events(Gdk::KEY_RELEASE_MASK);
-
-
-
-
     //create the timer
     Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::onTick), msPerFrame);
     show_all_children();// Show all children of the window
