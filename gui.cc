@@ -18,21 +18,21 @@
 using namespace std;
 
 
-void Gui::onButtonClickedExit(){
+void Gui::onButtonClickedExit() {
     hide(); //to close the application.
 }
 
-void Gui::onButtonClickedOpen(){
+void Gui::onButtonClickedOpen() {
     (*simulationPtr).loadFromFile();
     Gui::refreshSimulation();
 }
 
-void Gui::onButtonClickedSave(){
+void Gui::onButtonClickedSave() {
     (*simulationPtr).saveToFile();
 }
 
-void Gui::onButtonClickedStartStop(){
-    if(m_Button_StartStop.get_label()=="start"){
+void Gui::onButtonClickedStartStop() {
+    if(m_Button_StartStop.get_label()=="start") {
         m_Button_Step.set_sensitive(false);
         m_Button_StartStop.set_label("stop");
     } else if (m_Button_StartStop.get_label()=="stop") {
@@ -41,18 +41,16 @@ void Gui::onButtonClickedStartStop(){
     }
 }
 
-void Gui::onButtonClickedStep(){
-    if(m_Button_StartStop.get_label()=="start")
-    { // step only if not actively simulating
+void Gui::onButtonClickedStep() {
+    if(m_Button_StartStop.get_label()=="start") { // step only if not actively simulating
         timer++;
         cout << "tick : "+to_string(timer) << endl;
         Gui::refreshSimulation();
     }
 }
 
-bool Gui::onTick(){
-    if(m_Button_StartStop.get_label()=="stop")
-    { // step only if actively simulating
+bool Gui::onTick() {
+    if(m_Button_StartStop.get_label()=="stop") { // step only if actively simulating
         timer++;
         cout << "tick : "+to_string(timer) << endl;
         Gui::refreshSimulation();
@@ -60,9 +58,8 @@ bool Gui::onTick(){
     return true;
 }
 
-void Gui::onButtonClickedPrevious(){
-    if(idAnthillSelected==-1)
-    {
+void Gui::onButtonClickedPrevious() {
+    if(idAnthillSelected==-1) {
         idAnthillSelected=(*simulationPtr).getAnthNb()-1;
     } else {
         idAnthillSelected--;
@@ -70,9 +67,8 @@ void Gui::onButtonClickedPrevious(){
     Gui::refreshAnthInfo();
 }
 
-void Gui::onButtonClickedNext(){
-    if(idAnthillSelected==(*simulationPtr).getAnthNb()-1)
-    {
+void Gui::onButtonClickedNext() {
+    if(idAnthillSelected==(*simulationPtr).getAnthNb()-1) {
         idAnthillSelected=-1;
     } else {
         idAnthillSelected++;
@@ -80,55 +76,48 @@ void Gui::onButtonClickedNext(){
     Gui::refreshAnthInfo();
 }
 
-bool Gui::on_key_press_event(GdkEventKey* event)
-{
-    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 's'))
-    {
+bool Gui::on_key_press_event(GdkEventKey* event) {
+    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 's')){
         Gui::onButtonClickedStartStop();
         return true;
     }
-    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == '1'))
-    {
+    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == '1')){
         Gui::onButtonClickedStep();
         return true;
     }
-    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'n'))
-    {
+    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 'n')){
         Gui::onButtonClickedNext();
         return true;
     }
-    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'p'))
-    {
+    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 'p')){
         Gui::onButtonClickedPrevious();
         return true;
     }
-    if ((event->type == GDK_KEY_PRESS) && (gdk_keyval_to_unicode(event->keyval) == 'q'))
-    {
+    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 'q')){
         Gui::onButtonClickedExit();
         return true;
     }
     return false;
 }
 
-void Gui::refreshSimulation(){
+void Gui::refreshSimulation() {
     Gui::refreshAnthInfo();
     Gui::refreshFoodInfo();
     (*simulationPtr).simulateStep();
     graphic.queue_draw();//trigger refresh
 }
 
-void Gui::refreshFoodInfo(){
+void Gui::refreshFoodInfo() {
     string nbFood = to_string((*simulationPtr).getFoodNb());
     m_Label_FoodInfoValue.set_text("Nb food: "+nbFood);
 }
-void Gui::refreshAnthInfo(){
+void Gui::refreshAnthInfo() {
 
 
-    if(idAnthillSelected >= (*simulationPtr).getAnthNb()){
+    if(idAnthillSelected >= (*simulationPtr).getAnthNb()) {
         idAnthillSelected =(*simulationPtr).getAnthNb()-1;
     }
-    if(idAnthillSelected == -1)
-    {
+    if(idAnthillSelected == -1) {
         string statToDisplay = "None selected";
         m_Label_AnthInfoValue.set_text(statToDisplay);
     } else {
@@ -160,8 +149,8 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
         m_Button_StartStop("start"),
         m_Button_Step("step"),
         m_Button_Previous("previous"),
-        m_Button_Next("next")
-{
+        m_Button_Next("next") {
+
     simulationPtr = simulation;
     // Set title and border of the window
     set_title("layout buttons");
@@ -208,16 +197,12 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
             sigc::mem_fun(*this, &Gui::onButtonClickedNext));
     add_events(Gdk::KEY_RELEASE_MASK);
 
-
-
-
     //create the timer
     Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::onTick), msPerFrame);
     show_all_children();// Show all children of the window
 }
 
-Gui::~Gui()
-{
+Gui::~Gui() {
 }
 
 int Gui::window(shared_ptr<Simulation> simulation) {

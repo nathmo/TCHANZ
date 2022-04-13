@@ -63,18 +63,3 @@ vector<vector<double>> Nourriture::draw() {
 
     return commandList;
 }
-
-/*
-    int x = (*occupiedSpace).getPosition().getCoordX();
-    int y = (*occupiedSpace).getPosition().getCoordY();
-    int negBias = (-g_max*resolution/2+1);
-    float sinBias = 0.353553391;
-    float largeur = 0.707106781;
-    // draw white diamond
-    cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(largeur*(resolution));
-    cr->move_to((x)*resolution+negBias+1, (y)*resolution+negBias+1);
-    cr->line_to((x+1-sinBias)*resolution+negBias,(y+1-sinBias)*resolution+negBias);
-    cr->stroke();
-}
- */
