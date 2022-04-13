@@ -69,7 +69,8 @@ public:
     // used to display in the the grid
     static void displayRawGrid();
     static std::vector<std::vector<double>> square(int x, int y, int colorCode);
-    static std::vector<std::vector<double>> perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode);
+    static std::vector<std::vector<double>> perimeter(int xBotLeft, int yBotLeft,
+                                                      int sizeSide, int colorCode);
     static std::vector<std::vector<double>> losange(int x, int y, int colorCode);
     static std::vector<std::vector<double>> FullGrid();
 };

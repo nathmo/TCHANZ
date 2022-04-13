@@ -25,7 +25,7 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     this->nbD=nbD;
     this->nbP=nbP;
     memberAnts = FourmiList;
-    end_of_klan = false;
+    endOfLife = false;
 }
 
 int Fourmiliere::getnbC() {
@@ -45,19 +45,19 @@ int Fourmiliere::getfoodReserve() {
 }
 
 bool Fourmiliere::getEnd_of_klan() {
-    return end_of_klan;
+    return endOfLife;
 }
 
 void Fourmiliere::update() {
     foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate);
     if(foodReserve<=0){
-        end_of_klan = true;
+        endOfLife = true;
     }
     for(auto entity:memberAnts){
         entity->update();
     }
     if((memberAnts[0])->getEnd_of_klan()) {
-        end_of_klan = true;// if generator disapear, this too
+        endOfLife = true;// if generator disapear, this too
     }
     for(unsigned int i=0;i<memberAnts.size();i++){
         if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST){
