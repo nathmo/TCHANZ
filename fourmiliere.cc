@@ -12,7 +12,6 @@
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
-#include "graphic.h"
 
 using namespace std;
 
