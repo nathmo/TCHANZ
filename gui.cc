@@ -23,12 +23,48 @@ void Gui::onButtonClickedExit(){
 }
 
 void Gui::onButtonClickedOpen(){
-    (*simulationPtr).loadFromFile();
-    Gui::refreshSimulation();
+    Gtk::FileChooserDialog dialog("Please choose a file",
+                                  Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);
+    dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+    dialog.add_button("_Open", Gtk::RESPONSE_OK);
+    int result = dialog.run();
+    switch(result)
+    {
+        case(Gtk::RESPONSE_OK):
+        {
+            (*simulationPtr).setPath(dialog.get_filename());
+            (*simulationPtr).loadFromFile();
+            Gui::refreshSimulation();
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
 }
 
 void Gui::onButtonClickedSave(){
-    (*simulationPtr).saveToFile();
+    Gtk::FileChooserDialog dialog("Please choose a file",
+                                  Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);
+    dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+    dialog.add_button("_Open", Gtk::RESPONSE_OK);
+    int result = dialog.run();
+    switch(result)
+    {
+        case(Gtk::RESPONSE_OK):
+        {
+            (*simulationPtr).setPath(dialog.get_filename());
+            (*simulationPtr).saveToFile();
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
 }
 
 void Gui::onButtonClickedStartStop(){

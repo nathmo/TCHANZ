@@ -22,6 +22,10 @@ Simulation::Simulation(string path) {
     this->path = path;
 }
 
+void Simulation::setPath(std::string newpath){
+    path = newpath;
+}
+
 vector<shared_ptr<Entity>> Simulation::getListEntity() {
     vector<shared_ptr<Entity>> entityToExport;
     entityToExport.insert(entityToExport.end(),nourritureList.begin(),

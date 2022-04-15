@@ -23,6 +23,7 @@ private:
 public:
     Simulation();
     Simulation(std::string path);
+    void setPath(std::string newpath);
     std::vector<std::shared_ptr<Entity>> getListEntity();
     void loadFromFile();
     void saveToFile();
