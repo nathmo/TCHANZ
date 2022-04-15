@@ -12,8 +12,6 @@
 #include "squarecell.h"
 #include "error_squarecell.h"
 #include "constantes.h"
-#include "message.h"
-#include "entity.h"
 
 using namespace std;
 
