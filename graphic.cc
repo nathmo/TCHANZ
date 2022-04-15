@@ -15,8 +15,8 @@
 
 using namespace std;
 
-static Frame default_frame = {-(g_max*resolution/2), (g_max*resolution/2),
-                              -(g_max*resolution/2), (g_max*resolution/2),
+static Frame default_frame = {-((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
+                              -((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
                               1, taille_dessin, taille_dessin};
 
 Graphic::Graphic(shared_ptr<Simulation> simulation) {

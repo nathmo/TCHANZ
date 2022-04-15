@@ -10,8 +10,6 @@
 #include "simulation.h"
 #include "textstorage.h"
 #include "squarecell.h"
-#include "constantes.h"
-#include "fourmiliere.h"
 #include "message.h"
 #include "entity.h"
 

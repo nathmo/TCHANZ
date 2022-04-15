@@ -79,17 +79,14 @@ vector<vector<string>> Fourmiliere::exportToString() {
     string strC = to_string(nbC);
     string strD = to_string(nbD);
     string strP = to_string(nbP);
-
     toExport.push_back({coordX, coordY, height, generatorX, generatorY,
                         totalFood, strC, strD, strP});
-
     for(auto fourmi:memberAnts) {
         if(not((*fourmi).getSpecie()==fourmiGeneratorCST)) {
             vector <vector<string>> temp = (*fourmi).exportToString();
             toExport.insert(toExport.end(), temp.begin(), temp.end());
         }
     }
-
     return toExport;
 }
 
