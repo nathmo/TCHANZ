@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vector>
 #include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"
@@ -30,7 +31,7 @@ int Fourmi::getAge(){
     return age;
 }
 
-void Fourmi::update() {
+void Fourmi::update(vector<shared_ptr<Entity>> & entityList) {
     cout << "error, trying to update a generic fourmi object" << endl;
     exit(EXIT_FAILURE);
 }
@@ -52,7 +53,7 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
     this->carryFood = carryFood;
 }
 
-void Collector::update() {
+void Collector::update(vector<shared_ptr<Entity>> & entityList) {
 /*
     vector<Point> listSpecie = Entity::findSpecie(nourritureCST);
     vector<Point> listSpecieTrie;
@@ -136,7 +137,7 @@ Defensor::Defensor(Point position, int id, int age) :
         Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
 }
 
-void Defensor::update() {
+void Defensor::update(vector<shared_ptr<Entity>> & entityList) {
     age++;
 }
 
@@ -194,7 +195,7 @@ Predator::Predator(Point position, int id, int age) :
                        Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
 }
 
-void Predator::update() {
+void Predator::update(vector<shared_ptr<Entity>> & entityList) {
     age++;
 }
 
@@ -238,7 +239,7 @@ Generator::Generator(Point position, int id) :
         Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
 }
 
-void Generator::update() {
+void Generator::update(vector<shared_ptr<Entity>> & entityList) {
     age++;
 }
 

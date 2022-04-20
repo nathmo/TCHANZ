@@ -29,7 +29,7 @@ public:
     int getId();
     std::shared_ptr<Squarecell> getOccupiedSpace();
     virtual std::vector<std::vector<std::string>> exportToString();
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     virtual void draw();
     // return the id of a selected specie lying on a point if it exist
     static int findIdByOccupingPoint(Point overlappingPoint,

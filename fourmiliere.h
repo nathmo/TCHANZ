@@ -31,7 +31,7 @@ public:
     int getnbP();
     int getfoodReserve();
     bool getEnd_of_klan();
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     //export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     virtual void draw();

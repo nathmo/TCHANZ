@@ -8,6 +8,7 @@
 #define TCHANZ_FOURMI_H
 
 #include <memory>
+#include <vector>
 #include "squarecell.h"
 #include "entity.h"
 
@@ -20,7 +21,7 @@ public:
     Fourmi(Point position, int age, char type, int id, int size);
     bool getEnd_of_klan();
     int getAge();
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     void virtual draw();
@@ -32,7 +33,7 @@ private:
 
 public:
     Collector(Point position, int id, int age, bool carryFood);
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
@@ -44,7 +45,7 @@ public:
 class Defensor : public Fourmi {
 public:
     Defensor(Point position, int id, int age);
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
@@ -56,7 +57,7 @@ public:
 class Predator : public Fourmi {
 public:
     Predator(Point position, int id, int age);
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
@@ -69,7 +70,7 @@ public:
 class Generator : public Fourmi {
 public:
     Generator(Point position, int id);
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something

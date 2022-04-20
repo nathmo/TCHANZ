@@ -5,6 +5,7 @@
   \brief  implémentation du module "nourriture".
 */
 #include <memory>
+#include <vector>
 #include <iostream>
 #include "nourriture.h"
 #include "entity.h"
@@ -41,7 +42,7 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
     return make_shared<Nourriture>(Point(x,y), index);
 }
 
-void Nourriture::update() {
+void Nourriture::update(vector<shared_ptr<Entity>> & entityList) {
 
 }
 

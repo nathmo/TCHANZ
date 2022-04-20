@@ -8,6 +8,7 @@
 #define TCHANZ_NOURRITURE_H
 
 #include <memory>
+#include <vector>
 #include "squarecell.h"
 #include "entity.h"
 
@@ -18,7 +19,7 @@ public:
     static std::shared_ptr<Nourriture> importFromExtSave(
             std::vector<std::string>& inputBuffer, int index);
     static std::shared_ptr<Nourriture> randomCreate();
-    virtual void update();
+    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
 

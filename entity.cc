@@ -52,7 +52,7 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
     return occupiedSpace;
 }
 
-void Entity::update(){
+void Entity::update(vector<shared_ptr<Entity>> & entityList){
     cout << "trying to update a generic entity" << endl;
     exit(EXIT_FAILURE);
 }

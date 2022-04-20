@@ -6,6 +6,7 @@
 */
 #include <iostream>
 #include <memory>
+#include <vector>
 #include <string>
 #include "fourmiliere.h"
 #include "entity.h"
@@ -47,13 +48,13 @@ bool Fourmiliere::getEnd_of_klan() {
     return endOfLife;
 }
 
-void Fourmiliere::update() {
+void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
     foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate);
     if(foodReserve<=0){
         endOfLife = true;
     }
     for(auto entity:memberAnts){
-        entity->update();
+        entity->update(entityList);
     }
     if((memberAnts[0])->getEnd_of_klan()) {
         endOfLife = true;// if generator disapear, this too
