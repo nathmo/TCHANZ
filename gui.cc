@@ -35,7 +35,10 @@ void Gui::onButtonClickedOpen() {
         {
             (*simulationPtr).setPath(dialog.get_filename());
             (*simulationPtr).loadFromFile();
-            Gui::refreshSimulation();
+            Gui::refreshAnthInfo();
+            Gui::refreshFoodInfo();
+            (*simulationPtr).refreshGUI();
+            graphic.queue_draw();//trigger refresh
             break;
         }
         default:
@@ -81,7 +84,8 @@ void Gui::onButtonClickedStep() {
     if(m_Button_StartStop.get_label()=="start") { // step only if not actively simulating
         timer++;
         cout << "tick : "+to_string(timer) << endl;
-        Gui::refreshSimulation();
+        (*simulationPtr).simulateStep();
+        graphic.queue_draw();//trigger refresh
     }
 }
 
@@ -89,7 +93,8 @@ bool Gui::onTick() {
     if(m_Button_StartStop.get_label()=="stop") { // step only if actively simulating
         timer++;
         cout << "tick : "+to_string(timer) << endl;
-        Gui::refreshSimulation();
+        (*simulationPtr).simulateStep();
+        graphic.queue_draw();//trigger refresh
     }
     return true;
 }
@@ -134,13 +139,6 @@ bool Gui::on_key_press_event(GdkEventKey* event) {
         return true;
     }
     return false;
-}
-
-void Gui::refreshSimulation() {
-    Gui::refreshAnthInfo();
-    Gui::refreshFoodInfo();
-    (*simulationPtr).simulateStep();
-    graphic.queue_draw();//trigger refresh
 }
 
 void Gui::refreshFoodInfo() {

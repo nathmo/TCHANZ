@@ -29,6 +29,7 @@ public:
     void saveToFile();
     void startHeadless();
     void simulateStep();
+    void refreshGUI();
     int getFoodNb();
     int getAnthNb();
     std::vector<int> getAnthInfoStat(int id);

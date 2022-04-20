@@ -65,8 +65,8 @@ void Simulation::startHeadless() {
 void Simulation::simulateStep() {
     // create food randomly
     Squarecell::FullGrid();
-    shared_ptr<Nourriture> food = Nourriture::randomCreate();
     vector<shared_ptr<Entity>> entityList;
+    shared_ptr<Nourriture> food = Nourriture::randomCreate();
     if(food != nullptr) {
         nourritureList.push_back(food);
     }
@@ -80,6 +80,16 @@ void Simulation::simulateStep() {
         if((anthillList[i])->getEnd_of_klan()) {
             anthillList.erase(anthillList.begin()+i);
         }
+    }
+}
+
+void Simulation::refreshGUI() {
+    vector<shared_ptr<Entity>> entityList;
+    entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
+    entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
+    for(auto entity:entityList) {
+        entity->update(entityList);
+        entity->draw();
     }
 }
 

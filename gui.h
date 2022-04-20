@@ -35,7 +35,6 @@ protected:
     void onButtonClickedPrevious();
     void onButtonClickedNext();
     bool on_key_press_event(GdkEventKey* event);
-    void refreshSimulation();
     void refreshFoodInfo();
     void refreshAnthInfo();
 
