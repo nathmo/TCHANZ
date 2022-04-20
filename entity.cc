@@ -54,6 +54,11 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
     return occupiedSpace;
 }
 
+vector<vector<string>> Entity::exportToString() {
+    cout << "trying to export a generic entity" << endl;
+    exit(EXIT_FAILURE);
+}
+
 void Entity::update(vector<shared_ptr<Entity>> & entityList){
     cout << "trying to update a generic entity" << endl;
     exit(EXIT_FAILURE);
@@ -64,9 +69,14 @@ void Entity::draw(){
     exit(EXIT_FAILURE);
 }
 
-vector<vector<string>> Entity::exportToString() {
-    cout << "trying to export a generic entity" << endl;
-    exit(EXIT_FAILURE);
+bool Entity::biasedCoinFlip(float p){
+    bernoulli_distribution bernoulli(p);
+    return bernoulli(randGen);
+}
+
+bool Entity::randInt(unsigned int min, unsigned int max){
+    uniform_int_distribution<unsigned> draw(min,max);
+    return draw(randGen);
 }
 
 int Entity::findIdByOccupingPoint(Point overlappingPoint,

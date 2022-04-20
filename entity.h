@@ -34,6 +34,8 @@ public:
     virtual std::vector<std::vector<std::string>> exportToString();
     virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     virtual void draw();
+    bool static biasedCoinFlip(float p);
+    bool static randInt(unsigned int min, unsigned int max);
     // return the id of a selected specie lying on a point if it exist
     static int findIdByOccupingPoint(Point overlappingPoint,
                                      std::vector<std::shared_ptr<Entity>> listOfEntity,
