@@ -85,7 +85,6 @@ void Graphic::orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 }
 
 bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
-    cout << "test" <<endl;
     // adjust the frame (cadrage) to prevent distortion when changing the window size
     adjustFrame();
     Graphic::orthographic_projection(cr, frame);
