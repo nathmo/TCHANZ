@@ -74,7 +74,6 @@ void Simulation::simulateStep() {
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
     for(auto entity:entityList) {
         entity->update(entityList);
-        entity->draw();// draw the entity
     }
     for(unsigned int i=0;i<anthillList.size();i++) {
         if((anthillList[i])->getEnd_of_klan()) {

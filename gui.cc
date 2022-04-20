@@ -37,8 +37,8 @@ void Gui::onButtonClickedOpen() {
             (*simulationPtr).loadFromFile();
             Gui::refreshAnthInfo();
             Gui::refreshFoodInfo();
-            graphic.queue_draw();//trigger refresh
             (*simulationPtr).refreshGUI();
+            graphic.queue_draw(); //trigger refresh by calling on draw ASAP
             break;
         }
         default:
@@ -82,7 +82,13 @@ void Gui::onButtonClickedStartStop() {
 
 void Gui::onButtonClickedStep() {
     if(m_Button_StartStop.get_label()=="start") { // step only if not actively simulating
-        Gui::onTick();
+        timer++;
+        cout << "tick : "+to_string(timer) << endl;
+        Gui::refreshAnthInfo();
+        Gui::refreshFoodInfo();
+        (*simulationPtr).simulateStep();
+        (*simulationPtr).refreshGUI();
+        graphic.queue_draw(); //trigger refresh by calling on draw ASAP
     }
 }
 
@@ -92,8 +98,9 @@ bool Gui::onTick() {
         cout << "tick : "+to_string(timer) << endl;
         Gui::refreshAnthInfo();
         Gui::refreshFoodInfo();
-        graphic.queue_draw();//trigger refresh
         (*simulationPtr).simulateStep();
+        (*simulationPtr).refreshGUI();
+        graphic.queue_draw(); //trigger refresh by calling on draw ASAP
     }
     return true;
 }
@@ -145,8 +152,6 @@ void Gui::refreshFoodInfo() {
     m_Label_FoodInfoValue.set_text("Nb food: "+nbFood);
 }
 void Gui::refreshAnthInfo() {
-
-
     if(idAnthillSelected >= (*simulationPtr).getAnthNb()) {
         idAnthillSelected =(*simulationPtr).getAnthNb()-1;
     }
@@ -234,8 +239,8 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     show_all_children();// Show all children of the window
     Gui::refreshAnthInfo();
     Gui::refreshFoodInfo();
-    graphic.queue_draw();//trigger refresh
-    (*simulationPtr).refreshGUI();
+    (*simulation).refreshGUI();
+    graphic.queue_draw(); //trigger refresh by calling on draw ASAP
 }
 
 Gui::~Gui() {

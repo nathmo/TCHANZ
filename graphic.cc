@@ -14,7 +14,7 @@
 
 using namespace std;
 
-Cairo::RefPtr<Cairo::Context> Graphic::cairo;
+vector<vector<double>> Graphic::bufferLine;
 
 static Frame default_frame = {-((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
                               -((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
@@ -84,28 +84,42 @@ void Graphic::orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 }
 
 bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
-    cairo = cr;
+    cout << "test" <<endl;
     // adjust the frame (cadrage) to prevent distortion when changing the window size
     adjustFrame();
-    Graphic::orthographic_projection(cairo, frame);
+    Graphic::orthographic_projection(cr, frame);
+    Graphic::emptyBuffer(cr);
     return true;
+}
+
+void Graphic::emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr){
+    if(Graphic::bufferLine.size()>0) {
+        for (auto line: Graphic::bufferLine) {
+            if(line.size()==6) {
+                double r = 0;
+                double g = 0;
+                double b = 0;
+                Graphic::color(r, g, b, line[5]);
+                cr->save();
+                cr->set_line_width(line[4] * resolution);
+                cr->set_source_rgb(r, g, b);
+                cr->move_to(line[0] * resolution - g_max * resolution / 2 + resolution,
+                            line[1] * resolution - g_max * resolution / 2 + resolution);
+                cr->line_to(line[2] * resolution - g_max * resolution / 2 + resolution,
+                            line[3] * resolution - g_max * resolution / 2 + resolution);
+                cr->stroke();
+                cr->restore();
+            }
+        }
+        //Graphic::bufferLine = {{}};
+    }
 }
 
 void Graphic::drawLine(double xStart, double yStart,
                        double xStop, double yStop, double largeur, int colorCode) {
-    double r = 0;
-    double g = 0;
-    double b = 0;
-    Graphic::color(r,g,b, colorCode);
-    cairo->save();
-    cairo->set_line_width(largeur*resolution);
-    cairo->set_source_rgb(r, g, b);
-    cairo->move_to(xStart*resolution-g_max*resolution/2+resolution,
-                yStart*resolution-g_max*resolution/2+resolution);
-    cairo->line_to(xStop*resolution-g_max*resolution/2+resolution,
-                yStop*resolution-g_max*resolution/2+resolution);
-    cairo->stroke();
-    cairo->restore();
+    std::vector<double> line = {xStart, yStart,
+                                             xStop, yStop, largeur, double(colorCode)};
+    bufferLine.push_back(line); // add the the drawing buffer
 }
 
 void Graphic::color(double &r, double &g, double &b, int colorCode) {

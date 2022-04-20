@@ -10,6 +10,7 @@
 
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
+#include <vector>
 
 constexpr unsigned taille_dessin(512);
 
@@ -26,7 +27,8 @@ struct Frame {// Model Framing and window parameters
 class Graphic : public Gtk::DrawingArea {
 private:
     Frame frame;
-    static Cairo::RefPtr<Cairo::Context> cairo ;
+    static std::vector<std::vector<double>> bufferLine;
+    void emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr);
 
 protected:
     //Override default signal handler:
