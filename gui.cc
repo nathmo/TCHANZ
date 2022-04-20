@@ -90,6 +90,8 @@ bool Gui::onTick() {
     if(m_Button_StartStop.get_label()=="stop") { // step only if actively simulating
         timer++;
         cout << "tick : "+to_string(timer) << endl;
+        Gui::refreshAnthInfo();
+        Gui::refreshFoodInfo();
         (*simulationPtr).simulateStep();
         graphic.queue_draw();//trigger refresh
     }
@@ -230,6 +232,11 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     //create the timer
     Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::onTick), msPerFrame);
     show_all_children();// Show all children of the window
+    (*simulationPtr).loadFromFile();
+    Gui::refreshAnthInfo();
+    Gui::refreshFoodInfo();
+    (*simulationPtr).refreshGUI();
+    graphic.queue_draw();//trigger refresh
 }
 
 Gui::~Gui() {
