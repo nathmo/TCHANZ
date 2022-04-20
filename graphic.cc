@@ -98,9 +98,6 @@ void Graphic::emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr){
     {
         bufferLine = bufferLineBackup; // restore last buffer if no new update;
     }
-    cout << " ------- " << endl;
-    cout << bufferLine.size() << endl;
-    cout << bufferLineBackup.size() << endl;
     for (auto line: Graphic::bufferLine) {
         if(line.size()==6) {
             double r = 0;
