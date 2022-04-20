@@ -28,6 +28,7 @@ class Graphic : public Gtk::DrawingArea {
 private:
     Frame frame;
     static std::vector<std::vector<double>> bufferLine;
+    static std::vector<std::vector<double>> bufferLineBackup;
     void emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr);
 
 protected:

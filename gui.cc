@@ -241,6 +241,7 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     Gui::refreshFoodInfo();
     (*simulation).refreshGUI();
     graphic.queue_draw(); //trigger refresh by calling on draw ASAP
+    (*simulation).refreshGUI();
 }
 
 Gui::~Gui() {

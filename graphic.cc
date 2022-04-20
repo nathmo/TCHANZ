@@ -15,6 +15,7 @@
 using namespace std;
 
 vector<vector<double>> Graphic::bufferLine;
+vector<vector<double>> Graphic::bufferLineBackup;
 
 static Frame default_frame = {-((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
                               -((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
@@ -93,26 +94,32 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 }
 
 void Graphic::emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr){
-    if(Graphic::bufferLine.size()>0) {
-        for (auto line: Graphic::bufferLine) {
-            if(line.size()==6) {
-                double r = 0;
-                double g = 0;
-                double b = 0;
-                Graphic::color(r, g, b, line[5]);
-                cr->save();
-                cr->set_line_width(line[4] * resolution);
-                cr->set_source_rgb(r, g, b);
-                cr->move_to(line[0] * resolution - g_max * resolution / 2 + resolution,
-                            line[1] * resolution - g_max * resolution / 2 + resolution);
-                cr->line_to(line[2] * resolution - g_max * resolution / 2 + resolution,
-                            line[3] * resolution - g_max * resolution / 2 + resolution);
-                cr->stroke();
-                cr->restore();
-            }
-        }
-        //Graphic::bufferLine = {{}};
+    if(Graphic::bufferLine.size()==0)
+    {
+        bufferLine = bufferLineBackup; // restore last buffer if no new update;
     }
+    cout << " ------- " << endl;
+    cout << bufferLine.size() << endl;
+    cout << bufferLineBackup.size() << endl;
+    for (auto line: Graphic::bufferLine) {
+        if(line.size()==6) {
+            double r = 0;
+            double g = 0;
+            double b = 0;
+            Graphic::color(r, g, b, line[5]);
+            cr->save();
+            cr->set_line_width(line[4] * resolution);
+            cr->set_source_rgb(r, g, b);
+            cr->move_to(line[0] * resolution - g_max * resolution / 2 + resolution,
+                        line[1] * resolution - g_max * resolution / 2 + resolution);
+            cr->line_to(line[2] * resolution - g_max * resolution / 2 + resolution,
+                        line[3] * resolution - g_max * resolution / 2 + resolution);
+            cr->stroke();
+            cr->restore();
+        }
+    }
+    bufferLineBackup = bufferLine;
+    Graphic::bufferLine = {};
 }
 
 void Graphic::drawLine(double xStart, double yStart,
