@@ -234,8 +234,8 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     show_all_children();// Show all children of the window
     Gui::refreshAnthInfo();
     Gui::refreshFoodInfo();
+    graphic.queue_draw();//trigger refresh
     (*simulationPtr).refreshGUI();
-    //graphic.queue_draw();//trigger refresh
 }
 
 Gui::~Gui() {
