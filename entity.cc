@@ -52,12 +52,12 @@ shared_ptr<Squarecell> Entity::getOccupiedSpace() {
     return occupiedSpace;
 }
 
-void Entity::update() {
+void Entity::update(vector<shared_ptr<Entity>> & entityList){
     cout << "trying to update a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
 
-vector<vector<double>> Entity::draw() {
+vector<vector<double>> Entity::draw(){
     cout << "trying to draw a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
@@ -102,6 +102,7 @@ vector<Point> Entity::findSpecie(Point position, char specie, vector<shared_ptr<
     /*
     sort(listSpecie.begin(), listSpecie.end(), Entity::distance2Points());
 
+  /*
     double distanceInitial = distance2Points(position, listSpecie[0]);
 
     for(unsigned int i(1); i<listSpecie.size(); i++) {
@@ -140,4 +141,5 @@ bool Entity::isThere() {
 
     return true;
 }
+
 */

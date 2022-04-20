@@ -15,34 +15,33 @@
 #include "fourmiliere.h"
 #include "entity.h"
 
-class TextStorage {
-public:
-    static void importTXT(std::string filename,
+namespace TextStorage {
+    void importTXT(std::string filename,
                 std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
                 std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
 
-    static void exportTXT(std::string filename,
+    void exportTXT(std::string filename,
                 std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
                 std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
     // write a list of tokenized word to a file
-    static void writetxt(std::string filename,
+    void writetxt(std::string filename,
                          std::vector<std::vector<std::string>> lineToWrite);
     // convert a file to a list of tokenized word
-    static std::vector<std::vector<std::string>> readtxt(std::string filename);
+    std::vector<std::vector<std::string>> readtxt(std::string filename);
 
-    static std::vector<std::string> tokenize(std::string line);
+    std::vector<std::string> tokenize(std::string line);
     // convert the list of tokenized word to usable list of  entitys
-    static void importDump(std::vector<std::vector<std::string>> inputBuffer,
+    void importDump(std::vector<std::vector<std::string>> inputBuffer,
                  std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
                  std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
     // convert a list of entitys to a list of tokenized word
-    static std::vector<std::vector<std::string>> exportDump(
+    std::vector<std::vector<std::string>> exportDump(
             std::vector<std::shared_ptr<Entity>> entityArrayDump);
     // ensure the file is consistend
-    static bool checksizeLine(std::vector<std::vector<std::string>> listOfEntity);
+    bool checksizeLine(std::vector<std::vector<std::string>> listOfEntity);
     // used in importDump to import the food elements
-    static void importFood(std::vector<std::vector<std::string>> inputBuffer,
+    void importFood(std::vector<std::vector<std::string>> inputBuffer,
                            std::vector<std::shared_ptr<Nourriture>> &foodVectReturn);
-};
+}
 
 #endif //TCHANZ_TEXTSTORAGE_H

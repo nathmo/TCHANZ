@@ -23,12 +23,48 @@ void Gui::onButtonClickedExit() {
 }
 
 void Gui::onButtonClickedOpen() {
-    (*simulationPtr).loadFromFile();
-    Gui::refreshSimulation();
+    Gtk::FileChooserDialog dialog("Please choose a file",
+                                  Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);
+    dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+    dialog.add_button("_Open", Gtk::RESPONSE_OK);
+    int result = dialog.run();
+    switch(result)
+    {
+        case(Gtk::RESPONSE_OK):
+        {
+            (*simulationPtr).setPath(dialog.get_filename());
+            (*simulationPtr).loadFromFile();
+            Gui::refreshSimulation();
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
 }
 
 void Gui::onButtonClickedSave() {
-    (*simulationPtr).saveToFile();
+    Gtk::FileChooserDialog dialog("Please choose a file",
+                                  Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);
+    dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+    dialog.add_button("_Open", Gtk::RESPONSE_OK);
+    int result = dialog.run();
+    switch(result)
+    {
+        case(Gtk::RESPONSE_OK):
+        {
+            (*simulationPtr).setPath(dialog.get_filename());
+            (*simulationPtr).saveToFile();
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
 }
 
 void Gui::onButtonClickedStartStop() {
@@ -132,7 +168,7 @@ void Gui::refreshAnthInfo() {
 }
 
 Gui::Gui(shared_ptr<Simulation> simulation) :
-        graphic(simulation),
+        graphic(),
         m_box_Gui(Gtk::ORIENTATION_HORIZONTAL),
         m_box_command(Gtk::ORIENTATION_VERTICAL),
         m_Box_General(Gtk::ORIENTATION_VERTICAL),
@@ -196,7 +232,6 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     m_Button_Next.signal_clicked().connect(
             sigc::mem_fun(*this, &Gui::onButtonClickedNext));
     add_events(Gdk::KEY_RELEASE_MASK);
-
     //create the timer
     Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::onTick), msPerFrame);
     show_all_children();// Show all children of the window

@@ -7,11 +7,10 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vector>
 #include "simulation.h"
 #include "textstorage.h"
 #include "squarecell.h"
-#include "constantes.h"
-#include "fourmiliere.h"
 #include "message.h"
 #include "entity.h"
 
@@ -22,6 +21,10 @@ Simulation::Simulation() {
 
 Simulation::Simulation(string path) {
     this->path = path;
+}
+
+void Simulation::setPath(std::string newpath){
+    path = newpath;
 }
 
 vector<shared_ptr<Entity>> Simulation::getListEntity() {
@@ -61,12 +64,17 @@ void Simulation::startHeadless() {
 
 void Simulation::simulateStep() {
     // create food randomly
+    Squarecell::FullGrid();
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
+    vector<shared_ptr<Entity>> entityList;
     if(food != nullptr) {
         nourritureList.push_back(food);
     }
-    for(auto Fourmilliere:anthillList) {
-        Fourmilliere->update();
+    entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
+    entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
+    for(auto entity:entityList) {
+        entity->update(entityList);
+        entity->draw();
     }
     for(unsigned int i=0;i<anthillList.size();i++) {
         if((anthillList[i])->getEnd_of_klan()) {

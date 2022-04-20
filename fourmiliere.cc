@@ -6,13 +6,13 @@
 */
 #include <iostream>
 #include <memory>
+#include <vector>
 #include <string>
 #include "fourmiliere.h"
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
 #include "message.h"
-#include "graphic.h"
 
 using namespace std;
 
@@ -48,13 +48,13 @@ bool Fourmiliere::getEnd_of_klan() {
     return endOfLife;
 }
 
-void Fourmiliere::update() {
+void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
     foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate);
     if(foodReserve<=0){
         endOfLife = true;
     }
     for(auto entity:memberAnts){
-        entity->update();
+        entity->update(entityList);
     }
     if((memberAnts[0])->getEnd_of_klan()) {
         endOfLife = true;// if generator disapear, this too
@@ -79,34 +79,27 @@ vector<vector<string>> Fourmiliere::exportToString() {
     string strC = to_string(nbC);
     string strD = to_string(nbD);
     string strP = to_string(nbP);
-
     toExport.push_back({coordX, coordY, height, generatorX, generatorY,
                         totalFood, strC, strD, strP});
-
     for(auto fourmi:memberAnts) {
         if(not((*fourmi).getSpecie()==fourmiGeneratorCST)) {
             vector <vector<string>> temp = (*fourmi).exportToString();
             toExport.insert(toExport.end(), temp.begin(), temp.end());
         }
     }
-
     return toExport;
 }
 
-vector<vector<double>> Fourmiliere::draw() {
+void Fourmiliere::draw() {
     int xBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int yBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int sizeSide = (*occupiedSpace).getHeight();
     int id = getId();
 
-    vector<vector<double>> commandList;
-    commandList = Squarecell::perimeter(xBotLeft, yBotLeft, sizeSide, id%6);
+    Squarecell::perimeter(xBotLeft, yBotLeft, sizeSide, id%6);
     for(auto ant:memberAnts) {
-        vector<vector<double>> commandListAnt = (*ant).draw();
-        commandList.insert(commandList.end(),
-                           commandListAnt.begin(), commandListAnt.end());
+        (*ant).draw();
     }
-    return commandList;
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
