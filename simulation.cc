@@ -42,7 +42,7 @@ void Simulation::loadFromFile() {
         }
         cout << message::success();
     }
-    catch (int code){
+    catch (int code) {
         nourritureList = {};
         anthillList = {};
         return;
@@ -50,7 +50,7 @@ void Simulation::loadFromFile() {
 }
 
 void Simulation::saveToFile() {
-    TextStorage::exportTXT(path,nourritureList,anthillList);
+    TextStorage::exportTXT(path, nourritureList, anthillList);
 }
 
 void Simulation::startHeadless() {
