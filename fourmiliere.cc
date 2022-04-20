@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include "fourmiliere.h"
+#include "fourmi.h"
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"

@@ -59,7 +59,7 @@ void Simulation::saveToFile() {
 void Simulation::startHeadless() {
     loadFromFile();
     //Simulation::simulateStep(entityList);
-    //Simulation::saveToFile(path+"Plus1Step",entityList);
+    //Simulation::saveToFile(path+"Plus1Step", entityList);
 }
 
 void Simulation::simulateStep() {
