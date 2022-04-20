@@ -10,8 +10,6 @@
 
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/frame.h>
-#include "entity.h"
-#include "simulation.h"
 
 constexpr unsigned taille_dessin(512);
 
@@ -28,14 +26,14 @@ struct Frame {// Model Framing and window parameters
 class Graphic : public Gtk::DrawingArea {
 private:
     Frame frame;
-    std::shared_ptr<Simulation> simulationPtr;
+    static Cairo::RefPtr<Cairo::Context> cairo ;
 
 protected:
     //Override default signal handler:
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
 
 public:
-    Graphic(std::shared_ptr<Simulation> simulation);
+    Graphic();
     virtual ~Graphic();
     void setFrame(Frame f);
     void adjustFrame();
@@ -43,8 +41,7 @@ public:
                                         Frame frame);
     static void drawLine(double xStart, double yStart,
                                   double xStop, double yStop,
-                                  double largeur, int colorCode,
-                                  const Cairo::RefPtr<Cairo::Context>& cr);
+                                  double largeur, int colorCode );
     static void color(double &r, double &g, double &b, int colorCode);
 };
 

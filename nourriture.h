@@ -22,7 +22,7 @@ public:
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
 
-    virtual std::vector<std::vector<double>> draw();
+    virtual void draw();
 };
 
 #endif //TCHANZ_NOURRITURE_H

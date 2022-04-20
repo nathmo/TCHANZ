@@ -11,17 +11,17 @@
 #include <iostream>
 #include "graphic.h"
 #include "constantes.h"
-#include "simulation.h"
 
 using namespace std;
+
+Cairo::RefPtr<Cairo::Context> Graphic::cairo;
 
 static Frame default_frame = {-((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
                               -((g_max+2)*resolution/2), ((g_max+2)*resolution/2),
                               1, taille_dessin, taille_dessin};
 
-Graphic::Graphic(shared_ptr<Simulation> simulation) {
+Graphic::Graphic() {
     setFrame(default_frame);
-    this->simulationPtr = simulation;
 }
 
 Graphic::~Graphic() {
@@ -84,43 +84,28 @@ void Graphic::orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
 }
 
 bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+    cairo = cr;
     // adjust the frame (cadrage) to prevent distortion when changing the window size
     adjustFrame();
-    Graphic::orthographic_projection(cr, frame);
-    //redraw the grid
-    vector<vector<double>> drawCommandList = Squarecell::FullGrid();
-    for(auto drawCommand:drawCommandList) {
-        Graphic::drawLine(drawCommand[0], drawCommand[1], drawCommand[2],
-                          drawCommand[3], drawCommand[4], drawCommand[5], cr);
-    }
-    // add the entity
-    for(auto entity:(*simulationPtr).getListEntity()) {
-        // vector storing drawings parameters
-        vector<vector<double>> drawCommandList = (*entity).draw();//tableau contenant xStart, yStart, xStop, yStop, largeur, couleur
-        for(auto drawCommand:drawCommandList) {
-            Graphic::drawLine(drawCommand[0],drawCommand[1], drawCommand[2],
-                              drawCommand[3],drawCommand[4], drawCommand[5], cr);
-        }
-    }
+    Graphic::orthographic_projection(cairo, frame);
     return true;
 }
 
 void Graphic::drawLine(double xStart, double yStart,
-                       double xStop, double yStop, double largeur,
-                       int colorCode, const Cairo::RefPtr<Cairo::Context>& cr) {
+                       double xStop, double yStop, double largeur, int colorCode) {
     double r = 0;
     double g = 0;
     double b = 0;
     Graphic::color(r,g,b, colorCode);
-    cr->save();
-    cr->set_line_width(largeur*resolution);
-    cr->set_source_rgb(r, g, b);
-    cr->move_to(xStart*resolution-g_max*resolution/2+resolution,
+    cairo->save();
+    cairo->set_line_width(largeur*resolution);
+    cairo->set_source_rgb(r, g, b);
+    cairo->move_to(xStart*resolution-g_max*resolution/2+resolution,
                 yStart*resolution-g_max*resolution/2+resolution);
-    cr->line_to(xStop*resolution-g_max*resolution/2+resolution,
+    cairo->line_to(xStop*resolution-g_max*resolution/2+resolution,
                 yStop*resolution-g_max*resolution/2+resolution);
-    cr->stroke();
-    cr->restore();
+    cairo->stroke();
+    cairo->restore();
 }
 
 void Graphic::color(double &r, double &g, double &b, int colorCode) {

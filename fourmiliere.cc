@@ -89,20 +89,16 @@ vector<vector<string>> Fourmiliere::exportToString() {
     return toExport;
 }
 
-vector<vector<double>> Fourmiliere::draw() {
+void Fourmiliere::draw() {
     int xBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int yBotLeft = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int sizeSide = (*occupiedSpace).getHeight();
     int id = getId();
 
-    vector<vector<double>> commandList;
-    commandList = Squarecell::perimeter(xBotLeft, yBotLeft, sizeSide, id%6);
+    Squarecell::perimeter(xBotLeft, yBotLeft, sizeSide, id%6);
     for(auto ant:memberAnts) {
-        vector<vector<double>> commandListAnt = (*ant).draw();
-        commandList.insert(commandList.end(),
-                           commandListAnt.begin(), commandListAnt.end());
+        (*ant).draw();
     }
-    return commandList;
 }
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {

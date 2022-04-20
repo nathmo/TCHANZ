@@ -12,6 +12,7 @@
 #include "squarecell.h"
 #include "error_squarecell.h"
 #include "constantes.h"
+#include "graphic.h"
 
 using namespace std;
 
@@ -327,7 +328,7 @@ Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
     return topRight;
 }
 
-vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
+void Squarecell::square(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
     double largeur = 1;
     double xCoord = (double)x;
@@ -335,10 +336,13 @@ vector<vector<double>> Squarecell::square(int x, int y, int colorCode) {
     double color = colorCode;
     linesToDraw.push_back({xCoord, yCoord+0.5, xCoord+1, yCoord+0.5, largeur, color});
 
-    return linesToDraw;
+    for(auto command : linesToDraw) {
+        Graphic::drawLine(command[0], command[1], command[2],
+                          command[3], command[4], command[5]);
+    }
 }
 
-vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode) {
+void Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode) {
     vector<vector<double>> linesToDraw;
     double color = (double)colorCode;
     linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5,
@@ -350,10 +354,13 @@ vector<vector<double>> Squarecell::perimeter(int xBotLeft, int yBotLeft,  int si
     linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
                            xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, color}); //ligne horizontal depuis le haut
 
-    return linesToDraw;
+    for(auto command : linesToDraw) {
+        Graphic::drawLine(command[0], command[1], command[2],
+                          command[3], command[4], command[5]);
+    }
 }
 
-vector<vector<double>> Squarecell::losange(int x, int y, int colorCode) {
+void Squarecell::losange(int x, int y, int colorCode) {
     vector<vector<double>> linesToDraw;
     float sinBias = 0.27;
     float largeur = 0.72;
@@ -361,10 +368,13 @@ vector<vector<double>> Squarecell::losange(int x, int y, int colorCode) {
     linesToDraw.push_back({x+sinBias, y+sinBias,
                            x+1-sinBias, y+1-sinBias, largeur, 12});
 
-    return linesToDraw;
+    for(auto command : linesToDraw) {
+        Graphic::drawLine(command[0], command[1], command[2],
+                          command[3], command[4], command[5]);
+    }
 }
 
-vector<vector<double>> Squarecell::FullGrid() {
+void Squarecell::FullGrid() {
     vector<vector<double>> commandList;
     //white border
     //xStart, yStart, xStop, yStop, largeur, colorCode
@@ -379,5 +389,8 @@ vector<vector<double>> Squarecell::FullGrid() {
     for(double y=0;y<g_max+1;y++) {
         commandList.push_back({0, y, g_max, y, 0.1, 13});
     }
-    return commandList;
+    for(auto command : commandList) {
+        Graphic::drawLine(command[0], command[1], command[2],
+                          command[3], command[4], command[5]);
+    }
 }

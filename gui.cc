@@ -179,7 +179,7 @@ void Gui::refreshAnthInfo(){
 }
 
 Gui::Gui(shared_ptr<Simulation> simulation) :
-        graphic(simulation),
+        graphic(),
         m_box_Gui(Gtk::ORIENTATION_HORIZONTAL),
         m_box_command(Gtk::ORIENTATION_VERTICAL),
         m_Box_General(Gtk::ORIENTATION_VERTICAL),

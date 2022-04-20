@@ -68,11 +68,11 @@ public:
     static Point computeHitboxTopRight(Point position, int width, int height);
     // used to display in the the grid
     static void displayRawGrid();
-    static std::vector<std::vector<double>> square(int x, int y, int colorCode);
-    static std::vector<std::vector<double>> perimeter(int xBotLeft, int yBotLeft,
+    static void square(int x, int y, int colorCode);
+    static void perimeter(int xBotLeft, int yBotLeft,
                                                       int sizeSide, int colorCode);
-    static std::vector<std::vector<double>> losange(int x, int y, int colorCode);
-    static std::vector<std::vector<double>> FullGrid();
+    static void losange(int x, int y, int colorCode);
+    static void FullGrid();
 };
     
 #endif //TCHANZ_SQUARECELL_H

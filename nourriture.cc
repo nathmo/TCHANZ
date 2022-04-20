@@ -54,14 +54,11 @@ vector<vector<string>> Nourriture::exportToString() {
     return vecVecStringFood;
 }
 
-vector<vector<double>> Nourriture::draw() {
-    vector<vector<double>> commandList;
+void Nourriture::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
 
-    commandList = Squarecell::losange(x, y, 12);
-
-    return commandList;
+    Squarecell::losange(x, y, 12);
 }
 
 /*

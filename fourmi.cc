@@ -42,10 +42,9 @@ vector<vector<string>> Fourmi::exportToString(){
     return toExport;
 }
 
-vector<vector<double>> Fourmi::draw(){
+void Fourmi::draw(){
     cout << "trying to draw a generic fourmi" << endl;
     exit(EXIT_FAILURE);
-    return {{}};
 }
 
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
@@ -113,8 +112,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
     }
 }
 
-vector<vector<double>> Collector::draw() {
-    vector<vector<double>> commandList;
+void Collector::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
@@ -124,8 +122,7 @@ vector<vector<double>> Collector::draw() {
    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
     for (int i(0); i < side; i++) {
         for (int j(0); j < side; j++) {
-            vector<vector<double>> cmd = Squarecell::square(x + j, y + i, colorCode);
-            commandList.insert(commandList.end(), cmd.begin(), cmd.end());
+            Squarecell::square(x + j, y + i, colorCode);
             if (colorCode == id) {
                 colorCode = lightColor;
             } else {
@@ -133,7 +130,6 @@ vector<vector<double>> Collector::draw() {
             }
         }
     }
-    return commandList;
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -174,21 +170,16 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     }
 }
 
-vector<vector<double>> Defensor::draw() {
-    vector<vector<double>> commandList;
+void Defensor::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
     int id = getId()%6;
     int lightColor = id+6;
     int colorCode = lightColor; //on commence en bas a gauche donc clair au debut
-
-    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
-
     for(int i(0); i < side; i++) {
         for(int j(0); j < side; j++) {
-            vector<vector<double>> cmd = Squarecell::square(x + j, y + i, colorCode);
-            commandList.insert(commandList.end(), cmd.begin(), cmd.end());
+            Squarecell::square(x + j, y + i, colorCode);
             if(colorCode == id) {
                 colorCode = lightColor;
             } else {
@@ -196,8 +187,7 @@ vector<vector<double>> Defensor::draw() {
             }
         }
     }
-    commandList[4][5] = id; // change color of center back to dark
-    return commandList;
+    Squarecell::square(x + 1, y + 1, id);; // change color of center back to dark
 }
 
 Predator::Predator(Point position, int id, int age) :
@@ -237,13 +227,11 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     }
 }
 
-vector<vector<double>> Predator::draw() {
-    vector <vector<double>> list;
+void Predator::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int id = getId()%6;
-    list = Squarecell::square(x, y, id);
-    return list;
+    Squarecell::square(x, y, id);
 }
 
 Generator::Generator(Point position, int id) :
@@ -278,7 +266,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     return make_shared<Generator>(Point(x,y), index);
 }
 
-vector<vector<double>> Generator::draw() {
+void Generator::draw() {
     vector <vector<double>> commandList;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
@@ -286,9 +274,7 @@ vector<vector<double>> Generator::draw() {
     int id = getId();
     for(int i(0); i < side; i++) {
         for(int j(0); j < side; j++) {
-            vector<vector<double>> cmd = Squarecell::square(x + j, y + i, id%6);
-            commandList.insert(commandList.end(), cmd.begin(), cmd.end());
+            Squarecell::square(x + j, y + i, id%6);
         }
     }
-    return commandList;
 }

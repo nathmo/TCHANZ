@@ -57,7 +57,7 @@ void Entity::update(){
     exit(EXIT_FAILURE);
 }
 
-vector<vector<double>> Entity::draw(){
+void Entity::draw(){
     cout << "trying to draw a generic entity" << endl;
     exit(EXIT_FAILURE);
 }

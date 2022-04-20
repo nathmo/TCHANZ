@@ -63,12 +63,17 @@ void Simulation::startHeadless() {
 
 void Simulation::simulateStep() {
     // create food randomly
+    Squarecell::FullGrid();
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
     if(food != nullptr) {
         nourritureList.push_back(food);
     }
+    for(auto nourriture:nourritureList) {
+        nourriture->draw();
+    }
     for(auto Fourmilliere:anthillList) {
         Fourmilliere->update();
+        Fourmilliere->draw();
     }
     for(unsigned int i=0;i<anthillList.size();i++) {
         if((anthillList[i])->getEnd_of_klan()) {
