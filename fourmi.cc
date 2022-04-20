@@ -46,7 +46,6 @@ vector<vector<string>> Fourmi::exportToString(){
 void Fourmi::draw(){
     cout << "trying to draw a generic fourmi" << endl;
     exit(EXIT_FAILURE);
-    return {{}};
 }
 
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
@@ -55,6 +54,7 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update(vector<shared_ptr<Entity>> & entityList) {
+    /*
     age++;
 
     int xOrigin = getPosition().getCoordX();
@@ -79,6 +79,7 @@ void Collector::update(vector<shared_ptr<Entity>> & entityList) {
     }
 
     Entity::pointClosestCollector(xOrigin, yOrigin, listSpecieTrie);
+*/
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -137,7 +138,6 @@ void Collector::draw() {
             }
         }
     }
-    return commandList;
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -288,5 +288,4 @@ void Generator::draw() {
             Squarecell::square(x + j, y + i, id%6);
         }
     }
-    return commandList;
 }

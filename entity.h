@@ -18,6 +18,7 @@ protected:
     char specie;
     unsigned long id;
     bool endOfLife;
+
 public:
     Entity(Point position, int width, int height, char specie, int id);
     void setPosition(Point newPosition);
