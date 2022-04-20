@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <random>
 #include "squarecell.h"
 
 class Entity {
@@ -18,6 +19,7 @@ protected:
     char specie;
     unsigned long id;
     bool endOfLife;
+    static std::default_random_engine randGen;
 public:
     Entity(Point position, int width, int height, char specie, int id);
     void setPosition(Point newPosition);
