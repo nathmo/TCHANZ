@@ -54,25 +54,32 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 }
 
 void Collector::update(vector<shared_ptr<Entity>> & entityList) {
-/*
-    vector<Point> listSpecie = Entity::findSpecie(nourritureCST);
-    vector<Point> listSpecieTrie;
+    /*
+    age++;
 
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
 
-    bool case = (xOrigin+yOrigin)%2; //savoir si case noir ou blanche
+    vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin), nourritureCST); //Point position, char specie, listOfEntity
+    vector<Point> listSpecieTrie; //liste specie meme couleur case
+
+    //savoir si case noir ou blanche
+    bool spot = false; //case noir
+    if(!((xOrigin+yOrigin)%2 == 0)) {
+        spot = true;
+    }
 
     //classer les food qui sont sur meme couleur case
     for(auto entity : listSpecie) {
         int x = entity.getCoordX();
         int y = entity.getCoordY();
-        if((x+y)%2 == case) {
+        if((x+y)%2 == spot) {
             listSpecieTrie.push_back(entity);
         }
     }
-    age++;
-    */
+
+    Entity::pointClosestCollector(xOrigin, yOrigin, listSpecieTrie);
+*/
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -178,6 +185,9 @@ void Defensor::draw() {
     int id = getId()%6;
     int lightColor = id+6;
     int colorCode = lightColor; //on commence en bas a gauche donc clair au debut
+
+    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
+
     for(int i(0); i < side; i++) {
         for(int j(0); j < side; j++) {
             Squarecell::square(x + j, y + i, colorCode);

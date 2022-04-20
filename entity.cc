@@ -64,7 +64,7 @@ void Entity::draw(){
     exit(EXIT_FAILURE);
 }
 
-vector<vector<string>> Entity::exportToString(){
+vector<vector<string>> Entity::exportToString() {
     cout << "trying to export a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
@@ -90,23 +90,20 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
     return errorCode; //return a value that show no entity where found
 }
 
-
-/*
-
-vector<Point> Entity::findSpecie(Point position, char specie) {
+vector<Point> Entity::findSpecie(Point position, char specie, vector<shared_ptr<Entity>> listOfEntity) {
     vector<Point> listSpecie;
 
-    for(int i(0); i<listOfEntity.size(); i++) {
+    for(unsigned int i(0); i<listOfEntity.size(); i++) {
         if(((*listOfEntity[i]).getSpecie()) == specie) {
             int x=(((*listOfEntity[i]).getOccupiedSpace())->getPosition()).getCoordX();
             int y=(((*listOfEntity[i]).getOccupiedSpace())->getPosition()).getCoordY();
             listSpecie.push_back(Point(x,y));
         }
     }
-
+    //aucun interet de trier liste si apres on va forcement repasser dans toute liste
+    /*
     sort(listSpecie.begin(), listSpecie.end(), Entity::distance2Points());
 
-  /*
     double distanceInitial = distance2Points(position, listSpecie[0]);
 
     for(unsigned int i(1); i<listSpecie.size(); i++) {
@@ -116,22 +113,33 @@ vector<Point> Entity::findSpecie(Point position, char specie) {
             distanceInitial = distance2Points(position, listSpecie[i]);
         }
     }
-    */
-/*
+     */
     return listSpecie;
 }
 
-double Entity::distance2Points(Point position, Point positionSpecie) {
-    int x = position.getCoordX();
-    int y = position.getCoordY();
-    int x2 = positionSpecie.getCoordX();
-    int y2 = positionSpecie.getCoordY();
-    double distance = sqrt((x2-x)*(x2-x) + (y2-y)*(y2-y));
-
-    return distance;
+Point Entity::pointClosestCollector(int xOrigin, int yOrigin,
+                                    vector<Point> listSpecieTrie) {
+    int x1 = listSpecieTrie[0].getCoordX(); //faire les comparaisons aux autres de la liste
+    int y1 = listSpecieTrie[0].getCoordY();
+    double distance = distance2Points(xOrigin, yOrigin, x1, y1);
+    for(auto point:listSpecieTrie) {
+        int x2 = point.getCoordX();
+        int y2 = point.getCoordY();
+        if(distance<distance2Points(xOrigin, yOrigin, x1, y1)) {
+            x1 = x2;
+            y1 = y2;
+        }
+    }
+    return Point(x1,y1);
 }
 
+double Entity::distance2Points(int xOrigin, int yOrigin, int xPoint, int yPoint) {
+    return sqrt((xPoint-xOrigin)*(xPoint-xOrigin) + (xPoint-yOrigin)*(yPoint-yOrigin));
+}
+
+/*
 bool Entity::isThere() {
+
     return true;
 }
 
