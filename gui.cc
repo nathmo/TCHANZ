@@ -37,8 +37,8 @@ void Gui::onButtonClickedOpen() {
             (*simulationPtr).loadFromFile();
             Gui::refreshAnthInfo();
             Gui::refreshFoodInfo();
-            (*simulationPtr).refreshGUI();
             graphic.queue_draw();//trigger refresh
+            (*simulationPtr).refreshGUI();
             break;
         }
         default:
@@ -92,8 +92,8 @@ bool Gui::onTick() {
         cout << "tick : "+to_string(timer) << endl;
         Gui::refreshAnthInfo();
         Gui::refreshFoodInfo();
-        (*simulationPtr).simulateStep();
         graphic.queue_draw();//trigger refresh
+        (*simulationPtr).simulateStep();
     }
     return true;
 }
