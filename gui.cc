@@ -82,10 +82,7 @@ void Gui::onButtonClickedStartStop() {
 
 void Gui::onButtonClickedStep() {
     if(m_Button_StartStop.get_label()=="start") { // step only if not actively simulating
-        timer++;
-        cout << "tick : "+to_string(timer) << endl;
-        (*simulationPtr).simulateStep();
-        graphic.queue_draw();//trigger refresh
+        Gui::onTick();
     }
 }
 

@@ -84,6 +84,7 @@ void Simulation::simulateStep() {
 }
 
 void Simulation::refreshGUI() {
+    Squarecell::FullGrid();
     vector<shared_ptr<Entity>> entityList;
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
