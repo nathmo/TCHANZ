@@ -232,11 +232,10 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     //create the timer
     Glib::signal_timeout().connect( sigc::mem_fun(*this, &Gui::onTick), msPerFrame);
     show_all_children();// Show all children of the window
-    (*simulationPtr).loadFromFile();
     Gui::refreshAnthInfo();
     Gui::refreshFoodInfo();
     (*simulationPtr).refreshGUI();
-    graphic.queue_draw();//trigger refresh
+    //graphic.queue_draw();//trigger refresh
 }
 
 Gui::~Gui() {
