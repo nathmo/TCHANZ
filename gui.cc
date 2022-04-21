@@ -46,7 +46,7 @@ void Gui::onButtonClickedOpen() {
 
 void Gui::onButtonClickedSave() {
     Gtk::FileChooserDialog dialog("Please choose a file",
-                                  Gtk::FILE_CHOOSER_ACTION_OPEN);
+                                  Gtk::FILE_CHOOSER_ACTION_SAVE);
     dialog.set_transient_for(*this);
     dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
     dialog.add_button("_Open", Gtk::RESPONSE_OK);
@@ -76,10 +76,10 @@ void Gui::onButtonClickedStep() {
     if(m_Button_StartStop.get_label()=="start") { // step only if not actively simulating
         timer++;
         cout << "tick : "+to_string(timer) << endl;
-        Gui::refreshAnthInfo();
-        Gui::refreshFoodInfo();
         (*simulationPtr).simulateStep();
         (*simulationPtr).refreshGUI();
+        Gui::refreshAnthInfo();
+        Gui::refreshFoodInfo();
         graphic.queue_draw(); //trigger refresh by calling on draw ASAP
     }
 }
@@ -88,10 +88,10 @@ bool Gui::onTick() {
     if(m_Button_StartStop.get_label()=="stop") { // step only if actively simulating
         timer++;
         cout << "tick : "+to_string(timer) << endl;
-        Gui::refreshAnthInfo();
-        Gui::refreshFoodInfo();
         (*simulationPtr).simulateStep();
         (*simulationPtr).refreshGUI();
+        Gui::refreshAnthInfo();
+        Gui::refreshFoodInfo();
         graphic.queue_draw(); //trigger refresh by calling on draw ASAP
     }
     return true;

@@ -63,22 +63,25 @@ void Simulation::startHeadless() {
 }
 
 void Simulation::simulateStep() {
-    // create food randomly
-    Squarecell::FullGrid();// draw the grid
     vector<shared_ptr<Entity>> entityList;
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
     if(food != nullptr) {
         nourritureList.push_back(food);
-    }
+    }// create food randomly
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
-    for(auto entity:entityList) {
-        entity->update(entityList);
-    }
+    for(auto anthill:anthillList) {
+        anthill->update(entityList);
+    }// update the anthill and their ants
     for(unsigned int i=0;i<anthillList.size();i++) {
-        if((anthillList[i])->getEnd_of_klan()) {
+        if((anthillList[i])->getEndOfLife()) {
             anthillList.erase(anthillList.begin()+i);
         }
+    }// erase anthill that died
+    for(unsigned int i=0;i<nourritureList.size();i++) {
+        if((nourritureList[i])->getEndOfLife()) {
+            nourritureList.erase(nourritureList.begin()+i);
+        }// erase food that where picked up
     }
 }
 

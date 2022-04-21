@@ -40,7 +40,7 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
     int index = -1;
     if(Entity::biasedCoinFlip(food_rate))
     {
-        for(int i=0;i<10;i++){
+        for(int i=0;i<max_food_trial;i++){
             x = Entity::randInt(1,g_max-2);
             y = Entity::randInt(1,g_max-2);
             bool occupied = Squarecell::checkOverlap(Point(x,y), 1, 1, allCST);

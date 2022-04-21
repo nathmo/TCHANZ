@@ -50,6 +50,14 @@ int Entity::getId() {
     return id;
 }
 
+bool Entity::getEndOfLife(){
+    return endOfLife;
+}
+
+void Entity::setEndOfLife(bool endOfLife){
+    this->endOfLife = endOfLife;
+}
+
 shared_ptr<Squarecell> Entity::getOccupiedSpace() {
     return occupiedSpace;
 }

@@ -30,6 +30,8 @@ public:
     int getWidth();
     char getSpecie();
     int getId();
+    bool getEndOfLife();
+    void setEndOfLife(bool endOfLife);
     std::shared_ptr<Squarecell> getOccupiedSpace();
     virtual std::vector<std::vector<std::string>> exportToString();
     virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);

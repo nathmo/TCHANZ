@@ -23,10 +23,6 @@ Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
     endOfLife = false;
 }
 
-bool Fourmi::getEnd_of_klan(){
-    return endOfLife;
-}
-
 int Fourmi::getAge(){
     return age;
 }

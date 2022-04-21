@@ -20,6 +20,7 @@ private:
     int nbC;
     int nbD;
     int nbP;
+    bool isConstrained;
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
 
 public:
@@ -30,7 +31,6 @@ public:
     int getnbD();
     int getnbP();
     int getfoodReserve();
-    bool getEnd_of_klan();
     virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     //export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
@@ -43,6 +43,12 @@ public:
     void checkGeneratorUsingCoord();
     //same for defensor
     void checkDefensorUsingCoord();
+
+    void randomCreateAnts();
+
+    bool checkIfConstrained();
+
+    int getAntTypeToGenerate();
     //create an anthill object from a vector of string + run the check for the anthill
     static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
                            std::vector<std::string> &inputBuffer, int index,

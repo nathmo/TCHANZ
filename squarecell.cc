@@ -298,6 +298,35 @@ void Squarecell::displayRawGrid() {
     }
 }
 
+Point Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
+                         int width, int height, char filter){
+    int paddingWidth;
+    int paddingHeight;
+    if(width%2==0){
+        paddingWidth = (width/2);
+    } else
+    {
+        paddingWidth = ((width-1)/2);
+    }
+    if(height%2==0){
+        paddingHeight = (height/2);
+    } else
+    {
+        paddingHeight = ((height-1)/2);
+    }
+    int xStart = cornerBotLeft.getCoordX()+paddingWidth;
+    int xStop = (cornerTopRight.getCoordX()-paddingWidth);
+    int yStart = cornerBotLeft.getCoordY()+paddingHeight;
+    int yStop = (cornerTopRight.getCoordY()-paddingHeight);
+    for(int x=xStart; x<xStop;x++){
+        for(int y=yStart; y<yStop;y++){
+            if(Squarecell::checkOverlap(Point(x,y), width, height, filter)==0){
+                return Point(x,y);
+            } // convolute the shape to find a spot where it fit
+        }
+    }
+}
+
 Point Squarecell::computeHitboxBotLeft(Point position, int width, int height) {
     Point botLeft;
     if(width%2==0) {

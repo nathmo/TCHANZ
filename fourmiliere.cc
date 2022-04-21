@@ -27,6 +27,7 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     this->nbP=nbP;
     memberAnts = FourmiList;
     endOfLife = false;
+    isConstrained = checkIfConstrained();
 }
 
 int Fourmiliere::getnbC() {
@@ -45,22 +46,19 @@ int Fourmiliere::getfoodReserve() {
     return foodReserve;
 }
 
-bool Fourmiliere::getEnd_of_klan() {
-    return endOfLife;
-}
-
 void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
     foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate);
     if(foodReserve<=0) {
         endOfLife = true;
     }
+    randomCreateAnts();
     for(auto entity:memberAnts) {
         entity->update(entityList);
     }
-    if((memberAnts[0])->getEnd_of_klan()) {
+    if((memberAnts[0])->getEndOfLife()) {
         endOfLife = true;// if generator disapear, this too
     }
-    for(unsigned int i=0;i<memberAnts.size();i++) {
+    for(unsigned int i=1;i<memberAnts.size();i++) {
         if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST) {
             if((memberAnts[i])->getAge()>bug_life) {
                 memberAnts.erase(memberAnts.begin()+i);
@@ -157,6 +155,66 @@ void Fourmiliere::checkDefensorUsingCoord() {
             }
         }
     }
+}
+
+void Fourmiliere::randomCreateAnts(){
+    if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))){
+        shared_ptr<Fourmi> ant;
+        int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
+        // remove the border from allowed zone
+        Point cornerBL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX()+1,
+                               (*occupiedSpace).getHitboxBotLeft().getCoordY()+1);
+        Point cornerTR = Point((*occupiedSpace).getHitboxTopRight().getCoordX()-1,
+                               (*occupiedSpace).getHitboxTopRight().getCoordY()-1);
+        Point position;
+        switch(antTypeToGenerate){
+            case 0  : // Collector
+                position = Squarecell::findNextFreeInArea(cornerBL, cornerTR,
+                                                          sizeC, sizeC, anyCST);
+                ant = make_shared<Collector>(position, id, 0, false);
+                nbC++;
+                break;
+            case 1  : // Defensor
+                position = Squarecell::findNextFreeInArea(cornerBL, cornerTR,
+                                                          sizeD, sizeD, anyCST);
+                ant = make_shared<Defensor>(position, id, 0);
+                nbD++;
+                break;
+            case 2  : // Predator
+                position = Squarecell::findNextFreeInArea(cornerBL, cornerTR,
+                                                          sizeP, sizeP, anyCST);
+                ant = make_shared<Predator>(position, id, 0);
+                nbP++;
+                break;
+        }
+        memberAnts.push_back(ant);
+    }
+}
+
+int Fourmiliere::getAntTypeToGenerate(){
+    int antTypeToGenerate = 0;
+    if(isConstrained){
+        if(memberAnts.size()*prop_constrained_collector < nbC){
+            antTypeToGenerate = 0;
+        } else if (memberAnts.size()*prop_constrained_defensor < nbD){
+            antTypeToGenerate = 1;
+        } else {
+            antTypeToGenerate = 2;
+        }
+    } else {
+        if(memberAnts.size()*prop_free_collector < nbC){
+            antTypeToGenerate = 0;
+        } else if (memberAnts.size()*prop_free_defensor < nbD){
+            antTypeToGenerate = 1;
+        } else {
+            antTypeToGenerate = 2;
+        }
+    }
+    return antTypeToGenerate;
+}
+
+bool Fourmiliere::checkIfConstrained(){
+    return false;
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(

@@ -63,6 +63,8 @@ public:
                             Point position2, int width2,int height2);
     static int countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
                             Point cornerBotLeft2, Point cornerTopRight2);
+    static Point findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
+                                    int width, int height, char filter);
     // return the left bottom corner of the shape
     static Point computeHitboxBotLeft(Point position, int width, int height);
     // same but for the right top corner of the shape
