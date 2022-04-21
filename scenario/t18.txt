@@ -57,13 +57,13 @@
     22 50 4
 
 # anthill #3
-    5 5 22 8 15 30 1 1 1
+    5 5 12 8 12 30 1 1 1
 
     # collectors:
     20 15 2 true
 
     # defensors:
-    9 9 5
+    7 7 5
 
     # predators:
     22 24 10
@@ -94,14 +94,14 @@
     40 30 10
 
 # anthill #6
-    110 20 13 112 18 75 3 0 1
+    110 20 13 112 18 750 1 1 1
 
     # collectors:
      85 35 3 true
-     120 64 4 false
-     30 10 5 true
 
     # defensors:
+    112 22 4
 
     # predators:
     90 100 3
+

@@ -325,6 +325,7 @@ Point Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
             } // convolute the shape to find a spot where it fit
         }
     }
+    throw(errorCode);//no space found
 }
 
 Point Squarecell::computeHitboxBotLeft(Point position, int width, int height) {

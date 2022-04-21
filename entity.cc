@@ -20,6 +20,7 @@ Entity::Entity(Point position, int width, int height, char specie, int id) {
     occupiedSpace = make_shared<Squarecell> (position, width, height, specie);
     this->specie=specie;
     this->id=id;
+    endOfLife = false;
 }
 
 void Entity::setPosition(Point newPosition) {
