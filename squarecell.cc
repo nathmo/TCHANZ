@@ -80,14 +80,19 @@ bool Point::checkPoint(long int x,long int y) {
 Squarecell::Squarecell() {
 }
 
-Squarecell::Squarecell(Point position, int width,int height, char kind) {
+Squarecell::Squarecell(Point position, int width,int height, char kind,
+                       bool isPositionAtCenter) {
     this->height = height;
     this->width = width;
     this->position = position;
     this->kind = kind;
-    cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height);
-    cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height);
-    bool isElligible = Squarecell::checkHitbox(position,width,height)
+    this->isPositionAtCenter = isPositionAtCenter;
+    cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                     isPositionAtCenter);
+    cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                       isPositionAtCenter);
+    bool isElligible = Squarecell::checkHitbox(position, width, height,
+                                               isPositionAtCenter)
                        and Point::checkPoint(position);
     if(isElligible) { // if the coordinate fit in the grid
         for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
@@ -160,9 +165,16 @@ Point Squarecell::getHitboxTopRight() {
     return cornerTopRight;
 }
 
-bool Squarecell::checkHitbox(Point position, int width, int height) {
-    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height);
-    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height);
+bool Squarecell::getIsPositionAtCenter(){
+    return isPositionAtCenter;
+}
+
+bool Squarecell::checkHitbox(Point position, int width, int height,
+                             bool isPositionAtCenter) {
+    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                           isPositionAtCenter);
+    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                             isPositionAtCenter);
     bool status = true;
     vector<int> PointToCheck ={cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
                                cornerTopRight.getCoordX(),cornerTopRight.getCoordY()};
@@ -190,9 +202,11 @@ bool Squarecell::checkHitbox(Point position, int width, int height) {
 }
 
 bool Squarecell::checkOverlap(Point position, int width, int height,
-                              char kindToCheck) {
-    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height);
-    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height);
+                              char kindToCheck, bool isPositionAtCenter) {
+    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                           isPositionAtCenter);
+    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                             isPositionAtCenter);
     for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
         for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
             if((hitBoxGrid[i][j] & kindToCheck)) {
@@ -204,9 +218,11 @@ bool Squarecell::checkOverlap(Point position, int width, int height,
 }
 
 vector<Point> Squarecell::getOverlap(Point position, int width, int height,
-                                     char kindToCheck) {
-    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height);
-    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height);
+                                     char kindToCheck, bool isPositionAtCenter) {
+    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                           isPositionAtCenter);
+    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                             isPositionAtCenter);
     vector<Point> collisionList;
     for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
         for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
@@ -219,16 +235,18 @@ vector<Point> Squarecell::getOverlap(Point position, int width, int height,
 }
 
 int Squarecell::countOverlap(Point position1, int width1,int height1,
-                             Point position2, int width2,int height2) {
+                             bool isPositionAtCenter1,
+                             Point position2, int width2,int height2,
+                             bool isPositionAtCenter2) {
     // compute the corner of the rectangle (or square)
-    Point cornerBotLeft1 = Squarecell::computeHitboxBotLeft(position1,
-                                                            width1,height1);
-    Point cornerTopRight1 = Squarecell::computeHitboxTopRight(position1,
-                                                              width1, height1);
-    Point cornerBotLeft2 = Squarecell::computeHitboxBotLeft(position2,
-                                                            width2, height2);
-    Point cornerTopRight2 = Squarecell::computeHitboxTopRight(position2,
-                                                              width2, height2);
+    Point cornerBotLeft1 = Squarecell::computeHitboxBotLeft(position1, width1,
+                                                        height1, isPositionAtCenter1);
+    Point cornerTopRight1 = Squarecell::computeHitboxTopRight(position1, width1,
+                                                        height1, isPositionAtCenter1);
+    Point cornerBotLeft2 = Squarecell::computeHitboxBotLeft(position2, width2,
+                                                        height2, isPositionAtCenter2);
+    Point cornerTopRight2 = Squarecell::computeHitboxTopRight(position2, width2,
+                                                        height2, isPositionAtCenter2);
     if((cornerBotLeft2.getCoordX() > cornerTopRight1.getCoordX()) or
                           (cornerBotLeft1.getCoordX() > cornerTopRight2.getCoordX())){
         return 0; // the interval dont overlap
@@ -320,7 +338,7 @@ Point Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
     int yStop = (cornerTopRight.getCoordY()-paddingHeight);
     for(int x=xStart; x<xStop;x++){
         for(int y=yStart; y<yStop;y++){
-            if(Squarecell::checkOverlap(Point(x,y), width, height, filter)==0){
+            if(Squarecell::checkOverlap(Point(x,y), width, height, filter, false)==0){
                 return Point(x,y);
             } // convolute the shape to find a spot where it fit
         }
@@ -328,29 +346,31 @@ Point Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
     throw(errorCode);//no space found
 }
 
-Point Squarecell::computeHitboxBotLeft(Point position, int width, int height) {
+Point Squarecell::computeHitboxBotLeft(Point position, int width, int height,
+                                       bool isPositionAtCenter) {
     Point botLeft;
-    if(width%2==0) {
+    if(not isPositionAtCenter) {
         botLeft.setCoordX(position.getCoordX());
-    } else if(width%2==1) {
+    } else {
         botLeft.setCoordX(position.getCoordX()-(width-1)/2);
     }
-    if(height%2==0) {
+    if(not isPositionAtCenter) {
         botLeft.setCoordY(position.getCoordY());
-    } else if(height%2==1) {
+    } else {
         botLeft.setCoordY(position.getCoordY()-(height-1)/2);
     }
     return botLeft;
 }
 
-Point Squarecell::computeHitboxTopRight(Point position, int width, int height) {
+Point Squarecell::computeHitboxTopRight(Point position, int width, int height,
+                                        bool isPositionAtCenter) {
     Point topRight;
-    if(width%2==0) {
+    if(not isPositionAtCenter) {
         topRight.setCoordX(position.getCoordX()+width-1);
-    } else if(width%2==1) {
+    } else {
         topRight.setCoordX(position.getCoordX()+(width-1)/2);
     }
-    if(height%2==0) {
+    if(not isPositionAtCenter) {
         topRight.setCoordY(position.getCoordY()+height-1);
     } else if(height%2==1) {
         topRight.setCoordY(position.getCoordY()+(height-1)/2);

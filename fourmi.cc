@@ -18,7 +18,7 @@
 using namespace std;
 
 Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
-        Entity(position, size, size, type, id) {
+        Entity(position, size, size, type, id, true) {
     this->age = age;
     endOfLife = false;
 }
@@ -106,7 +106,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
         conditionFood = true;
     }
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeC, sizeC,
-                                                       anyCST);
+                                                       anyCST, true);
     if(overlapList.size()>0) { //ensure the ant does not collide with something else
         cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
@@ -164,7 +164,7 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     long int y = stoi(inputBuffer[1]);
     long int age = stoi(inputBuffer[2]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeD, sizeD,
-                                                       anyCST);
+                                                       anyCST, true);
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(),
                                          overlapList[0].getCoordY());
@@ -225,7 +225,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
     int y = stoi(inputBuffer[1]);
     int age = stoi(inputBuffer[2]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP,
-                                                       anyCST);
+                                                       anyCST, true);
     if(overlapList.size()>0) { // ensure the ant does not collide with something else
         cout<< message::predator_overlap(x,y);
         throw (-1);
@@ -264,7 +264,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     int x = stoi(inputBuffer[3]);
     int y = stoi(inputBuffer[4]);
     vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeG, sizeG,
-                                                       anyCST);
+                                                       anyCST, true);
     if(overlapList.size()>0) { //ensure the ant does not collide with something else
         cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());

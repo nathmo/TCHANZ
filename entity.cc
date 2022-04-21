@@ -16,8 +16,10 @@ using namespace std;
 
 default_random_engine Entity::randGen;
 
-Entity::Entity(Point position, int width, int height, char specie, int id) {
-    occupiedSpace = make_shared<Squarecell> (position, width, height, specie);
+Entity::Entity(Point position, int width, int height, char specie,
+               int id, bool isPositionAtCenter) {
+    occupiedSpace = make_shared<Squarecell> (position, width, height,
+                                             specie, isPositionAtCenter);
     this->specie=specie;
     this->id=id;
     endOfLife = false;
@@ -100,8 +102,9 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
             int pointOriginY = (((*listOfEntity[i]).getOccupiedSpace())
                                                     ->getHitboxBotLeft()).getCoordY();
             Point position2(pointOriginX,pointOriginY);
-            if(Squarecell::countOverlap(overlappingPoint, 1, 1,
-                                        position2, largeur, hauteur)) {
+            if(Squarecell::countOverlap(overlappingPoint, 1, 1, false,
+                    position2, largeur, hauteur,
+                    (*listOfEntity[i]).getOccupiedSpace()->getIsPositionAtCenter())) {
                 return (*listOfEntity[i]).getId(); //return id of the overlap entity
             }
         }

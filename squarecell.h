@@ -34,13 +34,15 @@ private:
     int height;
     int width;
     char kind;
+    bool isPositionAtCenter;
     Point cornerBotLeft;
     Point cornerTopRight;
     static std::vector<std::vector<char>> hitBoxGrid ;
 
 public:
     Squarecell();
-    Squarecell(Point position, int height, int width, char kind);
+    Squarecell(Point position, int height, int width, char kind,
+               bool isPositionAtCenter);
     ~Squarecell();
     Point getPosition();
     void setPosition(Point position);
@@ -51,24 +53,31 @@ public:
     void setSize(int width, int height);
     Point getHitboxBotLeft();
     Point getHitboxTopRight();
+    bool getIsPositionAtCenter();
     //Check that the position + its size still fully fit in the grid
-    static bool checkHitbox(Point position, int width, int height);
+    static bool checkHitbox(Point position, int width, int height,
+                            bool isPositionAtCenter);
     // return true if an shape of the choosen type overlap the given region
-    static bool checkOverlap(Point position, int width, int height, char kindToCheck);
+    static bool checkOverlap(Point position, int width, int height, char kindToCheck,
+                             bool isPositionAtCenter);
     // return the list of overlapping point if an shape of the choosen type overlap
-    static std::vector<Point> getOverlap(Point position, int width,
-                                         int height, char kindToCheck);
+    static std::vector<Point> getOverlap(Point position, int width, int height,
+                                         char kindToCheck, bool isPositionAtCenter);
     // return the number of overlapping point between two shape
-    static int countOverlap(Point position1, int width1,int height1,
-                            Point position2, int width2,int height2);
+    static int countOverlap(Point position1, int width1, int height1,
+                            bool isPositionAtCenter1,
+                            Point position2, int width2,int height2,
+                            bool isPositionAtCenter2);
     static int countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
                             Point cornerBotLeft2, Point cornerTopRight2);
     static Point findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
                                     int width, int height, char filter);
     // return the left bottom corner of the shape
-    static Point computeHitboxBotLeft(Point position, int width, int height);
+    static Point computeHitboxBotLeft(Point position, int width, int height,
+                                      bool isPositionAtCenter);
     // same but for the right top corner of the shape
-    static Point computeHitboxTopRight(Point position, int width, int height);
+    static Point computeHitboxTopRight(Point position, int width, int height,
+                                       bool isPositionAtCenter);
     // used to display in the the grid
     static void displayRawGrid();
     static void square(int x, int y, int colorCode);

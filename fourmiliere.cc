@@ -20,7 +20,7 @@ using namespace std;
 Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
                          int nbC, int nbD, int nbP, int id,
                          vector<shared_ptr<Fourmi>> FourmiList) :
-                         Entity(position,size, size,fourmilliereCST, id) {
+                         Entity(position,size, size,fourmilliereCST, id, false) {
     foodReserve = totalFood;
     this->nbC=nbC;
     this->nbD=nbD;
@@ -47,7 +47,7 @@ int Fourmiliere::getfoodReserve() {
 }
 
 void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
-    //attemptExpansionAnthill();
+    //attemptExpansionAnthill(); // TODO : fix crash resize
     memberAnts[0]->update(entityList); // update the generator
     foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate); // decrease food
     if((foodReserve<=0) or (memberAnts[0])->getEndOfLife()) {
@@ -119,10 +119,11 @@ void Fourmiliere::checkGeneratorUsingCoord() {
         position = (*occupiedSpace).getPosition();
     }
     int overlapSize = Squarecell::countOverlap(position,
-                         (*occupiedSpace).getWidth()-2,(*occupiedSpace).getHeight()-2,
+                         (*occupiedSpace).getWidth()-2,
+                         (*occupiedSpace).getHeight()-2, false,
                          (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getWidth(),
-                         (*(*memberAnts[0]).getOccupiedSpace()).getHeight());
+                         (*(*memberAnts[0]).getOccupiedSpace()).getHeight(), true);
     if(overlapSize<(sizeG*sizeG)) {
         cout<< message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
@@ -142,11 +143,11 @@ void Fourmiliere::checkDefensorUsingCoord() {
     for(auto fourmi : memberAnts) {
         if((*fourmi).getSpecie() == fourmiDefensorCST) {
             int overlapSize = Squarecell::countOverlap(position,
-                                        (*occupiedSpace).getWidth()-2,
-                                        (*occupiedSpace).getHeight()-2,
-                                        (*(*fourmi).getOccupiedSpace()).getPosition(),
-                                        (*(*fourmi).getOccupiedSpace()).getWidth(),
-                                        (*(*fourmi).getOccupiedSpace()).getHeight());
+                                (*occupiedSpace).getWidth()-2,
+                                (*occupiedSpace).getHeight()-2, false,
+                                (*(*fourmi).getOccupiedSpace()).getPosition(),
+                                (*(*fourmi).getOccupiedSpace()).getWidth(),
+                                (*(*fourmi).getOccupiedSpace()).getHeight(), true);
             if(overlapSize<(sizeD*sizeD)) {
                 cout<< message::defensor_not_within_home(
                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
@@ -231,19 +232,19 @@ void Fourmiliere::attemptExpansionAnthill(){
     Point originUR = (*occupiedSpace).getHitboxTopRight();
     Point originLR = Point((*occupiedSpace).getHitboxTopRight().getCoordX(),
                            (*occupiedSpace).getHitboxBotLeft().getCoordY());;
-    if(Squarecell::checkOverlap(originLL, sizeF, sizeF, allCST)==0){
+    if(Squarecell::checkOverlap(originLL, sizeF, sizeF, allCST, false)==0){
         (*occupiedSpace).setPosition(originLL);
         (*occupiedSpace).setSize(sizeF,sizeF);
         isConstrained = false;
-    } else if (Squarecell::checkOverlap(originUL, sizeF, sizeF, allCST)==0) {
+    } else if (Squarecell::checkOverlap(originUL, sizeF, sizeF, allCST, false)==0) {
         (*occupiedSpace).setPosition(originUL);
         (*occupiedSpace).setSize(sizeF,sizeF);
         isConstrained = false;
-    } else if (Squarecell::checkOverlap(originUR, sizeF, sizeF, allCST)==0) {
+    } else if (Squarecell::checkOverlap(originUR, sizeF, sizeF, allCST, false)==0) {
         (*occupiedSpace).setPosition(originUR);
         (*occupiedSpace).setSize(sizeF,sizeF);
         isConstrained = false;
-    } else if (Squarecell::checkOverlap(originLR, sizeF, sizeF, allCST)==0) {
+    } else if (Squarecell::checkOverlap(originLR, sizeF, sizeF, allCST, false)==0) {
         (*occupiedSpace).setPosition(originLR);
         (*occupiedSpace).setSize(sizeF,sizeF);
         isConstrained = false;
@@ -266,9 +267,9 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         int nbC = stoi(inputBuffer[6]);
         int nbD = stoi(inputBuffer[7]);
         int nbP = stoi(inputBuffer[8]);
-        Squarecell::checkHitbox(Point(x,y), size, size);
-        vector<Point> overlapList = Squarecell::getOverlap(Point(x,y),
-                                                           size,size,fourmilliereCST);
+        Squarecell::checkHitbox(Point(x,y), size, size, false);
+        vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), size, size,
+                                                           fourmilliereCST, false);
         int indexOther = 0;
         if(overlapList.size()>0) { // check the previous anthill for collisiom
             for(unsigned int i(0); i<previousAnthill.size(); i++) {
