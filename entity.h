@@ -35,7 +35,7 @@ public:
     virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     virtual void draw();
     bool static biasedCoinFlip(float p);
-    bool static randInt(unsigned int min, unsigned int max);
+    int static randInt(unsigned int min, unsigned int max);
     // return the id of a selected specie lying on a point if it exist
     static int findIdByOccupingPoint(Point overlappingPoint,
                                     std::vector<std::shared_ptr<Entity>> listOfEntity,
@@ -45,7 +45,6 @@ public:
     Point pointClosestCollector(int xOrigin, int yOrigin,
                                 std::vector<Point> listSpecieTrie);
     double distance2Points(int xOrigin, int yOrigin, int x1, int y1);
-    // bool isThere();
 };
 
 #endif //TCHANZ_ENTITY_H
