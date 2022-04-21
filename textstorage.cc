@@ -26,8 +26,8 @@ void TextStorage::importTXT(string filename,
 }
 
 void TextStorage::exportTXT(string filename,
-                            vector<shared_ptr<Nourriture>> &foodVectorReturn,
-                            vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
+                          vector<shared_ptr<Nourriture>> &foodVectorReturn,
+                          vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
     vector<shared_ptr<Entity>> entityToExport;
     entityToExport.insert(entityToExport.end(),foodVectorReturn.begin(),
                           foodVectorReturn.end());

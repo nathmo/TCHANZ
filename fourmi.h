@@ -63,7 +63,6 @@ public:
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSavePredator(
             std::vector<std::string> &inputBuffer, int index);
-
     void virtual draw();
 };
 

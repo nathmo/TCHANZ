@@ -14,7 +14,7 @@
 
 using namespace std;
 
-std::default_random_engine Entity::randGen;
+default_random_engine Entity::randGen;
 
 Entity::Entity(Point position, int width, int height, char specie, int id) {
     occupiedSpace = make_shared<Squarecell> (position, width, height, specie);
@@ -59,22 +59,22 @@ vector<vector<string>> Entity::exportToString() {
     exit(EXIT_FAILURE);
 }
 
-void Entity::update(vector<shared_ptr<Entity>> & entityList){
+void Entity::update(vector<shared_ptr<Entity>> & entityList) {
     cout << "trying to update a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
 
-void Entity::draw(){
+void Entity::draw() {
     cout << "trying to draw a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
 
-bool Entity::biasedCoinFlip(float p){
+bool Entity::biasedCoinFlip(float p) {
     bernoulli_distribution bernoulli(p);
     return bernoulli(randGen);
 }
 
-bool Entity::randInt(unsigned int min, unsigned int max){
+bool Entity::randInt(unsigned int min, unsigned int max) {
     uniform_int_distribution<unsigned> draw(min,max);
     return draw(randGen);
 }
@@ -100,7 +100,8 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
     return errorCode; //return a value that show no entity where found
 }
 
-vector<Point> Entity::findSpecie(Point position, char specie, vector<shared_ptr<Entity>> listOfEntity) {
+vector<Point> Entity::findSpecie(Point position, char specie,
+                                 vector<shared_ptr<Entity>> listOfEntity) {
     vector<Point> listSpecie;
 
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
@@ -144,7 +145,7 @@ Point Entity::pointClosestCollector(int xOrigin, int yOrigin,
 }
 
 double Entity::distance2Points(int xOrigin, int yOrigin, int xPoint, int yPoint) {
-    return sqrt((xPoint-xOrigin)*(xPoint-xOrigin) + (xPoint-yOrigin)*(yPoint-yOrigin));
+    return sqrt((xPoint-xOrigin)*(xPoint-xOrigin)+(xPoint-yOrigin)*(yPoint-yOrigin));
 }
 
 /*
