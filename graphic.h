@@ -44,7 +44,7 @@ public:
                                         Frame frame);
     static void drawLine(double xStart, double yStart,
                                   double xStop, double yStop,
-                                  double largeur, int colorCode );
+                                  double largeur, int colorCode);
     static void color(double &r, double &g, double &b, int colorCode);
 };
 

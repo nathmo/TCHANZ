@@ -29,10 +29,8 @@ void Gui::onButtonClickedOpen() {
     dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
     dialog.add_button("_Open", Gtk::RESPONSE_OK);
     int result = dialog.run();
-    switch(result)
-    {
-        case(Gtk::RESPONSE_OK):
-        {
+    switch(result) {
+        case(Gtk::RESPONSE_OK): {
             (*simulationPtr).setPath(dialog.get_filename());
             (*simulationPtr).loadFromFile();
             Gui::refreshAnthInfo();
@@ -40,9 +38,7 @@ void Gui::onButtonClickedOpen() {
             (*simulationPtr).refreshGUI();
             graphic.queue_draw(); //trigger refresh by calling on draw ASAP
             break;
-        }
-        default:
-        {
+        } default: {
             break;
         }
     }
@@ -55,16 +51,12 @@ void Gui::onButtonClickedSave() {
     dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
     dialog.add_button("_Open", Gtk::RESPONSE_OK);
     int result = dialog.run();
-    switch(result)
-    {
-        case(Gtk::RESPONSE_OK):
-        {
+    switch(result) {
+        case(Gtk::RESPONSE_OK): {
             (*simulationPtr).setPath(dialog.get_filename());
             (*simulationPtr).saveToFile();
             break;
-        }
-        default:
-        {
+        } default: {
             break;
         }
     }

@@ -17,6 +17,7 @@ private:
     int x=errorCode;
     int y=errorCode;
     bool checkPoint(long int x,long int y);
+
 public:
     Point(int x,int y);
     Point();
@@ -56,7 +57,7 @@ public:
     static bool checkOverlap(Point position, int width, int height, char kindToCheck);
     // return the list of overlapping point if an shape of the choosen type overlap
     static std::vector<Point> getOverlap(Point position, int width,
-                                                        int height, char kindToCheck);
+                                         int height, char kindToCheck);
     // return the number of overlapping point between two shape
     static int countOverlap(Point position1, int width1,int height1,
                             Point position2, int width2,int height2);
@@ -69,8 +70,7 @@ public:
     // used to display in the the grid
     static void displayRawGrid();
     static void square(int x, int y, int colorCode);
-    static void perimeter(int xBotLeft, int yBotLeft,
-                                                      int sizeSide, int colorCode);
+    static void perimeter(int xBotLeft, int yBotLeft, int sizeSide, int colorCode);
     static void losange(int x, int y, int colorCode);
     static void FullGrid();
 };

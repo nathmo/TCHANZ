@@ -92,9 +92,8 @@ bool Graphic::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     return true;
 }
 
-void Graphic::emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr){
-    if(Graphic::bufferLine.size()==0)
-    {
+void Graphic::emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr) {
+    if(Graphic::bufferLine.size()==0) {
         bufferLine = bufferLineBackup; // restore last buffer if no new update;
     }
     for (auto line: Graphic::bufferLine) {
@@ -121,7 +120,7 @@ void Graphic::emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr){
 void Graphic::drawLine(double xStart, double yStart,
                        double xStop, double yStop, double largeur, int colorCode) {
     std::vector<double> line = {xStart, yStart,
-                                             xStop, yStop, largeur, double(colorCode)};
+                                xStop, yStop, largeur, double(colorCode)};
     bufferLine.push_back(line); // add the the drawing buffer
 }
 

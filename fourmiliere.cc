@@ -51,18 +51,18 @@ bool Fourmiliere::getEnd_of_klan() {
 
 void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
     foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate);
-    if(foodReserve<=0){
+    if(foodReserve<=0) {
         endOfLife = true;
     }
-    for(auto entity:memberAnts){
+    for(auto entity:memberAnts) {
         entity->update(entityList);
     }
     if((memberAnts[0])->getEnd_of_klan()) {
         endOfLife = true;// if generator disapear, this too
     }
-    for(unsigned int i=0;i<memberAnts.size();i++){
-        if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST){
-            if((memberAnts[i])->getAge()>bug_life){
+    for(unsigned int i=0;i<memberAnts.size();i++) {
+        if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST) {
+            if((memberAnts[i])->getAge()>bug_life) {
                 memberAnts.erase(memberAnts.begin()+i);
             }
         }
