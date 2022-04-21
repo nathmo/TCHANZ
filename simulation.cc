@@ -23,7 +23,7 @@ Simulation::Simulation(string path) {
     this->path = path;
 }
 
-void Simulation::setPath(std::string newpath){
+void Simulation::setPath(std::string newpath) {
     path = newpath;
 }
 
