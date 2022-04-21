@@ -38,8 +38,18 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
     int x = 0;
     int y = 0;
     int index = -1;
+    if(Entity::biasedCoinFlip(food_rate))
+    {
+        for(int i=0;i<10;i++){
+            x = Entity::randInt(1,g_max-2);
+            y = Entity::randInt(1,g_max-2);
+            bool occupied = Squarecell::checkOverlap(Point(x,y), 1, 1, allCST);
+            if(not occupied){
+                return make_shared<Nourriture>(Point(x,y), index);
+            }
+        }
+    }
     return nullptr;
-    return make_shared<Nourriture>(Point(x,y), index);
 }
 
 void Nourriture::update(vector<shared_ptr<Entity>> & entityList) {

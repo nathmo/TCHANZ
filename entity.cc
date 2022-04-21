@@ -74,7 +74,7 @@ bool Entity::biasedCoinFlip(float p) {
     return bernoulli(randGen);
 }
 
-bool Entity::randInt(unsigned int min, unsigned int max) {
+int Entity::randInt(unsigned int min, unsigned int max) {
     uniform_int_distribution<unsigned> draw(min,max);
     return draw(randGen);
 }
@@ -147,11 +147,3 @@ Point Entity::pointClosestCollector(int xOrigin, int yOrigin,
 double Entity::distance2Points(int xOrigin, int yOrigin, int xPoint, int yPoint) {
     return sqrt((xPoint-xOrigin)*(xPoint-xOrigin)+(xPoint-yOrigin)*(yPoint-yOrigin));
 }
-
-/*
-bool Entity::isThere() {
-
-    return true;
-}
-
-*/
