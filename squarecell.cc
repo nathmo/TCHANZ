@@ -219,7 +219,7 @@ vector<Point> Squarecell::getOverlap(Point position, int width, int height,
 }
 
 int Squarecell::countOverlap(Point position1, int width1,int height1,
-                             Point position2, int width2,int height2){
+                             Point position2, int width2,int height2) {
     // compute the corner of the rectangle (or square)
     Point cornerBotLeft1 = Squarecell::computeHitboxBotLeft(position1,
                                                             width1,height1);

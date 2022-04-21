@@ -40,12 +40,12 @@ void Simulation::loadFromFile() {
     anthillList.clear();
     try {
         TextStorage::importTXT(path, nourritureList, anthillList);
-        for (unsigned int i = 0; i < anthillList.size(); i++) {
+        for(unsigned int i = 0; i < anthillList.size(); i++) {
             (*anthillList[i]).check();
         }
         cout << message::success();
     }
-    catch (int code) {
+    catch(int code) {
         nourritureList = {};
         anthillList = {};
         return;

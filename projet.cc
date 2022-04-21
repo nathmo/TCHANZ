@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
                 status = false;
             }
         }
-        if (status) { // allow for operation without GUI
+        if(status) { // allow for operation without GUI
             startHeadless(argv[1]);
             return 0;
         }
