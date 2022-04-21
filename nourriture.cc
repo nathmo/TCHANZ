@@ -40,12 +40,9 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
     int index = -1;
     if(Entity::biasedCoinFlip(food_rate))
     {
-        cout << "food created" << endl;
         for(int i=0;i<10;i++){
             x = Entity::randInt(1,g_max-2);
             y = Entity::randInt(1,g_max-2);
-            cout << x << endl;
-            cout << y << endl;
             bool occupied = Squarecell::checkOverlap(Point(x,y), 1, 1, allCST);
             if(not occupied){
                 return make_shared<Nourriture>(Point(x,y), index);
