@@ -82,6 +82,8 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     }
     setPosition(pathBuffer[0]); // le segmentation fault ici surement rien dedans probleme fonction d avant
     cout << "setPosition" << endl;
+    cout << getPosition().getCoordX() << endl;
+    cout << getPosition().getCoordY() << endl;
     pathBuffer.erase(pathBuffer.begin());
     cout << "ici2"  << endl;
 }

@@ -122,6 +122,10 @@ Point Squarecell::getPosition() {
 
 void Squarecell::setPosition(Point position) {
     this->position = position;
+    cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                     isPositionAtCenter);
+    cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                       isPositionAtCenter);
 }
 
 int Squarecell::getHeight() {
