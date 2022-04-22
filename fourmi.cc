@@ -94,13 +94,16 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point newLis
     bool stop = false; //sortir fonction bestDiago si vrai
     cout << "begin path1" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path1, index, first, stop); // on commence celui en haut gauche premier mouvement
-    ++index, stop = false;
+    ++index;
+    stop = false;
     cout << "begin path2" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path2, index, first, stop);
-    ++index, stop = false;
+    ++index;
+    stop = false;
     cout << "begin path3" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path3, index, first, stop);
-    ++index, stop = false;
+    ++index;
+    stop = false;
     cout << "begin path4" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path4, index, first, stop);
     cout << "fini tous paths" << endl;
@@ -137,10 +140,11 @@ int Collector::bestDiago(Point positionCollector, Point newListTrie, double dist
     cout << "distance " << distanceInit << endl;
     cout << "stop " << stop << endl;
 
-    if(distanceInit == 0 or stop) {
-        condition = false;
-    }
+
     while(condition) {
+        if(distanceInit == 0 or stop) {
+            condition = false;
+        }
         cout << "je suis dedans while" << endl;
         if(index == 1) { // droite haut
             Point step = Point(xOrigin + 1, yOrigin + 1);
