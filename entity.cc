@@ -115,7 +115,6 @@ int Entity::findIdByOccupingPoint(Point overlappingPoint,
 vector<Point> Entity::findSpecie(Point position, char specie,
                                  vector<shared_ptr<Entity>> listOfEntity) {
     vector<Point> listSpecie;
-
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
         if(((*listOfEntity[i]).getSpecie()) == specie) {
             int x=(((*listOfEntity[i]).getOccupiedSpace())->getPosition()).getCoordX();
@@ -128,12 +127,10 @@ vector<Point> Entity::findSpecie(Point position, char specie,
 
 vector<Point> Entity::trie(Point positionCollector, vector<Point> listSpecieTrie) {
     vector<Point> newList;
-
     for(unsigned int i(0); i<listSpecieTrie.size(); i++) {
         int index = i;
         double distanceIni = distance2Points(positionCollector, listSpecieTrie[i]);
-
-        for(unsigned int j = (i+1); j<listSpecieTrie.size(); i++) {
+        for(unsigned int j = (i+1); j<listSpecieTrie.size(); j++) {
             if(distanceIni>distance2Points(positionCollector, listSpecieTrie[j])) {
                 distanceIni = distance2Points(positionCollector, listSpecieTrie[j]);
                 listSpecieTrie.erase(listSpecieTrie.begin()+j);

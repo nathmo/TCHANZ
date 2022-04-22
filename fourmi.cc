@@ -51,11 +51,10 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-
+    cout << "ici0"  << endl;
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
     Point positionCollector = getPosition();
-
     vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin), nourritureCST, entityList);
     vector<Point> listSpecieTrie; //liste specie meme couleur case
 
@@ -73,12 +72,12 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             listSpecieTrie.push_back(entity);
         }
     }
-
     vector<Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
-
+    cout << "ici1"  << endl;
     pathBuffer = bestPathCollector(positionCollector, newListTrie[0]);
     setPosition(pathBuffer[0]);
     pathBuffer.erase(pathBuffer.begin());
+    cout << "ici2"  << endl;
 }
 
 vector<Point> Collector::bestPathCollector(Point positionCollector, Point newListTrie){
@@ -87,7 +86,6 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point newLis
     int index(1);
     bool first; // savoir si premier mouvement si ca s eloigne break direct dans best diago
     bool stop = false; //sortir fonction bestDiago
-
     bestDiago(positionCollector, newListTrie, distanceInit, path1, index, first, stop); // on commence celui en haut gauche premier mouvement
     ++index, stop = false;
     bestDiago(positionCollector, newListTrie, distanceInit, path2, index, first, stop);
@@ -95,18 +93,17 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point newLis
     bestDiago(positionCollector, newListTrie, distanceInit, path3, index, first, stop);
     ++index, stop = false;
     bestDiago(positionCollector, newListTrie, distanceInit, path4, index, first, stop);
-
     unsigned int bestPath(0);
     if(!(path1.size()==0)) {
         bestPath = 1;
     }
-    if(bestPath > path2.size() && (!(path2.size()==0))) {
+    if(bestPath > path2.size() && (path2.size() != 0)) {
         bestPath = 2;
     }
-    if(bestPath > path3.size() && (!(path3.size()==0))) {
+    if(bestPath > path3.size() && (path3.size() != 0)) {
         bestPath = 3;
     }
-    if(bestPath > path4.size() && (!(path4.size()==0))) {
+    if(bestPath > path4.size() && (path4.size() != 0)) {
         bestPath = 4;
     }
 

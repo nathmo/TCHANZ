@@ -226,10 +226,6 @@ void Fourmiliere::attemptExpansionAnthill(){
     int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC*nbC + sizeD*sizeD*nbD*nbD
                               + sizeP*sizeP*nbP*nbP)));
     int delta = sizeF-(*occupiedSpace).getWidth();
-    cout << "----------" << endl;
-    cout << delta << endl;
-    cout << sizeF << endl;
-    cout << "==" << endl;
     Point originLL = (*occupiedSpace).getHitboxBotLeft();
     Point originUL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX(),
                            (*occupiedSpace).getHitboxBotLeft().getCoordY()-delta);
@@ -240,8 +236,6 @@ void Fourmiliere::attemptExpansionAnthill(){
     int anthillArea = ((*occupiedSpace).getWidth()*(*occupiedSpace).getHeight());
     vector<Point> pointToTest = {originLL, originUL, originUR, originLR};
     for(auto point:pointToTest){
-        cout << point.getCoordX() << endl;
-        cout << point.getCoordY() << endl;
         if(Squarecell::ensureFitInGrid(point, sizeF, sizeF, false)){
             if(Squarecell::countOverlap(point, sizeF, sizeF, fourmilliereCST,
                                         false)<=anthillArea){
