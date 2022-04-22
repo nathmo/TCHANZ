@@ -14,7 +14,8 @@
 
 class Fourmi : public Entity {
 protected:
-int age;
+    int age;
+    std::vector<Point> pathBuffer;
 
 public:
     Fourmi(Point position, int age, char type, int id, int size);
