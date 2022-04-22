@@ -137,79 +137,79 @@ void Collector::bestDiago(Point positionCollector, Point newListTrie, double dis
     int yOrigin = positionCollector.getCoordY();
     bool condition = true;
 
-        if(distanceInit == 0) {
-            return;
-        }
-        if(index == 1) { // droite haut
-            Point step = Point(xOrigin + 1, yOrigin + 1);
-            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
-                path.push_back(step);
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie), path, 1, false, stop);
-            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-                if(first) {
-                    stop = true;
-                    return;
-                }
-                index++;
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie), path, index, false, stop);
+    if(distanceInit == 0) {
+        return;
+    }
+    if(index == 1) { // droite haut
+        Point step = Point(xOrigin + 1, yOrigin + 1);
+        if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+            path.push_back(step);
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie), path, 1, false, stop);
+        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+            if(first) {
+                stop = true;
+                return;
             }
+            index++;
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie), path, index, false, stop);
         }
-        if(index == 2) { // gauche haut
-            Point step = Point(xOrigin - 1, yOrigin + 1);
-            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
-                path.push_back(step);
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie),
-                          path, 2, false, stop);
-            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-                if(first) {
-                    stop = true;
-                    return;
-                }
-                index++;
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie),
-                          path, index, false, stop);
+    }
+    if(index == 2) { // gauche haut
+        Point step = Point(xOrigin - 1, yOrigin + 1);
+        if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+            path.push_back(step);
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie),
+                      path, 2, false, stop);
+        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+            if(first) {
+                stop = true;
+                return;
             }
+            index++;
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie),
+                      path, index, false, stop);
         }
-        if(index == 3) { // gauche bas
-            Point step = Point(xOrigin - 1, yOrigin - 1);
-            if (distanceInit > Entity::distance2Points(step, newListTrie)) {
-                path.push_back(step);
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie),
-                          path, 3, false, stop);
-            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-                if (first) {
-                    stop = true;
-                    return;
-                }
-                index++;
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie),
-                          path, index, false, stop);
+    }
+    if(index == 3) { // gauche bas
+        Point step = Point(xOrigin - 1, yOrigin - 1);
+        if (distanceInit > Entity::distance2Points(step, newListTrie)) {
+            path.push_back(step);
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie),
+                      path, 3, false, stop);
+        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+            if (first) {
+                stop = true;
+                return;
             }
+            index++;
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie),
+                      path, index, false, stop);
         }
-        if(index == 4) { // droite bas
-            Point step = Point(xOrigin + 1, yOrigin - 1);
-            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
-                path.push_back(step);
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie),
-                          path, 4, false, stop);
-            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-                if(first) {
-                    stop = true;
-                    return;
-                }
-                index++;
-                bestDiago(step, newListTrie,
-                          Entity::distance2Points(step, newListTrie),
-                          path, index, false, stop);
+    }
+    if(index == 4) { // droite bas
+        Point step = Point(xOrigin + 1, yOrigin - 1);
+        if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+            path.push_back(step);
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie),
+                      path, 4, false, stop);
+        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+            if(first) {
+                stop = true;
+                return;
             }
+            index++;
+            bestDiago(step, newListTrie,
+                      Entity::distance2Points(step, newListTrie),
+                      path, index, false, stop);
         }
+    }
 }
 
 vector<vector<string>> Collector::exportToString() {
