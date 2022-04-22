@@ -80,12 +80,10 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         cout << "x " << element.getCoordX() << endl;
         cout << "y " << element.getCoordY() << endl;
     }
-    setPosition(pathBuffer[0]); // le segmentation fault ici surement rien dedans probleme fonction d avant
-    cout << "setPosition" << endl;
-    cout << getPosition().getCoordX() << endl;
-    cout << getPosition().getCoordY() << endl;
-    pathBuffer.erase(pathBuffer.begin());
-    cout << "ici2"  << endl;
+    if(pathBuffer.size() != 0) {
+        setPosition(pathBuffer[0]); // le segmentation fault ici surement rien dedans probleme fonction d avant
+        pathBuffer.erase(pathBuffer.begin());
+    }
 }
 
 vector<Point> Collector::bestPathCollector(Point positionCollector, Point newListTrie){
