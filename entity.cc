@@ -123,22 +123,44 @@ vector<Point> Entity::findSpecie(Point position, char specie,
             listSpecie.push_back(Point(x,y));
         }
     }
-    //aucun interet de trier liste si apres on va forcement repasser dans toute liste
-    /*
-    sort(listSpecie.begin(), listSpecie.end(), Entity::distance2Points());
-
-    double distanceInitial = distance2Points(position, listSpecie[0]);
-
-    for(unsigned int i(1); i<listSpecie.size(); i++) {
-        if(distanceInitial > distance2Points(position, listSpecie[i])) {
-            //faut switch les deux dans le tableau
-
-            distanceInitial = distance2Points(position, listSpecie[i]);
-        }
-    }
-     */
     return listSpecie;
 }
+
+vector<Point> Entity::trie(Point positionCollector, vector<Point> listSpecieTrie) {
+    vector<Point> newList;
+
+    for(unsigned int i(0); i<listSpecieTrie.size(); i++) {
+        int index = i;
+        double distanceIni = distance2Points(positionCollector, listSpecieTrie[i]);
+
+        for(unsigned int j = (i+1); j<listSpecieTrie.size(); i++) {
+            if(distanceIni>distance2Points(positionCollector, listSpecieTrie[j])) {
+                distanceIni = distance2Points(positionCollector, listSpecieTrie[j]);
+                listSpecieTrie.erase(listSpecieTrie.begin()+j);
+                listSpecieTrie.push_back(listSpecieTrie[i]); //pas perdre la premiere ligne dans le cas ou distance plus petite
+                index = j;
+            }
+        }
+        newList.push_back(listSpecieTrie[index]);
+    }
+    return newList;
+}
+
+double Entity::distance2Points(Point positionCollector, Point point) {
+    int x = positionCollector.getCoordX();
+    int y = positionCollector.getCoordY();
+    int x1 = point.getCoordX();
+    int y1 = point.getCoordY();
+    return sqrt((x1-x)*(x1-x)+(y1-y)*(y1-y));
+}
+
+
+
+/*
+double Entity::distance2Points(int xOrigin, int yOrigin, int xPoint, int yPoint) {
+    return sqrt((xPoint-xOrigin)*(xPoint-xOrigin)+(xPoint-yOrigin)*(yPoint-yOrigin));
+}
+
 
 Point Entity::pointClosestCollector(int xOrigin, int yOrigin,
                                     vector<Point> listSpecieTrie) {
@@ -156,6 +178,11 @@ Point Entity::pointClosestCollector(int xOrigin, int yOrigin,
     return Point(x1,y1);
 }
 
-double Entity::distance2Points(int xOrigin, int yOrigin, int xPoint, int yPoint) {
-    return sqrt((xPoint-xOrigin)*(xPoint-xOrigin)+(xPoint-yOrigin)*(yPoint-yOrigin));
+int Entity::findPoint(Point point, vector<Point> listSpecieTrie) {
+    for(int i(0); i<listSpecieTrie.size(); i++){
+        if(point == listSpecieTrie[i]) {
+            return i;
+        }
+    }
 }
+*/

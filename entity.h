@@ -35,7 +35,7 @@ public:
     void setEndOfLife(bool endOfLife);
     std::shared_ptr<Squarecell> getOccupiedSpace();
     virtual std::vector<std::vector<std::string>> exportToString();
-    virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
+    virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void draw();
     bool static biasedCoinFlip(float p);
     int static randInt(unsigned int min, unsigned int max);
@@ -45,9 +45,11 @@ public:
                                     char specie);
     std::vector<Point> findSpecie(Point position, char specie,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity);
-    Point pointClosestCollector(int xOrigin, int yOrigin,
-                                std::vector<Point> listSpecieTrie);
-    double distance2Points(int xOrigin, int yOrigin, int x1, int y1);
+    std::vector<Point> trie(Point positionCollector, std::vector<Point> listSpecieTrie);
+    double distance2Points(Point positionCollector, Point point);
+    //Point pointClosestCollector(Point positionCollector,
+    //                            std::vector<Point> listSpecieTrie);
+    //int findPoint(Point point, std::vector<Point> listSpecieTrie);
 };
 
 #endif //TCHANZ_ENTITY_H

@@ -49,14 +49,14 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
     this->carryFood = carryFood;
 }
 
-void Collector::update(vector<shared_ptr<Entity>> & entityList) {
-    /*
+void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
 
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
+    Point positionCollector = getPosition();
 
-    vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin), nourritureCST); //Point position, char specie, listOfEntity
+    vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin), nourritureCST, entityList);
     vector<Point> listSpecieTrie; //liste specie meme couleur case
 
     //savoir si case noir ou blanche
@@ -74,8 +74,127 @@ void Collector::update(vector<shared_ptr<Entity>> & entityList) {
         }
     }
 
-    Entity::pointClosestCollector(xOrigin, yOrigin, listSpecieTrie);
-*/
+    vector<Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
+
+    pathBuffer = bestPathCollector(positionCollector, newListTrie[0]);
+    setPosition(pathBuffer[0]);
+    pathBuffer.erase(pathBuffer.begin());
+}
+
+vector<Point> Collector::bestPathCollector(Point positionCollector, Point newListTrie){
+    double distanceInit = Entity::distance2Points(positionCollector, newListTrie);
+    vector<Point> path1, path2, path3, path4;
+    int index(1);
+    bool first; // savoir si premier mouvement si ca s eloigne break direct dans best diago
+    bool stop = false; //sortir fonction bestDiago
+
+    bestDiago(positionCollector, newListTrie, distanceInit, path1, index, first, stop); // on commence celui en haut gauche premier mouvement
+    ++index, stop = false;
+    bestDiago(positionCollector, newListTrie, distanceInit, path2, index, first, stop);
+    ++index, stop = false;
+    bestDiago(positionCollector, newListTrie, distanceInit, path3, index, first, stop);
+    ++index, stop = false;
+    bestDiago(positionCollector, newListTrie, distanceInit, path4, index, first, stop);
+
+    unsigned int bestPath(0);
+    if(!(path1.size()==0)) {
+        bestPath = 1;
+    }
+    if(bestPath > path2.size() && (!(path2.size()==0))) {
+        bestPath = 2;
+    }
+    if(bestPath > path3.size() && (!(path3.size()==0))) {
+        bestPath = 3;
+    }
+    if(bestPath > path4.size() && (!(path4.size()==0))) {
+        bestPath = 4;
+    }
+
+    if(bestPath == 1) {
+        return path1;
+    } else if(bestPath == 2) {
+        return path2;
+    } else if(bestPath == 3) {
+        return path3;
+    } else {
+        return path4;
+    }
+}
+
+void Collector::bestDiago(Point positionCollector, Point newListTrie, double distanceInit, vector<Point> &path, int index, bool first, bool &stop) {
+    int xOrigin = positionCollector.getCoordX();
+    int yOrigin = positionCollector.getCoordY();
+
+    while(!(distanceInit == 0) or !(stop)) {
+        if(index == 1) { // droite haut
+            Point step = Point(xOrigin + 1, yOrigin + 1);
+            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+                path.push_back(step);
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, 1, false, stop);
+            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+                if(first) {
+                    stop = true;
+                }
+                index++;
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, index, false, stop);
+            }
+        }
+        if(index == 2) { // gauche haut
+            Point step = Point(xOrigin - 1, yOrigin + 1);
+            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+                path.push_back(step);
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, 2, false, stop);
+            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+                if(first) {
+                    stop = true;
+                }
+                index++;
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, index, false, stop);
+            }
+        }
+        if(index == 3) { // gauche bas
+            Point step = Point(xOrigin - 1, yOrigin - 1);
+            if (distanceInit > Entity::distance2Points(step, newListTrie)) {
+                path.push_back(step);
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, 3, false, stop);
+            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+                if (first) {
+                    stop = true;
+                }
+                index++;
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, index, false, stop);
+            }
+        }
+        if(index == 4) { // droite bas
+            Point step = Point(xOrigin + 1, yOrigin - 1);
+            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+                path.push_back(step);
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, 4, false, stop);
+            } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
+                if(first) {
+                    stop = true;
+                }
+                index++;
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, index, false, stop);
+            }
+        }
+    }
 }
 
 vector<vector<string>> Collector::exportToString() {
