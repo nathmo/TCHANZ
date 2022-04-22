@@ -17,7 +17,6 @@
 
 using namespace std;
 
-
 void Gui::onButtonClickedExit() {
     hide(); //to close the application.
 }
@@ -237,6 +236,7 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
 }
 
 Gui::~Gui() {
+
 }
 
 int Gui::window(shared_ptr<Simulation> simulation) {

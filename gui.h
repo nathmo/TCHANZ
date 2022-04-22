@@ -16,8 +16,7 @@
 
 constexpr long msPerFrame(20);
 
-class Gui : public Gtk::Window
-{
+class Gui : public Gtk::Window {
 private:
     Frame frame;
     std::shared_ptr<Simulation> simulationPtr;
@@ -43,10 +42,10 @@ protected:
     Gtk::Box m_box_Gui, m_box_command, m_Box_General, m_Box_FoodInfo, m_Box_AnthInfo;
     Gtk::Separator m_Separator1;
     Gtk::Separator m_Separator2;
-    Gtk::Label  m_Label_General;
-    Gtk::Label  m_Label_FoodInfo;
-    Gtk::Label  m_Label_FoodInfoValue;
-    Gtk::Label  m_Label_AnthInfo;
+    Gtk::Label m_Label_General;
+    Gtk::Label m_Label_FoodInfo;
+    Gtk::Label m_Label_FoodInfoValue;
+    Gtk::Label m_Label_AnthInfo;
     Gtk::Label m_Label_AnthInfoValue;
     Gtk::Button m_Button_Exit;
     Gtk::Button m_Button_Open;
