@@ -57,6 +57,9 @@ public:
     //Check that the position + its size still fully fit in the grid
     static bool checkHitbox(Point position, int width, int height,
                             bool isPositionAtCenter);
+
+    static bool ensureFitInGrid(Point position, int width, int height,
+                                     bool isPositionAtCenter);
     // return true if an shape of the choosen type overlap the given region
     static bool checkOverlap(Point position, int width, int height, char kindToCheck,
                              bool isPositionAtCenter);
@@ -64,6 +67,8 @@ public:
     static std::vector<Point> getOverlap(Point position, int width, int height,
                                          char kindToCheck, bool isPositionAtCenter);
     // return the number of overlapping point between two shape
+    static int countOverlap(Point position, int width, int height, char kindToCheck,
+                     bool isPositionAtCenter);
     static int countOverlap(Point position1, int width1, int height1,
                             bool isPositionAtCenter1,
                             Point position2, int width2,int height2,

@@ -20,10 +20,17 @@ vector<vector<char>> Squarecell::hitBoxGrid = vector<vector<char>> (g_max,
                                                                 vector<char> (g_max));
 
 Point::Point(int x,int y) {
-    if(Point::checkPoint(x,y)) {
-        this->x = x;
-        this->y = y;
+    if(not ((x >= 0) and (x < g_max))) { // not in [0;127]
+        cout << error_squarecell::print_index(x, g_max-1);
+        throw (-1);
     }
+
+    if(not ((y >= 0) and (y < g_max))) {// not in [0;127]
+        cout << error_squarecell::print_index(y, g_max-1);
+        throw (-1);
+    }
+    this->x = x;
+    this->y = y;
 }
 
 Point::Point() {
@@ -49,29 +56,10 @@ int Point::getCoordY() {
 bool Point::checkPoint(Point point) {
     bool status = true;
     if(not ((point.getCoordX() >= 0) and (point.getCoordX() < g_max))) {
-        cout << error_squarecell::print_index(point.getCoordX(), g_max);
-        throw (-1);
         status = false;
     }
 
     if(not ((point.getCoordY() >= 0) and (point.getCoordY() < g_max))) {
-        cout << error_squarecell::print_index(point.getCoordY(), g_max);
-        throw (-1);
-        status = false;
-    }
-    return status;
-}
-bool Point::checkPoint(long int x,long int y) {
-    bool status = true;
-    if(not ((x >= 0) and (x < g_max))) { // not in [0;127]
-        cout << error_squarecell::print_index(x, g_max-1);
-        throw (-1);
-        status = false;
-    }
-
-    if(not ((y >= 0) and (y < g_max))) {// not in [0;127]
-        cout << error_squarecell::print_index(y, g_max-1);
-        throw (-1);
         status = false;
     }
     return status;
@@ -201,6 +189,23 @@ bool Squarecell::checkHitbox(Point position, int width, int height,
     return status; // true if it fit, false otherwise (and display the set message)
 }
 
+bool Squarecell::ensureFitInGrid(Point position, int width, int height,
+                             bool isPositionAtCenter) {
+    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                           isPositionAtCenter);
+    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                             isPositionAtCenter);
+    bool status = true;
+    vector<int> PointToCheck ={cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
+                               cornerTopRight.getCoordX(),cornerTopRight.getCoordY()};
+    for(int i=0;i<4;i++) {
+        if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < g_max))) {//not in[0;127]
+            status = false;
+        }
+    }
+    return status; // true if it fit, false otherwise
+}
+
 bool Squarecell::checkOverlap(Point position, int width, int height,
                               char kindToCheck, bool isPositionAtCenter) {
     Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
@@ -232,6 +237,24 @@ vector<Point> Squarecell::getOverlap(Point position, int width, int height,
         }
     }
     return collisionList;
+}
+
+int Squarecell::countOverlap(Point position, int width, int height,
+                                     char kindToCheck, bool isPositionAtCenter) {
+    int overlap = 0;
+    Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                           isPositionAtCenter);
+    Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                             isPositionAtCenter);
+    vector<Point> collisionList;
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+            if((hitBoxGrid[i][j] & kindToCheck)) { //check no entity is present there
+                overlap++; // otherwise add it to the count
+            }
+        }
+    }
+    return overlap;
 }
 
 int Squarecell::countOverlap(Point position1, int width1,int height1,

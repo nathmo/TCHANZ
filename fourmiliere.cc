@@ -47,7 +47,7 @@ int Fourmiliere::getfoodReserve() {
 }
 
 void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
-    //attemptExpansionAnthill(); // TODO : fix crash resize
+    attemptExpansionAnthill();
     memberAnts[0]->update(entityList); // update the generator
     foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate); // decrease food
     if((foodReserve<=0) or (memberAnts[0])->getEndOfLife()) {
@@ -225,32 +225,34 @@ bool Fourmiliere::checkIfConstrained(){
 void Fourmiliere::attemptExpansionAnthill(){
     int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC*nbC + sizeD*sizeD*nbD*nbD
                               + sizeP*sizeP*nbP*nbP)));
+    int delta = sizeF-(*occupiedSpace).getWidth();
+    cout << "----------" << endl;
+    cout << delta << endl;
     cout << sizeF << endl;
+    cout << "==" << endl;
     Point originLL = (*occupiedSpace).getHitboxBotLeft();
     Point originUL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX(),
-                           (*occupiedSpace).getHitboxTopRight().getCoordY());
-    Point originUR = (*occupiedSpace).getHitboxTopRight();
-    Point originLR = Point((*occupiedSpace).getHitboxTopRight().getCoordX(),
-                           (*occupiedSpace).getHitboxBotLeft().getCoordY());;
-    if(Squarecell::checkOverlap(originLL, sizeF, sizeF, allCST, false)==0){
-        (*occupiedSpace).setPosition(originLL);
-        (*occupiedSpace).setSize(sizeF,sizeF);
-        isConstrained = false;
-    } else if (Squarecell::checkOverlap(originUL, sizeF, sizeF, allCST, false)==0) {
-        (*occupiedSpace).setPosition(originUL);
-        (*occupiedSpace).setSize(sizeF,sizeF);
-        isConstrained = false;
-    } else if (Squarecell::checkOverlap(originUR, sizeF, sizeF, allCST, false)==0) {
-        (*occupiedSpace).setPosition(originUR);
-        (*occupiedSpace).setSize(sizeF,sizeF);
-        isConstrained = false;
-    } else if (Squarecell::checkOverlap(originLR, sizeF, sizeF, allCST, false)==0) {
-        (*occupiedSpace).setPosition(originLR);
-        (*occupiedSpace).setSize(sizeF,sizeF);
-        isConstrained = false;
-    } else {
-        isConstrained = true;
+                           (*occupiedSpace).getHitboxBotLeft().getCoordY()-delta);
+    Point originUR = Point((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta,
+                           (*occupiedSpace).getHitboxBotLeft().getCoordY()-delta);
+    Point originLR = Point((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta,
+                           (*occupiedSpace).getHitboxBotLeft().getCoordY());
+    int anthillArea = ((*occupiedSpace).getWidth()*(*occupiedSpace).getHeight());
+    vector<Point> pointToTest = {originLL, originUL, originUR, originLR};
+    for(auto point:pointToTest){
+        cout << point.getCoordX() << endl;
+        cout << point.getCoordY() << endl;
+        if(Squarecell::ensureFitInGrid(point, sizeF, sizeF, false)){
+            if(Squarecell::countOverlap(point, sizeF, sizeF, fourmilliereCST,
+                                        false)<=anthillArea){
+                (*occupiedSpace).setPosition(point);
+                (*occupiedSpace).setSize(sizeF,sizeF);
+                isConstrained = false;
+                return;
+            }
+        }
     }
+    isConstrained = true;
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(

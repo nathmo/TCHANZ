@@ -1,0 +1,10 @@
+# used to check that the display works
+
+# nb food
+0
+1 # nb anthill
+
+# anthill #1
+
+              1 1 126 103 103 15 0 0 0
+
