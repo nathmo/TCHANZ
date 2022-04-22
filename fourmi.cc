@@ -137,7 +137,7 @@ void Collector::bestDiago(Point positionCollector, Point newListTrie, double dis
     int yOrigin = positionCollector.getCoordY();
     bool condition = true;
 
-        if(distanceInit == 0 or stop) {
+        if(distanceInit == 0) {
             return;
         }
         if(index == 1) { // droite haut
