@@ -121,11 +121,41 @@ Point Squarecell::getPosition() {
 }
 
 void Squarecell::setPosition(Point position) {
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+            if(hitBoxGrid[i][j] == kind) { // clear the grid
+                hitBoxGrid[i][j] = emptyCST;
+            } else if(hitBoxGrid[i][j] == emptyCST) {
+                cout << "trying to clean the grid from something aldready cleaned !"
+                     << endl;
+                exit(0);
+            } else {
+                hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
+            }
+        }
+    }
     this->position = position;
     cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
                                                      isPositionAtCenter);
     cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
                                                        isPositionAtCenter);
+    bool isElligible = Point::checkPoint(position);
+    if(isElligible) { // if the coordinate fit in the grid
+        for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+            for(int j=cornerBotLeft.getCoordY(); j<=cornerTopRight.getCoordY(); j++) {
+                if(hitBoxGrid[i][j]==emptyCST) { // add the entity the grid
+                    hitBoxGrid[i][j] = kind;
+                } else if(not (hitBoxGrid[i][j] & kind)) { // ensure nothing is there
+                    hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
+                } else {                                   // otherwise throw error
+                    cout << "uncatched exception : two entity overlap at "
+                            +to_string(i)+", "+to_string(j)<<endl;
+                    Squarecell::displayRawGrid();
+                    exit(0);
+                }
+            }
+        }
+    }
 }
 
 int Squarecell::getHeight() {
