@@ -1,5 +1,5 @@
 # nb food
-13
+12
 
 # food
 75 75
@@ -10,7 +10,6 @@
 75 50
 50 50
 100 100
-0 0
 1 126
 126 1
 126 126
@@ -19,7 +18,7 @@
 6 # nb anthill
 
 # anthill #1
-	100 100 19 103 103 15 4 2 5
+	100 100 19 103 103 315 4 2 5
 
 	# collectors:
 	50 60 3 true
@@ -29,7 +28,7 @@
 
 	# defensors:
 	107 102 2
-	100 93 22
+	108 110 22
 
 	# predators:
 	6 80 4
@@ -39,7 +38,7 @@
 	1 1 2
 
 # anthill #2
-    50 50 14 55 55 60 3 1 5
+    50 50 14 55 55 460 3 1 5
 
     # collectors:
     35 55 10 false
@@ -57,51 +56,51 @@
     22 50 4
 
 # anthill #3
-    5 5 22 8 15 30 1 1 1
+    5 5 12 8 12 30 1 1 1
 
     # collectors:
     20 15 2 true
 
     # defensors:
-    9 9 5
+    7 7 5
 
     # predators:
     22 24 10
 
 # anthill #4
-    50 100 25 50 100 38 2 1 1
+    50 100 25 55 105 38 2 1 1
 
     # collectors:
     64 66 2 true
     110 120 2 true
 
     # defensors:
-    58 90 3
+    58 110 3
 
     # predators:
     10 30 10
 
 # anthill #5
-    10 110 13 8 112 52 1 1 1
+    10 110 13 13 115 52 1 1 1
 
     # collectors:
     95 20 2 true
 
     # defensors:
-    14 112 3
+    19 112 3
 
     # predators:
     40 30 10
 
 # anthill #6
-    110 20 13 112 18 75 3 0 1
+    110 20 13 115 26 750 1 1 1
 
     # collectors:
      85 35 3 true
-     120 64 4 false
-     30 10 5 true
 
     # defensors:
+    112 22 4
 
     # predators:
     90 100 3
+

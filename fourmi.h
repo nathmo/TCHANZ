@@ -14,13 +14,10 @@
 
 class Fourmi : public Entity {
 protected:
-    int age;
-    bool end_of_klan;
-    std::vector<Point> pathBuffer;
+int age;
 
 public:
     Fourmi(Point position, int age, char type, int id, int size);
-    bool getEnd_of_klan();
     int getAge();
     virtual void update(std::vector<std::shared_ptr<Entity>> & entityList);
     // export the entity to something that can be written in a file

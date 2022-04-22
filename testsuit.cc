@@ -190,7 +190,7 @@ bool assertSquarecellPoint()
 
 bool assertEntityEntity()
 {
-    shared_ptr<Entity> testEnt = make_shared<Entity>(Point(2,4),1,1,'F',0);
+    shared_ptr<Entity> testEnt = make_shared<Entity>(Point(2,4),1,1,'F',0,true);
     assert((*testEnt).getHeight()==1);
     assert((*testEnt).getWidth()==1);
     assert((*testEnt).getPosition().getCoordX()==2);
