@@ -72,16 +72,22 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             listSpecieTrie.push_back(entity);
         }
     }
-    vector<Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
-    cout << "ici1"  << endl;
-    pathBuffer = bestPathCollector(positionCollector, newListTrie[0]);
-    cout << "sortie bestPathCollector" << endl;
-    for(auto element:pathBuffer){
-        cout << "x " << element.getCoordX() << endl;
-        cout << "y " << element.getCoordY() << endl;
+    if(pathBuffer.size() == 0) {
+        vector <Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
+        cout << "ici1" << endl;
+        pathBuffer = bestPathCollector(positionCollector, newListTrie[0]);
     }
+    cout << "-----------------------------------------------------" << endl;
+    cout << "debut tableau" << endl;
+    for(auto element:pathBuffer){
+        cout << "x: " << element.getCoordX() << " y: " << element.getCoordY() << endl;
+    }
+    cout << "fin tableau" << endl;
+    cout << "-----------------------------------------------------" << endl;
+
     if(pathBuffer.size() != 0) {
-        setPosition(pathBuffer[0]); // le segmentation fault ici surement rien dedans probleme fonction d avant
+        setPosition(pathBuffer[0]);
+        //cout << "Setposition: " << pathBuffer[0].getCoordX() << pathBuffer[0].getCoordY();
         pathBuffer.erase(pathBuffer.begin());
     }
 }
@@ -90,23 +96,30 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point newLis
     double distanceInit = Entity::distance2Points(positionCollector, newListTrie);
     vector<Point> path1, path2, path3, path4;
     int index(1);
-    bool first; // savoir si premier mouvement si ca s eloigne break direct dans best diago
+    bool first = true; //savoir si premier mouvement si ca s eloigne break direct dans best diago
     bool stop = false; //sortir fonction bestDiago si vrai
     cout << "begin path1" << endl;
+    cout << "-----------------------------------------------------" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path1, index, first, stop); // on commence celui en haut gauche premier mouvement
     ++index;
     stop = false;
+    cout << "-----------------------------------------------------" << endl;
     cout << "begin path2" << endl;
+    cout << "-----------------------------------------------------" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path2, index, first, stop);
     ++index;
     stop = false;
+    cout << "-----------------------------------------------------" << endl;
     cout << "begin path3" << endl;
+    cout << "-----------------------------------------------------" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path3, index, first, stop);
     ++index;
     stop = false;
+    cout << "-----------------------------------------------------" << endl;
     cout << "begin path4" << endl;
+    cout << "-----------------------------------------------------" << endl;
     bestDiago(positionCollector, newListTrie, distanceInit, path4, index, first, stop);
-    cout << "fini tous paths" << endl;
+
     unsigned int bestPath(0);
     if(!(path1.size()==0)) {
         bestPath = 1;
@@ -122,12 +135,16 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point newLis
     }
 
     if(bestPath == 1) {
+        cout << "choix path1" << endl;
         return path1;
     } else if(bestPath == 2) {
+        cout << "choix path2" << endl;
         return path2;
     } else if(bestPath == 3) {
+        cout << "choix path3" << endl;
         return path3;
     } else {
+        cout << "choix path4" << endl;
         return path4;
     }
 }
@@ -135,79 +152,130 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point newLis
 void Collector::bestDiago(Point positionCollector, Point newListTrie, double distanceInit, vector<Point> &path, int index, bool first, bool &stop) {
     int xOrigin = positionCollector.getCoordX();
     int yOrigin = positionCollector.getCoordY();
-    bool condition = true;
 
     if(distanceInit == 0) {
+        cout << "premier boucle if distanceInit: " << distanceInit << " index: " << index << endl;
+        cout << "xOrigin: " << xOrigin << "yOrigin: " << yOrigin << endl;
         return;
-    }
-    if(index == 1) { // droite haut
-        Point step = Point(xOrigin + 1, yOrigin + 1);
-        if(distanceInit > Entity::distance2Points(step, newListTrie)) {
-            path.push_back(step);
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie), path, 1, false, stop);
-        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-            if(first) {
-                stop = true;
+    } else {
+        //cout << "je rentre en force dans le else" << endl; // ca rentre pas si le if est vrai mais alors pourquoi??????
+        if(index == 1) { // droite haut
+            Point step = Point(xOrigin + 1, yOrigin + 1);
+            cout << "-----> diago droite haut" << endl;
+            cout << "x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
+            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+                path.push_back(step);
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie), path, 1, false,
+                          stop);
+                return;
+            } else if(distanceInit <= Entity::distance2Points(step, newListTrie)) {
+                cout << "distanceInit: " << distanceInit << " distance2: "
+                     << distance2Points(step, newListTrie) << endl;
+                if(first) {
+                    stop = true;
+                    return;
+                }
+                index++;
+                cout << "changement d index a 2 avec x: " << xOrigin << " y: "
+                     << yOrigin << endl;
+
+                bestDiago(Point(xOrigin, yOrigin), newListTrie, distanceInit,
+                          path, index, false, stop);
                 return;
             }
-            index++;
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie), path, index, false, stop);
         }
-    }
-    if(index == 2) { // gauche haut
-        Point step = Point(xOrigin - 1, yOrigin + 1);
-        if(distanceInit > Entity::distance2Points(step, newListTrie)) {
-            path.push_back(step);
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie),
-                      path, 2, false, stop);
-        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-            if(first) {
-                stop = true;
+        if(index == 2) { // gauche haut
+            Point step = Point(xOrigin - 1, yOrigin + 1);
+            cout << "-----> diago gauche haut" << endl;
+            cout << "x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
+            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+                path.push_back(step);
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, 2, false, stop);
+                return;
+            } else if(distanceInit <= Entity::distance2Points(step, newListTrie)) {
+                cout << "distanceInit: " << distanceInit << " distance2: "
+                     << distance2Points(step, newListTrie) << endl;
+                if(first) {
+                    stop = true;
+                    return;
+                }
+                index++;
+                cout << "changement d index a 3 avec x: " << xOrigin << " y: "
+                     << yOrigin << endl;
+                bestDiago(Point(xOrigin, yOrigin), newListTrie, distanceInit,
+                          path, index, false, stop);
                 return;
             }
-            index++;
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie),
-                      path, index, false, stop);
         }
-    }
-    if(index == 3) { // gauche bas
-        Point step = Point(xOrigin - 1, yOrigin - 1);
-        if (distanceInit > Entity::distance2Points(step, newListTrie)) {
-            path.push_back(step);
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie),
-                      path, 3, false, stop);
-        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-            if (first) {
-                stop = true;
+        if(index == 3) { // gauche bas
+            Point step = Point(xOrigin - 1, yOrigin - 1);
+            cout << "-----> diago gauche bas" << endl;
+            cout << "x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
+            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+                path.push_back(step);
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, 3, false, stop);
+                return;
+            } else if(distanceInit <= Entity::distance2Points(step, newListTrie)) {
+                cout << "distanceInit: " << distanceInit << " distance2: "
+                     << distance2Points(step, newListTrie) << endl;
+                if(first) {
+                    stop = true;
+                    return;
+                }
+                index++;
+                cout << "changement d index a 4 avec x: " << xOrigin << " y: "
+                     << yOrigin << endl;
+                bestDiago(Point(xOrigin, yOrigin), newListTrie, distanceInit,
+                          path, index, false, stop);
                 return;
             }
-            index++;
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie),
-                      path, index, false, stop);
         }
-    }
-    if(index == 4) { // droite bas
-        Point step = Point(xOrigin + 1, yOrigin - 1);
-        if(distanceInit > Entity::distance2Points(step, newListTrie)) {
-            path.push_back(step);
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie),
-                      path, 4, false, stop);
-        } else if(distanceInit < Entity::distance2Points(step, newListTrie)) {
-            if(first) {
-                stop = true;
+        if(index == 4) { // droite bas
+            Point step = Point(xOrigin + 1, yOrigin - 1);
+            cout << "-----> diago droite bas" << endl;
+            cout << "x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
+            if(distanceInit > Entity::distance2Points(step, newListTrie)) {
+                cout << " boucle if : distanceInit: " << distanceInit
+                     << " distance2: " << distance2Points(step, newListTrie) << endl;
+                if(Entity::distance2Points(step, newListTrie) == 0) {
+                    cout << "je suis dedans tkt bg" << endl;
+                    bestDiago(step, newListTrie,
+                              Entity::distance2Points(step, newListTrie),
+                              path, 4, false, stop);
+                    return;
+                    //return;
+                } else {
+                    cout << "je suis dans index 4 le if distanceInit > distance2"
+                         << endl;
+                    path.push_back(step);
+                    bestDiago(step, newListTrie,
+                              Entity::distance2Points(step, newListTrie),
+                              path, 4, false, stop);
+                    return;
+                }
+            } else if(distanceInit <= Entity::distance2Points(step, newListTrie)) {
+                cout << "distanceInit: " << distanceInit << " distance2: "
+                     << distance2Points(step, newListTrie) << endl;
+                if(first) {
+                    stop = true;
+                    return;
+                }
+                index = 1;
+                bestDiago(Point(xOrigin, yOrigin), newListTrie, distanceInit,
+                          path, index, false, stop);
                 return;
+
+                /*
+                bestDiago(step, newListTrie,
+                          Entity::distance2Points(step, newListTrie),
+                          path, index, false, stop);
+                */
             }
-            index++;
-            bestDiago(step, newListTrie,
-                      Entity::distance2Points(step, newListTrie),
-                      path, index, false, stop);
         }
     }
 }
