@@ -153,12 +153,13 @@ void Gui::refreshAnthInfo() {
         string statToDisplay = "None selected";
         m_Label_AnthInfoValue.set_text(statToDisplay);
     } else {
-        vector<int> stat = (*simulationPtr).getAnthInfoStat(idAnthillSelected);
+        vector<double> stat = (*simulationPtr).getAnthInfoStat(idAnthillSelected);
         string statToDisplay = "id: "+to_string(idAnthillSelected)+"\n"+
-                "Total food: "+to_string(stat[0])+"\n"+"\n"+
-                "nbC: "+to_string(stat[1])+"\n"+
-                "nbD: "+to_string(stat[2])+"\n"+
-                "nbP: "+to_string(stat[3])+"\n";
+                "Total food: "+to_string(stat[0]).substr(0,
+                                         to_string(stat[0]).find(".")+3)+"\n"+"\n"+
+                "nbC: "+to_string(int(stat[1]))+"\n"+
+                "nbD: "+to_string(int(stat[2]))+"\n"+
+                "nbP: "+to_string(int(stat[3]))+"\n";
         m_Label_AnthInfoValue.set_text(statToDisplay);
     }
 }

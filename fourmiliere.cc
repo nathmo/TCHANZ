@@ -76,7 +76,7 @@ vector<vector<string>> Fourmiliere::exportToString() {
     string height = to_string(getOccupiedSpace()->getHeight());
     string generatorX = to_string((*memberAnts[0]).getPosition().getCoordX());
     string generatorY = to_string((*memberAnts[0]).getPosition().getCoordY());
-    string totalFood = to_string(foodReserve);
+    string totalFood = to_string(int(foodReserve));
     string strC = to_string(nbC);
     string strD = to_string(nbD);
     string strP = to_string(nbP);

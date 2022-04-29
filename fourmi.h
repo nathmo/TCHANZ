@@ -1,6 +1,6 @@
 /*!
   \file   fourmi.h
-  \author Nathann Morand (80%) et Felipe Ramirez (20%)
+  \author Nathann Morand (40%) et Felipe Ramirez (60%)
   \date   MARS 2022
   \brief  prototype du module "fourmi".
 */

@@ -1,6 +1,6 @@
 /*!
   \file   graphic.h
-  \author Nathann Morand (30%) et Felipe Ramirez (70%)
+  \author Nathann Morand (80%) et Felipe Ramirez (20%)
   \date   MARS 2022
   \brief  prototype du module "graphic".
 */

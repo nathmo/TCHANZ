@@ -50,7 +50,7 @@ void Simulation::saveToFile(string path) {
 }
 
 void Simulation::simulateStep() {
-
+    /*
     vector<shared_ptr<Entity>> entityList;
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
     if(food != nullptr) {
@@ -75,6 +75,7 @@ void Simulation::simulateStep() {
             nourritureList.erase(nourritureList.begin()+i);
         }// erase food that where picked up
     }
+    */
 }
 
 void Simulation::refreshGUI() {
@@ -95,8 +96,8 @@ int Simulation::getAnthNb() {
     return anthillList.size();
 }
 
-vector<int> Simulation::getAnthInfoStat(int id) {
-    vector<int> stat;
+vector<double> Simulation::getAnthInfoStat(int id) {
+    vector<double> stat;
     stat.push_back((*anthillList[id]).getFood());
     stat.push_back((*anthillList[id]).getnbC());
     stat.push_back((*anthillList[id]).getnbD());
