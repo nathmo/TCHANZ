@@ -25,8 +25,8 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     this->nbD=nbD;
     this->nbP=nbP;
     memberAnts = FourmiList;
-    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
-    gen->setFood(totalFood);
+    //shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
+    //gen->setFood(totalFood);
     endOfLife = false;
     isConstrained = checkIfConstrained();
 }
