@@ -18,3 +18,8 @@
         run: make build
       - name: test application
         run: make test
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          path: ./projet
+          name: projet
