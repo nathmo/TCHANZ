@@ -16,7 +16,6 @@
 
 class Fourmiliere : public Entity {
 private:
-    int foodReserve;
     int nbC;
     int nbD;
     int nbP;
@@ -30,7 +29,6 @@ public:
     int getnbC();
     int getnbD();
     int getnbP();
-    int getfoodReserve();
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     //export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
@@ -52,6 +50,7 @@ public:
 
     void attemptExpansionAnthill();
 
+    double getFood();
     //create an anthill object from a vector of string + run the check for the anthill
     static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
                            std::vector<std::string> &inputBuffer, int index,
