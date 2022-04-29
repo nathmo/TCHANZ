@@ -77,14 +77,9 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         cout << "ici1" << endl;
         pathBuffer = bestPathCollector(positionCollector, newListTrie[0]);
     }
-    cout << "-----------------------------------------------------" << endl;
-    cout << "debut tableau" << endl;
     for(auto element:pathBuffer){
         cout << "x: " << element.getCoordX() << " y: " << element.getCoordY() << endl;
     }
-    cout << "fin tableau" << endl;
-    cout << "-----------------------------------------------------" << endl;
-
     if(pathBuffer.size() != 0) {
         setPosition(pathBuffer[0]);
         //cout << "Setposition: " << pathBuffer[0].getCoordX()

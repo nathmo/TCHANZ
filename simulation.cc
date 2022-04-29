@@ -71,7 +71,7 @@ void Simulation::simulateStep() {
             nourritureList.erase(nourritureList.begin()+i);
         }// erase food that where picked up
     }
-     */
+     */ // not for rendu 2
 }
 
 void Simulation::refreshGUI() {

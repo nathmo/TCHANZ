@@ -113,25 +113,29 @@ void Gui::onButtonClickedNext() {
 }
 
 bool Gui::on_key_press_event(GdkEventKey* event) {
-    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 's')){
-        Gui::onButtonClickedStartStop();
-        return true;
-    }
-    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == '1')){
-        Gui::onButtonClickedStep();
-        return true;
-    }
-    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 'n')){
-        Gui::onButtonClickedNext();
-        return true;
-    }
-    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 'p')){
-        Gui::onButtonClickedPrevious();
-        return true;
-    }
-    if((event->type == GDK_KEY_PRESS)&&(gdk_keyval_to_unicode(event->keyval) == 'q')){
-        Gui::onButtonClickedExit();
-        return true;
+
+    if((event->type == GDK_KEY_PRESS)){
+        switch (gdk_keyval_to_unicode(event->keyval))
+        {
+            case 's':
+                Gui::onButtonClickedStartStop();
+                return true;
+            case '1':
+                Gui::onButtonClickedStep();
+                return true;
+            case 'n':
+                Gui::onButtonClickedNext();
+                return true;
+            case 'p':
+                Gui::onButtonClickedPrevious();
+                return true;
+            case 'q':
+                Gui::onButtonClickedExit();
+                return true;
+            default:
+                // unknow key pressed
+                break;
+        }
     }
     return false;
 }
