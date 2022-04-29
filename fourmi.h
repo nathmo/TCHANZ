@@ -37,6 +37,7 @@ public:
                                          Point newListTrie);
     void bestDiago(Point positionCollector, Point newListTrie, double distanceInit,
                    std::vector<Point> &path, int index, bool first, bool &stop);
+    Point findClosestFood(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
@@ -70,6 +71,8 @@ public:
 };
 
 class Generator : public Fourmi {
+private:
+    double foodReserve;
 public:
     Generator(Point position, int id);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
@@ -79,6 +82,8 @@ public:
     static std::shared_ptr<Fourmi> importFromExtSaveGenerator(
                                     std::vector<std::string> &inputBuffer, int index);
     void virtual draw();
+    void addFood();
+    void removeFood(double consumption);
 };
 
 #endif //TCHANZ_FOURMI_H

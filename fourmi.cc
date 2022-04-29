@@ -50,20 +50,56 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if(carryFood){
+        if(pathBuffer.size() > 1) { // walk toward the generator one step at a time
+            setPosition(pathBuffer[0]);
+            pathBuffer.erase(pathBuffer.begin());
+        } else { // once reached give the food to the generator
+            shared_ptr<Entity> entity = Entity::findByPosition(pathBuffer[0], entityList, fourmiGeneratorCST);
+            shared_ptr<Generator> gene = dynamic_pointer_cast<Generator>(entity);
+            gene->addFood();
+            carryFood = false;
+            pathBuffer.erase(pathBuffer.begin());
+            // ici calculer le chemin pour la prochaine bouffe et ajouter au buffer
+        }
+    } else {
+        bool foodStillThere = Squarecell::countOverlap(pathBuffer[pathBuffer.size()-1], 1, 1,
+                                                  nourritureCST, true);
+        bool foodStillClosest = true;
+        if(distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1])>
+               distance2Points(getPosition(),Collector::findClosestFood(entityList))){
+            foodStillClosest = false;
+        }
+        if(foodStillThere and foodStillClosest)
+        {
+            if(pathBuffer.size() > 1) { // walk toward the food one step at a time
+                setPosition(pathBuffer[0]);
+                pathBuffer.erase(pathBuffer.begin());
+            } else { // once reached mark the food for deletion
+                shared_ptr<Entity> food = Entity::findByPosition(pathBuffer[0], entityList, nourritureCST);
+                food->setEndOfLife(true);
+                carryFood = true;
+                pathBuffer.erase(pathBuffer.begin());
+                // ici calculer le chemin pour la generator
+            }
+        } else {
+            // ici recalculer le chemin pour la prochaine bouffe et ajouter au buffer
+        }
+    }
+}
 
+Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList){
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
     Point positionCollector = getPosition();
     vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin),
                                                   nourritureCST, entityList);
     vector<Point> listSpecieTrie; //liste specie meme couleur case
-
     //savoir si case noir ou blanche
     bool spot = false; //case noir
     if(!((xOrigin+yOrigin)%2 == 0)) {
         spot = true;
     }
-
     //classer les food qui sont sur meme couleur case
     for(auto entity : listSpecie) {
         int x = entity.getCoordX();
@@ -72,20 +108,8 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             listSpecieTrie.push_back(entity);
         }
     }
-    if(pathBuffer.size() == 0) {
-        vector <Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
-        cout << "ici1" << endl;
-        pathBuffer = bestPathCollector(positionCollector, newListTrie[0]);
-    }
-    for(auto element:pathBuffer){
-        cout << "x: " << element.getCoordX() << " y: " << element.getCoordY() << endl;
-    }
-    if(pathBuffer.size() != 0) {
-        setPosition(pathBuffer[0]);
-        //cout << "Setposition: " << pathBuffer[0].getCoordX()
-        //     << pathBuffer[0].getCoordY();
-        pathBuffer.erase(pathBuffer.begin());
-    }
+    vector <Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
+    return newListTrie[0];
 }
 
 vector<Point> Collector::bestPathCollector(Point positionCollector,
@@ -451,6 +475,9 @@ Generator::Generator(Point position, int id) :
 
 void Generator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if(foodReserve<=0) {
+        endOfLife = true; // no food -> no generator -> no update, they all DIE !
+    }
 }
 
 vector<vector<string>> Generator::exportToString() {
@@ -488,4 +515,12 @@ void Generator::draw() {
             Squarecell::square(x + j, y + i, id%6);
         }
     }
+}
+
+void Generator::addFood(){
+    foodReserve = foodReserve + val_food;
+}
+
+void Generator::removeFood(double consumption){
+    foodReserve = foodReserve - consumption;
 }

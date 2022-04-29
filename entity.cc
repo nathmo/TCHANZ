@@ -90,26 +90,21 @@ int Entity::randInt(unsigned int min, unsigned int max) {
     return draw(randGen);
 }
 
-int Entity::findIdByOccupingPoint(Point overlappingPoint,
+shared_ptr<Entity> Entity::findByPosition(Point position,
                                   vector<shared_ptr<Entity>> listOfEntity,
                                   char specie) {
-    for(unsigned int i(0); i<listOfEntity.size(); i++) {
-        if((*listOfEntity[i]).getSpecie() == specie) {
-            int largeur = ((*listOfEntity[i]).getOccupiedSpace())->getWidth();
-            int hauteur = ((*listOfEntity[i]).getOccupiedSpace())->getHeight();
-            int pointOriginX = (((*listOfEntity[i]).getOccupiedSpace())
-                                                    ->getHitboxBotLeft()).getCoordX();
-            int pointOriginY = (((*listOfEntity[i]).getOccupiedSpace())
-                                                    ->getHitboxBotLeft()).getCoordY();
-            Point position2(pointOriginX,pointOriginY);
-            if(Squarecell::countOverlap(overlappingPoint, 1, 1, false,
-                    position2, largeur, hauteur,
-                    (*listOfEntity[i]).getOccupiedSpace()->getIsPositionAtCenter())) {
-                return (*listOfEntity[i]).getId(); //return id of the overlap entity
+    for(auto entity:listOfEntity) {
+        if((*entity).getSpecie() == specie) {
+            int largeur = ((*entity).getOccupiedSpace())->getWidth();
+            int hauteur = ((*entity).getOccupiedSpace())->getHeight();
+            Point positionEntity = ((*entity).getOccupiedSpace())->getHitboxBotLeft();
+            if(Squarecell::countOverlap(position, 1, 1, true,
+                                        positionEntity, largeur, hauteur, false)) {
+                return entity; //return the entity once found
             }
         }
     }
-    return errorCode; //return a value that show no entity where found
+    return nullptr; //return a value that show no entity where found
 }
 
 vector<Point> Entity::findSpecie(Point position, char specie,

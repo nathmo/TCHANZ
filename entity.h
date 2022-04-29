@@ -40,7 +40,7 @@ public:
     bool static biasedCoinFlip(float p);
     int static randInt(unsigned int min, unsigned int max);
     // return the id of a selected specie lying on a point if it exist
-    static int findIdByOccupingPoint(Point overlappingPoint,
+    static std::shared_ptr<Entity> findByPosition(Point position,
                                     std::vector<std::shared_ptr<Entity>> listOfEntity,
                                     char specie);
     std::vector<Point> findSpecie(Point position, char specie,

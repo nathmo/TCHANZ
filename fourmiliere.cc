@@ -42,17 +42,14 @@ int Fourmiliere::getnbP() {
     return nbP;
 }
 
-int Fourmiliere::getfoodReserve() {
-    return foodReserve;
-}
-
 void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
     attemptExpansionAnthill();
-    memberAnts[0]->update(entityList); // update the generator
-    foodReserve = foodReserve-((1+nbC+nbD+nbP)*food_rate); // decrease food
-    if((foodReserve<=0) or (memberAnts[0])->getEndOfLife()) {
+    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
+    (*gen).removeFood((1+nbC+nbD+nbP)*food_rate); // decrease food
+    gen->update(entityList); // update the generator
+    if(gen->getEndOfLife()){
         endOfLife = true;
-        return; // no food or no generator -> no update, they all DIE !
+        return; // if it died we stop here
     }
     randomCreateAnts();
     for(unsigned int i=1;i<memberAnts.size();i++) {
