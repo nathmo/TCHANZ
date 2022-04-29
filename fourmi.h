@@ -35,8 +35,10 @@ public:
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     std::vector<Point> bestPathCollector(Point positionCollector,
                                          Point newListTrie);
-    void bestDiago(Point positionCollector, Point newListTrie, double distanceInit,
-                   std::vector<Point> &path, int index, bool first, bool &stop);
+    void bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
+                   std::vector<Point> &path, int count, int &index, bool first);
+    void path(Point step, Point pointToGo, double distanceInit,
+              std::vector<Point> &path, int &count, int &index, bool first);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something

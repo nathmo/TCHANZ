@@ -47,7 +47,7 @@ public:
                                   std::vector<std::shared_ptr<Entity>> listOfEntity);
     std::vector<Point> trie(Point positionCollector,
                             std::vector<Point> listSpecieTrie);
-    double distance2Points(Point positionCollector, Point point);
+    static double distance2Points(Point positionCollector, Point point);
 };
 
 #endif //TCHANZ_ENTITY_H
