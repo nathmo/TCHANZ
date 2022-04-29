@@ -152,36 +152,3 @@ double Entity::distance2Points(Point positionCollector, Point point) {
     int y1 = point.getCoordY();
     return sqrt((x1-x)*(x1-x)+(y1-y)*(y1-y));
 }
-
-
-
-/*
-double Entity::distance2Points(int xOrigin, int yOrigin, int xPoint, int yPoint) {
-    return sqrt((xPoint-xOrigin)*(xPoint-xOrigin)+(xPoint-yOrigin)*(yPoint-yOrigin));
-}
-
-
-Point Entity::pointClosestCollector(int xOrigin, int yOrigin,
-                                    vector<Point> listSpecieTrie) {
-    int x1 = listSpecieTrie[0].getCoordX(); //faire les comparaisons aux autres de la liste
-    int y1 = listSpecieTrie[0].getCoordY();
-    double distance = distance2Points(xOrigin, yOrigin, x1, y1);
-    for(auto point:listSpecieTrie) {
-        int x2 = point.getCoordX();
-        int y2 = point.getCoordY();
-        if(distance<distance2Points(xOrigin, yOrigin, x1, y1)) {
-            x1 = x2;
-            y1 = y2;
-        }
-    }
-    return Point(x1,y1);
-}
-
-int Entity::findPoint(Point point, vector<Point> listSpecieTrie) {
-    for(int i(0); i<listSpecieTrie.size(); i++){
-        if(point == listSpecieTrie[i]) {
-            return i;
-        }
-    }
-}
-*/
