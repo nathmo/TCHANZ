@@ -14,16 +14,15 @@
 #include "constantes.h"
 #include "message.h"
 
-
 using namespace std;
 
 Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
-        Entity(position, size, size, type, id, true) {
+        Entity(position, size, size, type, id, true){
     this->age = age;
     endOfLife = false;
 }
 
-int Fourmi::getAge(){
+int Fourmi::getAge() {
     return age;
 }
 
@@ -32,14 +31,14 @@ void Fourmi::update(vector<shared_ptr<Entity>> & entityList) {
     exit(EXIT_FAILURE);
 }
 
-vector<vector<string>> Fourmi::exportToString(){
+vector<vector<string>> Fourmi::exportToString() {
     vector<vector<string>> toExport;
     cout << "ERROR : exporting a generic ant type" << endl;
     exit(EXIT_FAILURE);
     return toExport;
 }
 
-void Fourmi::draw(){
+void Fourmi::draw() {
     cout << "trying to draw a generic fourmi" << endl;
     exit(EXIT_FAILURE);
 }
@@ -51,11 +50,12 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    cout << "ici0"  << endl;
+
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
     Point positionCollector = getPosition();
-    vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin), nourritureCST, entityList);
+    vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin),
+                                                  nourritureCST, entityList);
     vector<Point> listSpecieTrie; //liste specie meme couleur case
 
     //savoir si case noir ou blanche
@@ -87,38 +87,44 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
 
     if(pathBuffer.size() != 0) {
         setPosition(pathBuffer[0]);
-        //cout << "Setposition: " << pathBuffer[0].getCoordX() << pathBuffer[0].getCoordY();
+        //cout << "Setposition: " << pathBuffer[0].getCoordX()
+        //     << pathBuffer[0].getCoordY();
         pathBuffer.erase(pathBuffer.begin());
     }
 }
 
-vector<Point> Collector::bestPathCollector(Point positionCollector, Point newListTrie){
+vector<Point> Collector::bestPathCollector(Point positionCollector,
+                                           Point newListTrie) {
     double distanceInit = Entity::distance2Points(positionCollector, newListTrie);
     vector<Point> path1, path2, path3, path4;
     int index(1);
-    bool first = true; //savoir si premier mouvement si ca s eloigne break direct dans best diago
+    bool first = true; //savoir si premier mouvement si ca s eloigne break direct
     bool stop = false; //sortir fonction bestDiago si vrai
     cout << "begin path1" << endl;
     cout << "-----------------------------------------------------" << endl;
-    bestDiago(positionCollector, newListTrie, distanceInit, path1, index, first, stop); // on commence celui en haut gauche premier mouvement
+    bestDiago(positionCollector, newListTrie, distanceInit, path1,
+              index, first, stop);
     ++index;
     stop = false;
     cout << "-----------------------------------------------------" << endl;
     cout << "begin path2" << endl;
     cout << "-----------------------------------------------------" << endl;
-    bestDiago(positionCollector, newListTrie, distanceInit, path2, index, first, stop);
+    bestDiago(positionCollector, newListTrie, distanceInit, path2,
+              index, first, stop);
     ++index;
     stop = false;
     cout << "-----------------------------------------------------" << endl;
     cout << "begin path3" << endl;
     cout << "-----------------------------------------------------" << endl;
-    bestDiago(positionCollector, newListTrie, distanceInit, path3, index, first, stop);
+    bestDiago(positionCollector, newListTrie, distanceInit, path3,
+              index, first, stop);
     ++index;
     stop = false;
     cout << "-----------------------------------------------------" << endl;
     cout << "begin path4" << endl;
     cout << "-----------------------------------------------------" << endl;
-    bestDiago(positionCollector, newListTrie, distanceInit, path4, index, first, stop);
+    bestDiago(positionCollector, newListTrie, distanceInit, path4,
+              index, first, stop);
 
     unsigned int bestPath(0);
     if(!(path1.size()==0)) {
@@ -149,7 +155,9 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point newLis
     }
 }
 
-void Collector::bestDiago(Point positionCollector, Point newListTrie, double distanceInit, vector<Point> &path, int index, bool first, bool &stop) {
+void Collector::bestDiago(Point positionCollector, Point newListTrie,
+                          double distanceInit, vector<Point> &path,
+                          int index, bool first, bool &stop) {
     int xOrigin = positionCollector.getCoordX();
     int yOrigin = positionCollector.getCoordY();
 
@@ -314,7 +322,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
                                           overlapList[0].getCoordY());
         throw (-1);
     }
-    return make_shared<Collector>(Point(x,y), index , age, conditionFood);
+    return make_shared<Collector> (Point(x,y), index , age, conditionFood);
     }
 }
 
@@ -326,10 +334,10 @@ void Collector::draw() {
     int lightColor = id+6;
     int colorCode = id; //on commence en bas a gauche donc foncé au debut
    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
-    for (int i(0); i < side; i++) {
-        for (int j(0); j < side; j++) {
+    for(int i(0); i < side; i++) {
+        for(int j(0); j < side; j++) {
             Squarecell::square(x + j, y + i, colorCode);
-            if (colorCode == id) {
+            if(colorCode == id) {
                 colorCode = lightColor;
             } else {
                 colorCode = id;
@@ -396,11 +404,12 @@ void Defensor::draw() {
             }
         }
     }
-    Squarecell::square(x + 1, y + 1, id);; // change color of center back to dark
+    Squarecell::square(x + 1, y + 1, id);;//change color center to dark
 }
 
 Predator::Predator(Point position, int id, int age) :
                        Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
+
 }
 
 void Predator::update(vector<shared_ptr<Entity>> & entityList) {

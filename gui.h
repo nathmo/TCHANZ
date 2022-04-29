@@ -60,4 +60,5 @@ public:
     virtual ~Gui();
     static int window(std::shared_ptr<Simulation> simulation);
 };
+
 #endif //TCHANZ_GUI_H

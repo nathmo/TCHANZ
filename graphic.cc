@@ -32,8 +32,9 @@ void Graphic::setFrame(Frame f) {
     if((f.xMin <= f.xMax) and (f.yMin <= f.yMax) and (f.height > 0)) {
         f.asp = f.width/f.height;
         frame = f;
-    } else
-        std::cout << "incorrect Model framing or window parameters" << std::endl;
+    } else {
+        cout << "incorrect Model framing or window parameters" << endl;
+    }
 }
 
 void Graphic::adjustFrame() {

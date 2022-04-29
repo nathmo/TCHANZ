@@ -45,7 +45,8 @@ public:
                                     char specie);
     std::vector<Point> findSpecie(Point position, char specie,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity);
-    std::vector<Point> trie(Point positionCollector, std::vector<Point> listSpecieTrie);
+    std::vector<Point> trie(Point positionCollector,
+                            std::vector<Point> listSpecieTrie);
     double distance2Points(Point positionCollector, Point point);
     //Point pointClosestCollector(Point positionCollector,
     //                            std::vector<Point> listSpecieTrie);

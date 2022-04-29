@@ -125,7 +125,7 @@ void Fourmiliere::checkGeneratorUsingCoord() {
                          (*(*memberAnts[0]).getOccupiedSpace()).getWidth(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getHeight(), true);
     if(overlapSize<(sizeG*sizeG)) {
-        cout<< message::generator_not_within_home(
+        cout << message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
         throw (-1);
@@ -159,7 +159,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 void Fourmiliere::randomCreateAnts(){
-    if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))){
+    if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
         // remove the border from allowed zone
@@ -196,20 +196,20 @@ void Fourmiliere::randomCreateAnts(){
     }
 }
 
-int Fourmiliere::getAntTypeToGenerate(){
+int Fourmiliere::getAntTypeToGenerate() {
     int antTypeToGenerate = 0;
-    if(isConstrained){
-        if(memberAnts.size()*prop_constrained_collector < nbC){
+    if(isConstrained) {
+        if(memberAnts.size()*prop_constrained_collector < nbC) {
             antTypeToGenerate = 0;
-        } else if (memberAnts.size()*prop_constrained_defensor < nbD){
+        } else if(memberAnts.size()*prop_constrained_defensor < nbD) {
             antTypeToGenerate = 1;
         } else {
             antTypeToGenerate = 2;
         }
     } else {
-        if(memberAnts.size()*prop_free_collector < nbC){
+        if(memberAnts.size()*prop_free_collector < nbC) {
             antTypeToGenerate = 0;
-        } else if (memberAnts.size()*prop_free_defensor < nbD){
+        } else if(memberAnts.size()*prop_free_defensor < nbD) {
             antTypeToGenerate = 1;
         } else {
             antTypeToGenerate = 2;
@@ -218,11 +218,11 @@ int Fourmiliere::getAntTypeToGenerate(){
     return antTypeToGenerate;
 }
 
-bool Fourmiliere::checkIfConstrained(){
+bool Fourmiliere::checkIfConstrained() {
     return false;
 }
 
-void Fourmiliere::attemptExpansionAnthill(){
+void Fourmiliere::attemptExpansionAnthill() {
     int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC*nbC + sizeD*sizeD*nbD*nbD
                               + sizeP*sizeP*nbP*nbP)));
     int delta = sizeF-(*occupiedSpace).getWidth();
@@ -235,10 +235,10 @@ void Fourmiliere::attemptExpansionAnthill(){
                            (*occupiedSpace).getHitboxBotLeft().getCoordY());
     int anthillArea = ((*occupiedSpace).getWidth()*(*occupiedSpace).getHeight());
     vector<Point> pointToTest = {originLL, originUL, originUR, originLR};
-    for(auto point:pointToTest){
-        if(Squarecell::ensureFitInGrid(point, sizeF, sizeF, false)){
+    for(auto point:pointToTest) {
+        if(Squarecell::ensureFitInGrid(point, sizeF, sizeF, false)) {
             if(Squarecell::countOverlap(point, sizeF, sizeF, fourmilliereCST,
-                                        false)<=anthillArea){
+                                        false)<=anthillArea) {
                 (*occupiedSpace).setPosition(point);
                 (*occupiedSpace).setSize(sizeF,sizeF);
                 isConstrained = false;
@@ -250,8 +250,8 @@ void Fourmiliere::attemptExpansionAnthill(){
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
-      vector<string> &inputBuffer, int index, vector<shared_ptr<Fourmi>> FourmiList,
-      std::vector<std::shared_ptr<Fourmiliere>> previousAnthill) {
+        vector<string> &inputBuffer, int index, vector<shared_ptr<Fourmi>> FourmiList,
+        std::vector<std::shared_ptr<Fourmiliere>> previousAnthill) {
     if(inputBuffer.size()<9) {
         cout << "fourmilliere : number of argument mismatch" << endl;
         throw (-1);

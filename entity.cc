@@ -16,8 +16,8 @@ using namespace std;
 
 default_random_engine Entity::randGen;
 
-Entity::Entity(Point position, int width, int height, char specie,
-               int id, bool isPositionAtCenter) {
+Entity::Entity(Point position, int width, int height,
+               char specie, int id, bool isPositionAtCenter) {
     occupiedSpace = make_shared<Squarecell> (position, width, height,
                                              specie, isPositionAtCenter);
     this->specie=specie;
@@ -117,8 +117,10 @@ vector<Point> Entity::findSpecie(Point position, char specie,
     vector<Point> listSpecie;
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
         if(((*listOfEntity[i]).getSpecie()) == specie) {
-            int x=(((*listOfEntity[i]).getOccupiedSpace())->getPosition()).getCoordX();
-            int y=(((*listOfEntity[i]).getOccupiedSpace())->getPosition()).getCoordY();
+            int x=(((*listOfEntity[i]).getOccupiedSpace())
+                    ->getPosition()).getCoordX();
+            int y=(((*listOfEntity[i]).getOccupiedSpace())
+                    ->getPosition()).getCoordY();
             listSpecie.push_back(Point(x,y));
         }
     }
@@ -134,7 +136,7 @@ vector<Point> Entity::trie(Point positionCollector, vector<Point> listSpecieTrie
             if(distanceIni>distance2Points(positionCollector, listSpecieTrie[j])) {
                 distanceIni = distance2Points(positionCollector, listSpecieTrie[j]);
                 listSpecieTrie.erase(listSpecieTrie.begin()+j);
-                listSpecieTrie.push_back(listSpecieTrie[i]); //pas perdre la premiere ligne dans le cas ou distance plus petite
+                listSpecieTrie.push_back(listSpecieTrie[i]); //pas perdre la 1er ligne
                 index = j;
             }
         }

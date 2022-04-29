@@ -41,7 +41,7 @@ public:
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveCollector(
-            std::vector<std::string> &inputBuffer, int index);
+                                    std::vector<std::string> &inputBuffer, int index);
     void virtual draw();
 };
 
@@ -53,7 +53,7 @@ public:
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveDefensor(
-            std::vector<std::string> &inputBuffer, int index);
+                                    std::vector<std::string> &inputBuffer, int index);
     void virtual draw();
 };
 
@@ -65,7 +65,7 @@ public:
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSavePredator(
-            std::vector<std::string> &inputBuffer, int index);
+                                    std::vector<std::string> &inputBuffer, int index);
     void virtual draw();
 };
 

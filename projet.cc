@@ -20,11 +20,11 @@ int main(int argc, char *argv[]) {
         cout << "Please provide a file to load" << endl;
         return 0;
     }
+
     if(argc > 2) {
         string headlessKeyword = "--headless";
         bool status = true;
-        //cout << "test1" << endl;
-        for(int i = 0;i<10;i++){
+        for(int i = 0;i<10;i++) {
             if(not(argv[2][i] == headlessKeyword.at(i))) {
                 status = false;
             }

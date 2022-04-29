@@ -38,13 +38,12 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
     int x = 0;
     int y = 0;
     int index = -1;
-    if(Entity::biasedCoinFlip(food_rate))
-    {
-        for(int i=0;i<max_food_trial;i++){
+    if(Entity::biasedCoinFlip(food_rate)) {
+        for(int i=0;i<max_food_trial;i++) {
             x = Entity::randInt(1,g_max-2);
             y = Entity::randInt(1,g_max-2);
             bool occupied = Squarecell::checkOverlap(Point(x,y), 1, 1, allCST, true);
-            if(not occupied){
+            if(not occupied) {
                 return make_shared<Nourriture>(Point(x,y), index);
             }
         }
@@ -71,18 +70,3 @@ void Nourriture::draw() {
 
     Squarecell::losange(x, y, 12);
 }
-
-/*
-    int x = (*occupiedSpace).getPosition().getCoordX();
-    int y = (*occupiedSpace).getPosition().getCoordY();
-    int negBias = (-g_max*resolution/2+1);
-    float sinBias = 0.353553391;
-    float largeur = 0.707106781;
-    // draw white diamond
-    cr->set_source_rgb(1, 1, 1);
-    cr->set_line_width(largeur*(resolution));
-    cr->move_to((x)*resolution+negBias+1, (y)*resolution+negBias+1);
-    cr->line_to((x+1-sinBias)*resolution+negBias,(y+1-sinBias)*resolution+negBias);
-    cr->stroke();
-}
- */
