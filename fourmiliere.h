@@ -20,6 +20,7 @@ private:
     int nbD;
     int nbP;
     bool isConstrained;
+    double foodReserve;
     std::vector<std::shared_ptr<Fourmi>> memberAnts;
 
 public:
@@ -37,6 +38,8 @@ public:
     void check();
     //remplace the list of member ants
     void overrideAnts(std::vector<std::shared_ptr<Fourmi>> FourmiList);
+
+    std::vector<std::shared_ptr<Fourmi>> getAnts();
     //check that the Generator are in the anthill
     void checkGeneratorUsingCoord();
     //same for defensor

@@ -20,10 +20,16 @@ Fourmi::Fourmi(Point position, int age, char type, int id, int size)  :
         Entity(position, size, size, type, id, true){
     this->age = age;
     endOfLife = false;
+    pathBuffer = {};
 }
 
 int Fourmi::getAge() {
     return age;
+}
+
+void Fourmi::step(){
+    setPosition(pathBuffer[0]);
+    pathBuffer.erase(pathBuffer.begin());
 }
 
 void Fourmi::update(vector<shared_ptr<Entity>> & entityList) {
@@ -52,34 +58,32 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
     if(carryFood){
         if(pathBuffer.size() > 1) { // walk toward the generator one step at a time
-            setPosition(pathBuffer[0]);
-            pathBuffer.erase(pathBuffer.begin());
-        } else { // once reached give the food to the generator
-            shared_ptr<Entity> entity = Entity::findByPosition(pathBuffer[0], entityList, fourmiGeneratorCST);
-            shared_ptr<Generator> gene = dynamic_pointer_cast<Generator>(entity);
-            gene->addFood();
-            carryFood = false;
-            pathBuffer.erase(pathBuffer.begin());
+            step();
+        } else if(pathBuffer.size() == 1){ // once reached give the food to the gener
+            unloadFood(entityList);
             // ici calculer le chemin pour la prochaine bouffe et ajouter au buffer
+        } else {
+            // ici calculer le chemin pour la generator
         }
     } else {
-        bool foodStillThere = Squarecell::countOverlap(pathBuffer[pathBuffer.size()-1], 1, 1,
-                                                  nourritureCST, true);
+        bool foodStillThere = false;
         bool foodStillClosest = true;
-        if(distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1])>
+        if(pathBuffer.size()==0){
+            foodStillThere = false;
+        } else {
+            foodStillThere = Squarecell::countOverlap(
+                        pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
+            if(distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1])>
                distance2Points(getPosition(),Collector::findClosestFood(entityList))){
-            foodStillClosest = false;
+                foodStillClosest = false;
+            }
         }
         if(foodStillThere and foodStillClosest)
         {
             if(pathBuffer.size() > 1) { // walk toward the food one step at a time
-                setPosition(pathBuffer[0]);
-                pathBuffer.erase(pathBuffer.begin());
+                step();
             } else { // once reached mark the food for deletion
-                shared_ptr<Entity> food = Entity::findByPosition(pathBuffer[0], entityList, nourritureCST);
-                food->setEndOfLife(true);
-                carryFood = true;
-                pathBuffer.erase(pathBuffer.begin());
+                loadFood(entityList);
                 // ici calculer le chemin pour la generator
             }
         } else {
@@ -110,6 +114,24 @@ Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList){
     }
     vector <Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
     return newListTrie[0];
+}
+
+void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList){
+    shared_ptr<Entity> entity = Entity::findByPosition(pathBuffer[0], entityList,
+                                                       fourmiGeneratorCST);
+    // ensure the generator returned had the right id
+    shared_ptr<Generator> gene = dynamic_pointer_cast<Generator>(entity);
+    gene->addFood();
+    carryFood = false;
+    pathBuffer.erase(pathBuffer.begin());
+}
+
+void Collector::loadFood(vector<shared_ptr<Entity>> &entityList){
+    shared_ptr<Entity> food = Entity::findByPosition(pathBuffer[0],
+                                                     entityList, nourritureCST);
+    food->setEndOfLife(true);
+    carryFood = true;
+    pathBuffer.erase(pathBuffer.begin());
 }
 
 vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointToGo) {
@@ -166,9 +188,9 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     }
 }
 
-void Collector::bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
-                          vector<Point> &pathPossibilitys, int count, int &index, bool first) {
-
+void Collector::bestDiago(Point positionCollector, Point pointToGo,
+                          double distanceInit, vector<Point> &pathPossibilitys,
+                          int count, int &index, bool first) {
     int xOrigin = positionCollector.getCoordX();
     int yOrigin = positionCollector.getCoordY();
 
@@ -177,58 +199,43 @@ void Collector::bestDiago(Point positionCollector, Point pointToGo, double dista
     }
 
     if(index == 1) { //droite haut
-        cout << "------------------------------------------------------------" << endl;
-        cout << "rentre diago droite haut" << endl;
-        cout << "xOrigin : " << xOrigin + 1 << " yOrigin : "<< yOrigin + 1 << endl;
-        path(Point(xOrigin + 1, yOrigin + 1), pointToGo, distanceInit, pathPossibilitys, count, index, first);
+        path(Point(xOrigin + 1, yOrigin + 1), pointToGo, distanceInit,
+             pathPossibilitys, count, index, first);
     } else if(index == 2) { //gauche haut
-        cout << "------------------------------------------------------------" << endl;
-        cout << "rentre diago gauche haut" << endl;
-        cout << "xOrigin : " << xOrigin - 1 << " yOrigin : "<< yOrigin + 1 << endl;
-        path(Point(xOrigin - 1, yOrigin + 1), pointToGo, distanceInit, pathPossibilitys, count, index, first);
+        path(Point(xOrigin - 1, yOrigin + 1), pointToGo, distanceInit,
+             pathPossibilitys, count, index, first);
     } else if(index == 3) { //gauche bas
-        cout << "------------------------------------------------------------" << endl;
-        cout << "xOrigin : " << xOrigin - 1 << " yOrigin : "<< yOrigin - 1 << endl;
-        cout << "rentre diago gauche bas" << endl;
-        path(Point(xOrigin - 1, yOrigin - 1), pointToGo, distanceInit, pathPossibilitys, count, index, first);
+        path(Point(xOrigin - 1, yOrigin - 1), pointToGo, distanceInit,
+             pathPossibilitys, count, index, first);
     } else { //droite bas
-        cout << "------------------------------------------------------------" << endl;
-        cout << "rentre diago droite bas" << endl;
-        cout << "xOrigin : " << xOrigin + 1 << " yOrigin : "<< yOrigin - 1 << endl;
-        path(Point(xOrigin + 1, yOrigin - 1), pointToGo, distanceInit, pathPossibilitys, count, index, first);
+        path(Point(xOrigin + 1, yOrigin - 1), pointToGo, distanceInit,
+             pathPossibilitys, count, index, first);
     }
 }
 
 void Collector::path(Point step, Point pointToGo, double distanceInit,
                      vector<Point> &path, int &count, int &index, bool first) {
     double newDistance = Entity::distance2Points(step, pointToGo);
-    cout << "newDistance = " << newDistance << endl;
     if(newDistance < 2) {
         path.push_back(step);
         return;
     }
     if(newDistance < distanceInit) {
         path.push_back(step);
-        cout << "index : " << index << endl;
         bestDiago(step, pointToGo, newDistance, path, count, index, false);
         return;
     } else {
-        cout << "index : " << index << endl;
         count++;
         if(first == true) {
-            cout << "je suis dans first" << endl;
             return;
         }
         if(index == 4) {
-            cout << "changement d index a 100000" << endl;
             index = 1;
             bestDiago(step, pointToGo, distanceInit, path, count, index, false);
             return;
         } else {
-            cout << "ELSE changement d index a " << index << endl;
             index++;
             bestDiago(step, pointToGo, distanceInit, path, count, index, false);
-            cout << "return " << index << endl;
             return;
         }
     }
@@ -381,7 +388,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
         int age = stoi(inputBuffer[2]);
         vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP,
                                                            anyCST, true);
-        if(overlapList.size()>0) { // ensure the ant does not collide with something else
+        if(overlapList.size()>0) { // ensure the ant does not collide with something
             cout<< message::predator_overlap(x,y);
             throw (-1);
         }
@@ -398,13 +405,11 @@ void Predator::draw() {
 
 Generator::Generator(Point position, int id) :
                     Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
+    foodReceived = 0;
 }
 
 void Generator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    if(foodReserve<=0) {
-        endOfLife = true; // no food -> no generator -> no update, they all DIE !
-    }
 }
 
 vector<vector<string>> Generator::exportToString() {
@@ -444,18 +449,14 @@ void Generator::draw() {
     }
 }
 
-double Generator::getFood(){
-    return foodReserve;
-}
-
-void Generator::setFood(double food){
-    foodReserve = food;
+int Generator::getFood(){
+    return foodReceived;
 }
 
 void Generator::addFood(){
-    foodReserve = foodReserve + val_food;
+    foodReceived++;
 }
 
-void Generator::removeFood(double consumption){
-    foodReserve = foodReserve - consumption;
+void Generator::removeFood(){
+    foodReceived = 0;
 }

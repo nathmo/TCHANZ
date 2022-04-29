@@ -59,6 +59,10 @@ void Simulation::simulateStep() {
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
     for(auto anthill:anthillList) {
+        vector<shared_ptr<Fourmi>> fourmiList = (anthill->getAnts());
+        entityList.insert(entityList.end(),fourmiList.begin(), fourmiList.end());
+    }// update the anthill and their ants
+    for(auto anthill:anthillList) {
         anthill->update(entityList);
     }// update the anthill and their ants
     for(unsigned int i=0;i<anthillList.size();i++) {

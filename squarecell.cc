@@ -459,15 +459,18 @@ void Squarecell::square(int x, int y, int colorCode) {
 void Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorCode) {
     vector<vector<double>> linesToDraw;
     double color = (double)colorCode;
+    //ligne horizontal down
     linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+sizeSide-0.5,
-                           yBotLeft+0.5, 0.3, color}); //ligne horizontal
+                           yBotLeft+0.5, 0.3, color});
+    //ligne vertical down
     linesToDraw.push_back({xBotLeft+0.5, yBotLeft+0.5, xBotLeft+0.5,
-                           yBotLeft+sizeSide-0.5, 0.3, color}); //ligne vertical en bas gauche
+                           yBotLeft+sizeSide-0.5, 0.3, color});
+    //ligne verticale depuis le haut
     linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
-                           xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, color}); //ligne verticale depuis le haut
+                           xBotLeft+sizeSide-0.5, yBotLeft+0.5, 0.3, color});
+    //ligne horizontal depuis le haut
     linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
-                           xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, color}); //ligne horizontal depuis le haut
-
+                           xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, color});
     for(auto command : linesToDraw) {
         Graphic::drawLine(command[0], command[1], command[2],
                           command[3], command[4], command[5]);
