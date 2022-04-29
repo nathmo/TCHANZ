@@ -22,8 +22,8 @@ protected:
     static std::default_random_engine randGen;
 
 public:
-    Entity(Point position, int width, int height, char specie,
-           int id, bool isPositionAtCenter);
+    Entity(Point position, int width, int heihgt,
+           char specie, int id, bool isPositionAtCenter);
     void setPosition(Point newPosition);
     Point getPosition();
     void setSize(int width, int height);
@@ -48,9 +48,6 @@ public:
     std::vector<Point> trie(Point positionCollector,
                             std::vector<Point> listSpecieTrie);
     double distance2Points(Point positionCollector, Point point);
-    //Point pointClosestCollector(Point positionCollector,
-    //                            std::vector<Point> listSpecieTrie);
-    //int findPoint(Point point, std::vector<Point> listSpecieTrie);
 };
 
 #endif //TCHANZ_ENTITY_H

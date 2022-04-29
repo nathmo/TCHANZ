@@ -19,13 +19,13 @@ using namespace std;
 vector<vector<char>> Squarecell::hitBoxGrid = vector<vector<char>> (g_max,
                                                                 vector<char> (g_max));
 
-Point::Point(int x,int y) {
-    if(not ((x >= 0) and (x < g_max))) { // not in [0;127]
+Point::Point(int x, int y) {
+    if(not((x >= 0) and (x < g_max))) { // not in [0;127]
         cout << error_squarecell::print_index(x, g_max-1);
         throw (-1);
     }
 
-    if(not ((y >= 0) and (y < g_max))) { // not in [0;127]
+    if(not((y >= 0) and (y < g_max))) { // not in [0;127]
         cout << error_squarecell::print_index(y, g_max-1);
         throw (-1);
     }
@@ -55,11 +55,11 @@ int Point::getCoordY() {
 
 bool Point::checkPoint(Point point) {
     bool status = true;
-    if(not ((point.getCoordX() >= 0) and (point.getCoordX() < g_max))) {
+    if(not((point.getCoordX() >= 0) and (point.getCoordX() < g_max))) {
         status = false;
     }
 
-    if(not ((point.getCoordY() >= 0) and (point.getCoordY() < g_max))) {
+    if(not((point.getCoordY() >= 0) and (point.getCoordY() < g_max))) {
         status = false;
     }
     return status;
@@ -68,8 +68,8 @@ bool Point::checkPoint(Point point) {
 Squarecell::Squarecell() {
 }
 
-Squarecell::Squarecell(Point position, int width,int height, char kind,
-                       bool isPositionAtCenter) {
+Squarecell::Squarecell(Point position, int width,int height,
+                       char kind, bool isPositionAtCenter) {
     this->height = height;
     this->width = width;
     this->position = position;
@@ -85,9 +85,9 @@ Squarecell::Squarecell(Point position, int width,int height, char kind,
     if(isElligible) { // if the coordinate fit in the grid
         for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
             for(int j=cornerBotLeft.getCoordY(); j<=cornerTopRight.getCoordY(); j++) {
-                if(hitBoxGrid[i][j]==emptyCST) { // add the entity the grid
+                if(hitBoxGrid[i][j] == emptyCST) { // add the entity the grid
                     hitBoxGrid[i][j] = kind;
-                } else if(not (hitBoxGrid[i][j] & kind)) { // ensure nothing is there
+                } else if(not(hitBoxGrid[i][j] & kind)) { // ensure nothing is there
                     hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
                 } else {                                   // otherwise throw error
                     cout << "uncatched exception : two entity overlap at "
@@ -174,7 +174,7 @@ void Squarecell::setWidth(int width) {
     this->width = width;
 }
 
-void Squarecell::setSize(int width,int height) {
+void Squarecell::setSize(int width, int height) {
     this->width = width;
     this->height = height;
 }
@@ -200,13 +200,13 @@ bool Squarecell::checkHitbox(Point position, int width,
     bool status = true;
     vector<int> PointToCheck ={cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
                                cornerTopRight.getCoordX(),cornerTopRight.getCoordY()};
-    for(int i=0;i<4;i++) {
+    for(int i=0; i<4; i++) {
         if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < g_max))) {//not in[0;127]
             if(i%2==0) { // check for X coordinate error
                 cout << error_squarecell::print_outside(position.getCoordX(), width,
                                                         g_max-1);
                 throw (-1);
-            } else if(i%2==1) { // check for Y coordinate error 
+            } else if(i%2 == 1) { // check for Y coordinate error
                 cout << error_squarecell::print_outside(position.getCoordY(), height,
                                                         g_max-1);
                 throw (-1);
@@ -232,7 +232,7 @@ bool Squarecell::ensureFitInGrid(Point position, int width,
     bool status = true;
     vector<int> PointToCheck ={cornerBotLeft.getCoordX(),cornerBotLeft.getCoordY(),
                                cornerTopRight.getCoordX(),cornerTopRight.getCoordY()};
-    for(int i=0;i<4;i++) {
+    for(int i=0; i<4; i++) {
         if(not((PointToCheck[i] >= 0) and (PointToCheck[i] < g_max))) {//not in[0;127]
             status = false;
         }
@@ -345,22 +345,22 @@ int Squarecell::countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
 }
 
 void Squarecell::displayRawGrid() {
-    for(int i=g_max-1;i>=0;i--) {
+    for(int i=g_max-1; i>=0; i--) {
         string lineOfMap = "";
-        for(int j=0;j<g_max;j++) {
+        for(int j=0; j<g_max; j++) {
             string status = "X";
             if(hitBoxGrid[i][j]) {
-                if(hitBoxGrid[i][j]==nourritureCST)
+                if(hitBoxGrid[i][j] == nourritureCST)
                     status = 'N';
-                else if(hitBoxGrid[i][j]==fourmilliereCST)
+                else if(hitBoxGrid[i][j == fourmilliereCST)
                     status = 'F';
-                else if(hitBoxGrid[i][j]==fourmiGeneratorCST)
+                else if(hitBoxGrid[i][j] == fourmiGeneratorCST)
                     status = 'g';
-                else if(hitBoxGrid[i][j]==fourmiCollectorCST)
+                else if(hitBoxGrid[i][j] == fourmiCollectorCST)
                     status = 'c';
-                else if(hitBoxGrid[i][j]==fourmiPredatorCST)
+                else if(hitBoxGrid[i][j] == fourmiPredatorCST)
                     status = 'p';
-                else if(hitBoxGrid[i][j]==fourmiDefensorCST)
+                else if(hitBoxGrid[i][j] == fourmiDefensorCST)
                     status = 'd';
                 else
                     status = 'X';
@@ -377,12 +377,12 @@ Point Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
                                      int width, int height, char filter) {
     int paddingWidth;
     int paddingHeight;
-    if(width%2==0) {
+    if(width%2 == 0) {
         paddingWidth = (width/2);
     } else {
         paddingWidth = ((width-1)/2);
     }
-    if(height%2==0) {
+    if(height%2 == 0) {
         paddingHeight = (height/2);
     } else {
         paddingHeight = ((height-1)/2);
@@ -427,7 +427,7 @@ Point Squarecell::computeHitboxTopRight(Point position, int width,
     }
     if(not isPositionAtCenter) {
         topRight.setCoordY(position.getCoordY()+height-1);
-    } else if(height%2==1) {
+    } else if(height%2 == 1) {
         topRight.setCoordY(position.getCoordY()+(height-1)/2);
     }
     return topRight;

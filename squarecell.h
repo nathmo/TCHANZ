@@ -41,8 +41,8 @@ private:
 
 public:
     Squarecell();
-    Squarecell(Point position, int height, int width, char kind,
-               bool isPositionAtCenter);
+    Squarecell(Point position, int height, int width,
+               char kind, bool isPositionAtCenter);
     ~Squarecell();
     Point getPosition();
     void setPosition(Point position);
@@ -59,7 +59,7 @@ public:
                             bool isPositionAtCenter);
 
     static bool ensureFitInGrid(Point position, int width, int height,
-                                     bool isPositionAtCenter);
+                                bool isPositionAtCenter);
     // return true if an shape of the choosen type overlap the given region
     static bool checkOverlap(Point position, int width, int height, char kindToCheck,
                              bool isPositionAtCenter);
@@ -68,7 +68,7 @@ public:
                                          char kindToCheck, bool isPositionAtCenter);
     // return the number of overlapping point between two shape
     static int countOverlap(Point position, int width, int height, char kindToCheck,
-                     bool isPositionAtCenter);
+                            bool isPositionAtCenter);
     static int countOverlap(Point position1, int width1, int height1,
                             bool isPositionAtCenter1,
                             Point position2, int width2,int height2,

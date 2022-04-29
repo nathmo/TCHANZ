@@ -23,12 +23,12 @@ Simulation::Simulation() {
 vector<shared_ptr<Entity>> Simulation::getListEntity() {
     vector<shared_ptr<Entity>> entityToExport;
     entityToExport.insert(entityToExport.end(),nourritureList.begin(),
-                                               nourritureList.end());
+                          nourritureList.end());
     entityToExport.insert(entityToExport.end(),anthillList.begin(),anthillList.end());
     return entityToExport;
 }
 
-void Simulation::loadFromFile(std::string path) {
+void Simulation::loadFromFile(string path) {
     nourritureList.clear(); // empty the memory to load the new array
     anthillList.clear();
     try {
@@ -45,7 +45,7 @@ void Simulation::loadFromFile(std::string path) {
     }
 }
 
-void Simulation::saveToFile(std::string path) {
+void Simulation::saveToFile(string path) {
     TextStorage::exportTXT(path, nourritureList, anthillList);
 }
 

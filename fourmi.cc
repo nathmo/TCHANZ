@@ -347,10 +347,10 @@ void Collector::draw() {
 }
 
 Defensor::Defensor(Point position, int id, int age) :
-        Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
+                        Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
 }
 
-void Defensor::update(vector<shared_ptr<Entity>> & entityList) {
+void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
 }
 
@@ -390,9 +390,7 @@ void Defensor::draw() {
     int side = 3;
     int id = getId()%6;
     int lightColor = id+6;
-    int colorCode = lightColor; //on commence en bas a gauche donc clair au debut
-
-    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
+    int colorCode = lightColor; //on commence en bas a gauche
 
     for(int i(0); i < side; i++) {
         for(int j(0); j < side; j++) {
@@ -412,7 +410,7 @@ Predator::Predator(Point position, int id, int age) :
 
 }
 
-void Predator::update(vector<shared_ptr<Entity>> & entityList) {
+void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
 }
 
@@ -432,15 +430,15 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
         cout << "Predator : number of argument mismatch" << endl;
         throw (-1);
     } else {
-    int x = stoi(inputBuffer[0]);
-    int y = stoi(inputBuffer[1]);
-    int age = stoi(inputBuffer[2]);
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP,
-                                                       anyCST, true);
-    if(overlapList.size()>0) { // ensure the ant does not collide with something else
-        cout<< message::predator_overlap(x,y);
-        throw (-1);
-    }
+        int x = stoi(inputBuffer[0]);
+        int y = stoi(inputBuffer[1]);
+        int age = stoi(inputBuffer[2]);
+        vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP,
+                                                           anyCST, true);
+        if(overlapList.size()>0) { // ensure the ant does not collide with something else
+            cout<< message::predator_overlap(x,y);
+            throw (-1);
+        }
     return make_shared<Predator>(Point(x,y),index,age);
     }
 }
@@ -453,10 +451,10 @@ void Predator::draw() {
 }
 
 Generator::Generator(Point position, int id) :
-        Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
+                    Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
 }
 
-void Generator::update(vector<shared_ptr<Entity>> & entityList) {
+void Generator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
 }
 

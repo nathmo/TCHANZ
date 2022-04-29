@@ -51,7 +51,7 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
     return nullptr;
 }
 
-void Nourriture::update(vector<shared_ptr<Entity>> & entityList) {
+void Nourriture::update(vector<shared_ptr<Entity>> &entityList) {
 
 }
 
