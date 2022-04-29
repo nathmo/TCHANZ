@@ -1,6 +1,6 @@
 /*!
   \file   graphic.cc
-  \author Nathann Morand (30%) et Felipe Ramirez (70%)
+  \author Nathann Morand (50%) et Felipe Ramirez (50%)
   \date   MARS 2022
   \brief  implementation du module "graphic".
 */
@@ -48,7 +48,7 @@ void Graphic::adjustFrame() {
     // Preventing distorsion by adjusting the frame (cadrage)
     // to have the same proportion as the graphical area
 
-    // use the reference framing as a Graphicde for preventing distortion
+    // use the reference framing as a Graphicode for preventing distortion
     double new_aspect_ratio((double)width/height);
     if(new_aspect_ratio > default_frame.asp) {//keep yMax/yMin. Adjust xMax/xMin
         frame.yMax = default_frame.yMax ;

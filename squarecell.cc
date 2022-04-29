@@ -350,20 +350,29 @@ void Squarecell::displayRawGrid() {
         for(int j=0;j<g_max;j++) {
             string status = "X";
             if(hitBoxGrid[i][j]) {
-                if(hitBoxGrid[i][j]==nourritureCST)
-                    status = 'N';
-                else if(hitBoxGrid[i][j]==fourmilliereCST)
-                    status = 'F';
-                else if(hitBoxGrid[i][j]==fourmiGeneratorCST)
-                    status = 'g';
-                else if(hitBoxGrid[i][j]==fourmiCollectorCST)
-                    status = 'c';
-                else if(hitBoxGrid[i][j]==fourmiPredatorCST)
-                    status = 'p';
-                else if(hitBoxGrid[i][j]==fourmiDefensorCST)
-                    status = 'd';
-                else
-                    status = 'X';
+                switch (hitBoxGrid[i][j]) {
+                    case nourritureCST:
+                        status = 'N';
+                        break;
+                    case fourmilliereCST:
+                        status = 'F';
+                        break;
+                    case fourmiGeneratorCST:
+                        status = 'g';
+                        break;
+                    case fourmiCollectorCST:
+                        status = 'c';
+                        break;
+                    case fourmiPredatorCST:
+                        status = 'p';
+                        break;
+                    case fourmiDefensorCST:
+                        status = 'd';
+                        break;
+                    default:
+                        status = 'X';
+                        break;
+                }
             } else {
                 status = ".";
             }

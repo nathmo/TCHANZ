@@ -48,9 +48,6 @@ public:
     std::vector<Point> trie(Point positionCollector,
                             std::vector<Point> listSpecieTrie);
     double distance2Points(Point positionCollector, Point point);
-    //Point pointClosestCollector(Point positionCollector,
-    //                            std::vector<Point> listSpecieTrie);
-    //int findPoint(Point point, std::vector<Point> listSpecieTrie);
 };
 
 #endif //TCHANZ_ENTITY_H
