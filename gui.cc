@@ -30,8 +30,7 @@ void Gui::onButtonClickedOpen() {
     int result = dialog.run();
     switch(result) {
         case(Gtk::RESPONSE_OK): {
-            (*simulationPtr).setPath(dialog.get_filename());
-            (*simulationPtr).loadFromFile();
+            (*simulationPtr).loadFromFile(dialog.get_filename());
             Gui::refreshAnthInfo();
             Gui::refreshFoodInfo();
             (*simulationPtr).refreshGUI();
@@ -52,8 +51,7 @@ void Gui::onButtonClickedSave() {
     int result = dialog.run();
     switch(result) {
         case(Gtk::RESPONSE_OK): {
-            (*simulationPtr).setPath(dialog.get_filename());
-            (*simulationPtr).saveToFile();
+            (*simulationPtr).saveToFile(dialog.get_filename());
             break;
         } default: {
             break;

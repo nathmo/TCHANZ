@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
                 status = false;
             }
         }
-        if(status) { // allow for operation without GUI
+        if(status) { // allow for operation without GUI, for debug/test purpose
             startHeadless(argv[1]);
             return 0;
         }
@@ -39,14 +39,14 @@ int main(int argc, char *argv[]) {
 }
 
 void startHeadless(string path) {
-    shared_ptr<Simulation> simulatiom = make_shared<Simulation>(path);
-    (*simulatiom).loadFromFile();
+    shared_ptr<Simulation> simulatiom = make_shared<Simulation>();
+    (*simulatiom).loadFromFile(path);
     //Simulation::simulateStep(entityList);
     //Simulation::saveToFile(path+"Plus1Step",entityList);
 }
 
 void startGui(string path) {
-    shared_ptr<Simulation> simulatiom = make_shared<Simulation>(path);
-    (*simulatiom).loadFromFile();
+    shared_ptr<Simulation> simulatiom = make_shared<Simulation>();
+    (*simulatiom).loadFromFile(path);
     Gui::window(simulatiom);
 }

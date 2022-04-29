@@ -17,14 +17,7 @@
 using namespace std;
 
 Simulation::Simulation() {
-}
 
-Simulation::Simulation(string path) {
-    this->path = path;
-}
-
-void Simulation::setPath(std::string newpath) {
-    path = newpath;
 }
 
 vector<shared_ptr<Entity>> Simulation::getListEntity() {
@@ -35,7 +28,7 @@ vector<shared_ptr<Entity>> Simulation::getListEntity() {
     return entityToExport;
 }
 
-void Simulation::loadFromFile() {
+void Simulation::loadFromFile(std::string path) {
     nourritureList.clear(); // empty the memory to load the new array
     anthillList.clear();
     try {
@@ -52,14 +45,8 @@ void Simulation::loadFromFile() {
     }
 }
 
-void Simulation::saveToFile() {
+void Simulation::saveToFile(std::string path) {
     TextStorage::exportTXT(path, nourritureList, anthillList);
-}
-
-void Simulation::startHeadless() {
-    loadFromFile();
-    //Simulation::simulateStep(entityList);
-    //Simulation::saveToFile(path+"Plus1Step", entityList);
 }
 
 void Simulation::simulateStep() {
