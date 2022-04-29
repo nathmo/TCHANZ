@@ -82,6 +82,8 @@ public:
     static std::shared_ptr<Fourmi> importFromExtSaveGenerator(
                                     std::vector<std::string> &inputBuffer, int index);
     void virtual draw();
+    double getFood();
+    void setFood(double food);
     void addFood();
     void removeFood(double consumption);
 };

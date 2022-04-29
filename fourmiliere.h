@@ -49,6 +49,8 @@ public:
     int getAntTypeToGenerate();
 
     void attemptExpansionAnthill();
+
+    double getFood();
     //create an anthill object from a vector of string + run the check for the anthill
     static std::shared_ptr<Fourmiliere> importFromExtSaveFourmilliere(
                            std::vector<std::string> &inputBuffer, int index,

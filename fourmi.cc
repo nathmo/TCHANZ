@@ -517,6 +517,14 @@ void Generator::draw() {
     }
 }
 
+double Generator::getFood(){
+    return foodReserve;
+}
+
+void Generator::setFood(double food){
+    foodReserve = food;
+}
+
 void Generator::addFood(){
     foodReserve = foodReserve + val_food;
 }
