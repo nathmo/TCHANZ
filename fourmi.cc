@@ -149,43 +149,21 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     first = true;
     count = 0;
     cout << "je suis dans path2" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path2, count, index, first);
 
     index = 3;
     first = true;
     count = 0;
     cout << "je suis dans path3" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path3, count, index, first);
 
     index = 4;
     first = true;
     count = 0;
     cout << "je suis dans path4" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first);
 
-    unsigned int bestPath(0);
-    if(!(path1.size() == 0)) {
-        bestPath = 1;
-    }
-    if(bestPath > path2.size() && (path2.size() != 0)) {
-        bestPath = 2;
-    }
-    if(bestPath > path3.size() && (path3.size() != 0)) {
-        bestPath = 3;
-    }
-    if(bestPath > path4.size() && (path4.size() != 0)) {
-        bestPath = 4;
-    }
-
-    if(bestPath == 1) {
-        return path1;
-    } else if(bestPath == 2) {
-        return path2;
-    } else if(bestPath == 3) {
-        return path3;
-    } else {
-        return path4;
-    }
+    return path1; //fonction en cours de travail pour rendu 3
 }
 
 void Collector::bestDiago(Point positionCollector, Point pointToGo,
@@ -284,19 +262,8 @@ void Collector::draw() {
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
     int id = getId()%6;
-    int lightColor = id+6;
-    int colorCode = id; //on commence en bas a gauche donc foncé au debut
-   // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
-    for(int i(0); i < side; i++) {
-        for(int j(0); j < side; j++) {
-            Squarecell::square(x + j, y + i, colorCode);
-            if(colorCode == id) {
-                colorCode = lightColor;
-            } else {
-                colorCode = id;
-            }
-        }
-    }
+
+    Squarecell::diagonale(x, y, id, side);
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -342,20 +309,8 @@ void Defensor::draw() {
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
     int id = getId()%6;
-    int lightColor = id+6;
-    int colorCode = lightColor; //on commence en bas a gauche
 
-    for(int i(0); i < side; i++) {
-        for(int j(0); j < side; j++) {
-            Squarecell::square(x + j, y + i, colorCode);
-            if(colorCode == id) {
-                colorCode = lightColor;
-            } else {
-                colorCode = id;
-            }
-        }
-    }
-    Squarecell::square(x + 1, y + 1, id);;//change color center to dark
+    Squarecell::grille(x, y, id, side);
 }
 
 Predator::Predator(Point position, int id, int age) :
