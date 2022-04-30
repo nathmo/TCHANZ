@@ -154,6 +154,8 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     count = 0;
     bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first);
     return path1; //fonction en cours de travail pour rendu 3
+
+    return path1; //fonction en cours de travail pour rendu 3
 }
 
 void Collector::bestDiago(Point positionCollector, Point pointToGo,

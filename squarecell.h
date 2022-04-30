@@ -88,6 +88,8 @@ public:
     static void square(int x, int y, int colorCode);
     static void perimeter(int xBotLeft, int yBotLeft, int sizeSide, int colorCode);
     static void losange(int x, int y, int colorCode);
+    static void diagonale(int x, int y, int id, int side);
+    static void grille(int x, int y, int id, int side);
     static void FullGrid();
 };
     

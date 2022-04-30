@@ -491,6 +491,39 @@ void Squarecell::losange(int x, int y, int colorCode) {
     }
 }
 
+void Squarecell::grille(int x, int y, int id, int side) { //fonction draw Defensor
+    int lightColor = id+6;
+    int colorCode = lightColor; //on commence en bas a gauche
+
+    for(int i(0); i < side; i++) {
+        for(int j(0); j < side; j++) {
+            Squarecell::square(x + j, y + i, colorCode);
+            if(colorCode == id) {
+                colorCode = lightColor;
+            } else {
+                colorCode = id;
+            }
+        }
+    }
+    Squarecell::square(x + 1, y + 1, id);;//change color center to dark
+}
+
+void Squarecell::diagonale(int x, int y, int id, int side) {//fonction draw Collector
+    int lightColor = id+6;
+    int colorCode = id; //on commence en bas a gauche donc foncé au debut
+    // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
+    for(int i(0); i < side; i++) {
+        for(int j(0); j < side; j++) {
+            Squarecell::square(x + j, y + i, colorCode);
+            if(colorCode == id) {
+                colorCode = lightColor;
+            } else {
+                colorCode = id;
+            }
+        }
+    }
+}
+
 void Squarecell::FullGrid() {
     vector<vector<double>> commandList;
     //white border
