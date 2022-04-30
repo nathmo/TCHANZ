@@ -137,33 +137,23 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList){
 vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointToGo) {
     double distanceInit = Entity::distance2Points(positionCollector, pointToGo);
     vector<Point> path1, path2, path3, path4;
-    cout << "distanceInit = " << distanceInit << endl;
-
     int index(1);
     bool first = true;
     int count(0);
-    cout << "je suis dans path1" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
-
     index = 2;
     first = true;
     count = 0;
-    cout << "je suis dans path2" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path2, count, index, first);
-
     index = 3;
     first = true;
     count = 0;
-    cout << "je suis dans path3" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path3, count, index, first);
-
     index = 4;
     first = true;
     count = 0;
-    cout << "je suis dans path4" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first);
-
-    return path1; //fonctionne en cours de travail pour rendu 3
+    return path1; //fonction en cours de travail pour rendu 3
 }
 
 void Collector::bestDiago(Point positionCollector, Point pointToGo,
