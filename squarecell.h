@@ -1,6 +1,6 @@
 /*!
   \file   squarecell.h
-  \author Nathann Morand (90%) et Felipe Ramirez (10%)
+  \author Nathann Morand (60%) et Felipe Ramirez (40%)
   \date   MARS 2022
   \brief  prototype du module "squarecell"
 */

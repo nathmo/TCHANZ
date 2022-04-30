@@ -28,7 +28,7 @@ public:
     void refreshGUI();
     int getFoodNb();
     int getAnthNb();
-    std::vector<int> getAnthInfoStat(int id);
+    std::vector<double> getAnthInfoStat(int id);
 };
 
 #endif //TCHANZ_SIMULATION_H

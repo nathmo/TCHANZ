@@ -24,9 +24,7 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     this->nbC=nbC;
     this->nbD=nbD;
     this->nbP=nbP;
-    memberAnts = FourmiList;
-    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
-    gen->setFood(totalFood);
+    foodReserve = totalFood;
     endOfLife = false;
     isConstrained = checkIfConstrained();
 }
@@ -46,9 +44,15 @@ int Fourmiliere::getnbP() {
 void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
     attemptExpansionAnthill();
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
-    (*gen).removeFood((1+nbC+nbD+nbP)*food_rate); // decrease food
+    foodReserve = foodReserve + (val_food*(gen->getFood()));
+    gen->removeFood(); // removed the food from the generator once added in anthill
     gen->update(entityList); // update the generator
     if(gen->getEndOfLife()){
+        endOfLife = true;
+        return;
+    }
+    foodReserve = foodReserve - ((1+nbC+nbD+nbP)*food_rate);
+    if(foodReserve<=0) {
         endOfLife = true;
         return;
     }
@@ -72,8 +76,7 @@ vector<vector<string>> Fourmiliere::exportToString() {
     string height = to_string(getOccupiedSpace()->getHeight());
     string generatorX = to_string((*memberAnts[0]).getPosition().getCoordX());
     string generatorY = to_string((*memberAnts[0]).getPosition().getCoordY());
-    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
-    string totalFood = to_string(gen->getFood());
+    string totalFood = to_string(int(foodReserve));
     string strC = to_string(nbC);
     string strD = to_string(nbD);
     string strP = to_string(nbP);
@@ -102,6 +105,10 @@ void Fourmiliere::draw() {
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
+}
+
+std::vector<std::shared_ptr<Fourmi>> Fourmiliere::getAnts(){
+    return memberAnts;
 }
 
 void Fourmiliere::check() {
@@ -159,7 +166,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
 
 void Fourmiliere::randomCreateAnts(){
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
-    if(biasedCoinFlip(min(birth_rate*(gen->getFood()),1.0))) {
+    if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
         // remove the border from allowed zone
@@ -263,9 +270,9 @@ void Fourmiliere::attemptExpansionAnthill() {
     }
     isConstrained = true;
 }
+
 double Fourmiliere::getFood(){
-    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
-    return gen->getFood();
+    return foodReserve;
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(

@@ -1,6 +1,6 @@
 /*!
   \file   fourmi.h
-  \author Nathann Morand (80%) et Felipe Ramirez (20%)
+  \author Nathann Morand (40%) et Felipe Ramirez (60%)
   \date   MARS 2022
   \brief  prototype du module "fourmi".
 */
@@ -20,6 +20,7 @@ protected:
 public:
     Fourmi(Point position, int age, char type, int id, int size);
     int getAge();
+    void step();
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
@@ -35,15 +36,21 @@ public:
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     std::vector<Point> bestPathCollector(Point positionCollector,
                                          Point newListTrie);
-    void bestDiago(Point positionCollector, Point newListTrie, double distanceInit,
-                   std::vector<Point> &path, int index, bool first, bool &stop);
+    void bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
+                   std::vector<Point> &path, int count, int &index, bool first);
+    void path(Point step, Point pointToGo, double distanceInit,
+              std::vector<Point> &path, int &count, int &index, bool first);
     Point findClosestFood(std::vector<std::shared_ptr<Entity>> &entityList);
+
+    void unloadFood(std::vector<std::shared_ptr<Entity>> &entityList);
+
+    void loadFood(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveCollector(
                                     std::vector<std::string> &inputBuffer, int index);
-    void virtual draw();
+    virtual void draw();
 };
 
 class Defensor : public Fourmi {
@@ -72,7 +79,7 @@ public:
 
 class Generator : public Fourmi {
 private:
-    double foodReserve;
+    int foodReceived;
 public:
     Generator(Point position, int id);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
@@ -82,10 +89,9 @@ public:
     static std::shared_ptr<Fourmi> importFromExtSaveGenerator(
                                     std::vector<std::string> &inputBuffer, int index);
     void virtual draw();
-    double getFood();
-    void setFood(double food);
+    int getFood();
     void addFood();
-    void removeFood(double consumption);
+    void removeFood();
 };
 
 #endif //TCHANZ_FOURMI_H
