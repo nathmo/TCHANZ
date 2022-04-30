@@ -50,7 +50,6 @@ void Simulation::saveToFile(string path) {
 }
 
 void Simulation::simulateStep() {
-    /*
     vector<shared_ptr<Entity>> entityList;
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
     if(food != nullptr) {
@@ -75,7 +74,6 @@ void Simulation::simulateStep() {
             nourritureList.erase(nourritureList.begin()+i);
         }// erase food that where picked up
     }
-    */
 }
 
 void Simulation::refreshGUI() {

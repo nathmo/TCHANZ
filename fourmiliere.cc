@@ -233,30 +233,15 @@ void Fourmiliere::attemptExpansionAnthill() {
     int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC*nbC + sizeD*sizeD*nbD*nbD
                               + sizeP*sizeP*nbP*nbP)));
     int delta = sizeF-(*occupiedSpace).getWidth();
-    vector<Point> pointToTest = {};
-    pointToTest.push_back((*occupiedSpace).getHitboxBotLeft());
-    if(((*occupiedSpace).getHitboxBotLeft().getCoordY()-delta) >=0 and
-            (((*occupiedSpace).getHitboxBotLeft().getCoordY()-delta) < 128)) {
-        pointToTest.push_back(Point((*occupiedSpace).getHitboxBotLeft().getCoordX(),
-                                    (*occupiedSpace).getHitboxBotLeft().getCoordY() -
-                                    delta));
-    }
-    if((((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta) >=0 and
-       (((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta) < 128)) and
-       (((*occupiedSpace).getHitboxBotLeft().getCoordY()-delta) >=0 and
-       (((*occupiedSpace).getHitboxBotLeft().getCoordY()-delta) < 128))) {
-        pointToTest.push_back(
-                Point((*occupiedSpace).getHitboxBotLeft().getCoordX() - delta,
-                      (*occupiedSpace).getHitboxBotLeft().getCoordY() - delta));
-    }
-    if(((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta) >=0 and
-        (((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta) < 128)) {
-        pointToTest.push_back(
-                Point((*occupiedSpace).getHitboxBotLeft().getCoordX() - delta,
-                      (*occupiedSpace).getHitboxBotLeft().getCoordY()));
-    }
+    Point originLL = (*occupiedSpace).getHitboxBotLeft();
+    Point originUL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX(),
+                           (*occupiedSpace).getHitboxBotLeft().getCoordY()-delta);
+    Point originUR = Point((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta,
+                           (*occupiedSpace).getHitboxBotLeft().getCoordY()-delta);
+    Point originLR = Point((*occupiedSpace).getHitboxBotLeft().getCoordX()-delta,
+                           (*occupiedSpace).getHitboxBotLeft().getCoordY());
     int anthillArea = ((*occupiedSpace).getWidth()*(*occupiedSpace).getHeight());
-
+    vector<Point> pointToTest = {originLL, originUL, originUR, originLR};
     for(auto point:pointToTest) {
         if(Squarecell::ensureFitInGrid(point, sizeF, sizeF, false)) {
             if(Squarecell::countOverlap(point, sizeF, sizeF, fourmilliereCST,
