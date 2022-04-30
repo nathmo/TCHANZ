@@ -164,7 +164,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
     }
 }
 
-void Fourmiliere::randomCreateAnts(){
+void Fourmiliere::randomCreateAnts() {
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
     if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))) {
         shared_ptr<Fourmi> ant;
@@ -256,7 +256,7 @@ void Fourmiliere::attemptExpansionAnthill() {
     isConstrained = true;
 }
 
-double Fourmiliere::getFood(){
+double Fourmiliere::getFood() {
     return foodReserve;
 }
 

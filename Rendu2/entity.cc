@@ -53,11 +53,11 @@ int Entity::getId() {
     return id;
 }
 
-bool Entity::getEndOfLife(){
+bool Entity::getEndOfLife() {
     return endOfLife;
 }
 
-void Entity::setEndOfLife(bool endOfLife){
+void Entity::setEndOfLife(bool endOfLife) {
     this->endOfLife = endOfLife;
 }
 

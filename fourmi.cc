@@ -59,7 +59,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     if(carryFood){
         if(pathBuffer.size() > 1) { // walk toward the generator one step at a time
             step();
-        } else if(pathBuffer.size() == 1){ // once reached give the food to the gener
+        } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
             unloadFood(entityList);
             // ici calculer le chemin pour la prochaine bouffe et ajouter au buffer
         } else {
@@ -68,7 +68,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     } else {
         bool foodStillThere = false;
         bool foodStillClosest = true;
-        if(pathBuffer.size()==0){
+        if(pathBuffer.size()==0) {
             foodStillThere = false;
         } else {
             foodStillThere = Squarecell::countOverlap(
@@ -78,8 +78,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
                 foodStillClosest = false;
             }
         }
-        if(foodStillThere and foodStillClosest)
-        {
+        if(foodStillThere and foodStillClosest) {
             if(pathBuffer.size() > 1) { // walk toward the food one step at a time
                 step();
             } else { // once reached mark the food for deletion
@@ -92,7 +91,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     }
 }
 
-Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList){
+Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList) {
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
     Point positionCollector = getPosition();
@@ -116,7 +115,7 @@ Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList){
     return newListTrie[0];
 }
 
-void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList){
+void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList) {
     shared_ptr<Entity> entity = Entity::findByPosition(pathBuffer[0], entityList,
                                                        fourmiGeneratorCST);
     // ensure the generator returned had the right id
@@ -126,7 +125,7 @@ void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList){
     pathBuffer.erase(pathBuffer.begin());
 }
 
-void Collector::loadFood(vector<shared_ptr<Entity>> &entityList){
+void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
     shared_ptr<Entity> food = Entity::findByPosition(pathBuffer[0],
                                                      entityList, nourritureCST);
     food->setEndOfLife(true);

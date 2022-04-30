@@ -187,7 +187,7 @@ Point Squarecell::getHitboxTopRight() {
     return cornerTopRight;
 }
 
-bool Squarecell::getIsPositionAtCenter(){
+bool Squarecell::getIsPositionAtCenter() {
     return isPositionAtCenter;
 }
 

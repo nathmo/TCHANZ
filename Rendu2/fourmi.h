@@ -24,7 +24,7 @@ public:
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
-    void virtual draw();
+    virtual void draw();
 };
 
 class Collector : public Fourmi {
@@ -62,7 +62,7 @@ public:
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveDefensor(
                                     std::vector<std::string> &inputBuffer, int index);
-    void virtual draw();
+    virtual void draw();
 };
 
 class Predator : public Fourmi {
@@ -74,12 +74,13 @@ public:
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSavePredator(
                                     std::vector<std::string> &inputBuffer, int index);
-    void virtual draw();
+    virtual void draw();
 };
 
 class Generator : public Fourmi {
 private:
     int foodReceived;
+
 public:
     Generator(Point position, int id);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
@@ -88,7 +89,7 @@ public:
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveGenerator(
                                     std::vector<std::string> &inputBuffer, int index);
-    void virtual draw();
+    virtual void draw();
     int getFood();
     void addFood();
     void removeFood();
