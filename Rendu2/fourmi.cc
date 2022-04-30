@@ -149,29 +149,21 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     first = true;
     count = 0;
     cout << "je suis dans path2" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path2, count, index, first);
 
     index = 3;
     first = true;
     count = 0;
     cout << "je suis dans path3" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path3, count, index, first);
 
     index = 4;
     first = true;
     count = 0;
     cout << "je suis dans path4" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first);
 
-    if(bestPath == 1) {
-        return path1;
-    } else if(bestPath == 2) {
-        return path2;
-    } else if(bestPath == 3) {
-        return path3;
-    } else {
-        return path4;
-    }
+    return path1; //fonctionne en cours de travail pour rendu 3
 }
 
 void Collector::bestDiago(Point positionCollector, Point pointToGo,
