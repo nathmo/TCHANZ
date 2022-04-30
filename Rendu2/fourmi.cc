@@ -163,7 +163,7 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     cout << "je suis dans path4" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first);
 
-    return path1; //fonctionne en cours de travail pour rendu 3
+    return path1; //fonction en cours de travail pour rendu 3
 }
 
 void Collector::bestDiago(Point positionCollector, Point pointToGo,
