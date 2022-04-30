@@ -284,19 +284,8 @@ void Collector::draw() {
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
     int id = getId()%6;
-    int lightColor = id+6;
-    int colorCode = id; //on commence en bas a gauche donc foncé au debut
-   // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
-    for(int i(0); i < side; i++) {
-        for(int j(0); j < side; j++) {
-            Squarecell::square(x + j, y + i, colorCode);
-            if(colorCode == id) {
-                colorCode = lightColor;
-            } else {
-                colorCode = id;
-            }
-        }
-    }
+
+    Squarecell::diagonale(x, y, id, side);
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -342,20 +331,8 @@ void Defensor::draw() {
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = 3;
     int id = getId()%6;
-    int lightColor = id+6;
-    int colorCode = lightColor; //on commence en bas a gauche
 
-    for(int i(0); i < side; i++) {
-        for(int j(0); j < side; j++) {
-            Squarecell::square(x + j, y + i, colorCode);
-            if(colorCode == id) {
-                colorCode = lightColor;
-            } else {
-                colorCode = id;
-            }
-        }
-    }
-    Squarecell::square(x + 1, y + 1, id);;//change color center to dark
+    Squarecell::grille(x, y, id, side);
 }
 
 Predator::Predator(Point position, int id, int age) :
