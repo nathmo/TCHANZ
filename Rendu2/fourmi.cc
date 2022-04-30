@@ -163,20 +163,6 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     cout << "je suis dans path4" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
 
-    unsigned int bestPath(0);
-    if(!(path1.size() == 0)) {
-        bestPath = 1;
-    }
-    if(bestPath > path2.size() && (path2.size() != 0)) {
-        bestPath = 2;
-    }
-    if(bestPath > path3.size() && (path3.size() != 0)) {
-        bestPath = 3;
-    }
-    if(bestPath > path4.size() && (path4.size() != 0)) {
-        bestPath = 4;
-    }
-
     if(bestPath == 1) {
         return path1;
     } else if(bestPath == 2) {
