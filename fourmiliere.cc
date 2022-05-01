@@ -41,7 +41,7 @@ int Fourmiliere::getnbP() {
     return nbP;
 }
 
-void Fourmiliere::update(vector<shared_ptr<Entity>> & entityList) {
+void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     attemptExpansionAnthill();
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
     foodReserve = foodReserve + (val_food*(gen->getFood()));
@@ -164,7 +164,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
     }
 }
 
-void Fourmiliere::randomCreateAnts(){
+void Fourmiliere::randomCreateAnts() {
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
     if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))) {
         shared_ptr<Fourmi> ant;

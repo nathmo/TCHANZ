@@ -118,8 +118,8 @@ void Graphic::emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr) {
     Graphic::bufferLine = {};
 }
 
-void Graphic::drawLine(double xStart, double yStart,
-                       double xStop, double yStop, double largeur, int colorCode) {
+void Graphic::drawLine(double xStart, double yStart, double xStop, double yStop,
+                       double largeur, int colorCode) {
     std::vector<double> line = {xStart, yStart,
                                 xStop, yStop, largeur, double(colorCode)};
     bufferLine.push_back(line); // add the the drawing buffer

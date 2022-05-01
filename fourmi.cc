@@ -32,7 +32,7 @@ void Fourmi::step(){
     pathBuffer.erase(pathBuffer.begin());
 }
 
-void Fourmi::update(vector<shared_ptr<Entity>> & entityList) {
+void Fourmi::update(vector<shared_ptr<Entity>> &entityList) {
     cout << "error, trying to update a generic fourmi object" << endl;
     exit(EXIT_FAILURE);
 }
@@ -266,7 +266,7 @@ void Collector::draw() {
 }
 
 Defensor::Defensor(Point position, int id, int age) :
-                        Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
+                         Fourmi(position, age,fourmiDefensorCST,id, sizeD) {
 }
 
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
