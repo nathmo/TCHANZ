@@ -70,7 +70,7 @@ vector<vector<string>> Entity::exportToString() {
     exit(EXIT_FAILURE);
 }
 
-void Entity::update(vector<shared_ptr<Entity>> & entityList) {
+void Entity::update(vector<shared_ptr<Entity>> &entityList) {
     cout << "trying to update a generic entity" << endl;
     exit(EXIT_FAILURE);
 }
@@ -91,8 +91,8 @@ int Entity::randInt(unsigned int min, unsigned int max) {
 }
 
 shared_ptr<Entity> Entity::findByPosition(Point position,
-                                  vector<shared_ptr<Entity>> listOfEntity,
-                                  char specie) {
+                                          vector<shared_ptr<Entity>> listOfEntity,
+                                          char specie) {
     for(auto entity:listOfEntity) {
         if((*entity).getSpecie() == specie) {
             int largeur = ((*entity).getOccupiedSpace())->getWidth();

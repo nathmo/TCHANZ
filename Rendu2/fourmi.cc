@@ -258,7 +258,7 @@ void Collector::draw() {
 }
 
 Defensor::Defensor(Point position, int id, int age) :
-                        Fourmi(position, age,fourmiDefensorCST,id, sizeD)  {
+                         Fourmi(position, age,fourmiDefensorCST,id, sizeD) {
 }
 
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {

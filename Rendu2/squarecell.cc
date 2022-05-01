@@ -274,7 +274,7 @@ vector<Point> Squarecell::getOverlap(Point position, int width, int height,
 }
 
 int Squarecell::countOverlap(Point position, int width, int height,
-                                     char kindToCheck, bool isPositionAtCenter) {
+                             char kindToCheck, bool isPositionAtCenter) {
     int overlap = 0;
     Point cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
                                                            isPositionAtCenter);
