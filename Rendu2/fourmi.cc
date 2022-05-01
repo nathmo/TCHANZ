@@ -253,7 +253,7 @@ void Collector::draw() {
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int id = getId()%6;
 
-    Squarecell::diagonale(x, y, id, sizeG);
+    Squarecell::diagonale(x, y, id, sizeC);
 }
 
 Defensor::Defensor(Point position, int id, int age) :
