@@ -22,12 +22,12 @@ vector<vector<char>> Squarecell::hitBoxGrid = vector<vector<char>> (g_max,
 Point::Point(int x, int y) {
     if(not((x >= 0) and (x < g_max))) { // not in [0;127]
         cout << error_squarecell::print_index(x, g_max-1);
-        throw (-1);
+        throw (errorCode);
     }
 
     if(not((y >= 0) and (y < g_max))) { // not in [0;127]
         cout << error_squarecell::print_index(y, g_max-1);
-        throw (-1);
+        throw (errorCode);
     }
     this->x = x;
     this->y = y;
@@ -205,11 +205,11 @@ bool Squarecell::checkHitbox(Point position, int width,
             if(i%2==0) { // check for X coordinate error
                 cout << error_squarecell::print_outside(position.getCoordX(), width,
                                                         g_max-1);
-                throw (-1);
+                throw (errorCode);
             } else if(i%2 == 1) { // check for Y coordinate error
                 cout << error_squarecell::print_outside(position.getCoordY(), height,
                                                         g_max-1);
-                throw (-1);
+                throw (errorCode);
             }
             status = false;
         }
@@ -218,7 +218,7 @@ bool Squarecell::checkHitbox(Point position, int width,
                                                                ((width % 2) == 1)))) {
         cout << "shape is not a square" << endl;
         status = false;
-        throw (-1);
+        throw (errorCode);
     }
     return status; // true if it fit, false otherwise (and display the set message)
 }

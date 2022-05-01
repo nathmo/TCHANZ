@@ -265,7 +265,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         std::vector<std::shared_ptr<Fourmiliere>> previousAnthill) {
     if(inputBuffer.size()<9) {
         cout << "fourmilliere : number of argument mismatch" << endl;
-        throw (-1);
+        throw (errorCode);
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
