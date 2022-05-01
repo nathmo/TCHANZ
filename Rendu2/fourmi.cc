@@ -251,10 +251,9 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
 void Collector::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int side = 3;
     int id = getId()%6;
 
-    Squarecell::diagonale(x, y, id, side);
+    Squarecell::diagonale(x, y, id, sizeG);
 }
 
 Defensor::Defensor(Point position, int id, int age) :
@@ -298,10 +297,9 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
 void Defensor::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int side = 3;
     int id = getId()%6;
 
-    Squarecell::grille(x, y, id, side);
+    Squarecell::grille(x, y, id, sizeD);
 }
 
 Predator::Predator(Point position, int id, int age) :
@@ -338,7 +336,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
             cout<< message::predator_overlap(x,y);
             throw (-1);
         }
-    return make_shared<Predator>(Point(x,y),index,age);
+    return make_shared<Predator>(Point(x,y),index, age);
     }
 }
 
@@ -383,7 +381,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
 }
 
 void Generator::draw() {
-    vector <vector<double>> commandList;
+    vector<vector<double>> commandList;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
