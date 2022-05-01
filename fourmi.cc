@@ -389,7 +389,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
 }
 
 void Generator::draw() {
-    vector <vector<double>> commandList;
+    vector<vector<double>> commandList;
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int side = (*occupiedSpace).getHeight();
