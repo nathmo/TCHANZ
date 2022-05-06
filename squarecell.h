@@ -27,6 +27,7 @@ public:
     int getCoordY();
     static bool checkPoint(Point point);
     bool operator==(Point point);
+    static double distanceAbs(Point start, Point stop);
 };
 
 class Squarecell {

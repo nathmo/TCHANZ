@@ -43,6 +43,8 @@ public:
     static std::shared_ptr<Entity> findByPosition(Point position,
                                     std::vector<std::shared_ptr<Entity>> listOfEntity,
                                     char specie);
+    static std::vector<std::shared_ptr<Entity>> findByID(int id,
+                      std::vector<std::shared_ptr<Entity>> listOfEntity, char specie);
     std::vector<Point> findSpecie(Point position, char specie,
                                   std::vector<std::shared_ptr<Entity>> listOfEntity);
     std::vector<Point> trie(Point positionCollector,

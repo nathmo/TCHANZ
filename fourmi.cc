@@ -61,6 +61,56 @@ void Fourmi::draw() {
     exit(EXIT_FAILURE);
 }
 
+double Fourmi::distance(Point start, Point stop){
+    cout << "calling distance of an generic ant" << endl;
+    return 0;
+}
+
+vector<Point> Fourmi::getNextMove(Point position){
+    cout << "calling getNextMove of an generic ant" << endl;
+    return {};
+}
+
+vector<Point> Fourmi::findPath(Point start, Point stop){
+    vector<Point> step = {start};
+    int inertia = -1;
+    double distanceToTarget = 2*g_max;
+    while(not(step[step.size()-1]==stop)){
+        vector<Point> possibleNextStepVec = getNextMove(step[step.size()-1]);
+        if(inertia == -1){ // find a new direction if the distance stop decreasing
+            double lowestDistance = 2*g_max;
+            double lowestDistanceAbs = 2*g_max;
+            Point bestNextMove;
+            int direction = 0;
+            for(auto possibleNextStep:possibleNextStepVec){
+                if(lowestDistance > distance(possibleNextStep, stop)) {
+                    lowestDistance = distance(possibleNextStep, stop);
+                    lowestDistanceAbs = Point::distanceAbs(possibleNextStep, stop);
+                    bestNextMove = possibleNextStep;
+                    inertia = direction;
+                } else if (lowestDistance == distance(possibleNextStep, stop)){
+                    if(lowestDistanceAbs > Point::distanceAbs(possibleNextStep, stop)) {
+                        lowestDistanceAbs = Point::distanceAbs(possibleNextStep, stop);
+                        bestNextMove = possibleNextStep;
+                        inertia = direction;
+                    }
+                }
+                direction++;
+            }
+            step.push_back(bestNextMove);
+            distanceToTarget = lowestDistance;
+        } else { // try to continue in the same direction
+            if(distanceToTarget < distance(possibleNextStepVec[inertia], stop)) {
+                inertia = -1; // if distance increase, find new direction
+            } else {
+                distanceToTarget = distance(possibleNextStepVec[inertia], stop);
+                step.push_back(possibleNextStepVec[inertia]);
+            }
+        }
+    }
+    return step;
+}
+
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
         Fourmi(position, age,fourmiCollectorCST,id,sizeC) {
     this->carryFood = carryFood;
@@ -73,13 +123,13 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             step(entityList);
         } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
             unloadFood(entityList);
-            Point positionCollector = (*occupiedSpace).getPosition();
+            Point positionCollector = getPosition();
             Point pointToGo = findClosestFood(entityList);
-            pathBuffer = bestPathCollector(positionCollector, pointToGo);
+            pathBuffer = findPath(positionCollector, pointToGo);
         } else {
             Point positionCollector = (*occupiedSpace).getPosition();
             Point pointToGo ; //ici calculer le point de la fourmilliere le plus proche
-            pathBuffer = bestPathCollector(positionCollector, pointToGo);
+            pathBuffer = findPath(positionCollector, pointToGo);
         }
     } else {
         bool foodStillThere = true;
@@ -87,8 +137,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         if(pathBuffer.size()==0) {
             Point positionCollector = (*occupiedSpace).getPosition();
             Point pointToGo = findClosestFood(entityList);
-            pathBuffer = bestPathCollector(positionCollector, pointToGo);
-            cout << "exhausted path uffer" << endl;
+            pathBuffer = findPath(positionCollector, pointToGo);
         } else { // ensure the we still have the best path
             foodStillThere = Squarecell::countOverlap(
                         pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
@@ -103,49 +152,79 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             } else { // once reached mark the food for deletion
                 loadFood(entityList);
                 Point positionCollector = (*occupiedSpace).getPosition();
-                Point pointToGo ; //ici calculer le point de la fourmilliere le plus proche
-                pathBuffer = bestPathCollector(positionCollector, pointToGo);
+                Point pointToGo(20,20); //ici calculer le point de la fourmilliere le plus proche
+                pathBuffer = findPath(positionCollector, pointToGo);
             }
         } else { // otherwise find a new path
             Point positionCollector = (*occupiedSpace).getPosition();
             Point pointToGo = findClosestFood(entityList);
-            pathBuffer = bestPathCollector(positionCollector, pointToGo);
+            pathBuffer = findPath(positionCollector, pointToGo);
         }
     }
+}
+
+double Collector::distance(Point start, Point stop){
+    bool sameCaseFamily = ((((start.getCoordX()+start.getCoordY())%2 == 0) and
+                          ((stop.getCoordX()+stop.getCoordY())%2 == 0)) or
+                          (((start.getCoordX()+start.getCoordY())%2 == 1) and
+                          ((stop.getCoordX()+stop.getCoordY())%2 == 1)));
+    if(sameCaseFamily){
+        double deltaX = stop.getCoordX()-start.getCoordX();
+        double deltaY = stop.getCoordY()-start.getCoordY();
+        return min(abs(deltaX),abs(deltaY));
+    } else {
+        return INFINITY;
+    }
+}
+
+vector<Point> Collector::getNextMove(Point position){
+    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
+    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
+    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
+    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
+    return {upRight, upLeft, downLeft, downRight};
 }
 
 Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList) {
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
     Point positionCollector = getPosition();
-    vector<Point> listSpecie = Entity::findSpecie(Point(xOrigin, yOrigin),
+    vector<Point> listOfFood = Entity::findSpecie(Point(xOrigin, yOrigin),
                                                   nourritureCST, entityList);
-    vector<Point> listSpecieTrie; //liste specie meme couleur case
+    vector<Point> listFoodCaseFamily; //liste specie meme couleur case
     //savoir si case noir ou blanche
     bool spot = false; //case noir
     if(!((xOrigin+yOrigin)%2 == 0)) {
         spot = true;
     }
     //classer les food qui sont sur meme couleur case
-    for(auto entity : listSpecie) {
-        int x = entity.getCoordX();
-        int y = entity.getCoordY();
+    for(auto food : listOfFood) {
+        int x = food.getCoordX();
+        int y = food.getCoordY();
         if((x+y)%2 == spot) {
-            listSpecieTrie.push_back(entity);
+            listFoodCaseFamily.push_back(food);
         }
     }
-    vector<Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
-    return newListTrie[0];
+    vector<Point> newListTrie = Entity::trie(positionCollector, listFoodCaseFamily);
+    if(newListTrie.size()>0){
+        return newListTrie[0];
+    } else {
+        return {};
+    }
 }
 
 void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList) {
-    shared_ptr<Entity> entity = Entity::findByPosition(pathBuffer[0], entityList,
-                                                       fourmiGeneratorCST);
-    // ensure the generator returned had the right id
-    shared_ptr<Generator> gene = dynamic_pointer_cast<Generator>(entity);
-    gene->addFood();
-    carryFood = false;
-    pathBuffer.erase(pathBuffer.begin());
+    vector<shared_ptr<Entity>> entity = Entity::findByID(id, entityList,
+                                                         fourmiGeneratorCST);
+    if(entity.size()>0){
+        shared_ptr<Generator> gene = dynamic_pointer_cast<Generator>(entity[0]);
+        gene->addFood();
+        carryFood = false;
+        pathBuffer.erase(pathBuffer.begin());
+    } else {
+        cout << "no generator with ID to unload" << endl;
+        exit(0);
+    }
 }
 
 void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
@@ -155,109 +234,6 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
     food->setEndOfLife(true);
     carryFood = true;
     pathBuffer.erase(pathBuffer.begin());
-}
-
-vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointToGo) {
-    double distanceInit = Entity::distance2Points(positionCollector, pointToGo);
-    vector<Point> path1, path2, path3, path4;
-    cout << "distanceInit = " << distanceInit << endl;
-
-    int index(1);
-    bool first = true;
-    int count(0);
-
-    cout << "je suis dans path1" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first, path1.size());
-    cout << "----------------------------------------------------------------" << endl;
-
-    index = 2;
-    first = true;
-    count = 0;
-    cout << "je suis dans path2" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path2, count, index, first, path2.size());
-    cout << "----------------------------------------------------------------" << endl;
-
-    index = 3;
-    first = true;
-    count = 0;
-    cout << "je suis dans path3" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path3, count, index, first, path3.size());
-    cout << "----------------------------------------------------------------" << endl;
-
-    index = 4;
-    first = true;
-    count = 0;
-    cout << "je suis dans path4" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first, path4.size());
-    cout << "----------------------------------------------------------------" << endl;
-
-    for(auto elem : path1) {
-        cout << "x : " << elem.getCoordX() << " y : " <<  elem.getCoordY() << endl;
-    }
-
-    return path1; //fonction en cours de travail pour rendu 3
-}
-
-void Collector::bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
-                          vector<Point> &pathPossibilitys, int count, int &index, bool first, int sizePath) {
-    int xOrigin = positionCollector.getCoordX();
-    int yOrigin = positionCollector.getCoordY();
-
-    cout << "count = " << count << endl;
-
-    if(count == 3) {
-        cout << "sort car + de 2 virages" << endl;
-        return;
-    }
-
-    if(index == 1) { //droite haut
-        cout << "rentre index 1" << endl;
-        path(Point(xOrigin + 1, yOrigin + 1), pointToGo, distanceInit,
-             pathPossibilitys, count, index, first);
-    } else if(index == 2) { //gauche haut
-        cout << "rentre index 2" << endl;
-        path(Point(xOrigin - 1, yOrigin + 1), pointToGo, distanceInit,
-             pathPossibilitys, count, index, first);
-    } else if(index == 3) { //gauche bas
-        cout << "rentre index 3" << endl;
-        path(Point(xOrigin - 1, yOrigin - 1), pointToGo, distanceInit,
-             pathPossibilitys, count, index, first);
-    } else { //droite bas
-        cout << "rentre index 4" << endl;
-        path(Point(xOrigin + 1, yOrigin - 1), pointToGo, distanceInit,
-             pathPossibilitys, count, index, first);
-    }
-}
-
-void Collector::path(Point step, Point pointToGo, double distanceInit,
-                     vector<Point> &pathPossibilitys, int &count, int &index, bool first, int sizePath) {
-    double newDistance = Entity::distance2Points(step, pointToGo);
-    cout << "new distance = " << newDistance << endl;
-    if(newDistance < 1) {
-        pathPossibilitys.push_back(step);
-        return;
-    }
-    if(newDistance < distanceInit) {
-        pathPossibilitys.push_back(step);
-        bestDiago(step, pointToGo, newDistance, pathPossibilitys, count, index, false);
-        return;
-    } else {
-        cout << "rentre boucle else => ++count" << endl;
-        count++;
-        if(first == true) {
-            cout << "first = true" << endl;
-            return;
-        }
-        if(index == 4) {
-            index = 1;
-            bestDiago(step, pointToGo, distanceInit, pathPossibilitys, count, index, false);
-            return;
-        } else {
-            index++;
-            bestDiago(step, pointToGo, distanceInit, pathPossibilitys, count, index, false);
-            return;
-        }
-    }
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -338,6 +314,28 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     }
 }
 
+double Defensor::distance(Point start, Point stop){
+    bool sameCaseFamily = ((((start.getCoordX()+start.getCoordY())%2 == 0) and
+                            ((stop.getCoordX()+stop.getCoordY())%2 == 0)) or
+                           (((start.getCoordX()+start.getCoordY())%2 == 1) and
+                            ((stop.getCoordX()+stop.getCoordY())%2 == 1)));
+    if(sameCaseFamily){
+        double deltaX = stop.getCoordX()-start.getCoordX();
+        double deltaY = stop.getCoordY()-start.getCoordY();
+        return min(deltaX,deltaY);
+    } else {
+        return INFINITY;
+    }
+}
+
+vector<Point> Defensor::getNextMove(Point position){
+    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
+    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
+    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
+    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
+    return {upRight, upLeft, downLeft, downRight};
+}
+
 vector<vector<string>> Defensor::exportToString() {
     vector<vector<string>> vecVecStringDefensor;
     Point position = (*occupiedSpace).getPosition();
@@ -409,6 +407,28 @@ void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     }
 }
 
+double Predator::distance(Point start, Point stop){
+    bool sameCaseFamily = ((((start.getCoordX()+start.getCoordY())%2 == 0) and
+                            ((stop.getCoordX()+stop.getCoordY())%2 == 0)) or
+                           (((start.getCoordX()+start.getCoordY())%2 == 1) and
+                            ((stop.getCoordX()+stop.getCoordY())%2 == 1)));
+    if(sameCaseFamily){
+        double deltaX = stop.getCoordX()-start.getCoordX();
+        double deltaY = stop.getCoordY()-start.getCoordY();
+        return min(deltaX,deltaY);
+    } else {
+        return INFINITY;
+    }
+}
+
+vector<Point> Predator::getNextMove(Point position){
+    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
+    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
+    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
+    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
+    return {upRight, upLeft, downLeft, downRight};
+}
+
 vector<vector<string>> Predator::exportToString() {
     vector<vector<string>> vecVecStringPredator;
     Point position = (*occupiedSpace).getPosition();
@@ -471,6 +491,28 @@ void Generator::update(vector<shared_ptr<Entity>> &entityList) {
             step(entityList);
         }
     }
+}
+
+double Generator::distance(Point start, Point stop){
+    bool sameCaseFamily = ((((start.getCoordX()+start.getCoordY())%2 == 0) and
+                            ((stop.getCoordX()+stop.getCoordY())%2 == 0)) or
+                           (((start.getCoordX()+start.getCoordY())%2 == 1) and
+                            ((stop.getCoordX()+stop.getCoordY())%2 == 1)));
+    if(sameCaseFamily){
+        double deltaX = stop.getCoordX()-start.getCoordX();
+        double deltaY = stop.getCoordY()-start.getCoordY();
+        return min(deltaX,deltaY);
+    } else {
+        return INFINITY;
+    }
+}
+
+vector<Point> Generator::getNextMove(Point position){
+    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
+    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
+    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
+    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
+    return {upRight, upLeft, downLeft, downRight};
 }
 
 vector<vector<string>> Generator::exportToString() {

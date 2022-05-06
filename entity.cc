@@ -107,6 +107,20 @@ shared_ptr<Entity> Entity::findByPosition(Point position,
     return nullptr; //return a value that show no entity where found
 }
 
+vector<shared_ptr<Entity>> Entity::findByID(int id,
+                                            vector<shared_ptr<Entity>> listOfEntity,
+                                            char specie) {
+    vector<shared_ptr<Entity>> found = {};
+    for(auto entity:listOfEntity) {
+        if((*entity).getSpecie() == specie) {
+            if((*entity).getId()==id) {
+                found.push_back(entity); //return the entity once found
+            }
+        }
+    }
+    return found; //return a value that show no entity where found
+}
+
 vector<Point> Entity::findSpecie(Point position, char specie,
                                  vector<shared_ptr<Entity>> listOfEntity) {
     vector<Point> listSpecie;
