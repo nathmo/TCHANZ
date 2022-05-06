@@ -76,6 +76,7 @@ vector<Point> Fourmi::findPath(Point start, Point stop){
     int inertia = -1;
     double distanceToTarget = 2*g_max;
     while(not(step[step.size()-1]==stop)){
+        cout << step[step.size()-1].getCoordX() << " " << step[step.size()-1].getCoordY() << endl;
         vector<Point> possibleNextStepVec = getNextMove(step[step.size()-1]);
         if(inertia == -1){ // find a new direction if the distance stop decreasing
             double lowestDistance = 2*g_max;
@@ -84,12 +85,15 @@ vector<Point> Fourmi::findPath(Point start, Point stop){
             int direction = 0;
             for(auto possibleNextStep:possibleNextStepVec){
                 if(lowestDistance > distance(possibleNextStep, stop)) {
+                    cout << "test1" << endl;
                     lowestDistance = distance(possibleNextStep, stop);
                     lowestDistanceAbs = Point::distanceAbs(possibleNextStep, stop);
                     bestNextMove = possibleNextStep;
                     inertia = direction;
                 } else if (lowestDistance == distance(possibleNextStep, stop)){
+                    cout << "test2" << endl;
                     if(lowestDistanceAbs > Point::distanceAbs(possibleNextStep, stop)) {
+                        lowestDistance = distance(possibleNextStep, stop);
                         lowestDistanceAbs = Point::distanceAbs(possibleNextStep, stop);
                         bestNextMove = possibleNextStep;
                         inertia = direction;
@@ -171,7 +175,7 @@ double Collector::distance(Point start, Point stop){
     if(sameCaseFamily){
         double deltaX = stop.getCoordX()-start.getCoordX();
         double deltaY = stop.getCoordY()-start.getCoordY();
-        return min(abs(deltaX),abs(deltaY));
+        return max(abs(deltaX),abs(deltaY));
     } else {
         return INFINITY;
     }
