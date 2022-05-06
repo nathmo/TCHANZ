@@ -69,7 +69,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
     if(carryFood){ // state machine of collector
         if(pathBuffer.size() > 1) { // walk toward the fourmilliere one step at a time
-            step();
+            step(entityList);
         } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
             unloadFood(entityList);
             // ici calculer le chemin pour la prochaine bouffe et remplacer le buffer
@@ -91,7 +91,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         }
         if(foodStillThere and foodStillClosest) { // if the path is still valid
             if(pathBuffer.size() > 1) { // walk toward the food one step at a time
-                step();
+                step(entityList);
             } else { // once reached mark the food for deletion
                 loadFood(entityList);
                 // ici calculer le chemin pour la fourmilliere
@@ -301,7 +301,7 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     }
     if(bordureStillClosest and bordureStillFree) { // if the path is still valid
         if(pathBuffer.size() > 1) { // walk toward the border one step at a time
-            step();
+            step(entityList);
         }
     }
 }
@@ -349,14 +349,14 @@ Predator::Predator(Point position, int id, int age) :
 
 }
 
-Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
+Point Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList) {
     return Point();
 }
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    bool EnemyStillClosest = false;
-    bool EnemyStillFree = false;
+    bool bordureStillClosest = false;
+    bool bordureStillFree = false;
 
     if(pathBuffer.size()==0) {
         // ici recalculer le chemin pour vers la bordure
@@ -372,7 +372,7 @@ void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     }
     if(bordureStillClosest and bordureStillFree) { // if the path is still valid
         if(pathBuffer.size() > 1) { // walk toward the border one step at a time
-            step();
+            step(entityList);
         }
     }
 }
