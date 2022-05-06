@@ -66,6 +66,9 @@ bool Point::checkPoint(Point point) {
 }
 
 void Squarecell::freeArea(){
+    if((width==0) or (height==0)){
+        return;
+    }
     for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
         for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
             if(hitBoxGrid[i][j] == kind) { // clear the grid
@@ -82,6 +85,9 @@ void Squarecell::freeArea(){
 }
 
 void Squarecell::occupyArea(){
+    if((width==0) or (height==0)){
+        return;
+    }
     for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
         for(int j=cornerBotLeft.getCoordY(); j<=cornerTopRight.getCoordY(); j++) {
             if(hitBoxGrid[i][j] == emptyCST) { // add the entity the grid
