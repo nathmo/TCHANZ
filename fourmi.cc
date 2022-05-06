@@ -34,8 +34,8 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList){
         bool nextStepIsFree = true; // ensure the path is free
         nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
                                                        (anyCST & (~specie)), true));
-        nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
-                                                       (~specie), true));
+        nextStepIsFree = nextStepIsFree and (not Squarecell::countOverlap(pathBuffer[0], width, height,
+                                                       ~specie, true));
         if(nextStepIsFree){
             setPosition(pathBuffer[0]);
             pathBuffer.erase(pathBuffer.begin());
