@@ -40,7 +40,7 @@ public:
                    std::vector<Point> &pathPossibilitys, int count, int &index, bool first);
 
     void path(Point step, Point pointToGo, double distanceInit,
-              std::vector<Point> &pathPossibilitys, int &count, int &index, bool first);
+              std::vector<Point> &pathPossibilitys, int &count, int &index, bool first, int sizePath);
 
     Point findClosestFood(std::vector<std::shared_ptr<Entity>> &entityList);
 

@@ -161,28 +161,28 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     int count(0);
 
     cout << "je suis dans path1" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first, path1.size());
     cout << "----------------------------------------------------------------" << endl;
 
     index = 2;
     first = true;
     count = 0;
     cout << "je suis dans path2" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path2, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path2, count, index, first, path2.size());
     cout << "----------------------------------------------------------------" << endl;
 
     index = 3;
     first = true;
     count = 0;
     cout << "je suis dans path3" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path3, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path3, count, index, first, path3.size());
     cout << "----------------------------------------------------------------" << endl;
 
     index = 4;
     first = true;
     count = 0;
     cout << "je suis dans path4" << endl;
-    bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first);
+    bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first, path4.size());
     cout << "----------------------------------------------------------------" << endl;
 
     for(auto elem : path1) {
@@ -193,7 +193,7 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
 }
 
 void Collector::bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
-                          vector<Point> &pathPossibilitys, int count, int &index, bool first) {
+                          vector<Point> &pathPossibilitys, int count, int &index, bool first, int sizePath) {
     int xOrigin = positionCollector.getCoordX();
     int yOrigin = positionCollector.getCoordY();
 
@@ -224,7 +224,7 @@ void Collector::bestDiago(Point positionCollector, Point pointToGo, double dista
 }
 
 void Collector::path(Point step, Point pointToGo, double distanceInit,
-                     vector<Point> &pathPossibilitys, int &count, int &index, bool first) {
+                     vector<Point> &pathPossibilitys, int &count, int &index, bool first, int sizePath) {
     double newDistance = Entity::distance2Points(step, pointToGo);
     cout << "new distance = " << newDistance << endl;
     if(newDistance < 1) {
