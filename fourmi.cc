@@ -450,8 +450,27 @@ Generator::Generator(Point position, int id) :
     foodReceived = 0;
 }
 
+Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList){
+    return Point(1,1);
+}
+
 void Generator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    bool centerStillWhereExpected = false;
+    if(pathBuffer.size()==0) {
+        if(not (Generator::findCenter(entityList) == getPosition())){
+            // ici recalculer le chemin pour vers le centre de la fourmilliere
+        }
+    } else { // ensure the we still have the best path
+        centerStillWhereExpected =
+                (distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1]) <=
+                 distance2Points(getPosition(),Generator::findCenter(entityList)));
+    }
+    if(centerStillWhereExpected) { // if the path is still valid
+        if(pathBuffer.size() > 0) { // walk toward the border one step at a time
+            step(entityList);
+        }
+    }
 }
 
 vector<vector<string>> Generator::exportToString() {

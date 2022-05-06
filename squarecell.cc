@@ -65,6 +65,10 @@ bool Point::checkPoint(Point point) {
     return status;
 }
 
+bool Point::operator==(Point point){
+    return ((point.x == x) and (point.y == y));
+}
+
 void Squarecell::freeArea(){
     if((width==0) or (height==0)){
         return;
