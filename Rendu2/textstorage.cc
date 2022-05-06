@@ -41,7 +41,7 @@ void TextStorage::writetxt(string filename, vector<vector<string>> lineToWrite) 
     txtsave.open(filename, ios::out);//open file with write access
     if(txtsave.fail()) {
         cout << "soucis writetxt_filename" << endl;
-        throw (-1);
+        throw (errorCode);
     } else if(txtsave.is_open()) {
         for(unsigned int i=0; i<lineToWrite.size();i++) {
             string line =""; // dump each line (add space as its a vector of word)
@@ -61,7 +61,7 @@ vector<vector<string>> TextStorage::readtxt(string filename) {
     txtsave.open(filename,ios::in); //open file with read access
     if(txtsave.fail()) {
         cout << "Fichier non ouvrable ou pas assez de droit" << endl;
-        throw (-1);
+        throw (errorCode);
     } else if(txtsave.is_open()) { //checking whether the file is open
         while(getline(txtsave >> ws, line)) {//tokenize each line as a vector of word
             if(line[0]=='#') continue;
@@ -89,7 +89,7 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
                           vector<shared_ptr<Nourriture>> &foodVectorReturn,
                           vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn) {
     if(not(checksizeLine(inputBuffer))) {
-        throw (-1); // ensure there is enough argument in the file
+        throw (errorCode); // ensure there is enough argument in the file
     }
     unsigned int QuantityFood = stoi(inputBuffer[0][0]);
     TextStorage::importFood(inputBuffer, foodVectorReturn);

@@ -134,7 +134,7 @@ void Fourmiliere::checkGeneratorUsingCoord() {
         cout << message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
-        throw (-1);
+        throw (errorCode);
     }
 }
 
@@ -158,7 +158,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
                 cout << message::defensor_not_within_home(
                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordX(),
                        (*(*fourmi).getOccupiedSpace()).getPosition().getCoordY(), id);
-                throw (-1);
+                throw (errorCode);
             }
         }
     }
@@ -265,7 +265,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         std::vector<std::shared_ptr<Fourmiliere>> previousAnthill) {
     if(inputBuffer.size()<9) {
         cout << "fourmilliere : number of argument mismatch" << endl;
-        throw (-1);
+        throw (errorCode);
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
@@ -289,7 +289,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
                 }
             }
             cout << message::homes_overlap(index, indexOther);
-            throw (-1);
+            throw (errorCode);
         }
         return make_shared<Fourmiliere> (Point(x,y), size, totalFood, nbC, nbD, nbP,
                                         index, FourmiList);

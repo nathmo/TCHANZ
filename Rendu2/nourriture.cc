@@ -22,13 +22,13 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer
                                                      int index) {
     if(!(inputBuffer.size() <= 2)) {
         cout << "nourriture : number of argument mismatch" << endl;
-        throw (-1);
+        throw (errorCode);
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
         if(Squarecell::checkOverlap(Point(x,y), 1, 1, nourritureCST, true)) {
             cout<< message::food_overlap(x,y);
-            throw (-1);
+            throw (errorCode);
         }
         return make_shared<Nourriture>(Point(x,y), index);
     }
