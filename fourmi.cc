@@ -27,9 +27,20 @@ int Fourmi::getAge() {
     return age;
 }
 
-void Fourmi::step(){
-    setPosition(pathBuffer[0]);
-    pathBuffer.erase(pathBuffer.begin());
+void Fourmi::step(vector<shared_ptr<Entity>> &entityList){
+    if(entityList.size()>0){
+        int height = (*occupiedSpace).getHeight();
+        int width = (*occupiedSpace).getWidth();
+        bool nextStepIsFree = true; // ensure the path is free
+        nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
+                                                       (anyCST & (~specie)), true));
+        nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
+                                                       (~specie), true));
+        if(nextStepIsFree){
+            setPosition(pathBuffer[0]);
+            pathBuffer.erase(pathBuffer.begin());
+        }
+    }
 }
 
 void Fourmi::update(vector<shared_ptr<Entity>> &entityList) {
@@ -56,21 +67,21 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    if(carryFood){
-        if(pathBuffer.size() > 1) { // walk toward the generator one step at a time
+    if(carryFood){ // state machine of collector
+        if(pathBuffer.size() > 1) { // walk toward the fourmilliere one step at a time
             step();
         } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
             unloadFood(entityList);
-            // ici calculer le chemin pour la prochaine bouffe et ajouter au buffer
+            // ici calculer le chemin pour la prochaine bouffe et remplacer le buffer
         } else {
-            // ici calculer le chemin pour la generator
+            // ici calculer le chemin pour la fourmilliere
         }
     } else {
         bool foodStillThere = false;
         bool foodStillClosest = true;
         if(pathBuffer.size()==0) {
-            foodStillThere = false;
-        } else {
+            // ici recalculer le chemin pour la prochaine bouffe et ajouter au buffer
+        } else { // ensure the we still have the best path
             foodStillThere = Squarecell::countOverlap(
                         pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
             if(distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1])>
@@ -78,14 +89,14 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
                 foodStillClosest = false;
             }
         }
-        if(foodStillThere and foodStillClosest) {
+        if(foodStillThere and foodStillClosest) { // if the path is still valid
             if(pathBuffer.size() > 1) { // walk toward the food one step at a time
                 step();
             } else { // once reached mark the food for deletion
                 loadFood(entityList);
-                // ici calculer le chemin pour la generator
+                // ici calculer le chemin pour la fourmilliere
             }
-        } else {
+        } else { // otherwise find a new path
             // ici recalculer le chemin pour la prochaine bouffe et ajouter au buffer
         }
     }
@@ -268,8 +279,32 @@ Defensor::Defensor(Point position, int id, int age) :
                          Fourmi(position, age,fourmiDefensorCST,id, sizeD) {
 }
 
+Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
+    return Point();
+}
+
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    bool bordureStillClosest = false;
+    bool bordureStillFree = false;
+
+    if(pathBuffer.size()==0) {
+        // ici recalculer le chemin pour vers la bordure
+        bordureStillClosest = true;
+        bordureStillFree = true;
+    } else { // ensure the we still have the best path
+        bordureStillClosest =
+            (distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1]) <=
+            distance2Points(getPosition(),Defensor::findClosestBorder(entityList)));
+        bordureStillFree = (0==Squarecell::countOverlap(
+                pathBuffer[pathBuffer.size() - 1], sizeD, sizeD,
+                fourmiDefensorCST, true));
+    }
+    if(bordureStillClosest and bordureStillFree) { // if the path is still valid
+        if(pathBuffer.size() > 1) { // walk toward the border one step at a time
+            step();
+        }
+    }
 }
 
 vector<vector<string>> Defensor::exportToString() {
@@ -315,8 +350,32 @@ Predator::Predator(Point position, int id, int age) :
 
 }
 
+Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
+    return Point();
+}
+
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    bool EnemyStillClosest = false;
+    bool EnemyStillFree = false;
+
+    if(pathBuffer.size()==0) {
+        // ici recalculer le chemin pour vers la bordure
+        bordureStillClosest = true;
+        bordureStillFree = true;
+    } else { // ensure the we still have the best path
+        bordureStillClosest =
+                (distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1]) <=
+                 distance2Points(getPosition(),Predator::findClosestEnemy(entityList)));
+        bordureStillFree = (0==Squarecell::countOverlap(
+                pathBuffer[pathBuffer.size() - 1], sizeD, sizeD,
+                fourmiDefensorCST, true));
+    }
+    if(bordureStillClosest and bordureStillFree) { // if the path is still valid
+        if(pathBuffer.size() > 1) { // walk toward the border one step at a time
+            step();
+        }
+    }
 }
 
 vector<vector<string>> Predator::exportToString() {
