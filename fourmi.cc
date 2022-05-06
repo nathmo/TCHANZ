@@ -29,13 +29,14 @@ int Fourmi::getAge() {
 
 void Fourmi::step(vector<shared_ptr<Entity>> &entityList){
     if(entityList.size()>0){
-        int height = (*occupiedSpace).getHeight();
-        int width = (*occupiedSpace).getWidth();
+        int height = getHeight();
+        int width = getWidth();
         bool nextStepIsFree = true; // ensure the path is free
-        //nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
-        //                                               (anyCST & (~specie)), true));
-        //nextStepIsFree = nextStepIsFree and (not Squarecell::countOverlap(pathBuffer[0], width, height,
-        //                                               ~specie, true));
+        setSize(0,0); // ensure the next step is free
+        // (but need to remove itself to prevent self collision) (food are ignored)
+        nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
+                                           (anyCST & (~nourritureCST)), true));
+        setSize(width, height); // back to normal size
         if(nextStepIsFree){
             setPosition(pathBuffer[0]);
             pathBuffer.erase(pathBuffer.begin());

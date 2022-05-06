@@ -65,7 +65,41 @@ bool Point::checkPoint(Point point) {
     return status;
 }
 
+void Squarecell::freeArea(){
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+            if(hitBoxGrid[i][j] == kind) { // clear the grid
+                hitBoxGrid[i][j] = emptyCST;
+            } else if(hitBoxGrid[i][j] == emptyCST) {
+                cout << "trying to clean the grid from something aldready cleaned !"
+                     << endl;
+                exit(0);
+            } else {
+                hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
+            }
+        }
+    }
+}
+
+void Squarecell::occupyArea(){
+    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j=cornerBotLeft.getCoordY(); j<=cornerTopRight.getCoordY(); j++) {
+            if(hitBoxGrid[i][j] == emptyCST) { // add the entity the grid
+                hitBoxGrid[i][j] = kind;
+            } else if(not(hitBoxGrid[i][j] & kind)) { // ensure nothing is there
+                hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
+            } else {                                   // otherwise throw error
+                cout << "uncatched exception : two entity overlap at "
+                        +to_string(i)+", "+to_string(j)<<endl;
+                Squarecell::displayRawGrid();
+                exit(0);
+            }
+        }
+    }
+}
+
 Squarecell::Squarecell() {
+
 }
 
 Squarecell::Squarecell(Point position, int width,int height,
@@ -83,37 +117,12 @@ Squarecell::Squarecell(Point position, int width,int height,
                                                isPositionAtCenter)
                                                       and Point::checkPoint(position);
     if(isElligible) { // if the coordinate fit in the grid
-        for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
-            for(int j=cornerBotLeft.getCoordY(); j<=cornerTopRight.getCoordY(); j++) {
-                if(hitBoxGrid[i][j] == emptyCST) { // add the entity the grid
-                    hitBoxGrid[i][j] = kind;
-                } else if(not(hitBoxGrid[i][j] & kind)) { // ensure nothing is there
-                    hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
-                } else {                                   // otherwise throw error
-                    cout << "uncatched exception : two entity overlap at "
-                            +to_string(i)+", "+to_string(j)<<endl;
-                    Squarecell::displayRawGrid();
-                    exit(0);
-                }
-            }
-        }
+        occupyArea();
     }
 }
 
 Squarecell::~Squarecell() {
-    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
-        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
-            if(hitBoxGrid[i][j] == kind) { // clear the grid
-                hitBoxGrid[i][j] = emptyCST;
-            } else if(hitBoxGrid[i][j] == emptyCST) {
-                cout << "trying to clean the grid from something aldready cleaned !"
-                     << endl;
-                exit(0);
-            } else {
-                hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
-            }
-        }
-    }
+    freeArea();
 }
 
 Point Squarecell::getPosition() {
@@ -121,19 +130,7 @@ Point Squarecell::getPosition() {
 }
 
 void Squarecell::setPosition(Point position) {
-    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
-        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
-            if(hitBoxGrid[i][j] == kind) { // clear the grid
-                hitBoxGrid[i][j] = emptyCST;
-            } else if(hitBoxGrid[i][j] == emptyCST) {
-                cout << "trying to clean the grid from something aldready cleaned !"
-                     << endl;
-                exit(0);
-            } else {
-                hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
-            }
-        }
-    }
+    freeArea();
     this->position = position;
     cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
                                                      isPositionAtCenter);
@@ -141,20 +138,7 @@ void Squarecell::setPosition(Point position) {
                                                        isPositionAtCenter);
     bool isElligible = Point::checkPoint(position);
     if(isElligible) { // if the coordinate fit in the grid
-        for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
-            for(int j=cornerBotLeft.getCoordY(); j<=cornerTopRight.getCoordY(); j++) {
-                if(hitBoxGrid[i][j]==emptyCST) { // add the entity the grid
-                    hitBoxGrid[i][j] = kind;
-                } else if(not (hitBoxGrid[i][j] & kind)) { // ensure nothing is there
-                    hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
-                } else {                                   // otherwise throw error
-                    cout << "uncatched exception : two entity overlap at "
-                            +to_string(i)+", "+to_string(j)<<endl;
-                    Squarecell::displayRawGrid();
-                    exit(0);
-                }
-            }
-        }
+        occupyArea();
     }
 }
 
@@ -167,16 +151,58 @@ int Squarecell::getWidth() {
 }
 
 void Squarecell::setHeight(int height) {
+    freeArea();
     this->height = height;
+    if(height==0){
+        cornerBotLeft = Point();
+        cornerTopRight = Point();
+        return;
+    }
+    cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                     isPositionAtCenter);
+    cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                       isPositionAtCenter);
+    bool isElligible = Point::checkPoint(position);
+    if(isElligible) { // if the coordinate fit in the grid
+        occupyArea();
+    }
 }
 
 void Squarecell::setWidth(int width) {
+    freeArea();
     this->width = width;
+    if(width==0){
+        cornerBotLeft = Point();
+        cornerTopRight = Point();
+        return;
+    }
+    cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                     isPositionAtCenter);
+    cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                       isPositionAtCenter);
+    bool isElligible = Point::checkPoint(position);
+    if(isElligible) { // if the coordinate fit in the grid
+        occupyArea();
+    }
 }
 
 void Squarecell::setSize(int width, int height) {
+    freeArea();
     this->width = width;
     this->height = height;
+    if((width==0) or (height==0)){
+        cornerBotLeft = Point();
+        cornerTopRight = Point();
+        return;
+    }
+    cornerBotLeft = Squarecell::computeHitboxBotLeft(position, width, height,
+                                                     isPositionAtCenter);
+    cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
+                                                       isPositionAtCenter);
+    bool isElligible = Point::checkPoint(position);
+    if(isElligible) { // if the coordinate fit in the grid
+        occupyArea();
+    }
 }
 
 Point Squarecell::getHitboxBotLeft() {
