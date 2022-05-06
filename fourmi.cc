@@ -32,10 +32,10 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList){
         int height = (*occupiedSpace).getHeight();
         int width = (*occupiedSpace).getWidth();
         bool nextStepIsFree = true; // ensure the path is free
-        nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
-                                                       (anyCST & (~specie)), true));
-        nextStepIsFree = nextStepIsFree and (not Squarecell::countOverlap(pathBuffer[0], width, height,
-                                                       ~specie, true));
+        //nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
+        //                                               (anyCST & (~specie)), true));
+        //nextStepIsFree = nextStepIsFree and (not Squarecell::countOverlap(pathBuffer[0], width, height,
+        //                                               ~specie, true));
         if(nextStepIsFree){
             setPosition(pathBuffer[0]);
             pathBuffer.erase(pathBuffer.begin());
@@ -77,13 +77,16 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             // ici calculer le chemin pour la fourmilliere
         }
     } else {
-        bool foodStillThere = false;
+        bool foodStillThere = true;
         bool foodStillClosest = true;
         if(pathBuffer.size()==0) {
-            // ici recalculer le chemin pour la prochaine bouffe et ajouter au buffer
+            Point positionCollector = (*occupiedSpace).getPosition();
+            Point pointToGo = findClosestFood(entityList);
+            pathBuffer = bestPathCollector(positionCollector, pointToGo);
+            cout << "exhausted path uffer" << endl;
         } else { // ensure the we still have the best path
-            foodStillThere = Squarecell::countOverlap(
-                        pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
+            //foodStillThere = Squarecell::countOverlap(
+            //            pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
             if(distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1])>
                distance2Points(getPosition(),Collector::findClosestFood(entityList))){
                 foodStillClosest = false;
@@ -97,7 +100,9 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
                 // ici calculer le chemin pour la fourmilliere
             }
         } else { // otherwise find a new path
-            // ici recalculer le chemin pour la prochaine bouffe et ajouter au buffer
+            Point positionCollector = (*occupiedSpace).getPosition();
+            Point pointToGo = findClosestFood(entityList);
+            pathBuffer = bestPathCollector(positionCollector, pointToGo);// ici recalculer le chemin pour la prochaine bouffe et ajouter au buffer
         }
     }
 }
@@ -139,6 +144,7 @@ void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList) {
 void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
     shared_ptr<Entity> food = Entity::findByPosition(pathBuffer[0],
                                                      entityList, nourritureCST);
+
     food->setEndOfLife(true);
     carryFood = true;
     pathBuffer.erase(pathBuffer.begin());
@@ -203,7 +209,7 @@ void Collector::bestDiago(Point positionCollector, Point pointToGo, double dista
 void Collector::path(Point step, Point pointToGo, double distanceInit,
                      vector<Point> &pathPossibilitys, int &count, int &index, bool first) {
     double newDistance = Entity::distance2Points(step, pointToGo);
-    if(newDistance < 2) {
+    if(newDistance < 1) {
         pathPossibilitys.push_back(step);
         return;
     }
