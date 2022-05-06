@@ -36,10 +36,13 @@ public:
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     std::vector<Point> bestPathCollector(Point positionCollector,
                                          Point newListTrie);
-    void bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
-                   std::vector<Point> &path, int count, int &index, bool first);
+    void bestDiago(Point positionCollector, Point pointToGo,
+                   double distanceInit, std::vector<Point> &pathPossibilitys,
+                   int count, int &index, bool first);
+
     void path(Point step, Point pointToGo, double distanceInit,
               std::vector<Point> &path, int &count, int &index, bool first);
+
     Point findClosestFood(std::vector<std::shared_ptr<Entity>> &entityList);
 
     void unloadFood(std::vector<std::shared_ptr<Entity>> &entityList);
