@@ -158,26 +158,35 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     int index(1);
     bool first = true;
     int count(0);
+
     cout << "je suis dans path1" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path1, count, index, first);
+    cout << "----------------------------------------------------------------" << endl;
 
     index = 2;
     first = true;
     count = 0;
     cout << "je suis dans path2" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path2, count, index, first);
+    cout << "----------------------------------------------------------------" << endl;
 
     index = 3;
     first = true;
     count = 0;
     cout << "je suis dans path3" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path3, count, index, first);
+    cout << "----------------------------------------------------------------" << endl;
 
     index = 4;
     first = true;
     count = 0;
     cout << "je suis dans path4" << endl;
     bestDiago(positionCollector, pointToGo, distanceInit, path4, count, index, first);
+    cout << "----------------------------------------------------------------" << endl;
+
+    for(auto elem : path1) {
+        cout << "x : " << elem.getCoordX() << " y : " <<  elem.getCoordY() << endl;
+    }
 
     return path1; //fonction en cours de travail pour rendu 3
 }
@@ -187,20 +196,27 @@ void Collector::bestDiago(Point positionCollector, Point pointToGo, double dista
     int xOrigin = positionCollector.getCoordX();
     int yOrigin = positionCollector.getCoordY();
 
-    if(count == 2) {
+    cout << "count = " << count << endl;
+
+    if(count == 3) {
+        cout << "sort car + de 2 virages" << endl;
         return;
     }
 
     if(index == 1) { //droite haut
+        cout << "rentre index 1" << endl;
         path(Point(xOrigin + 1, yOrigin + 1), pointToGo, distanceInit,
              pathPossibilitys, count, index, first);
     } else if(index == 2) { //gauche haut
+        cout << "rentre index 2" << endl;
         path(Point(xOrigin - 1, yOrigin + 1), pointToGo, distanceInit,
              pathPossibilitys, count, index, first);
     } else if(index == 3) { //gauche bas
+        cout << "rentre index 3" << endl;
         path(Point(xOrigin - 1, yOrigin - 1), pointToGo, distanceInit,
              pathPossibilitys, count, index, first);
     } else { //droite bas
+        cout << "rentre index 4" << endl;
         path(Point(xOrigin + 1, yOrigin - 1), pointToGo, distanceInit,
              pathPossibilitys, count, index, first);
     }
@@ -209,6 +225,7 @@ void Collector::bestDiago(Point positionCollector, Point pointToGo, double dista
 void Collector::path(Point step, Point pointToGo, double distanceInit,
                      vector<Point> &pathPossibilitys, int &count, int &index, bool first) {
     double newDistance = Entity::distance2Points(step, pointToGo);
+    cout << "new distance = " << newDistance << endl;
     if(newDistance < 1) {
         pathPossibilitys.push_back(step);
         return;
@@ -218,8 +235,10 @@ void Collector::path(Point step, Point pointToGo, double distanceInit,
         bestDiago(step, pointToGo, newDistance, pathPossibilitys, count, index, false);
         return;
     } else {
+        cout << "rentre boucle else => ++count" << endl;
         count++;
         if(first == true) {
+            cout << "first = true" << endl;
             return;
         }
         if(index == 4) {
