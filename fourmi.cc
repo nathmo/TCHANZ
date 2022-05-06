@@ -111,7 +111,7 @@ Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList) {
             listSpecieTrie.push_back(entity);
         }
     }
-    vector <Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
+    vector<Point> newListTrie = Entity::trie(positionCollector, listSpecieTrie);
     return newListTrie[0];
 }
 
@@ -165,9 +165,8 @@ vector<Point> Collector::bestPathCollector(Point positionCollector, Point pointT
     return path1; //fonction en cours de travail pour rendu 3
 }
 
-void Collector::bestDiago(Point positionCollector, Point pointToGo,
-                          double distanceInit, vector<Point> &pathPossibilitys,
-                          int count, int &index, bool first) {
+void Collector::bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
+                          vector<Point> &pathPossibilitys, int count, int &index, bool first) {
     int xOrigin = positionCollector.getCoordX();
     int yOrigin = positionCollector.getCoordY();
 
@@ -191,15 +190,15 @@ void Collector::bestDiago(Point positionCollector, Point pointToGo,
 }
 
 void Collector::path(Point step, Point pointToGo, double distanceInit,
-                     vector<Point> &path, int &count, int &index, bool first) {
+                     vector<Point> &pathPossibilitys, int &count, int &index, bool first) {
     double newDistance = Entity::distance2Points(step, pointToGo);
     if(newDistance < 2) {
-        path.push_back(step);
+        pathPossibilitys.push_back(step);
         return;
     }
     if(newDistance < distanceInit) {
-        path.push_back(step);
-        bestDiago(step, pointToGo, newDistance, path, count, index, false);
+        pathPossibilitys.push_back(step);
+        bestDiago(step, pointToGo, newDistance, pathPossibilitys, count, index, false);
         return;
     } else {
         count++;
@@ -208,11 +207,11 @@ void Collector::path(Point step, Point pointToGo, double distanceInit,
         }
         if(index == 4) {
             index = 1;
-            bestDiago(step, pointToGo, distanceInit, path, count, index, false);
+            bestDiago(step, pointToGo, distanceInit, pathPossibilitys, count, index, false);
             return;
         } else {
             index++;
-            bestDiago(step, pointToGo, distanceInit, path, count, index, false);
+            bestDiago(step, pointToGo, distanceInit, pathPossibilitys, count, index, false);
             return;
         }
     }
