@@ -73,9 +73,13 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             step(entityList);
         } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
             unloadFood(entityList);
-            // ici calculer le chemin pour la prochaine bouffe et remplacer le buffer
+            Point positionCollector = (*occupiedSpace).getPosition();
+            Point pointToGo = findClosestFood(entityList);
+            pathBuffer = bestPathCollector(positionCollector, pointToGo);
         } else {
-            // ici calculer le chemin pour la fourmilliere
+            Point positionCollector = (*occupiedSpace).getPosition();
+            Point pointToGo ; //ici calculer le point de la fourmilliere le plus proche
+            pathBuffer = bestPathCollector(positionCollector, pointToGo);
         }
     } else {
         bool foodStillThere = true;
@@ -86,8 +90,8 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             pathBuffer = bestPathCollector(positionCollector, pointToGo);
             cout << "exhausted path uffer" << endl;
         } else { // ensure the we still have the best path
-            //foodStillThere = Squarecell::countOverlap(
-            //            pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
+            foodStillThere = Squarecell::countOverlap(
+                        pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
             if(distance2Points(getPosition(),pathBuffer[pathBuffer.size()-1])>
                distance2Points(getPosition(),Collector::findClosestFood(entityList))){
                 foodStillClosest = false;
@@ -98,12 +102,14 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
                 step(entityList);
             } else { // once reached mark the food for deletion
                 loadFood(entityList);
-                // ici calculer le chemin pour la fourmilliere
+                Point positionCollector = (*occupiedSpace).getPosition();
+                Point pointToGo ; //ici calculer le point de la fourmilliere le plus proche
+                pathBuffer = bestPathCollector(positionCollector, pointToGo);
             }
         } else { // otherwise find a new path
             Point positionCollector = (*occupiedSpace).getPosition();
             Point pointToGo = findClosestFood(entityList);
-            pathBuffer = bestPathCollector(positionCollector, pointToGo);// ici recalculer le chemin pour la prochaine bouffe et ajouter au buffer
+            pathBuffer = bestPathCollector(positionCollector, pointToGo);
         }
     }
 }
