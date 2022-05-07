@@ -65,6 +65,16 @@ bool Point::checkPoint(Point point) {
     return status;
 }
 
+bool Point::operator==(Point point){
+    return ((point.x == x) and (point.y == y));
+}
+
+double Point::distanceAbs(Point start, Point stop){
+    double xsq = pow((start.getCoordX()-stop.getCoordX()),2);
+    double ysq = pow((start.getCoordY()-stop.getCoordY()),2);
+    return sqrt(xsq+ysq);
+}
+
 void Squarecell::freeArea(){
     if((width==0) or (height==0)){
         return;

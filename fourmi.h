@@ -25,6 +25,9 @@ public:
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     virtual void draw();
+    virtual double distance(Point start, Point stop);
+    virtual std::vector<Point> getNextMove(Point position);
+    std::vector<Point> findPath(Point start, Point stop);
 };
 
 class Collector : public Fourmi {
@@ -34,13 +37,8 @@ private:
 public:
     Collector(Point position, int id, int age, bool carryFood);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
-    std::vector<Point> bestPathCollector(Point positionCollector,
-                                         Point newListTrie);
-    void bestDiago(Point positionCollector, Point pointToGo, double distanceInit,
-                   std::vector<Point> &pathPossibilitys, int count, int &index, bool first);
-
-    void path(Point step, Point pointToGo, double distanceInit,
-              std::vector<Point> &pathPossibilitys, int &count, int &index, bool first, int sizePath);
+    virtual double distance(Point start, Point stop);
+    virtual std::vector<Point> getNextMove(Point position);
 
     Point findClosestFood(std::vector<std::shared_ptr<Entity>> &entityList);
 
@@ -60,6 +58,8 @@ public:
     Defensor(Point position, int id, int age);
     Point findClosestBorder(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
+    virtual double distance(Point start, Point stop);
+    virtual std::vector<Point> getNextMove(Point position);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
@@ -73,6 +73,8 @@ public:
     Predator(Point position, int id, int age);
     Point findClosestEnemy(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
+    virtual double distance(Point start, Point stop);
+    virtual std::vector<Point> getNextMove(Point position);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
@@ -87,7 +89,10 @@ private:
 
 public:
     Generator(Point position, int id);
+    Point findCenter(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
+    virtual double distance(Point start, Point stop);
+    virtual std::vector<Point> getNextMove(Point position);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something

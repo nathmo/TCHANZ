@@ -51,10 +51,10 @@ void Simulation::saveToFile(string path) {
 
 void Simulation::simulateStep() {
     vector<shared_ptr<Entity>> entityList;
-    //shared_ptr<Nourriture> food = Nourriture::randomCreate();
-    //if(food != nullptr) {
-    //    nourritureList.push_back(food);
-    //}// create food randomly
+    shared_ptr<Nourriture> food = Nourriture::randomCreate();
+    if(food != nullptr) {
+        nourritureList.push_back(food);
+    }// create food randomly
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
     for(auto anthill:anthillList) {
