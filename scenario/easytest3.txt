@@ -1,0 +1,14 @@
+# food
+3
+
+54 95
+75 75
+80 80
+
+1 # nb anthill
+
+# anthill #1
+	10 10 10 13 15 315 1 0 0
+
+    #collector
+    35 75 3 false
