@@ -289,6 +289,16 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
+    vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList, fourmilliereCST);
+    Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
+    Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
+    //int side = (*anthill[0]).getHeight();
+    int sideDivide = (*anthill[0]).getHeight()%2;
+    Point positionDefensor(getPosition().getCoordX(), getPosition().getCoordY());
+
+    double distanceInit = Point::distanceAbs(positionDefensor, Point(cornerLeftBot.getCoordX(),cornerLeftBot.getCoordY()+sideDivide));
+    //if()
+
     return Point();
 }
 
@@ -331,11 +341,11 @@ double Defensor::distance(Point start, Point stop) {
 }
 
 vector<Point> Defensor::getNextMove(Point position) {
-    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
-    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
-    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
-    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
-    return {upRight, upLeft, downLeft, downRight};
+    Point right = Point(position.getCoordX()+1,position.getCoordY());
+    Point up =  Point(position.getCoordX(),position.getCoordY()+1);
+    Point left = Point(position.getCoordX()-1,position.getCoordY());
+    Point down = Point(position.getCoordX(),position.getCoordY()-1);
+    return {right, up, left, down};
 }
 
 vector<vector<string>> Defensor::exportToString() {
