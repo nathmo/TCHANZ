@@ -140,10 +140,10 @@ vector<Point> Entity::trie(Point positionCollector, vector<Point> listSpecieTrie
     vector<Point> newList;
     for(unsigned int i(0); i<listSpecieTrie.size(); i++) {
         int index = i;
-        double distanceIni = distance2Points(positionCollector, listSpecieTrie[i]);
+        double distanceIni = Point::distanceAbs(positionCollector, listSpecieTrie[i]);
         for(unsigned int j = (i+1); j<listSpecieTrie.size(); j++) {
-            if(distanceIni>distance2Points(positionCollector, listSpecieTrie[j])) {
-                distanceIni = distance2Points(positionCollector, listSpecieTrie[j]);
+            if(distanceIni>Point::distanceAbs(positionCollector, listSpecieTrie[j])) {
+                distanceIni = Point::distanceAbs(positionCollector, listSpecieTrie[j]);
                 listSpecieTrie.erase(listSpecieTrie.begin()+j);
                 listSpecieTrie.push_back(listSpecieTrie[i]); //pas perdre la 1er ligne
                 index = j;
@@ -152,12 +152,4 @@ vector<Point> Entity::trie(Point positionCollector, vector<Point> listSpecieTrie
         newList.push_back(listSpecieTrie[index]);
     }
     return newList;
-}
-
-double Entity::distance2Points(Point positionCollector, Point point) {
-    int x = positionCollector.getCoordX();
-    int y = positionCollector.getCoordY();
-    int x1 = point.getCoordX();
-    int y1 = point.getCoordY();
-    return sqrt((x1-x)*(x1-x)+(y1-y)*(y1-y));
 }

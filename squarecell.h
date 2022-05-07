@@ -42,6 +42,7 @@ private:
     static std::vector<std::vector<char>> hitBoxGrid ;
     void freeArea();
     void occupyArea();
+
 public:
     Squarecell();
     Squarecell(Point position, int height, int width,
