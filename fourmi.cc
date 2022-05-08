@@ -183,32 +183,25 @@ vector<Point> Collector::getNextMove(Point position) {
     vector<Point> nextMoves = {};
     int upRightX = position.getCoordX()+1;
     int upRightY = position.getCoordY()+1;
-    if(Point::isCoordInRange(upRightX) and Point::isCoordInRange(upRightY)){
+
         nextMoves.push_back(Point(upRightX,upRightY));
-    } else {
-        nextMoves.push_back(position);
-    }
+
     int upLeftX = position.getCoordX()-1;
     int upLeftY = position.getCoordY()+1;
-    if(Point::isCoordInRange(upLeftX) and Point::isCoordInRange(upLeftY)){
+
         nextMoves.push_back(Point(upLeftX,upLeftY));
-    } else {
-        nextMoves.push_back(position);
-    }
+
     int downLeftX = position.getCoordX()-1;
     int downLeftY = position.getCoordY()-1;
-    if(Point::isCoordInRange(downLeftX) and Point::isCoordInRange(downLeftY)) {
+
         nextMoves.push_back(Point(downLeftX, downLeftY));
-    } else {
-        nextMoves.push_back(position);
-    }
+
     int downRightX = position.getCoordX()+1;
     int downRightY = position.getCoordY()-1;
-    if(Point::isCoordInRange(downRightX) and Point::isCoordInRange(downRightY)) {
+
         nextMoves.push_back(Point(downRightX, downRightY));
-    } else {
-        nextMoves.push_back(position);
-    }
+
+
     return nextMoves;
 }
 
