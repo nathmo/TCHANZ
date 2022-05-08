@@ -16,11 +16,7 @@ void startHeadless(string path);
 void startGui(string path);
 
 int main(int argc, char *argv[]) {
-    if(argc < 2) {
-        cout << "Please provide a file to load" << endl;
-        return 0;
-    }
-
+    string path = "";
     if(argc > 2) {
         string headlessKeyword = "--headless";
         bool status = true;
@@ -33,8 +29,11 @@ int main(int argc, char *argv[]) {
             startHeadless(argv[1]);
             return 0;
         }
+    } else if (argc == 2){
+        path = argv[1];
+    } else {
+        startGui(path);
     }
-    startGui(argv[1]);
     return 0;
 }
 
