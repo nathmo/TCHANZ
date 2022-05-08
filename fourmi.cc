@@ -181,26 +181,26 @@ double Collector::distance(Point start, Point stop) {
 
 vector<Point> Collector::getNextMove(Point position) {
     vector<Point> nextMoves = {};
-    int upRightX = position.getCoordX()+1;
-    int upRightY = position.getCoordY()+1;
-
-        nextMoves.push_back(Point(upRightX,upRightY));
-
-    int upLeftX = position.getCoordX()-1;
-    int upLeftY = position.getCoordY()+1;
-
-        nextMoves.push_back(Point(upLeftX,upLeftY));
-
-    int downLeftX = position.getCoordX()-1;
-    int downLeftY = position.getCoordY()-1;
-
-        nextMoves.push_back(Point(downLeftX, downLeftY));
-
-    int downRightX = position.getCoordX()+1;
-    int downRightY = position.getCoordY()-1;
-
-        nextMoves.push_back(Point(downRightX, downRightY));
-
+    int XRight = position.getCoordX()+1;
+    if(not Point::isCoordInRange(XRight)){
+        XRight = position.getCoordX();
+    }
+    int Xleft = position.getCoordX()-1;
+    if(not Point::isCoordInRange(Xleft)){
+        Xleft = position.getCoordX();
+    }
+    int YTop = position.getCoordY()+1;
+    if(not Point::isCoordInRange(YTop)){
+        YTop = position.getCoordX();
+    }
+    int YBot = position.getCoordY()-1;
+    if(not Point::isCoordInRange(YBot)){
+        YBot = position.getCoordX();
+    }
+    nextMoves.push_back(Point(XRight, YTop));
+    nextMoves.push_back(Point(Xleft, YBot));
+    nextMoves.push_back(Point(XRight, YBot));
+    nextMoves.push_back(Point(Xleft, YTop));
 
     return nextMoves;
 }
@@ -307,14 +307,14 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
-    vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList, fourmilliereCST);
-    Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
-    Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
+    //vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList, fourmilliereCST);
+    //Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
+    //Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
     //int side = (*anthill[0]).getHeight();
-    int sideDivide = (*anthill[0]).getHeight()%2;
-    Point positionDefensor(getPosition().getCoordX(), getPosition().getCoordY());
+    //int sideDivide = (*anthill[0]).getHeight()%2;
+    //Point positionDefensor(getPosition().getCoordX(), getPosition().getCoordY());
 
-    double distanceInit = Point::distanceAbs(positionDefensor, Point(cornerLeftBot.getCoordX(),cornerLeftBot.getCoordY()+sideDivide));
+    //double distanceInit = Point::distanceAbs(positionDefensor, Point(cornerLeftBot.getCoordX(),cornerLeftBot.getCoordY()+sideDivide));
     //if()
 
     return Point();
@@ -513,8 +513,10 @@ Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList) {
     Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
     Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
 
-    int centerX = (cornerLeftBot.getCoordX()+cornerRightTop.getCoordX())/2;
-    int centerY = (cornerLeftBot.getCoordY()+cornerRightTop.getCoordY())/2;
+    int deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())/2;
+    int deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())/2;
+    int centerX = cornerLeftBot.getCoordX() + deltaX;
+    int centerY = cornerLeftBot.getCoordY() + deltaY;
 
     return Point(centerX, centerY);
 }
@@ -542,17 +544,7 @@ void Generator::update(vector<shared_ptr<Entity>> &entityList) {
 }
 
 double Generator::distance(Point start, Point stop) {
-    bool sameCaseFamily = ((((start.getCoordX()+start.getCoordY())%2 == 0) and
-                            ((stop.getCoordX()+stop.getCoordY())%2 == 0)) or
-                           (((start.getCoordX()+start.getCoordY())%2 == 1) and
-                            ((stop.getCoordX()+stop.getCoordY())%2 == 1)));
-    if(sameCaseFamily) {
-        double deltaX = stop.getCoordX()-start.getCoordX();
-        double deltaY = stop.getCoordY()-start.getCoordY();
-        return min(deltaX,deltaY);
-    } else {
-        return INFINITY;
-    }
+    return Point::distanceAbs(start,stop);
 }
 
 vector<Point> Generator::getNextMove(Point position) {

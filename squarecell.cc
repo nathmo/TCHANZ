@@ -55,7 +55,7 @@ int Point::getCoordY() {
 
 bool Point::isCoordInRange(int coord) {
     bool status = false;
-    if(not((coord >= 0) and (coord < g_max))) {
+    if((coord >= 1) and (coord < (g_max-1))) {
         status = true;
     }
     return status;
