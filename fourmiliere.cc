@@ -43,7 +43,7 @@ int Fourmiliere::getnbP() {
 
 void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     attemptExpansionAnthill();
-    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
+    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
     foodReserve = foodReserve + (val_food*(gen->getFood()));
     gen->removeFood(); // removed the food from the generator once added in anthill
     gen->update(entityList); // update the generator
@@ -83,8 +83,8 @@ vector<vector<string>> Fourmiliere::exportToString() {
     toExport.push_back({coordX, coordY, height, generatorX, generatorY,
                         totalFood, strC, strD, strP});
     for(auto fourmi:memberAnts) {
-        if(not((*fourmi).getSpecie()==fourmiGeneratorCST)) {
-            vector <vector<string>> temp = (*fourmi).exportToString();
+        if(not((*fourmi).getSpecie() == fourmiGeneratorCST)) {
+            vector<vector<string>> temp = (*fourmi).exportToString();
             toExport.insert(toExport.end(), temp.begin(), temp.end());
         }
     }
