@@ -75,7 +75,12 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
     vector<Point> step = {start};
     int inertia = -1;
     double distanceToTarget = 2*g_max;
+    int watchdog = 0;
     while(not(step[step.size()-1] == stop)) {
+        watchdog++;
+        if(watchdog==100){
+            return {};
+        }
         //cout << step[step.size()-1].getCoordX() << " " << step[step.size()-1].getCoordY() << endl;
         vector<Point> possibleNextStepVec = getNextMove(step[step.size()-1]);
         if(inertia == -1) { // find a new direction if the distance stop decreasing
@@ -125,9 +130,13 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             step(entityList);
         } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
             unloadFood(entityList);
-            Point positionCollector = getPosition();
-            Point pointToGo = findClosestFood(entityList);
-            pathBuffer = findPath(positionCollector, pointToGo);
+            vector<Point> foods = findFoods(entityList);
+            pathBuffer = {};
+            if(foods.size()>0) {
+                Point positionCollector = (*occupiedSpace).getPosition();
+                Point pointToGo = foods[0];
+                pathBuffer = findPath(positionCollector, pointToGo);
+            }
         } else {
             Point positionCollector = (*occupiedSpace).getPosition();
             Point pointToGo; //ici calculer le point de la fourmilliere le plus proche
@@ -137,16 +146,29 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         bool foodStillThere = true;
         bool foodStillClosest = true;
         if(pathBuffer.size() == 0) {
-            Point positionCollector = (*occupiedSpace).getPosition();
-            Point pointToGo = findClosestFood(entityList);
-            pathBuffer = findPath(positionCollector, pointToGo);
+            vector<Point> foods = findFoods(entityList);
+            pathBuffer = {};
+            if(foods.size()>0) {
+                Point positionCollector = (*occupiedSpace).getPosition();
+                Point pointToGo = foods[0];
+                pathBuffer = findPath(positionCollector, pointToGo);
+            }
         } else { // ensure the we still have the best path
             foodStillThere = Squarecell::countOverlap(
                         pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
-            if(Point::distanceAbs(getPosition(),pathBuffer[pathBuffer.size()-1])>
-            Point::distanceAbs(getPosition(),Collector::findClosestFood(entityList))){
-               foodStillClosest = false;
+            vector<Point> foods = findFoods(entityList);
+            if(foods.size()>0) {
+                if (Point::distanceAbs(getPosition(),
+                    pathBuffer[pathBuffer.size() - 1]) >
+                    Point::distanceAbs(getPosition(),
+                    Collector::findFoods(entityList)[0])) {
+
+                    foodStillClosest = false;
+                }
+            } else {
+                foodStillClosest = false;
             }
+
         }
         if(foodStillThere and foodStillClosest) { // if the path is still valid
             if(pathBuffer.size() > 1) { // walk toward the food one step at a time
@@ -158,9 +180,13 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
                 pathBuffer = findPath(positionCollector, pointToGo);
             }
         } else { // otherwise find a new path
-            Point positionCollector = (*occupiedSpace).getPosition();
-            Point pointToGo = findClosestFood(entityList);
-            pathBuffer = findPath(positionCollector, pointToGo);
+            vector<Point> foods = findFoods(entityList);
+            pathBuffer = {};
+            if(foods.size()>0) {
+                Point positionCollector = (*occupiedSpace).getPosition();
+                Point pointToGo = foods[0];
+                pathBuffer = findPath(positionCollector, pointToGo);
+            }
         }
     }
 }
@@ -205,7 +231,7 @@ vector<Point> Collector::getNextMove(Point position) {
     return nextMoves;
 }
 
-Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList) {
+vector<Point> Collector::findFoods(vector<shared_ptr<Entity>> &entityList) {
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
     Point positionCollector = getPosition();
@@ -227,7 +253,7 @@ Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList) {
     }
     vector<Point> newListTrie = Entity::trie(positionCollector, listFoodCaseFamily);
     if(newListTrie.size()>0){
-        return newListTrie[0];
+        return newListTrie;
     } else {
         return {};
     }
@@ -324,7 +350,6 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
     bool bordureStillClosest = false;
     bool bordureStillFree = false;
-
     if(pathBuffer.size() == 0) {
         // ici recalculer le chemin pour vers la bordure
         bordureStillClosest = true;
@@ -417,7 +442,6 @@ void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
     bool bordureStillClosest = false;
     bool bordureStillFree = false;
-
     if(pathBuffer.size()==0) {
         // ici recalculer le chemin pour vers la bordure
         bordureStillClosest = true;

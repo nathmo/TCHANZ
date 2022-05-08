@@ -40,7 +40,7 @@ public:
     virtual double distance(Point start, Point stop);
     virtual std::vector<Point> getNextMove(Point position);
 
-    Point findClosestFood(std::vector<std::shared_ptr<Entity>> &entityList);
+    std::vector<Point> findFoods(std::vector<std::shared_ptr<Entity>> &entityList);
 
     void unloadFood(std::vector<std::shared_ptr<Entity>> &entityList);
 

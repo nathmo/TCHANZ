@@ -56,7 +56,7 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
         endOfLife = true;
         return;
     }
-    randomCreateAnts();
+    //randomCreateAnts();
     for(unsigned int i=1;i<memberAnts.size();i++) {
         memberAnts[i]->update(entityList);
     }
