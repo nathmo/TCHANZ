@@ -53,6 +53,14 @@ int Point::getCoordY() {
     return y;
 }
 
+bool Point::isCoordInRange(int coord) {
+    bool status = false;
+    if(not((coord >= 0) and (coord < g_max))) {
+        status = true;
+    }
+    return status;
+}
+
 bool Point::checkPoint(Point point) {
     bool status = true;
     if(not((point.getCoordX() >= 0) and (point.getCoordX() < g_max))) {

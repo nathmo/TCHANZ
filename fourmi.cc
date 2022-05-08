@@ -180,11 +180,36 @@ double Collector::distance(Point start, Point stop) {
 }
 
 vector<Point> Collector::getNextMove(Point position) {
-    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
-    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
-    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
-    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
-    return {upRight, upLeft, downLeft, downRight};
+    vector<Point> nextMoves = {};
+    int upRightX = position.getCoordX()+1;
+    int upRightY = position.getCoordY()+1;
+    if(Point::isCoordInRange(upRightX) and Point::isCoordInRange(upRightY)){
+        nextMoves.push_back(Point(upRightX,upRightY));
+    } else {
+        nextMoves.push_back(position);
+    }
+    int upLeftX = position.getCoordX()-1;
+    int upLeftY = position.getCoordY()+1;
+    if(Point::isCoordInRange(upLeftX) and Point::isCoordInRange(upLeftY)){
+        nextMoves.push_back(Point(upLeftX,upLeftY));
+    } else {
+        nextMoves.push_back(position);
+    }
+    int downLeftX = position.getCoordX()-1;
+    int downLeftY = position.getCoordY()-1;
+    if(Point::isCoordInRange(downLeftX) and Point::isCoordInRange(downLeftY)) {
+        nextMoves.push_back(Point(downLeftX, downLeftY));
+    } else {
+        nextMoves.push_back(position);
+    }
+    int downRightX = position.getCoordX()+1;
+    int downRightY = position.getCoordY()-1;
+    if(Point::isCoordInRange(downRightX) and Point::isCoordInRange(downRightY)) {
+        nextMoves.push_back(Point(downRightX, downRightY));
+    } else {
+        nextMoves.push_back(position);
+    }
+    return nextMoves;
 }
 
 Point Collector::findClosestFood(vector<shared_ptr<Entity>> &entityList) {

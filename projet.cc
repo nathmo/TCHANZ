@@ -28,9 +28,14 @@ int main(int argc, char *argv[]) {
         if(status) { // allow for operation without GUI, for debug/test purpose
             startHeadless(argv[1]);
             return 0;
+        } else {
+            cout << "wrong argument provided" << endl;
+            cout << "syntax example : ./projet t01.txt" << endl;
+            cout << "syntax example for no GUI : ./projet t01.txt --headless" << endl;
         }
     } else if (argc == 2){
         path = argv[1];
+        startGui(path);
     } else {
         startGui(path);
     }
@@ -46,6 +51,8 @@ void startHeadless(string path) {
 
 void startGui(string path) {
     shared_ptr<Simulation> simulatiom = make_shared<Simulation>();
-    (*simulatiom).loadFromFile(path);
+    if(path != "") {
+        (*simulatiom).loadFromFile(path);
+    }
     Gui::window(simulatiom);
 }

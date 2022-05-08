@@ -25,6 +25,7 @@ public:
     int getCoordX();
     void setCoordY(int yOrigin);
     int getCoordY();
+    static bool isCoordInRange(int coord);
     static bool checkPoint(Point point);
     bool operator==(Point point);
     static double distanceAbs(Point start, Point stop);
