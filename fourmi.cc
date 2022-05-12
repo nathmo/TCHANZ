@@ -72,6 +72,21 @@ vector<Point> Fourmi::getNextMove(Point position) {
 }
 
 vector<Point> Fourmi::findPath(Point start, Point stop) {
+    /* evaluate new best possibles directions
+     * for(each direction)
+     * -inertia=direction
+     * -while not stop
+     * --watchdog
+     * --if not inertia
+     * ---inertia = evaluate new best possibles directions(only one best)
+     * --if inertia
+     * ---if direction valid
+     * ----newvec[0].pushback(step)
+     * ---else
+     * ----inertia reset
+     * prunePath()
+     * return newvec
+     */
     vector<Point> step = {start};
     int inertia = -1;
     double distanceToTarget = 2*g_max;
@@ -125,6 +140,9 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    for(auto step:pathBuffer){
+        cout << step.getCoordX() << " " << step.getCoordY() << endl;
+    }
     if(carryFood) { // state machine of collector
         if(pathBuffer.size() > 1) { // walk toward the fourmilliere one step at a time
             step(entityList);
@@ -143,12 +161,14 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             pathBuffer = findPath(positionCollector, pointToGo);
         }
     } else {
-        bool foodStillThere = true;
-        bool foodStillClosest = true;
+        bool foodStillThere = false;
+        bool foodStillClosest = false;
         if(pathBuffer.size() == 0) {
             vector<Point> foods = findFoods(entityList);
             pathBuffer = {};
             if(foods.size()>0) {
+                foodStillThere = true;
+                foodStillClosest = true;
                 Point positionCollector = (*occupiedSpace).getPosition();
                 Point pointToGo = foods[0];
                 pathBuffer = findPath(positionCollector, pointToGo);
@@ -162,13 +182,11 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
                     pathBuffer[pathBuffer.size() - 1]) >
                     Point::distanceAbs(getPosition(),
                     Collector::findFoods(entityList)[0])) {
-
                     foodStillClosest = false;
                 }
             } else {
                 foodStillClosest = false;
             }
-
         }
         if(foodStillThere and foodStillClosest) { // if the path is still valid
             if(pathBuffer.size() > 1) { // walk toward the food one step at a time
@@ -251,7 +269,8 @@ vector<Point> Collector::findFoods(vector<shared_ptr<Entity>> &entityList) {
             listFoodCaseFamily.push_back(food);
         }
     }
-    vector<Point> newListTrie = Entity::trie(positionCollector, listFoodCaseFamily);
+    vector<Point> newListTrie;
+    newListTrie = Entity::trie(positionCollector, listFoodCaseFamily);
     if(newListTrie.size()>0){
         return newListTrie;
     } else {
