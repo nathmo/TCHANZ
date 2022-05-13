@@ -45,6 +45,8 @@ public:
 
     std::vector<Point> findFoods(std::vector<std::shared_ptr<Entity>> &entityList);
 
+    Point findHome(std::vector<std::shared_ptr<Entity>> &entityList);
+
     void unloadFood(std::vector<std::shared_ptr<Entity>> &entityList);
 
     void loadFood(std::vector<std::shared_ptr<Entity>> &entityList);
