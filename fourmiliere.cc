@@ -42,16 +42,11 @@ int Fourmiliere::getnbP() {
 }
 
 void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
-    cout << "expension"<< endl;
     attemptExpansionAnthill();
-    cout << "get generaor : "<< endl;
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
-    cout << "decrease food : "<< endl;
     foodReserve = foodReserve + (val_food*(gen->getFood()));
     gen->removeFood(); // removed the food from the generator once added in anthill
-    cout << "update gen : "<< endl;
     gen->update(entityList); // update the generator
-    cout << "compute if dead : "<< endl;
     if(gen->getEndOfLife()) {
         endOfLife = true;
         return;
@@ -61,13 +56,10 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
         endOfLife = true;
         return;
     }
-    cout << "random create ant : "<< endl;
-    //randomCreateAnts();
+    randomCreateAnts();
     for(unsigned int i=1; i<memberAnts.size(); i++) {
-        cout << "update ant : "<<memberAnts[i]->getSpecie()<< endl;
         memberAnts[i]->update(entityList);
     }
-    cout << "erase ants : "<< endl;
     for(unsigned int i=1; i<memberAnts.size(); i++) {
         if((memberAnts[i])->getSpecie() != fourmiGeneratorCST) {
             if((memberAnts[i])->getAge() > bug_life) {
@@ -216,27 +208,27 @@ void Fourmiliere::randomCreateAnts() {
                     nbP++;
                     break;
             }
+            memberAnts.push_back(ant);
         } catch(int code) {
             return; // no space found, return without adding a new ant
         }
-        memberAnts.push_back(ant);
     }
 }
 
 int Fourmiliere::getAntTypeToGenerate() {
     int antTypeToGenerate = 0;
     if(isConstrained) {
-        if(memberAnts.size()*prop_constrained_collector < nbC) {
+        if(memberAnts.size()*prop_constrained_collector > nbC) {
             antTypeToGenerate = 0;
-        } else if(memberAnts.size()*prop_constrained_defensor < nbD) {
+        } else if(memberAnts.size()*prop_constrained_defensor > nbD) {
             antTypeToGenerate = 1;
         } else {
             antTypeToGenerate = 2;
         }
     } else {
-        if(memberAnts.size()*prop_free_collector < nbC) {
+        if(memberAnts.size()*prop_free_collector > nbC) {
             antTypeToGenerate = 0;
-        } else if(memberAnts.size()*prop_free_defensor < nbD) {
+        } else if(memberAnts.size()*prop_free_defensor > nbD) {
             antTypeToGenerate = 1;
         } else {
             antTypeToGenerate = 2;

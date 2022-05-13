@@ -3,10 +3,11 @@
 #
 
 # nb food
-1
+2
 
 # food
 70 56
+63 53
 
 1 # nb anthill
 	50 50 12 53 53 1000 1 1 1 # anthill #1

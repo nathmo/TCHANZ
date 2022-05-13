@@ -50,6 +50,9 @@ public:
     void unloadFood(std::vector<std::shared_ptr<Entity>> &entityList);
 
     void loadFood(std::vector<std::shared_ptr<Entity>> &entityList);
+
+    void evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList);
+    void recomputePath(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something

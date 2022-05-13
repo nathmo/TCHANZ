@@ -40,9 +40,6 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList) {
         if(nextStepOverlap == 0) {
             setPosition(pathBuffer[0]);
             pathBuffer.erase(pathBuffer.begin());
-            cout <<"step" << endl;
-        } else {
-            cout <<"ronflex on path" << endl;
         }
     }
 }
@@ -165,43 +162,13 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-
-    if(pathBuffer.size() != 0) {
-        bool foodStillClosest = true;
-        bool foodStillThere = Squarecell::countOverlap(
-                        pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
-        vector<Point> foods = findFoods(entityList);
-        if (foods.size() > 0) {
-            if (Point::distanceAbs(getPosition(),
-                                   pathBuffer[pathBuffer.size() - 1]) >
-                Point::distanceAbs(getPosition(),
-                                   Collector::findFoods(entityList)[0])) {
-                foodStillClosest = false;
-            }
-        }
-        if((not foodStillClosest) or (not foodStillThere)) {
-            pathBuffer = {};
-        }
+    cout << "collector update -------------" << endl;
+    for(auto step : pathBuffer){
+        cout << step.getCoordX() << " " << step.getCoordY() << endl;
     }
+    evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
-        vector<Point> foods = findFoods(entityList);
-        if(carryFood) {
-            Point positionCollector = (*occupiedSpace).getPosition();
-            Point pointToGo = findHome(entityList);
-            cout << pointToGo.getCoordX() << " " << pointToGo.getCoordY() << endl;
-            pathBuffer = findPath(positionCollector, pointToGo);
-            for (auto step:pathBuffer) {
-                cout << step.getCoordX() << " " << step.getCoordY() << endl;
-            }
-        } else if(foods.size()>0) {
-            Point positionCollector = (*occupiedSpace).getPosition();
-            Point pointToGo = foods[0];
-            cout << "looking for path"<< endl;
-            pathBuffer = findPath(positionCollector, pointToGo);
-            cout << "path found"<< endl;
-        } else {
-            // behaviour if no food available
-        }
+        recomputePath(entityList);
     }
     if(pathBuffer.size() != 0) {
         if(pathBuffer.size()>1) {
@@ -209,10 +176,8 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         } else {
             if(carryFood) {
                 unloadFood(entityList);
-                pathBuffer = {};
             } else {
                 loadFood(entityList);
-                pathBuffer = {};
             }
         }
     }
@@ -295,23 +260,40 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
         int y = (*fourmilliere[0]).getPosition().getCoordY();
         int width = (*fourmilliere[0]).getWidth();
         int height = (*fourmilliere[0]).getHeight();
-        bool spot = false; //case noir
-        if(!((getPosition().getCoordX()+getPosition().getCoordY())%2 == 0)) {
-            spot = true;
+        bool caseFamily = false; //case noir
+        if((getPosition().getCoordX()+getPosition().getCoordY())%2) {
+            caseFamily = true;
         }
         vector<Point> side = {};
-        for(unsigned int i = x;i<=(x+width);i++) {
-            for(unsigned int j = y;j<=(y+height);j++) {
-                if((i+j)%2 == spot){
-                    side.push_back(Point(i,j));
-                }
+        for(int j = y;j<(y+height);j++) {
+            if((x+j)%2 == caseFamily){
+                side.push_back(Point(x,j));
             }
         }
-        vector<Point> newListTrie;
-        newListTrie = Entity::trie(getPosition(), side);
-        if(newListTrie.size()>0){
-            return newListTrie[0];
+        for(int j = y;j<(y+height);j++) {
+            if((x+width+j)%2 == caseFamily){
+                side.push_back(Point(x+width,j));
+            }
         }
+        for(int i = x;i<(x+width);i++) {
+            if((i+y)%2 == caseFamily){
+                side.push_back(Point(i,y));
+            }
+        }
+        for(int i = x;i<(x+width);i++) {
+            if((i+height+y)%2 == caseFamily){
+                side.push_back(Point(i+height,y));
+            }
+        }
+        int lowestDistanceToHome = g_max*g_max;
+        Point candidat;
+        for(auto target:side){
+            if(distance(getPosition(), target)<lowestDistanceToHome){
+                lowestDistanceToHome = distance(getPosition(), target);
+                candidat = target;
+            }
+        }
+        return candidat;
     }
     cout << "no anthill with ID to unload" << endl;
     exit(0);
@@ -325,7 +307,7 @@ void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList) {
         shared_ptr<Generator> gene = dynamic_pointer_cast<Generator>(entity[0]);
         gene->addFood();
         carryFood = false;
-        pathBuffer.erase(pathBuffer.begin());
+        pathBuffer = {};
     } else {
         cout << "no generator with ID to unload" << endl;
         exit(0);
@@ -338,9 +320,43 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
 
     food->setEndOfLife(true);
     carryFood = true;
-    pathBuffer.erase(pathBuffer.begin());
+    pathBuffer = {};
 }
 
+void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList){
+    if(pathBuffer.size() != 0 and (not carryFood)) {
+        bool foodStillClosest = true;
+        bool foodStillThere = Squarecell::countOverlap(
+                pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
+        vector<Point> foods = findFoods(entityList);
+        if (foods.size() > 0) {
+            if (Point::distanceAbs(getPosition(),
+                                   pathBuffer[pathBuffer.size() - 1]) >
+                Point::distanceAbs(getPosition(),
+                                   Collector::findFoods(entityList)[0])) {
+                foodStillClosest = false;
+            }
+        }
+        if((not foodStillClosest) or (not foodStillThere)) {
+            pathBuffer = {};
+        }
+    }
+}
+
+void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
+    vector<Point> foods = findFoods(entityList);
+    if(carryFood) {
+        Point positionCollector = (*occupiedSpace).getPosition();
+        Point pointToGo = findHome(entityList);
+        pathBuffer = findPath(positionCollector, pointToGo);
+    } else if(foods.size()>0) {
+        Point positionCollector = (*occupiedSpace).getPosition();
+        Point pointToGo = foods[0];
+        pathBuffer = findPath(positionCollector, pointToGo);
+    } else {
+        // behaviour if no food available
+    }
+}
 vector<vector<string>> Collector::exportToString() {
     vector<vector<string>> vecVecStringCollector;
     Point position = (*occupiedSpace).getPosition();
