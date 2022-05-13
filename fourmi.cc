@@ -123,7 +123,7 @@ vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
             lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
             bestNextMove.push_back(direction);
         } else if (lowestDistance == distance(possibleNextStep, target)) {
-            if(lowestDistanceAbs>(Point::distanceAbs(possibleNextStep, target)+0.01)){
+            if(lowestDistanceAbs>(Point::distanceAbs(possibleNextStep, target)-0.01)){
                 lowestDistance = distance(possibleNextStep, target);
                 lowestDistanceAbs=Point::distanceAbs(possibleNextStep, target);
                 bestNextMove.push_back(direction);
@@ -140,12 +140,14 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
     } else {
         vector<Point> toReturn;
         int lowestOverlapScore=g_max*g_max;
+        cout << "overlapScore -------------" << endl;
         for(auto pathToEval:pathToEvalVec) {
             int overlapScore = 0;
             for(auto step:pathToEval) {
                 overlapScore+=Squarecell::countOverlap(step, getWidth(), getHeight(),
                                                        anyCST, true);
             }
+            cout << overlapScore << endl;
             if(overlapScore<lowestOverlapScore) {
                 lowestOverlapScore = overlapScore;
                 toReturn = pathToEval;
@@ -423,25 +425,48 @@ Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
 
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    bool bordureStillClosest = false;
-    bool bordureStillFree = false;
-    if(pathBuffer.size() == 0) {
-        // ici recalculer le chemin pour vers la bordure
-        bordureStillClosest = true;
-        bordureStillFree = true;
-    } else { // ensure the we still have the best path
-        bordureStillClosest =
-          (Point::distanceAbs(getPosition(),pathBuffer[pathBuffer.size()-1]) <=
-           Point::distanceAbs(getPosition(),Defensor::findClosestBorder(entityList)));
-        bordureStillFree = (0==Squarecell::countOverlap(
-                pathBuffer[pathBuffer.size() - 1], sizeD, sizeD,
-                fourmiDefensorCST, true));
+    cout << "Defensors update -------------" << endl;
+    for(auto step : pathBuffer){
+        cout << step.getCoordX() << " " << step.getCoordY() << endl;
     }
-    if(bordureStillClosest and bordureStillFree) { // if the path is still valid
-        if(pathBuffer.size() > 1) { // walk toward the border one step at a time
-            step(entityList);
+    evaluateConditionTarget(entityList);
+    if(pathBuffer.size() == 0) {
+        recomputePath(entityList);
+    }
+    if(pathBuffer.size() != 0) {
+        step(entityList);
+    }
+    vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
+                                                               fourmilliereCST);
+    if(fourmilliere.size()>0){
+        int x = (*fourmilliere[0]).getPosition().getCoordX();
+        int y = (*fourmilliere[0]).getPosition().getCoordY();
+        int width = (*fourmilliere[0]).getWidth();
+        int height = (*fourmilliere[0]).getHeight();
+        int overlap = Squarecell::countOverlap(getPosition(), sizeD, sizeD, true,
+                              (*fourmilliere[0]).getPosition(), width, height, false);
+        if(overlap < (sizeD*sizeD)){
+            endOfLife = true;
         }
     }
+}
+
+void Defensor::evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList){
+    if(pathBuffer.size() != 0) {
+        bool bordureStillClosest =
+                (Point::distanceAbs(getPosition(), pathBuffer[pathBuffer.size() - 1]) <=
+                 Point::distanceAbs(getPosition(), Defensor::findClosestBorder(entityList)));
+        bool bordureStillFree = (0 == Squarecell::countOverlap(
+                pathBuffer[pathBuffer.size() - 1], sizeD, sizeD,
+                fourmiDefensorCST, true));
+        if ((not bordureStillClosest) or (not bordureStillFree)) {
+            pathBuffer = {};
+        }
+    }
+}
+
+void Defensor::recomputePath(std::vector<std::shared_ptr<Entity>> &entityList){
+
 }
 
 double Defensor::distance(Point start, Point stop) {

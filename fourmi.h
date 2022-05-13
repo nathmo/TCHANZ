@@ -52,6 +52,7 @@ public:
     void loadFood(std::vector<std::shared_ptr<Entity>> &entityList);
 
     void evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList);
+
     void recomputePath(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
@@ -66,6 +67,11 @@ public:
     Defensor(Point position, int id, int age);
     Point findClosestBorder(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
+
+    void evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList);
+
+    void recomputePath(std::vector<std::shared_ptr<Entity>> &entityList);
+
     virtual double distance(Point start, Point stop);
     virtual std::vector<Point> getNextMove(Point position);
     // export the entity to something that can be written in a file
