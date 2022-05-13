@@ -165,78 +165,51 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    cout << "update collector" << endl;
-    cout << "carry food " <<carryFood << endl;
-    if(carryFood) { // state machine of collector
-        cout << "branch to go home" <<carryFood << endl;
-        if(pathBuffer.size() > 1) { // walk toward the fourmilliere one step at a time
-            step(entityList);
-        } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
-            unloadFood(entityList);
-            vector<Point> foods = findFoods(entityList);
-            pathBuffer = {};
-            if(foods.size()>0) {
-                Point positionCollector = (*occupiedSpace).getPosition();
-                Point pointToGo = foods[0];
-                pathBuffer = findPath(positionCollector, pointToGo);
+
+    if(pathBuffer.size() != 0) {
+        bool foodStillClosest = true;
+        bool foodStillThere = Squarecell::countOverlap(
+                pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
+        vector<Point> foods = findFoods(entityList);
+        if (foods.size() > 0) {
+            if (Point::distanceAbs(getPosition(),
+                                   pathBuffer[pathBuffer.size() - 1]) >
+                Point::distanceAbs(getPosition(),
+                                   Collector::findFoods(entityList)[0])) {
+                foodStillClosest = false;
             }
-        } else {
+        }
+        if((not foodStillClosest) or (not foodStillThere)){
+            pathBuffer = {};
+        }
+    }
+    if(pathBuffer.size() == 0){
+        if(carryFood){
             Point positionCollector = (*occupiedSpace).getPosition();
             Point pointToGo; //ici calculer le point de la fourmilliere le plus proche
             pathBuffer = findPath(positionCollector, pointToGo);
         }
-    } else {
-        cout << "branch to go to food"<< endl;
-        bool foodStillThere = false;
-        bool foodStillClosest = false;
-        if(pathBuffer.size() == 0) {
-            cout << "looks for food" << endl;
-            vector<Point> foods = findFoods(entityList);
-            pathBuffer = {};
-            cout << "if any found"<< endl;
-            if(foods.size() > 0) {
-                foodStillThere = true;
-                foodStillClosest = true;
-                Point positionCollector = (*occupiedSpace).getPosition();
-                Point pointToGo = foods[0];
-                cout << "looking for path"<< endl;
-                pathBuffer = findPath(positionCollector, pointToGo);
-                cout << "path found"<< endl;
-            }
-        } else { // ensure the we still have the best path
-            cout << "path exist liklely"<< endl;
-            foodStillThere = Squarecell::countOverlap(
-                        pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
-            cout << "food exist "<<foodStillThere<< endl;
-            vector<Point> foods = findFoods(entityList);
-            if(foods.size()>0) {
-                if (Point::distanceAbs(getPosition(),
-                    pathBuffer[pathBuffer.size() - 1]) >
-                    Point::distanceAbs(getPosition(),
-                    Collector::findFoods(entityList)[0])) {
-                    foodStillClosest = false;
-                }
-            } else {
-                foodStillClosest = false;
-            }
+        vector<Point> foods = findFoods(entityList);
+        if(foods.size()>0){
+            Point positionCollector = (*occupiedSpace).getPosition();
+            Point pointToGo = foods[0];
+            cout << "looking for path"<< endl;
+            pathBuffer = findPath(positionCollector, pointToGo);
+            cout << "path found"<< endl;
+        } else {
+            // behaviour if no food available
         }
-        if(foodStillThere and foodStillClosest) { // if the path is still valid
-            cout << "step branch"<< endl;
-            if(pathBuffer.size() > 1) { // walk toward the food one step at a time
-                step(entityList);
-            } else if (pathBuffer.size() == 1){ // once reached mark the food for deletion
+    }
+    if(pathBuffer.size() != 0){
+        if(pathBuffer.size()>1){
+            step(entityList);
+        } else {
+            if(carryFood){
+                unloadFood(entityList);
+                pathBuffer = {};
+            } else {
                 loadFood(entityList);
-                Point positionCollector = (*occupiedSpace).getPosition();
-                Point pointToGo(20,20); //ici calculer le point de la fourmilliere le plus proche
-                pathBuffer = findPath(positionCollector, pointToGo);
-            }
-        } else { // otherwise find a new path
-            vector<Point> foods = findFoods(entityList);
-            pathBuffer = {};
-            if(foods.size()>0) {
-                Point positionCollector = (*occupiedSpace).getPosition();
-                Point pointToGo = foods[0];
-                pathBuffer = findPath(positionCollector, pointToGo);
+                pathBuffer = {};
             }
         }
     }
