@@ -332,6 +332,7 @@ int Squarecell::countOverlap(Point position, int width, int height,
                                                              isPositionAtCenter);
     vector<Point> collisionList;
     for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+
         for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
             if((hitBoxGrid[i][j] & kindToCheck)) { //check no entity is present there
                 overlap++; // otherwise add it to the count

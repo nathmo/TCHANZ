@@ -42,27 +42,35 @@ int Fourmiliere::getnbP() {
 }
 
 void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
+    cout << "expension"<< endl;
     attemptExpansionAnthill();
+    cout << "get generaor : "<< endl;
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
+    cout << "decrease food : "<< endl;
     foodReserve = foodReserve + (val_food*(gen->getFood()));
     gen->removeFood(); // removed the food from the generator once added in anthill
+    cout << "update gen : "<< endl;
     gen->update(entityList); // update the generator
-    if(gen->getEndOfLife()){
+    cout << "compute if dead : "<< endl;
+    if(gen->getEndOfLife()) {
         endOfLife = true;
         return;
     }
     foodReserve = foodReserve - ((1+nbC+nbD+nbP)*food_rate);
-    if(foodReserve<=0) {
+    if(foodReserve <= 0) {
         endOfLife = true;
         return;
     }
+    cout << "random create ant : "<< endl;
     //randomCreateAnts();
-    for(unsigned int i=1;i<memberAnts.size();i++) {
+    for(unsigned int i=1; i<memberAnts.size(); i++) {
+        cout << "update ant : "<<memberAnts[i]->getSpecie()<< endl;
         memberAnts[i]->update(entityList);
     }
-    for(unsigned int i=1;i<memberAnts.size();i++) {
-        if((memberAnts[i])->getSpecie()!=fourmiGeneratorCST) {
-            if((memberAnts[i])->getAge()>bug_life) {
+    cout << "erase ants : "<< endl;
+    for(unsigned int i=1; i<memberAnts.size(); i++) {
+        if((memberAnts[i])->getSpecie() != fourmiGeneratorCST) {
+            if((memberAnts[i])->getAge() > bug_life) {
                 char kind = memberAnts[i]->getSpecie();
                 switch (kind) {
                     case fourmiCollectorCST:
@@ -119,7 +127,7 @@ void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
 }
 
-std::vector<std::shared_ptr<Fourmi>> Fourmiliere::getAnts(){
+std::vector<std::shared_ptr<Fourmi>> Fourmiliere::getAnts() {
     return memberAnts;
 }
 
@@ -268,7 +276,7 @@ void Fourmiliere::attemptExpansionAnthill() {
     isConstrained = true;
 }
 
-double Fourmiliere::getFood(){
+double Fourmiliere::getFood() {
     return foodReserve;
 }
 

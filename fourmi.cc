@@ -27,19 +27,22 @@ int Fourmi::getAge() {
     return age;
 }
 
-void Fourmi::step(vector<shared_ptr<Entity>> &entityList){
+void Fourmi::step(vector<shared_ptr<Entity>> &entityList) {
     if(entityList.size()>0){
         int height = getHeight();
         int width = getWidth();
-        bool nextStepIsFree = true; // ensure the path is free
+        int nextStepOverlap=0; // ensure the path is free
         setSize(0,0); // ensure the next step is free
         // (but need to remove itself to prevent self collision) (food are ignored)
-        nextStepIsFree = (not Squarecell::countOverlap(pathBuffer[0], width, height,
-                                           (anyCST & (~nourritureCST)), true));
+        nextStepOverlap = Squarecell::countOverlap(pathBuffer[0], width, height,
+                                           (anyCST ^ (nourritureCST)), true);
         setSize(width, height); // back to normal size
-        if(nextStepIsFree){
+        if(nextStepOverlap == 0){
             setPosition(pathBuffer[0]);
             pathBuffer.erase(pathBuffer.begin());
+            cout <<"step" << endl;
+        } else {
+            cout <<"ronflex on path" << endl;
         }
     }
 }
@@ -75,9 +78,9 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
     vector<Point> initialDirection = getNextMove(start);
     vector<int> initialDir = evaluateBestsDirections(initialDirection, stop);
     vector<vector<Point>> allPath = {};
-    for(auto directionpath : initialDir){
+    for(auto directionPath : initialDir){
         vector<Point> path = {start};
-        int inertia = directionpath;
+        int inertia = directionPath;
         double distanceToTarget = 2*g_max;
         int watchdog = 0;
         while(not(path[path.size()-1] == stop)) {
@@ -104,9 +107,10 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
                 }
             }
         }
-        allPath.push_back(path);
+        if(path.size()>0){
+            allPath.push_back(path);
+        }
     }
-    //cout << step[step.size()-1].getCoordX() << " " << step[step.size()-1].getCoordY() << endl;
     return prunePaths(allPath);
 }
 
@@ -133,19 +137,19 @@ vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
     return bestNextMove;
 }
 
-vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec){
-    if(pathToEvalVec.size()<1){
+vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
+    if(pathToEvalVec.size()<1) {
         return {};
     } else {
         vector<Point> toReturn;
         int lowestOverlapScore=g_max*g_max;
-        for(auto pathToEval: pathToEvalVec){
+        for(auto pathToEval:pathToEvalVec) {
             int overlapScore=0;
-            for(auto step: pathToEval){
+            for(auto step:pathToEval) {
                 overlapScore+=Squarecell::countOverlap(step, getWidth(), getHeight(),
                                                        anyCST, true);
             }
-            if(overlapScore<lowestOverlapScore){
+            if(overlapScore<lowestOverlapScore) {
                 lowestOverlapScore = overlapScore;
                 toReturn = pathToEval;
             }
@@ -161,10 +165,10 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    for(auto step:pathBuffer){
-        cout << step.getCoordX() << " " << step.getCoordY() << endl;
-    }
+    cout << "update collector" << endl;
+    cout << "carry food " <<carryFood << endl;
     if(carryFood) { // state machine of collector
+        cout << "branch to go home" <<carryFood << endl;
         if(pathBuffer.size() > 1) { // walk toward the fourmilliere one step at a time
             step(entityList);
         } else if(pathBuffer.size() == 1) { // once reached give the food to the gener
@@ -182,21 +186,28 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             pathBuffer = findPath(positionCollector, pointToGo);
         }
     } else {
+        cout << "branch to go to food"<< endl;
         bool foodStillThere = false;
         bool foodStillClosest = false;
         if(pathBuffer.size() == 0) {
+            cout << "looks for food" << endl;
             vector<Point> foods = findFoods(entityList);
             pathBuffer = {};
-            if(foods.size()>0) {
+            cout << "if any found"<< endl;
+            if(foods.size() > 0) {
                 foodStillThere = true;
                 foodStillClosest = true;
                 Point positionCollector = (*occupiedSpace).getPosition();
                 Point pointToGo = foods[0];
+                cout << "looking for path"<< endl;
                 pathBuffer = findPath(positionCollector, pointToGo);
+                cout << "path found"<< endl;
             }
         } else { // ensure the we still have the best path
+            cout << "path exist liklely"<< endl;
             foodStillThere = Squarecell::countOverlap(
                         pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
+            cout << "food exist "<<foodStillThere<< endl;
             vector<Point> foods = findFoods(entityList);
             if(foods.size()>0) {
                 if (Point::distanceAbs(getPosition(),
@@ -210,9 +221,10 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             }
         }
         if(foodStillThere and foodStillClosest) { // if the path is still valid
+            cout << "step branch"<< endl;
             if(pathBuffer.size() > 1) { // walk toward the food one step at a time
                 step(entityList);
-            } else { // once reached mark the food for deletion
+            } else if (pathBuffer.size() == 1){ // once reached mark the food for deletion
                 loadFood(entityList);
                 Point positionCollector = (*occupiedSpace).getPosition();
                 Point pointToGo(20,20); //ici calculer le point de la fourmilliere le plus proche

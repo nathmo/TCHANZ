@@ -52,8 +52,10 @@ void Simulation::saveToFile(string path) {
 void Simulation::simulateStep() {
     vector<shared_ptr<Entity>> entityList;
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
+
     if(food != nullptr) {
         nourritureList.push_back(food);
+        cout << "random food generated : "<<(*food).getPosition().getCoordX() <<" "<<(*food).getPosition().getCoordY()  << endl;
     }// create food randomly
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
@@ -62,15 +64,18 @@ void Simulation::simulateStep() {
         entityList.insert(entityList.end(),fourmiList.begin(), fourmiList.end());
     }// update the anthill and their ants
     for(auto anthill:anthillList) {
+        cout << "updating anthill : "<<anthill->getId()<< endl;
         anthill->update(entityList);
     }// update the anthill and their ants
     for(unsigned int i=0;i<anthillList.size();i++) {
         if((anthillList[i])->getEndOfLife()) {
+            cout << "erasing anthill : "<<anthillList[i]->getId()<< endl;
             anthillList.erase(anthillList.begin()+i);
         }
     }// erase anthill that died
     for(unsigned int i=0;i<nourritureList.size();i++) {
         if((nourritureList[i])->getEndOfLife()) {
+            cout << "erasing food : "<<nourritureList[i]->getId()<< endl;
             nourritureList.erase(nourritureList.begin()+i);
         }// erase food that where picked up
     }
