@@ -165,9 +165,6 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
     cout << "collector update -------------" << endl;
-    for(auto step : pathBuffer){
-        cout << step.getCoordX() << " " << step.getCoordY() << endl;
-    }
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -255,13 +252,12 @@ vector<Point> Collector::findFoods(vector<shared_ptr<Entity>> &entityList) {
 }
 
 Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
-    vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
-                                                         fourmilliereCST);
-    if(fourmilliere.size()>0){
-        int x = (*fourmilliere[0]).getPosition().getCoordX();
-        int y = (*fourmilliere[0]).getPosition().getCoordY();
-        int width = (*fourmilliere[0]).getWidth();
-        int height = (*fourmilliere[0]).getHeight();
+    vector<shared_ptr<Entity>> f = Entity::findByID(id, entityList, fourmilliereCST);
+    if(f.size()>0){
+        int x = (*f[0]).getPosition().getCoordX();
+        int y = (*f[0]).getPosition().getCoordY();
+        int width = (*f[0]).getWidth();
+        int height = (*f[0]).getHeight();
         bool caseFamily = false; //case noir
         if((getPosition().getCoordX()+getPosition().getCoordY())%2) {
             caseFamily = true;
@@ -271,8 +267,6 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
             if((x+j)%2 == caseFamily){
                 side.push_back(Point(x,j));
             }
-        }
-        for(int j = y;j<(y+height);j++) {
             if((x+width+j)%2 == caseFamily){
                 side.push_back(Point(x+width,j));
             }
@@ -281,8 +275,6 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
             if((i+y)%2 == caseFamily){
                 side.push_back(Point(i,y));
             }
-        }
-        for(int i = x;i<(x+width);i++) {
             if((i+height+y)%2 == caseFamily){
                 side.push_back(Point(i+height,y));
             }
@@ -326,7 +318,7 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
 }
 
 void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList){
-    if(pathBuffer.size() != 0 and (not carryFood)) {
+    if(pathBuffer.size() !=0 and (not carryFood)) {
         bool foodStillClosest = true;
         bool foodStillThere = Squarecell::countOverlap(
                 pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
@@ -354,11 +346,17 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
     } else if(foods.size()>0) {
         Point positionCollector = (*occupiedSpace).getPosition();
         Point pointToGo = foods[0];
-        pathBuffer = findPath(positionCollector, pointToGo);
+        if((positionCollector.getCoordX() == pointToGo.getCoordX()) and
+           (positionCollector.getCoordY() == pointToGo.getCoordY())){
+            pathBuffer = {};
+        } else {
+            pathBuffer = findPath(positionCollector, pointToGo);
+        }
     } else {
         // behaviour if no food available
     }
 }
+
 vector<vector<string>> Collector::exportToString() {
     vector<vector<string>> vecVecStringCollector;
     Point position = (*occupiedSpace).getPosition();
@@ -410,25 +408,50 @@ Defensor::Defensor(Point position, int id, int age) :
 }
 
 Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
-    //vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList, fourmilliereCST);
-    //Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
-    //Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
-    //int side = (*anthill[0]).getHeight();
-    //int sideDivide = (*anthill[0]).getHeight()%2;
-    //Point positionDefensor(getPosition().getCoordX(), getPosition().getCoordY());
-
-    //double distanceInit = Point::distanceAbs(positionDefensor, Point(cornerLeftBot.getCoordX(),cornerLeftBot.getCoordY()+sideDivide));
-    //if()
-
-    return Point();
+    vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList,
+                                                          fourmilliereCST);
+    Point lb=(*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
+    Point rt=(*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
+    lb = Point(lb.getCoordX()+1, lb.getCoordY()+1);
+    Point borderBoxLeftA=Point(lb.getCoordX(),lb.getCoordY()+3);
+    Point borderBoxLeftB=Point(lb.getCoordX()+3,rt.getCoordY()-3);
+    Point borderBoxDownA=Point(lb.getCoordX()+3,lb.getCoordY());
+    Point borderBoxDownB=Point(rt.getCoordX()-3,lb.getCoordY()+3);
+    Point borderBoxRightA=Point(rt.getCoordX()-3,lb.getCoordY()+3);
+    Point borderBoxRightB=Point(rt.getCoordX(),lb.getCoordY()-3);
+    Point borderBoxTopA=Point(lb.getCoordX()+3,rt.getCoordY()-3);
+    Point borderBoxTopB=Point(rt.getCoordX()-3,rt.getCoordY());
+    vector<vector<Point>> borderHorizontal = {{borderBoxDownA, borderBoxDownB},
+                                              {borderBoxTopA, borderBoxTopB}};
+    vector<vector<Point>> borderVertical = {{borderBoxLeftA, borderBoxLeftB},
+                                            {borderBoxRightA, borderBoxRightB}};
+    vector<Point> borderPoint = {};
+    for(auto side:borderHorizontal){
+        vector<Point> sidePoint = Squarecell::findNextFreeInArea(side[0], side[1],
+                                                                 sizeD, sizeD,
+                                                                 anyCST);
+        borderPoint.insert(borderPoint.end(), sidePoint.begin(), sidePoint.end());
+    }
+    for(auto side:borderVertical){
+        vector<Point> sidePoint = Squarecell::findNextFreeInArea(side[0], side[1],
+                                                                 sizeD, sizeD,
+                                                                 anyCST);
+        borderPoint.insert(borderPoint.end(), sidePoint.begin(), sidePoint.end());
+    }
+    Point toReturn;
+    int dist = g_max*g_max;
+    for(auto border:borderPoint){
+        if(distance(getPosition(), border)<dist) {
+            dist = distance(getPosition(), border);
+            toReturn = border;
+        }
+    }
+    return toReturn;
 }
 
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
     cout << "Defensors update -------------" << endl;
-    for(auto step : pathBuffer){
-        cout << step.getCoordX() << " " << step.getCoordY() << endl;
-    }
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -439,8 +462,6 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
                                                                fourmilliereCST);
     if(fourmilliere.size()>0){
-        int x = (*fourmilliere[0]).getPosition().getCoordX();
-        int y = (*fourmilliere[0]).getPosition().getCoordY();
         int width = (*fourmilliere[0]).getWidth();
         int height = (*fourmilliere[0]).getHeight();
         int overlap = Squarecell::countOverlap(getPosition(), sizeD, sizeD, true,
@@ -453,34 +474,30 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
 
 void Defensor::evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList){
     if(pathBuffer.size() != 0) {
-        bool bordureStillClosest =
-                (Point::distanceAbs(getPosition(), pathBuffer[pathBuffer.size() - 1]) <=
-                 Point::distanceAbs(getPosition(), Defensor::findClosestBorder(entityList)));
-        bool bordureStillFree = (0 == Squarecell::countOverlap(
-                pathBuffer[pathBuffer.size() - 1], sizeD, sizeD,
-                fourmiDefensorCST, true));
-        if ((not bordureStillClosest) or (not bordureStillFree)) {
+        bool bordureStillClosest = (distance(getPosition(),
+                                             pathBuffer[pathBuffer.size()-1]) <=
+                                    distance(getPosition(),
+                                             findClosestBorder(entityList)));
+        if ((not bordureStillClosest)) {
             pathBuffer = {};
         }
     }
 }
 
 void Defensor::recomputePath(std::vector<std::shared_ptr<Entity>> &entityList){
-
+    Point target = findClosestBorder(entityList);
+    if((getPosition().getCoordX() == target.getCoordX()) and
+       (getPosition().getCoordY() == target.getCoordY())){
+        pathBuffer = {};
+    } else {
+        pathBuffer = findPath(getPosition(), target);
+    }
 }
 
 double Defensor::distance(Point start, Point stop) {
-    bool sameCaseFamily = ((((start.getCoordX()+start.getCoordY())%2 == 0) and
-                            ((stop.getCoordX()+stop.getCoordY())%2 == 0)) or
-                           (((start.getCoordX()+start.getCoordY())%2 == 1) and
-                            ((stop.getCoordX()+stop.getCoordY())%2 == 1)));
-    if(sameCaseFamily){
-        double deltaX = stop.getCoordX()-start.getCoordX();
-        double deltaY = stop.getCoordY()-start.getCoordY();
-        return min(deltaX,deltaY);
-    } else {
-        return INFINITY;
-    }
+    double deltaX = stop.getCoordX()-start.getCoordX();
+    double deltaY = stop.getCoordY()-start.getCoordY();
+    return abs(deltaX)+abs(deltaY);
 }
 
 vector<Point> Defensor::getNextMove(Point position) {
@@ -639,9 +656,12 @@ Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList) {
 
     int deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())/2;
     int deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())/2;
+    if((cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())<13){
+        deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())-6;
+        deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())-6;
+    }
     int centerX = cornerLeftBot.getCoordX() + deltaX;
     int centerY = cornerLeftBot.getCoordY() + deltaY;
-
     return Point(centerX, centerY);
 }
 

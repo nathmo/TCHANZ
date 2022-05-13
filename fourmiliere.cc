@@ -190,20 +190,20 @@ void Fourmiliere::randomCreateAnts() {
         try {
             switch (antTypeToGenerate) {
                 case 0  : // Collector
-                    position = Squarecell::findNextFreeInArea(cornerBL, cornerTR,
-                                                              sizeC, sizeC, anyCST);
+                    position = (Squarecell::findNextFreeInArea(cornerBL, cornerTR,
+                                                            sizeC, sizeC, anyCST))[0];
                     ant = make_shared<Collector>(position, id, 0, false);
                     nbC++;
                     break;
                 case 1  : // Defensor
-                    position = Squarecell::findNextFreeInArea(cornerBL, cornerTR,
-                                                              sizeD, sizeD, anyCST);
+                    position = (Squarecell::findNextFreeInArea(cornerBL, cornerTR,
+                                                            sizeD, sizeD, anyCST))[0];
                     ant = make_shared<Defensor>(position, id, 0);
                     nbD++;
                     break;
                 case 2  : // Predator
-                    position = Squarecell::findNextFreeInArea(cornerBL, cornerTR,
-                                                              sizeP, sizeP, anyCST);
+                    position = (Squarecell::findNextFreeInArea(cornerBL, cornerTR,
+                                                            sizeP, sizeP, anyCST))[0];
                     ant = make_shared<Predator>(position, id, 0);
                     nbP++;
                     break;

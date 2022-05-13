@@ -80,8 +80,9 @@ public:
                             bool isPositionAtCenter2);
     static int countOverlap(Point cornerBotLeft1, Point cornerTopRight1,
                             Point cornerBotLeft2, Point cornerTopRight2);
-    static Point findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
-                                    int width, int height, char filter);
+    static std::vector<Point> findNextFreeInArea(Point cornerBotLeft,
+                                                 Point cornerTopRight,
+                                                 int width, int height, char filter);
     // return the left bottom corner of the shape
     static Point computeHitboxBotLeft(Point position, int width, int height,
                                       bool isPositionAtCenter);

@@ -433,8 +433,9 @@ void Squarecell::displayRawGrid() {
     }
 }
 
-Point Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
-                                     int width, int height, char filter) {
+vector<Point> Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
+                                             int width, int height, char filter) {
+    vector<Point> space = {};
     int paddingWidth;
     int paddingHeight;
     if(width%2 == 0) {
@@ -454,11 +455,11 @@ Point Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
     for(int x=xStart; x<xStop;x++){
         for(int y=yStart; y<yStop;y++){
             if(Squarecell::checkOverlap(Point(x,y), width, height, filter, true)==0) {
-                return Point(x,y);
+                space.push_back(Point(x,y));
             } // convolute the shape to find a spot where it fit
         }
     }
-    throw(errorCode);//no space found
+    return space;
 }
 
 Point Squarecell::computeHitboxBotLeft(Point position, int width,
