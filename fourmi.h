@@ -27,7 +27,9 @@ public:
     virtual void draw();
     virtual double distance(Point start, Point stop);
     virtual std::vector<Point> getNextMove(Point position);
-    std::vector<Point> evaluateNextMove(std::vector<Point> directionToEval);
+    std::vector<int> evaluateBestsDirections(std::vector<Point> directionToEval,
+                                             Point target);
+    std::vector<Point> prunePaths(std::vector<std::vector<Point>> pathToEvalVec);
     std::vector<Point> findPath(Point start, Point stop);
 };
 

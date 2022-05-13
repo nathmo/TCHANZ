@@ -72,65 +72,86 @@ vector<Point> Fourmi::getNextMove(Point position) {
 }
 
 vector<Point> Fourmi::findPath(Point start, Point stop) {
-    /* evaluate new best possibles directions
-     * for(each direction)
-     * -inertia=direction
-     * -while not stop
-     * --watchdog
-     * --if not inertia
-     * ---inertia = evaluate new best possibles directions(only one best)
-     * --if inertia
-     * ---if direction valid
-     * ----newvec[0].pushback(step)
-     * ---else
-     * ----inertia reset
-     * prunePath()
-     * return newvec
-     */
-    vector<Point> step = {start};
-    int inertia = -1;
-    double distanceToTarget = 2*g_max;
-    int watchdog = 0;
-    while(not(step[step.size()-1] == stop)) {
-        watchdog++;
-        if(watchdog==100){
-            return {};
-        }
-        //cout << step[step.size()-1].getCoordX() << " " << step[step.size()-1].getCoordY() << endl;
-        vector<Point> possibleNextStepVec = getNextMove(step[step.size()-1]);
-        if(inertia == -1) { // find a new direction if the distance stop decreasing
-            double lowestDistance = 2*g_max;
-            double lowestDistanceAbs = 2*g_max;
-            Point bestNextMove;
-            int direction = 0;
-            for(auto possibleNextStep:possibleNextStepVec) {
-                if(lowestDistance > distance(possibleNextStep, stop)) {
-                    lowestDistance = distance(possibleNextStep, stop);
-                    lowestDistanceAbs = Point::distanceAbs(possibleNextStep, stop);
-                    bestNextMove = possibleNextStep;
-                    inertia = direction;
-                } else if (lowestDistance == distance(possibleNextStep, stop)) {
-                    if(lowestDistanceAbs>Point::distanceAbs(possibleNextStep, stop)) {
-                        lowestDistance = distance(possibleNextStep, stop);
-                        lowestDistanceAbs=Point::distanceAbs(possibleNextStep, stop);
-                        bestNextMove = possibleNextStep;
-                        inertia = direction;
-                    }
+    vector<Point> initialDirection = getNextMove(start);
+    vector<int> initialDir = evaluateBestsDirections(initialDirection, stop);
+    vector<vector<Point>> allPath = {};
+    for(auto directionpath : initialDir){
+        vector<Point> path = {start};
+        int inertia = directionpath;
+        double distanceToTarget = 2*g_max;
+        int watchdog = 0;
+        while(not(path[path.size()-1] == stop)) {
+            watchdog++;
+            if(watchdog==150){
+                path = {};
+                break;
+            }
+            vector<Point> possibleNextStepVec = getNextMove(path[path.size()-1]);
+            if(inertia == -1) { //find a new direction if the distance stop decreasing
+                vector<int> dir = evaluateBestsDirections(possibleNextStepVec, stop);
+                if(dir.size()>0) {
+                    inertia = dir[0];
+                } else {
+                    path = {};
+                    break;
                 }
-                direction++;
-            }
-            step.push_back(bestNextMove);
-            distanceToTarget = lowestDistance;
-        } else { // try to continue in the same direction
-            if(distanceToTarget < distance(possibleNextStepVec[inertia], stop)) {
-                inertia = -1; // if distance increase, find new direction
-            } else {
-                distanceToTarget = distance(possibleNextStepVec[inertia], stop);
-                step.push_back(possibleNextStepVec[inertia]);
+            } else { // try to continue in the same direction
+                if(distanceToTarget < distance(possibleNextStepVec[inertia], stop)) {
+                    inertia = -1; // if distance increase, find new direction
+                } else {
+                    distanceToTarget = distance(possibleNextStepVec[inertia], stop);
+                    path.push_back(possibleNextStepVec[inertia]);
+                }
             }
         }
+        allPath.push_back(path);
     }
-    return step;
+    //cout << step[step.size()-1].getCoordX() << " " << step[step.size()-1].getCoordY() << endl;
+    return prunePaths(allPath);
+}
+
+vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
+                                            Point target){
+    double lowestDistance = 2*g_max;
+    double lowestDistanceAbs = 2*g_max; // a value that will always be greater
+    int direction = 0;
+    vector<int> bestNextMove={};
+    for(auto possibleNextStep:directionToEval) {
+        if(lowestDistance > distance(possibleNextStep, target)) {
+            lowestDistance = distance(possibleNextStep, target);
+            lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
+            bestNextMove.push_back(direction);
+        } else if (lowestDistance == distance(possibleNextStep, target)) {
+            if(lowestDistanceAbs>(Point::distanceAbs(possibleNextStep, target)+0.01)){
+                lowestDistance = distance(possibleNextStep, target);
+                lowestDistanceAbs=Point::distanceAbs(possibleNextStep, target);
+                bestNextMove.push_back(direction);
+            }
+        }
+        direction++;
+    }
+    return bestNextMove;
+}
+
+vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec){
+    if(pathToEvalVec.size()<1){
+        return {};
+    } else {
+        vector<Point> toReturn;
+        int lowestOverlapScore=g_max*g_max;
+        for(auto pathToEval: pathToEvalVec){
+            int overlapScore=0;
+            for(auto step: pathToEval){
+                overlapScore+=Squarecell::countOverlap(step, getWidth(), getHeight(),
+                                                       anyCST, true);
+            }
+            if(overlapScore<lowestOverlapScore){
+                lowestOverlapScore = overlapScore;
+                toReturn = pathToEval;
+            }
+        }
+        return toReturn;
+    }
 }
 
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
