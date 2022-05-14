@@ -138,13 +138,18 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
     if(pathToEvalVec.size() < 1) {
         return {};
     } else {
-        vector<Point> toReturn;
+        vector<Point> toReturn = {};
         int lowestOverlapScore=g_max*g_max;
         for(auto pathToEval:pathToEvalVec) {
             int overlapScore = 0;
             for(auto step:pathToEval) {
-                overlapScore+=Squarecell::countOverlap(step, getWidth(), getHeight(),
-                                                       anyCST, true);
+                if(Point::isCoordInRange(step.getCoordX()) and  Point::isCoordInRange(step.getCoordY())){
+                    overlapScore+=Squarecell::countOverlap(step, getWidth(), getHeight(),
+                                                           anyCST, true);
+                } else {
+                    overlapScore = g_max*g_max;
+                    break;
+                }
             }
             if(overlapScore<lowestOverlapScore) {
                 lowestOverlapScore = overlapScore;
@@ -612,7 +617,6 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
         if(closestEnemyDistance> distance(getPosition(), enemyPos)){
             closestEnemyDistance = distance(getPosition(), enemyPos);
             closestEnemy.push_back(enemyPos);
-            break;
         }
     }
     return closestEnemy;
@@ -620,24 +624,22 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-
     if((pathBuffer.size() > 0)){
         Point oldTarget = pathBuffer[pathBuffer.size()-1];
         vector<Point> target = findClosestEnemy(entityList);
         bool targetmoved = true;
         if(target.size()>0){
-            targetmoved = ((oldTarget.getCoordX() != target[0].getCoordX()) or
-                                (oldTarget.getCoordY() != target[0].getCoordY()));
+            targetmoved=((oldTarget.getCoordX()!=target[target.size()-1].getCoordX())
+                     or (oldTarget.getCoordY()!=target[target.size()-1].getCoordY()));
         }
         if(targetmoved){
             pathBuffer = {};
         }
     }
-
     if(pathBuffer.size()==0) {
         vector<Point> target = findClosestEnemy(entityList);
-        if((pathBuffer.size() > 0)) {
-            pathBuffer = findPath(getPosition(), target[0]);
+        if(target.size() > 0) {
+            pathBuffer = findPath(getPosition(), target[target.size()-1]);
         }
     }
     if(pathBuffer.size() > 0) { // walk toward the border one step at a time
@@ -676,11 +678,13 @@ void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
     for(auto zone:murderZone){
         shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList,
                                             (fourmiCollectorCST | fourmiPredatorCST));
-        if(victim->getId() != int(id)){
-            victim->setEndOfLife(true);
-        }
-        if(victim->getSpecie()==fourmiPredatorCST){
-            endOfLife = true;
+        if(victim!= nullptr) {
+            if (victim->getId() != int(id)) {
+                victim->setEndOfLife(true);
+            }
+            if (victim->getSpecie() == fourmiPredatorCST) {
+                endOfLife = true;
+            }
         }
     }
     pathBuffer = {};
