@@ -269,6 +269,12 @@ void Fourmiliere::attemptExpansionAnthill() {
         }
     }
     isConstrained = true;
+    for(auto fourmi:memberAnts){
+        if(fourmi->getSpecie()==fourmiPredatorCST){
+            shared_ptr<Predator> predator = dynamic_pointer_cast<Predator> (fourmi);
+            predator->setConstrained(isConstrained);
+        }
+    }
 }
 
 double Fourmiliere::getFood() {

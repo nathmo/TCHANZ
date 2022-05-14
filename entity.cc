@@ -121,7 +121,7 @@ vector<shared_ptr<Entity>> Entity::findByID(int id,
     return found; //return a value that show no entity where found
 }
 
-vector<Point> Entity::findSpecie(Point position, char specie,
+vector<Point> Entity::findSpecie(char specie,
                                  vector<shared_ptr<Entity>> listOfEntity) {
     vector<Point> listSpecie;
     for(unsigned int i(0); i<listOfEntity.size(); i++) {
@@ -136,14 +136,14 @@ vector<Point> Entity::findSpecie(Point position, char specie,
     return listSpecie;
 }
 
-vector<Point> Entity::trie(Point positionCollector, vector<Point> listSpecieTrie) {
-    vector<Point> newList;
+vector<Point> Entity::trie(Point position, vector<Point> listSpecieTrie) {
+    vector<Point> newList = {};
     for(unsigned int i(0); i<listSpecieTrie.size(); i++) {
         int index = i;
-        double distanceIni = Point::distanceAbs(positionCollector, listSpecieTrie[i]);
+        double distanceIni = Point::distanceAbs(position, listSpecieTrie[i]);
         for(unsigned int j = (i+1); j<listSpecieTrie.size(); j++) {
-            if(distanceIni>Point::distanceAbs(positionCollector, listSpecieTrie[j])) {
-                distanceIni = Point::distanceAbs(positionCollector, listSpecieTrie[j]);
+            if(distanceIni>Point::distanceAbs(position, listSpecieTrie[j])) {
+                distanceIni = Point::distanceAbs(position, listSpecieTrie[j]);
                 listSpecieTrie.erase(listSpecieTrie.begin()+j);
                 listSpecieTrie.push_back(listSpecieTrie[i]); //pas perdre la 1er ligne
                 index = j;

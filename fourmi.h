@@ -83,18 +83,31 @@ public:
 };
 
 class Predator : public Fourmi {
+private:
+    bool constrained;
 public:
     Predator(Point position, int id, int age);
-    Point findClosestEnemy(std::vector<std::shared_ptr<Entity>> &entityList);
+
+    void setConstrained(bool constrain);
+
+    std::vector<Point> findClosestEnemy(
+                                    std::vector<std::shared_ptr<Entity>> &entityList);
+
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
+
     virtual double distance(Point start, Point stop);
+
     virtual std::vector<Point> getNextMove(Point position);
-    void MurderRadius();
+
+    void MurderRadius(std::vector<std::shared_ptr<Entity>> &entityList);
+
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
+
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSavePredator(
                                     std::vector<std::string> &inputBuffer, int index);
+
     virtual void draw();
 };
 

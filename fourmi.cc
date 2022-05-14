@@ -232,8 +232,7 @@ vector<Point> Collector::findFoods(vector<shared_ptr<Entity>> &entityList) {
     int xOrigin = getPosition().getCoordX();
     int yOrigin = getPosition().getCoordY();
     Point positionCollector = getPosition();
-    vector<Point> listOfFood = Entity::findSpecie(Point(xOrigin, yOrigin),
-                                                  nourritureCST, entityList);
+    vector<Point> listOfFood = Entity::findSpecie(nourritureCST, entityList);
     vector<Point> listFoodCaseFamily; //liste specie meme couleur case
     //savoir si case noir ou blanche
     bool spot = false; //case noir
@@ -568,34 +567,82 @@ void Defensor::draw() {
 
 Predator::Predator(Point position, int id, int age) :
                        Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
-
+    constrained = false;
 }
 
-Point Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList) {
-    return Point();
+void Predator::setConstrained(bool constrain){
+    constrained = constrain;
+}
+
+vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList) {
+    vector<Point> listOfEnemyPos = {};
+    for(auto enemy:entityList){
+        if(enemy->getId() != int(id)){
+            if(enemy->getSpecie()==(fourmiCollectorCST | fourmiCollectorCST)){
+                listOfEnemyPos.push_back(enemy->getPosition());
+            }
+        }
+    }
+    if(not constrained){
+        vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
+                                                                   fourmilliereCST);
+        if(fourmilliere.size()>0) {
+            Point leftB=(*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
+            Point rightT=(*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
+            int i=0;
+            for(auto enemyPos:listOfEnemyPos){
+                Point leftBEnemy=Point(enemyPos.getCoordX()-1,
+                                       enemyPos.getCoordY()-1);
+                Point rightTEnemy=Point(enemyPos.getCoordX()+1,
+                                        enemyPos.getCoordY()+1);
+                int isInAnthill = Squarecell::countOverlap(leftB, rightT,
+                                                           leftBEnemy, rightTEnemy);
+                if(not isInAnthill){
+                    listOfEnemyPos.erase(listOfEnemyPos.begin()+i);
+                }
+                i++;
+            }
+        }
+    }
+    if(listOfEnemyPos.size()>1){
+        cout << listOfEnemyPos.size()<< endl;
+        listOfEnemyPos = Entity::trie(getPosition(), listOfEnemyPos);
+    }
+    return listOfEnemyPos;
 }
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    Point oldTarget = pathBuffer[pathBuffer.size()-1];
-    Point target = findClosestEnemy(entityList);
-    bool targetmoved = ((oldTarget.getCoordX() != target.getCoordX()) or
-                        (oldTarget.getCoordY() != target.getCoordY()));
-    if((pathBuffer.size() > 0) and targetmoved){
-        pathBuffer = {};
+    cout << "1" << endl;
+    if((pathBuffer.size() > 0)){
+        Point oldTarget = pathBuffer[pathBuffer.size()-1];
+        Point target = findClosestEnemy(entityList)[0];
+        bool targetmoved = ((oldTarget.getCoordX() != target.getCoordX()) or
+                            (oldTarget.getCoordY() != target.getCoordY()));
+        if(targetmoved){
+            pathBuffer = {};
+        }
     }
+    cout << "2" << endl;
     if(pathBuffer.size()==0) {
-        Point target = findClosestEnemy(entityList);
-        pathBuffer = findPath(getPosition(), target);
+        cout << "4" << endl;
+        vector<Point> target = findClosestEnemy(entityList);
+        cout << "5" << endl;
+        pathBuffer = findPath(getPosition(), target[0]);
+        cout << "6" << endl;
+        for(auto step: pathBuffer){
+            cout << step.getCoordX() << " " << step.getCoordY() << endl;
+        }
     }
     if(pathBuffer.size() > 0) { // walk toward the border one step at a time
         if(pathBuffer.size() == 1){
-            MurderRadius();
+            cout << "7" << endl;
+            MurderRadius(entityList);
         } else {
+            cout << "8" << endl;
             step(entityList);
         }
     }
-
 }
 
 double Predator::distance(Point start, Point stop) {
@@ -603,19 +650,36 @@ double Predator::distance(Point start, Point stop) {
 }
 
 vector<Point> Predator::getNextMove(Point position) {
-    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
-    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
-    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
-    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
-    return {upRight, upLeft, downLeft, downRight};
+    Point upRightA = Point(position.getCoordX()+2,position.getCoordY()+1);
+    Point upLeftA = Point(position.getCoordX()-2,position.getCoordY()+1);
+    Point downLeftA = Point(position.getCoordX()-2,position.getCoordY()-1);
+    Point downRightA = Point(position.getCoordX()+2,position.getCoordY()-1);
+    Point upRightB = Point(position.getCoordX()+1,position.getCoordY()+2);
+    Point upLeftB = Point(position.getCoordX()-1,position.getCoordY()+2);
+    Point downLeftB = Point(position.getCoordX()-1,position.getCoordY()-2);
+    Point downRightB = Point(position.getCoordX()+1,position.getCoordY()-2);
+    return {upRightA, upLeftA, downLeftA, downRightA,
+            upRightB, upLeftB, downLeftB, downRightB};
 }
 
-void Predator::MurderRadius() {
+void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
+    Point center = getPosition();
     Point up(getPosition().getCoordX(), getPosition().getCoordX() + 1);
     Point down(getPosition().getCoordX(), getPosition().getCoordY() - 1);
     Point right(getPosition().getCoordX() + 1, getPosition().getCoordY());
     Point left(getPosition().getCoordX() - 1, getPosition().getCoordY());
-
+    vector<Point> murderZone = {center, up, down, right, left};
+    for(auto zone:murderZone){
+        shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList,
+                                            (fourmiCollectorCST | fourmiPredatorCST));
+        if(victim->getId() != int(id)){
+            victim->setEndOfLife(true);
+        }
+        if(victim->getSpecie()==fourmiPredatorCST){
+            endOfLife = true;
+        }
+    }
+    pathBuffer = {};
 }
 
 vector<vector<string>> Predator::exportToString() {
