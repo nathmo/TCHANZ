@@ -76,7 +76,6 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
     vector<int> initialDir = evaluateBestsDirections(initialDirection, stop);
     vector<vector<Point>> allPath = {};
     for(auto directionPath:initialDir) {
-        cout << "attempting new direction : " << directionPath << endl;
         vector<Point> path = {start};
         int inertia = directionPath;
         double distanceToTarget = 2*g_max;
@@ -89,7 +88,6 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
             }
             vector<Point> possibleNextStepVec = getNextMove(path[path.size()-1]);
             if(inertia == -1) { //find a new direction if the distance stop decreasing
-                cout << "looking for new direction" << endl;
                 vector<int> dir = evaluateBestsDirections(possibleNextStepVec, stop);
                 if(dir.size() > 0) {
                     inertia = dir[dir.size()-1];
@@ -101,7 +99,6 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
                 if(distanceToTarget < distance(possibleNextStepVec[inertia], stop)) {
                     inertia = -1; // if distance increase, find new direction
                 } else {
-                    cout << "adding new point " << possibleNextStepVec[inertia].getCoordX() << " " << possibleNextStepVec[inertia].getCoordY()<<  endl;
                     distanceToTarget = distance(possibleNextStepVec[inertia], stop);
                     path.push_back(possibleNextStepVec[inertia]);
                 }
@@ -109,13 +106,6 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
         }
         if(path.size()>0){
             allPath.push_back(path);
-        }
-    }
-    cout << "path founds : " << endl;
-    for(auto path:allPath){
-        cout << "path-------------- : " << endl;
-        for(auto s:path){
-            cout << s.getCoordX() << " " << s.getCoordY() << endl;
         }
     }
     return prunePaths(allPath);
@@ -181,12 +171,6 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    cout << "collector update -------------" << endl;
-    cout << "carry food : "<< carryFood << endl;
-    cout << "path buffer : " << endl;
-    for(auto pt:pathBuffer){
-        cout << pt.getCoordX() << " : "<< pt.getCoordY() << endl;
-    }
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -340,18 +324,11 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
 }
 
 void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList){
-    cout << "evalutage : " << endl;
-    cout << pathBuffer.size() << endl;
-    cout << carryFood << endl;
     if((pathBuffer.size() !=0) and (not carryFood)) {
         bool foodStillClosest = true;
         bool foodStillThere = Squarecell::countOverlap(
                 pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
         vector<Point> foods = findFoods(entityList);
-        cout << "foods found : " << endl;
-        for(auto f:foods){
-            cout << f.getCoordX() << " " << f.getCoordY() << endl;
-        }
         if (foods.size() > 0) {
             if (Point::distanceAbs(getPosition(),
                                    pathBuffer[pathBuffer.size() - 1]) >
@@ -367,9 +344,7 @@ void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList){
 }
 
 void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
-    cout << "find new path : " << endl;
     vector<Point> foods = findFoods(entityList);
-    cout << "foods : " << foods.size() << endl;
     int odd =0;
     int autre =0;
     for(auto f:foods){
@@ -379,8 +354,6 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
             autre++;
         }
     }
-    cout << "ant case family 1 = impaire, 0 = pair : " << ((getPosition().getCoordX()+getPosition().getCoordY())%2) << endl;
-    cout << "foods case family: impaire : " << odd <<"paire : " << autre<< endl;
     if(carryFood) {
         Point positionCollector = (*occupiedSpace).getPosition();
         Point pointToGo = findHome(entityList);
@@ -391,12 +364,8 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
             pathBuffer = findPath(positionCollector, pointToGo);
         }
     } else if(foods.size()>0) {
-        cout << "find new path : " << endl;
         Point positionCollector = (*occupiedSpace).getPosition();
         Point pointToGo = foods[0];
-        cout << "target and position : " << endl;
-        cout << pointToGo.getCoordX() << " " << pointToGo.getCoordY() << endl;
-        cout << positionCollector.getCoordX() << " " << positionCollector.getCoordY() << endl;
         if((positionCollector.getCoordX() == pointToGo.getCoordX()) and
            (positionCollector.getCoordY() == pointToGo.getCoordY())){
             pathBuffer = {};
@@ -502,7 +471,6 @@ Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
 
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    cout << "Defensors update -------------" << endl;
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
