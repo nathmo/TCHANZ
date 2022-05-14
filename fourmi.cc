@@ -578,7 +578,8 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
     vector<Point> listOfEnemyPos = {};
     for(auto enemy:entityList){
         if(enemy->getId() != int(id)){
-            if(enemy->getSpecie()==(fourmiCollectorCST | fourmiCollectorCST)){
+            if((enemy->getSpecie()==fourmiCollectorCST) or
+               (enemy->getSpecie()==fourmiCollectorCST)){
                 listOfEnemyPos.push_back(enemy->getPosition());
             }
         }
@@ -599,47 +600,48 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
                                                            leftBEnemy, rightTEnemy);
                 if(not isInAnthill){
                     listOfEnemyPos.erase(listOfEnemyPos.begin()+i);
+                    i--;
                 }
                 i++;
             }
         }
     }
-    if(listOfEnemyPos.size()>1){
-        cout << listOfEnemyPos.size()<< endl;
-        listOfEnemyPos = Entity::trie(getPosition(), listOfEnemyPos);
+    double closestEnemyDistance=2*g_max;
+    vector<Point> closestEnemy={};
+    for(auto enemyPos:listOfEnemyPos){
+        if(closestEnemyDistance> distance(getPosition(), enemyPos)){
+            closestEnemyDistance = distance(getPosition(), enemyPos);
+            closestEnemy[0]=enemyPos;
+        }
     }
-    return listOfEnemyPos;
+    return closestEnemy;
 }
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    cout << "1" << endl;
+
     if((pathBuffer.size() > 0)){
         Point oldTarget = pathBuffer[pathBuffer.size()-1];
-        Point target = findClosestEnemy(entityList)[0];
-        bool targetmoved = ((oldTarget.getCoordX() != target.getCoordX()) or
-                            (oldTarget.getCoordY() != target.getCoordY()));
+        vector<Point> target = findClosestEnemy(entityList);
+        bool targetmoved = true;
+        if(target.size()>0){
+            targetmoved = ((oldTarget.getCoordX() != target[0].getCoordX()) or
+                                (oldTarget.getCoordY() != target[0].getCoordY()));
+        }
         if(targetmoved){
             pathBuffer = {};
         }
     }
-    cout << "2" << endl;
     if(pathBuffer.size()==0) {
-        cout << "4" << endl;
         vector<Point> target = findClosestEnemy(entityList);
-        cout << "5" << endl;
-        pathBuffer = findPath(getPosition(), target[0]);
-        cout << "6" << endl;
-        for(auto step: pathBuffer){
-            cout << step.getCoordX() << " " << step.getCoordY() << endl;
+        if((pathBuffer.size() > 0)) {
+            pathBuffer = findPath(getPosition(), target[0]);
         }
     }
     if(pathBuffer.size() > 0) { // walk toward the border one step at a time
         if(pathBuffer.size() == 1){
-            cout << "7" << endl;
             MurderRadius(entityList);
         } else {
-            cout << "8" << endl;
             step(entityList);
         }
     }
