@@ -433,8 +433,8 @@ void Squarecell::displayRawGrid() {
     }
 }
 
-vector<Point> Squarecell::findNextFreeInArea(Point cornerBotLeft, Point cornerTopRight,
-                                             int width, int height, char filter) {
+vector<Point> Squarecell::findFreeInArea(Point cornerBotLeft, Point cornerTopRight,
+                                         int width, int height, char filter) {
     vector<Point> space = {};
     int paddingWidth;
     int paddingHeight;

@@ -177,7 +177,6 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 void Fourmiliere::randomCreateAnts() {
-    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator>(memberAnts[0]);
     if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
@@ -189,24 +188,28 @@ void Fourmiliere::randomCreateAnts() {
         Point position;
         try {
             switch (antTypeToGenerate) {
-                case 0  : // Collector
-                    position = (Squarecell::findNextFreeInArea(cornerBL, cornerTR,
-                                                            sizeC, sizeC, anyCST))[0];
+                case 0  : { // Collector
+                    vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
+                                                                sizeC, sizeC, anyCST);
+                        position = spawn[0]; // Entity::randInt(0,spawn.size()-1)
                     ant = make_shared<Collector>(position, id, 0, false);
                     nbC++;
                     break;
-                case 1  : // Defensor
-                    position = (Squarecell::findNextFreeInArea(cornerBL, cornerTR,
-                                                            sizeD, sizeD, anyCST))[0];
+                }
+                case 1  : {// Defensor
+                    position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
+                                                           sizeD, sizeD, anyCST))[0];
                     ant = make_shared<Defensor>(position, id, 0);
                     nbD++;
                     break;
-                case 2  : // Predator
-                    position = (Squarecell::findNextFreeInArea(cornerBL, cornerTR,
-                                                            sizeP, sizeP, anyCST))[0];
+                }
+                case 2  : {// Predator
+                    position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
+                                                           sizeP, sizeP, anyCST))[0];
                     ant = make_shared<Predator>(position, id, 0);
                     nbP++;
                     break;
+                }
             }
             memberAnts.push_back(ant);
         } catch(int code) {

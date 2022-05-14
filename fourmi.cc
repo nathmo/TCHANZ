@@ -140,14 +140,12 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
     } else {
         vector<Point> toReturn;
         int lowestOverlapScore=g_max*g_max;
-        cout << "overlapScore -------------" << endl;
         for(auto pathToEval:pathToEvalVec) {
             int overlapScore = 0;
             for(auto step:pathToEval) {
                 overlapScore+=Squarecell::countOverlap(step, getWidth(), getHeight(),
                                                        anyCST, true);
             }
-            cout << overlapScore << endl;
             if(overlapScore<lowestOverlapScore) {
                 lowestOverlapScore = overlapScore;
                 toReturn = pathToEval;
@@ -160,6 +158,15 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
                          Fourmi(position, age,fourmiCollectorCST,id,sizeC) {
     this->carryFood = carryFood;
+    for(int i=0;i<10;i++) {
+        int x = Entity::randInt(1,g_max-2);
+        int y = Entity::randInt(1,g_max-2);
+        if ((x+y)%2==(position.getCoordX()+position.getCoordY())%2){
+            if(not Squarecell::checkOverlap(Point(x,y), sizeC, sizeC, allCST, true)) {
+                pathBuffer = findPath(position, Point(x,y));
+            }
+        }
+    }
 }
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
@@ -254,8 +261,8 @@ vector<Point> Collector::findFoods(vector<shared_ptr<Entity>> &entityList) {
 Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> f = Entity::findByID(id, entityList, fourmilliereCST);
     if(f.size()>0){
-        int x = (*f[0]).getPosition().getCoordX();
-        int y = (*f[0]).getPosition().getCoordY();
+        int x = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft().getCoordX();
+        int y = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft().getCoordY();
         int width = (*f[0]).getWidth();
         int height = (*f[0]).getHeight();
         bool caseFamily = false; //case noir
@@ -342,7 +349,14 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
     if(carryFood) {
         Point positionCollector = (*occupiedSpace).getPosition();
         Point pointToGo = findHome(entityList);
-        pathBuffer = findPath(positionCollector, pointToGo);
+        cout << positionCollector.getCoordX() << " " << positionCollector.getCoordY() << endl;
+        cout << pointToGo.getCoordX() << " " << pointToGo.getCoordY() << endl;
+        if((positionCollector.getCoordX() == pointToGo.getCoordX()) and
+           (positionCollector.getCoordY() == pointToGo.getCoordY())){
+            pathBuffer = {};
+        } else {
+            pathBuffer = findPath(positionCollector, pointToGo);
+        }
     } else if(foods.size()>0) {
         Point positionCollector = (*occupiedSpace).getPosition();
         Point pointToGo = foods[0];
@@ -427,15 +441,15 @@ Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
                                             {borderBoxRightA, borderBoxRightB}};
     vector<Point> borderPoint = {};
     for(auto side:borderHorizontal){
-        vector<Point> sidePoint = Squarecell::findNextFreeInArea(side[0], side[1],
-                                                                 sizeD, sizeD,
-                                                                 anyCST);
+        vector<Point> sidePoint = Squarecell::findFreeInArea(side[0], side[1],
+                                                             sizeD, sizeD,
+                                                             anyCST);
         borderPoint.insert(borderPoint.end(), sidePoint.begin(), sidePoint.end());
     }
     for(auto side:borderVertical){
-        vector<Point> sidePoint = Squarecell::findNextFreeInArea(side[0], side[1],
-                                                                 sizeD, sizeD,
-                                                                 anyCST);
+        vector<Point> sidePoint = Squarecell::findFreeInArea(side[0], side[1],
+                                                             sizeD, sizeD,
+                                                             anyCST);
         borderPoint.insert(borderPoint.end(), sidePoint.begin(), sidePoint.end());
     }
     Point toReturn;
@@ -653,11 +667,19 @@ Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList, fourmilliereCST);
     Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
     Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
-
     int deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())/2;
     int deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())/2;
     if((cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())<13){
-        deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())-6;
+        if((cornerLeftBot.getCoordX()+deltaX)>(g_max/2)) { // right side of board
+            deltaX = (cornerRightTop.getCoordX() - cornerLeftBot.getCoordX()) - 3;
+        } else {
+            deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())-6;
+        }
+        if((cornerLeftBot.getCoordY()+deltaY)>(g_max/2)){ // top side of board
+            deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())-3;
+        } else {
+            deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())-6;
+        }
         deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())-6;
     }
     int centerX = cornerLeftBot.getCoordX() + deltaX;
