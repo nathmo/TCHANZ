@@ -89,7 +89,7 @@ public:
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual double distance(Point start, Point stop);
     virtual std::vector<Point> getNextMove(Point position);
-    void predatorMurderRadius();
+    void MurderRadius();
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something

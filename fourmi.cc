@@ -577,25 +577,25 @@ Point Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList) {
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    bool bordureStillClosest = false;
-    bool bordureStillFree = false;
-    if(pathBuffer.size()==0) {
-        // ici recalculer le chemin pour vers la bordure
-        bordureStillClosest = true;
-        bordureStillFree = true;
-    } else { // ensure the we still have the best path
-        bordureStillClosest =
-           (Point::distanceAbs(getPosition(),pathBuffer[pathBuffer.size()-1]) <=
-            Point::distanceAbs(getPosition(),Predator::findClosestEnemy(entityList)));
-        bordureStillFree=(0==Squarecell::countOverlap(pathBuffer[pathBuffer.size()-1],
-                                                      sizeD, sizeD,
-                                                      fourmiDefensorCST, true));
+    Point oldTarget = pathBuffer[pathBuffer.size()-1];
+    Point target = findClosestEnemy(entityList);
+    bool targetmoved = ((oldTarget.getCoordX() != target.getCoordX()) or
+                        (oldTarget.getCoordY() != target.getCoordY()));
+    if((pathBuffer.size() > 0) and targetmoved){
+        pathBuffer = {};
     }
-    if(bordureStillClosest and bordureStillFree) { // if the path is still valid
-        if(pathBuffer.size() > 1) { // walk toward the border one step at a time
+    if(pathBuffer.size()==0) {
+        Point target = findClosestEnemy(entityList);
+        pathBuffer = findPath(getPosition(), target);
+    }
+    if(pathBuffer.size() > 0) { // walk toward the border one step at a time
+        if(pathBuffer.size() == 1){
+            MurderRadius();
+        } else {
             step(entityList);
         }
     }
+
 }
 
 double Predator::distance(Point start, Point stop) {
@@ -610,7 +610,7 @@ vector<Point> Predator::getNextMove(Point position) {
     return {upRight, upLeft, downLeft, downRight};
 }
 
-void Predator::predatorMurderRadius() {
+void Predator::MurderRadius() {
     Point up(getPosition().getCoordX(), getPosition().getCoordX() + 1);
     Point down(getPosition().getCoordX(), getPosition().getCoordY() - 1);
     Point right(getPosition().getCoordX() + 1, getPosition().getCoordY());
