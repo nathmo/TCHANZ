@@ -611,7 +611,8 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
     for(auto enemyPos:listOfEnemyPos){
         if(closestEnemyDistance> distance(getPosition(), enemyPos)){
             closestEnemyDistance = distance(getPosition(), enemyPos);
-            closestEnemy[0]=enemyPos;
+            closestEnemy.push_back(enemyPos);
+            break;
         }
     }
     return closestEnemy;
@@ -632,6 +633,7 @@ void Predator::update(vector<shared_ptr<Entity>> &entityList) {
             pathBuffer = {};
         }
     }
+
     if(pathBuffer.size()==0) {
         vector<Point> target = findClosestEnemy(entityList);
         if((pathBuffer.size() > 0)) {
