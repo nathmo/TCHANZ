@@ -97,6 +97,7 @@ int Simulation::getAnthNb() {
 
 vector<double> Simulation::getAnthInfoStat(int id) {
     vector<double> stat;
+    stat.push_back((*anthillList[id]).getId());
     stat.push_back((*anthillList[id]).getFood());
     stat.push_back((*anthillList[id]).getnbC());
     stat.push_back((*anthillList[id]).getnbD());

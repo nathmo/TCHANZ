@@ -42,6 +42,8 @@ int Fourmiliere::getnbP() {
 }
 
 void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
+    cout << "-----------------------------------------------"<< endl;
+    cout << "updating anthill : " << id << endl;
     attemptExpansionAnthill();
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
     foodReserve = foodReserve + (val_food*(gen->getFood()));
