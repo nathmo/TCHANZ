@@ -24,9 +24,10 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer
         cout << "nourriture : number of argument mismatch" << endl;
         throw (errorCode);
     } else {
-        int x = stoi(inputBuffer[0]);
-        int y = stoi(inputBuffer[1]);
-        if(Squarecell::checkOverlap(Point(x,y), 1, 1, nourritureCST, true)) {
+        long int x = stoi(inputBuffer[0]);
+        long int y = stoi(inputBuffer[1]);
+        if(Squarecell::checkOverlap(Point::checkPoint(x,y), 1, 1,
+                                    nourritureCST, true)) {
             cout<< message::food_overlap(x,y);
             throw (errorCode);
         }

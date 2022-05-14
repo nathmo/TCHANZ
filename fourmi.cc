@@ -349,8 +349,6 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
     if(carryFood) {
         Point positionCollector = (*occupiedSpace).getPosition();
         Point pointToGo = findHome(entityList);
-        cout << positionCollector.getCoordX() << " " << positionCollector.getCoordY() << endl;
-        cout << pointToGo.getCoordX() << " " << pointToGo.getCoordY() << endl;
         if((positionCollector.getCoordX() == pointToGo.getCoordX()) and
            (positionCollector.getCoordY() == pointToGo.getCoordY())){
             pathBuffer = {};
@@ -391,21 +389,21 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
         cout << "Collector : number of argument mismatch" << endl;
         throw (errorCode);
     } else {
-    int x = stoi(inputBuffer[0]);
-    int y = stoi(inputBuffer[1]);
-    int age = stoi(inputBuffer[2]);
-    bool conditionFood = false;
-    if("true" == inputBuffer[3]) {
-        conditionFood = true;
-    }
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeC, sizeC,
-                                                       anyCST, true);
-    if(overlapList.size()>0) { //ensure the ant does not collide with something else
-        cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
-                                          overlapList[0].getCoordY());
-        throw (errorCode);
-    }
-    return make_shared<Collector> (Point(x,y), index, age, conditionFood);
+        long int x = stoi(inputBuffer[0]);
+        long int y = stoi(inputBuffer[1]);
+        int age = stoi(inputBuffer[2]);
+        bool conditionFood = false;
+        if("true" == inputBuffer[3]) {
+            conditionFood = true;
+        }
+        vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x, y),
+                                                          sizeC, sizeC, anyCST, true);
+        if(overlapList.size()>0) { //ensure the ant dont collide with something else
+            cout<< message::collector_overlap(x,y, overlapList[0].getCoordX(),
+                                              overlapList[0].getCoordY());
+            throw (errorCode);
+        }
+        return make_shared<Collector> (Point(x,y), index, age, conditionFood);
     }
 }
 
@@ -486,7 +484,8 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     }
 }
 
-void Defensor::evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList){
+void Defensor::evaluateConditionTarget(
+                                    std::vector<std::shared_ptr<Entity>> &entityList){
     if(pathBuffer.size() != 0) {
         bool bordureStillClosest = (distance(getPosition(),
                                              pathBuffer[pathBuffer.size()-1]) <=
@@ -541,9 +540,9 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
     long int x = stoi(inputBuffer[0]);
     long int y = stoi(inputBuffer[1]);
     long int age = stoi(inputBuffer[2]);
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeD, sizeD,
-                                                       anyCST, true);
-    if(overlapList.size() > 0) { // ensure the ant does not collide with something else
+    vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x,y),
+                                                       sizeD, sizeD, anyCST, true);
+    if(overlapList.size() > 0) { // ensure the ant dont collide with something else
         cout<< message::defensor_overlap(x,y, overlapList[0].getCoordX(),
                                          overlapList[0].getCoordY());
         throw (errorCode);
@@ -638,11 +637,11 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
         cout << "Predator : number of argument mismatch" << endl;
         throw (errorCode);
     } else {
-        int x = stoi(inputBuffer[0]);
-        int y = stoi(inputBuffer[1]);
+        long int x = stoi(inputBuffer[0]);
+        long int y = stoi(inputBuffer[1]);
         int age = stoi(inputBuffer[2]);
-        vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeP, sizeP,
-                                                           anyCST, true);
+        vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x,y),
+                                                          sizeP, sizeP, anyCST, true);
         if(overlapList.size()>0) { // ensure the ant does not collide with something
             cout<< message::predator_overlap(x,y);
             throw (errorCode);
@@ -664,7 +663,8 @@ Generator::Generator(Point position, int id) :
 }
 
 Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList) {
-    vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList, fourmilliereCST);
+    vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList,
+                                                          fourmilliereCST);
     Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
     Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
     int deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())/2;
@@ -737,10 +737,10 @@ vector<vector<string>> Generator::exportToString() {
 
 shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBuffer,
                                                          int index) {
-    int x = stoi(inputBuffer[3]);
-    int y = stoi(inputBuffer[4]);
-    vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), sizeG, sizeG,
-                                                       anyCST, true);
+    long int x = stoi(inputBuffer[3]);
+    long int y = stoi(inputBuffer[4]);
+    vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x,y), sizeG,
+                                                       sizeG, anyCST, true);
     if(overlapList.size()>0) { //ensure the ant does not collide with something else
         cout<< message::generator_overlap(x,y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());

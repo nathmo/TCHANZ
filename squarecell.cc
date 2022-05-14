@@ -20,15 +20,6 @@ vector<vector<char>> Squarecell::hitBoxGrid = vector<vector<char>> (g_max,
                                                                 vector<char> (g_max));
 
 Point::Point(int x, int y) {
-    if(not((x >= 0) and (x < g_max))) { // not in [0;127]
-        cout << error_squarecell::print_index(x, g_max-1);
-        throw (errorCode);
-    }
-
-    if(not((y >= 0) and (y < g_max))) { // not in [0;127]
-        cout << error_squarecell::print_index(y, g_max-1);
-        throw (errorCode);
-    }
     this->x = x;
     this->y = y;
 }
@@ -53,7 +44,7 @@ int Point::getCoordY() {
     return y;
 }
 
-bool Point::isCoordInRange(int coord) {
+bool Point::isCoordInRange(long int coord) {
     bool status = false;
     if((coord >= 1) and (coord < (g_max-1))) {
         status = true;
@@ -71,6 +62,19 @@ bool Point::checkPoint(Point point) {
         status = false;
     }
     return status;
+}
+
+Point Point::checkPoint(long int x, long int y){
+    if(not((x >= 0) and (x < g_max))) { // not in [0;127]
+        cout << error_squarecell::print_index(x, g_max-1);
+        throw (errorCode);
+    }
+
+    if(not((y >= 0) and (y < g_max))) { // not in [0;127]
+        cout << error_squarecell::print_index(y, g_max-1);
+        throw (errorCode);
+    }
+    return Point(x,y);
 }
 
 bool Point::operator==(Point point){

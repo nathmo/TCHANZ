@@ -282,16 +282,16 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         cout << "fourmilliere : number of argument mismatch" << endl;
         throw (errorCode);
     } else {
-        int x = stoi(inputBuffer[0]);
-        int y = stoi(inputBuffer[1]);
+        long int x = stoi(inputBuffer[0]);
+        long int y = stoi(inputBuffer[1]);
         int size = stoi(inputBuffer[2]);
         int totalFood = stoi(inputBuffer[5]);
         int nbC = stoi(inputBuffer[6]);
         int nbD = stoi(inputBuffer[7]);
         int nbP = stoi(inputBuffer[8]);
         Squarecell::checkHitbox(Point(x,y), size, size, false);
-        vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), size, size,
-                                                           fourmilliereCST, false);
+        vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x,y),
+                                                  size, size, fourmilliereCST, false);
         int indexOther = 0;
         if(overlapList.size()>0) { // check the previous anthill for collisiom
             for(unsigned int i(0); i<previousAnthill.size(); i++) {

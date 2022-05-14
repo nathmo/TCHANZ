@@ -16,7 +16,6 @@ class Point {
 private:
     int x=errorCode;
     int y=errorCode;
-    bool checkPoint(long int x,long int y);
 
 public:
     Point(int x,int y);
@@ -25,8 +24,9 @@ public:
     int getCoordX();
     void setCoordY(int yOrigin);
     int getCoordY();
-    static bool isCoordInRange(int coord);
+    static bool isCoordInRange(long int coord);
     static bool checkPoint(Point point);
+    static Point checkPoint(long int x, long int y);
     bool operator==(Point point);
     static double distanceAbs(Point start, Point stop);
 };
