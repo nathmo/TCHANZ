@@ -268,7 +268,7 @@ bool Squarecell::checkHitbox(Point position, int width,
             status = false;
         }
     }
-    if(not((((height % 2) == 0) and ((width % 2) == 0))or(((height % 2) == 1)and
+    if(not((((height % 2) == 0) and ((width % 2) == 0)) or (((height % 2) == 1) and
                                                                ((width % 2) == 1)))) {
         cout << "shape is not a square" << endl;
         status = false;
@@ -300,8 +300,8 @@ bool Squarecell::checkOverlap(Point position, int width, int height,
                                                            isPositionAtCenter);
     Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
                                                              isPositionAtCenter);
-    for(int i = cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
-        for(int j = cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
+    for(int i=cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
+        for(int j=cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
             if((hitBoxGrid[i][j] & kindToCheck)) {
                 return true;                      // return true if the entity collide
             }

@@ -35,7 +35,7 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList) {
         setSize(0, 0); // ensure the next step is free
         // (but need to remove itself to prevent self collision) (food are ignored)
         nextStepOverlap = Squarecell::countOverlap(pathBuffer[0], width, height,
-                                                    (anyCST ^ (nourritureCST)), true);
+                                                   (anyCST ^ (nourritureCST)), true);
         setSize(width, height); // back to normal size
         if(nextStepOverlap == 0) {
             setPosition(pathBuffer[0]);
@@ -116,13 +116,13 @@ vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
     double lowestDistance = 2*g_max;
     double lowestDistanceAbs = 2*g_max; // a value that will always be greater
     int direction = 0;
-    vector<int> bestNextMove={};
+    vector<int> bestNextMove = {};
     for(auto possibleNextStep:directionToEval) {
         if(lowestDistance > distance(possibleNextStep, target)) {
             lowestDistance = distance(possibleNextStep, target);
             lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
             bestNextMove.push_back(direction);
-        } else if (lowestDistance == distance(possibleNextStep, target)) {
+        } else if(lowestDistance == distance(possibleNextStep, target)) {
             if(lowestDistanceAbs>(Point::distanceAbs(possibleNextStep, target)-0.01)){
                 lowestDistance = distance(possibleNextStep, target);
                 lowestDistanceAbs=Point::distanceAbs(possibleNextStep, target);
@@ -139,19 +139,20 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
         return {};
     } else {
         vector<Point> toReturn = {};
-        int lowestOverlapScore=g_max*g_max;
+        int lowestOverlapScore = g_max*g_max;
         for(auto pathToEval:pathToEvalVec) {
             int overlapScore = 0;
             for(auto step:pathToEval) {
-                if(Point::isCoordInRange(step.getCoordX()) and  Point::isCoordInRange(step.getCoordY())){
-                    overlapScore+=Squarecell::countOverlap(step, getWidth(), getHeight(),
-                                                           anyCST, true);
+                if(Point::isCoordInRange(step.getCoordX()) and
+                                             Point::isCoordInRange(step.getCoordY())){
+                    overlapScore += Squarecell::countOverlap(step, getWidth(),
+                                                             getHeight(),anyCST,true);
                 } else {
                     overlapScore = g_max*g_max;
                     break;
                 }
             }
-            if(overlapScore<lowestOverlapScore) {
+            if(overlapScore < lowestOverlapScore) {
                 lowestOverlapScore = overlapScore;
                 toReturn = pathToEval;
             }
@@ -163,10 +164,10 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
                          Fourmi(position, age,fourmiCollectorCST,id,sizeC) {
     this->carryFood = carryFood;
-    for(int i=0;i<10;i++) {
+    for(int i=0; i < 10; i++) {
         int x = Entity::randInt(1,g_max-2);
         int y = Entity::randInt(1,g_max-2);
-        if ((x+y)%2==(position.getCoordX()+position.getCoordY())%2){
+        if((x+y)%2 == (position.getCoordX()+position.getCoordY())%2) {
             if(not Squarecell::checkOverlap(Point(x,y), sizeC, sizeC, allCST, true)) {
                 pathBuffer = findPath(position, Point(x,y));
             }
@@ -199,9 +200,9 @@ double Collector::distance(Point start, Point stop) {
                           (((start.getCoordX()+start.getCoordY())%2 == 1) and
                           ((stop.getCoordX()+stop.getCoordY())%2 == 1)));
     if(sameCaseFamily) {
-        double deltaX = stop.getCoordX()-start.getCoordX();
-        double deltaY = stop.getCoordY()-start.getCoordY();
-        return max(abs(deltaX),abs(deltaY));
+        double deltaX = stop.getCoordX() - start.getCoordX();
+        double deltaY = stop.getCoordY() - start.getCoordY();
+        return max(abs(deltaX), abs(deltaY));
     } else {
         return INFINITY;
     }
@@ -209,19 +210,19 @@ double Collector::distance(Point start, Point stop) {
 
 vector<Point> Collector::getNextMove(Point position) {
     vector<Point> nextMoves = {};
-    int XRight = position.getCoordX()+1;
+    int XRight = position.getCoordX() + 1;
     if(not Point::isCoordInRange(XRight)){
         XRight = position.getCoordX();
     }
-    int Xleft = position.getCoordX()-1;
+    int Xleft = position.getCoordX() - 1;
     if(not Point::isCoordInRange(Xleft)){
         Xleft = position.getCoordX();
     }
-    int YTop = position.getCoordY()+1;
+    int YTop = position.getCoordY() + 1;
     if(not Point::isCoordInRange(YTop)){
         YTop = position.getCoordX();
     }
-    int YBot = position.getCoordY()-1;
+    int YBot = position.getCoordY() - 1;
     if(not Point::isCoordInRange(YBot)){
         YBot = position.getCoordX();
     }
@@ -307,7 +308,7 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
 void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> entity = Entity::findByID(id, entityList,
                                                          fourmiGeneratorCST);
-    if(entity.size()>0) {
+    if(entity.size() > 0) {
         shared_ptr<Generator> gene = dynamic_pointer_cast<Generator> (entity[0]);
         gene -> addFood();
         carryFood = false;
@@ -352,7 +353,7 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
     int odd = 0;
     int autre = 0;
     for(auto f:foods) {
-        if((f.getCoordX()+f.getCoordY())%2) {
+        if((f.getCoordX()+f.getCoordY()) % 2) {
             odd++;
         } else {
             autre++;
@@ -410,9 +411,9 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
         }
         vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x, y),
                                                           sizeC, sizeC, anyCST, true);
-        if(overlapList.size()>0) { //ensure the ant dont collide with something else
-            cout<< message::collector_overlap(x, y, overlapList[0].getCoordX(),
-                                              overlapList[0].getCoordY());
+        if(overlapList.size() > 0) { //ensure the ant dont collide with something else
+            cout << message::collector_overlap(x, y, overlapList[0].getCoordX(),
+                                               overlapList[0].getCoordY());
             throw (errorCode);
         }
         return make_shared<Collector> (Point(x,y), index, age, conditionFood);
@@ -434,8 +435,8 @@ Defensor::Defensor(Point position, int id, int age) :
 Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList,
                                                           fourmilliereCST);
-    Point lb=(*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
-    Point rt=(*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
+    Point lb = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
+    Point rt = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
     lb = Point(lb.getCoordX()+1, lb.getCoordY()+1);
     Point borderBoxLeftA=Point(lb.getCoordX(),lb.getCoordY()+3);
     Point borderBoxLeftB=Point(lb.getCoordX()+3,rt.getCoordY()-3);
@@ -678,7 +679,7 @@ void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
                                             (fourmiCollectorCST | fourmiPredatorCST));
         if(victim != nullptr) {
             if(victim->getId() != int(id)) {
-                victim->setEndOfLife(true);
+                victim -> setEndOfLife(true);
             }
             if(victim->getSpecie() == fourmiPredatorCST) {
                 endOfLife = true;
@@ -789,7 +790,7 @@ void Generator::update(vector<shared_ptr<Entity>> &entityList) {
 }
 
 double Generator::distance(Point start, Point stop) {
-    return Point::distanceAbs(start,stop);
+    return Point::distanceAbs(start, stop);
 }
 
 vector<Point> Generator::getNextMove(Point position) {

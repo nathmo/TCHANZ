@@ -46,9 +46,8 @@ public:
     static std::vector<std::shared_ptr<Entity>> findByID(int id,
                       std::vector<std::shared_ptr<Entity>> listOfEntity, char specie);
     std::vector<Point> findSpecie(char specie,
-                              std::vector<std::shared_ptr<Entity>> listOfEntity);
-    std::vector<Point> trie(Point position,
-                            std::vector<Point> listSpecieTrie);
+                                  std::vector<std::shared_ptr<Entity>> listOfEntity);
+    std::vector<Point> trie(Point position, std::vector<Point> listSpecieTrie);
 };
 
 #endif //TCHANZ_ENTITY_H
