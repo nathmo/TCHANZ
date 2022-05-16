@@ -93,22 +93,27 @@ int Entity::randInt(unsigned int min, unsigned int max) {
 shared_ptr<Entity> Entity::findByPosition(Point position,
                                           vector<shared_ptr<Entity>> listOfEntity,
                                           char specie) {
+    cout << "specie que je cherche : " << specie << endl;
+    //cout << "je cherche pour trouver si il y a qqch sur la case" << endl;
     for(auto entity:listOfEntity) {
         if((*entity).getSpecie() == specie) {
+            cout << "j'ai trouver une specie que j cherche boucle if" << endl;
             int largeur = ((*entity).getOccupiedSpace())->getWidth();
             int hauteur = ((*entity).getOccupiedSpace())->getHeight();
             Point positionEntity = ((*entity).getOccupiedSpace())->getHitboxBotLeft();
             int match = Squarecell::countOverlap(position, 1, 1, false,
                                              positionEntity, largeur, hauteur, false);
-            cout << match << endl;
-            cout << (match == 1)<< endl;
-            cout << positionEntity.getCoordX() << " " << positionEntity.getCoordY() << endl;
-            cout << (*entity).getId() << " " << (*entity).getSpecie() << endl;
+            cout << "match = " << match << endl;
+            //cout << (match == 1)<< endl;
+            //cout << positionEntity.getCoordX() << " " << positionEntity.getCoordY() << endl;
+            //cout << (*entity).getId() << " " << (*entity).getSpecie() << endl;
             if(1 == match) {
+                cout << "je suis dans la boucle match" << endl;
                 return entity; //return the entity once found
             }
         }
     }
+    cout << "cout nullptr" << endl;
     return nullptr; //return a value that show no entity where found
 }
 
