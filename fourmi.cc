@@ -82,7 +82,7 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
         int watchdog = 0;
         while(not(path[path.size()-1] == stop)) {
             watchdog++;
-            if(watchdog==250){
+            if(watchdog == 250) {
                 path = {};
                 break;
             }
@@ -104,7 +104,7 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
                 }
             }
         }
-        if(path.size()>0){
+        if(path.size() > 0) {
             allPath.push_back(path);
         }
     }
@@ -151,7 +151,7 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
                     break;
                 }
             }
-            if(overlapScore<lowestOverlapScore) {
+            if(overlapScore < lowestOverlapScore) {
                 lowestOverlapScore = overlapScore;
                 toReturn = pathToEval;
             }
@@ -201,7 +201,7 @@ double Collector::distance(Point start, Point stop) {
     if(sameCaseFamily) {
         double deltaX = stop.getCoordX()-start.getCoordX();
         double deltaY = stop.getCoordY()-start.getCoordY();
-        return max(abs(deltaX),abs(deltaY));
+        return max(abs(deltaX), abs(deltaY));
     } else {
         return INFINITY;
     }
@@ -328,13 +328,13 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
 }
 
 void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList){
-    if((pathBuffer.size() !=0) and (not carryFood)) {
+    if((pathBuffer.size() != 0) and (not carryFood)) {
         bool foodStillClosest = true;
         bool foodStillThere = Squarecell::countOverlap(
                 pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
         vector<Point> foods = findFoods(entityList);
-        if (foods.size() > 0) {
-            if (Point::distanceAbs(getPosition(),
+        if(foods.size() > 0) {
+            if(Point::distanceAbs(getPosition(),
                                    pathBuffer[pathBuffer.size() - 1]) >
                 Point::distanceAbs(getPosition(),
                                    Collector::findFoods(entityList)[0])) {
@@ -391,7 +391,7 @@ vector<vector<string>> Collector::exportToString() {
         carryFoodString = "True";
     }
     string ageString = to_string(age);
-    vecVecStringCollector.push_back({x,y,ageString,carryFoodString});
+    vecVecStringCollector.push_back({x, y, ageString, carryFoodString});
     return vecVecStringCollector;
 }
 
@@ -450,13 +450,13 @@ Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
     vector<vector<Point>> borderVertical = {{borderBoxLeftA, borderBoxLeftB},
                                             {borderBoxRightA, borderBoxRightB}};
     vector<Point> borderPoint = {};
-    for(auto side:borderHorizontal){
+    for(auto side:borderHorizontal) {
         vector<Point> sidePoint = Squarecell::findFreeInArea(side[0], side[1],
                                                              sizeD, sizeD,
                                                              anyCST);
         borderPoint.insert(borderPoint.end(), sidePoint.begin(), sidePoint.end());
     }
-    for(auto side:borderVertical){
+    for(auto side:borderVertical) {
         vector<Point> sidePoint = Squarecell::findFreeInArea(side[0], side[1],
                                                              sizeD, sizeD,
                                                              anyCST);
@@ -521,7 +521,7 @@ void Defensor::recomputePath(std::vector<std::shared_ptr<Entity>> &entityList){
 double Defensor::distance(Point start, Point stop) {
     double deltaX = stop.getCoordX()-start.getCoordX();
     double deltaY = stop.getCoordY()-start.getCoordY();
-    return abs(deltaX)+abs(deltaY);
+    return abs(deltaX) + abs(deltaY);
 }
 
 vector<Point> Defensor::getNextMove(Point position) {
@@ -581,15 +581,15 @@ void Predator::setConstrained(bool constrain){
 
 vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList) {
     vector<Point> listOfEnemyPos = {};
-    for(auto enemy:entityList){
-        if(enemy->getId() != int(id)){
+    for(auto enemy:entityList) {
+        if(enemy->getId() != int(id)) {
             if((enemy->getSpecie()==fourmiCollectorCST) or
-               (enemy->getSpecie()==fourmiCollectorCST)){
+               (enemy->getSpecie()==fourmiCollectorCST)) {
                 listOfEnemyPos.push_back(enemy->getPosition());
             }
         }
     }
-    if(not constrained){
+    if(not constrained) {
         vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
                                                                    fourmilliereCST);
         if(fourmilliere.size()>0) {
@@ -624,19 +624,19 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    if((pathBuffer.size() > 0)){
+    if((pathBuffer.size() > 0)) {
         Point oldTarget = pathBuffer[pathBuffer.size()-1];
         vector<Point> target = findClosestEnemy(entityList);
         bool targetmoved = true;
-        if(target.size()>0){
+        if(target.size()>0) {
             targetmoved=((oldTarget.getCoordX()!=target[target.size()-1].getCoordX())
                      or (oldTarget.getCoordY()!=target[target.size()-1].getCoordY()));
         }
-        if(targetmoved){
+        if(targetmoved) {
             pathBuffer = {};
         }
     }
-    if(pathBuffer.size()==0) {
+    if(pathBuffer.size() == 0) {
         vector<Point> target = findClosestEnemy(entityList);
         if(target.size() > 0) {
             pathBuffer = findPath(getPosition(), target[target.size()-1]);
@@ -675,14 +675,14 @@ void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
     Point right(getPosition().getCoordX() + 1, getPosition().getCoordY());
     Point left(getPosition().getCoordX() - 1, getPosition().getCoordY());
     vector<Point> murderZone = {center, up, down, right, left};
-    for(auto zone:murderZone){
+    for(auto zone:murderZone) {
         shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList,
                                             (fourmiCollectorCST | fourmiPredatorCST));
         if(victim!= nullptr) {
-            if (victim->getId() != int(id)) {
+            if(victim->getId() != int(id)) {
                 victim->setEndOfLife(true);
             }
-            if (victim->getSpecie() == fourmiPredatorCST) {
+            if(victim->getSpecie() == fourmiPredatorCST) {
                 endOfLife = true;
             }
         }
@@ -759,7 +759,7 @@ Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList) {
 void Generator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
     bool centerStillWhereExpected = false;
-    if(pathBuffer.size()==0) {
+    if(pathBuffer.size() == 0) {
         if(not(Generator::findCenter(entityList) == getPosition())) {
             Point positionGenerator = getPosition();
             Point pointToGo = findCenter(entityList);
