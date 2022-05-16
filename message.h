@@ -25,7 +25,7 @@ namespace message {
     std::string food_overlap(unsigned fx, unsigned fy);
     std::string predator_overlap(unsigned px, unsigned py);
 
-	// même chose avec indication de la première cellule superposée (x,y)
+	// même chose avec indication de la première cellule superposée (x, y)
     std::string defensor_overlap(unsigned dx, unsigned dy, unsigned x, unsigned y);
     std::string collector_overlap(unsigned cx, unsigned cy, unsigned x, unsigned y);
     std::string generator_overlap(unsigned gx, unsigned gy, unsigned x, unsigned y);

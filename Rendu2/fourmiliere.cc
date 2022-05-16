@@ -274,8 +274,8 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         int nbC = stoi(inputBuffer[6]);
         int nbD = stoi(inputBuffer[7]);
         int nbP = stoi(inputBuffer[8]);
-        Squarecell::checkHitbox(Point(x,y), size, size, false);
-        vector<Point> overlapList = Squarecell::getOverlap(Point(x,y), size, size,
+        Squarecell::checkHitbox(Point(x, y), size, size, false);
+        vector<Point> overlapList = Squarecell::getOverlap(Point(x, y), size, size,
                                                            fourmilliereCST, false);
         int indexOther = 0;
         if(overlapList.size()>0) { // check the previous anthill for collisiom
@@ -291,7 +291,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
             cout << message::homes_overlap(index, indexOther);
             throw (errorCode);
         }
-        return make_shared<Fourmiliere> (Point(x,y), size, totalFood, nbC, nbD, nbP,
+        return make_shared<Fourmiliere> (Point(x, y), size, totalFood, nbC, nbD, nbP,
                                         index, FourmiList);
     }
 }

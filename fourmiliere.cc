@@ -26,7 +26,7 @@ Fourmiliere::Fourmiliere(Point position, int size, int totalFood,
     this->nbP=nbP;
     foodReserve = totalFood;
     endOfLife = false;
-    isConstrained = checkIfConstrained();
+    isConstrained = false;
 }
 
 int Fourmiliere::getnbC() {
@@ -57,7 +57,7 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
         return;
     }
     randomCreateAnts();
-    for(unsigned int i=1; i<memberAnts.size(); i++) {
+    for(unsigned int i=1; i < memberAnts.size(); i++) {
         memberAnts[i]->update(entityList);
     }
     for(unsigned int i=1; i<memberAnts.size(); i++) {
@@ -240,10 +240,6 @@ int Fourmiliere::getAntTypeToGenerate() {
     return antTypeToGenerate;
 }
 
-bool Fourmiliere::checkIfConstrained() {
-    return false;
-}
-
 void Fourmiliere::attemptExpansionAnthill() {
     int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC*nbC + sizeD*sizeD*nbD*nbD
                               + sizeP*sizeP*nbP*nbP)));
@@ -299,7 +295,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
         vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x,y),
                                                   size, size, fourmilliereCST, false);
         int indexOther = 0;
-        if(overlapList.size()>0) { // check the previous anthill for collisiom
+        if(overlapList.size() > 0) { // check the previous anthill for collisiom
             for(unsigned int i(0); i<previousAnthill.size(); i++) {
                 int overlap = Squarecell::countOverlap(overlapList[0], overlapList[0],
                        (*previousAnthill[i]).getOccupiedSpace()->getHitboxBotLeft(),
@@ -312,7 +308,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
             cout << message::homes_overlap(index, indexOther);
             throw (errorCode);
         }
-        return make_shared<Fourmiliere> (Point(x,y), size, totalFood, nbC, nbD, nbP,
+        return make_shared<Fourmiliere> (Point(x, y), size, totalFood, nbC, nbD, nbP,
                                         index, FourmiList);
     }
 }

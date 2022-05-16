@@ -47,8 +47,6 @@ public:
 
     void randomCreateAnts();
 
-    bool checkIfConstrained();
-
     int getAntTypeToGenerate();
 
     void attemptExpansionAnthill();

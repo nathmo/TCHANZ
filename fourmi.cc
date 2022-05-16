@@ -726,7 +726,7 @@ void Predator::draw() {
 }
 
 Generator::Generator(Point position, int id) :
-                                  Fourmi(position,0 , fourmiGeneratorCST, id, sizeG) {
+                                  Fourmi(position, 0, fourmiGeneratorCST, id, sizeG) {
     foodReceived = 0;
 }
 
@@ -819,14 +819,14 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
                                                          int index) {
     long int x = stoi(inputBuffer[3]);
     long int y = stoi(inputBuffer[4]);
-    vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x,y), sizeG,
+    vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x, y), sizeG,
                                                        sizeG, anyCST, true);
     if(overlapList.size() > 0) { //ensure the ant does not collide with something else
         cout << message::generator_overlap(x, y, overlapList[0].getCoordX(),
                                           overlapList[0].getCoordY());
         throw (errorCode);
     }
-    return make_shared<Generator> (Point(x,y), index);
+    return make_shared<Generator> (Point(x, y), index);
 }
 
 void Generator::draw() {

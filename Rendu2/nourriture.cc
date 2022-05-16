@@ -26,11 +26,11 @@ shared_ptr<Nourriture> Nourriture::importFromExtSave(vector<string> &inputBuffer
     } else {
         int x = stoi(inputBuffer[0]);
         int y = stoi(inputBuffer[1]);
-        if(Squarecell::checkOverlap(Point(x,y), 1, 1, nourritureCST, true)) {
-            cout<< message::food_overlap(x,y);
+        if(Squarecell::checkOverlap(Point(x, y), 1, 1, nourritureCST, true)) {
+            cout<< message::food_overlap(x, y);
             throw (errorCode);
         }
-        return make_shared<Nourriture>(Point(x,y), index);
+        return make_shared<Nourriture>(Point(x, y), index);
     }
 }
 
@@ -42,9 +42,9 @@ shared_ptr<Nourriture> Nourriture::randomCreate() {
         for(int i=0;i<max_food_trial;i++) {
             x = Entity::randInt(1,g_max-2);
             y = Entity::randInt(1,g_max-2);
-            bool occupied = Squarecell::checkOverlap(Point(x,y), 1, 1, allCST, true);
+            bool occupied = Squarecell::checkOverlap(Point(x, y), 1, 1, allCST, true);
             if(not occupied) {
-                return make_shared<Nourriture>(Point(x,y), index);
+                return make_shared<Nourriture>(Point(x, y), index);
             }
         }
     }

@@ -30,7 +30,7 @@ string message::predator_overlap(unsigned px, unsigned py) {
            + to_string(py) + string(" overlaps with another exclusive entity\n");
 }
 
-// même chose avec indication de la première cellule superposée (x,y)
+// même chose avec indication de la première cellule superposée (x, y)
 string message::defensor_overlap(unsigned dx, unsigned dy, unsigned x, unsigned y) {
     return string("defensor with coordinates ") + to_string(dx) + string(" ")
            + to_string(dy)
