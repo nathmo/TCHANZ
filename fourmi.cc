@@ -669,19 +669,26 @@ vector<Point> Predator::getNextMove(Point position) {
 
 void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
     Point center = getPosition();
-    Point up(getPosition().getCoordX(), getPosition().getCoordX() + 1);
+    Point up(getPosition().getCoordX(), getPosition().getCoordY() + 1);
     Point down(getPosition().getCoordX(), getPosition().getCoordY() - 1);
     Point right(getPosition().getCoordX() + 1, getPosition().getCoordY());
     Point left(getPosition().getCoordX() - 1, getPosition().getCoordY());
     vector<Point> murderZone = {center, up, down, right, left};
+    cout << "murder ! " << endl;
     for(auto zone:murderZone) {
+        cout << zone.getCoordX() << " " << zone.getCoordY() << endl;
         shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList,
                                             (fourmiCollectorCST | fourmiPredatorCST));
-        if(victim!= nullptr) {
+        cout << "victim : " << victim << endl;
+        if(victim != nullptr) {
+            cout << "victim exist" << endl;
             if(victim->getId() != int(id)) {
+                cout << "murder x with id : " << victim->getId() << endl;
                 victim->setEndOfLife(true);
+                cout << "murder = " << victim->getEndOfLife() << endl;
             }
             if(victim->getSpecie() == fourmiPredatorCST) {
+                cout << "it was a predator :/" << endl;
                 endOfLife = true;
             }
         }

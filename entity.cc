@@ -98,8 +98,13 @@ shared_ptr<Entity> Entity::findByPosition(Point position,
             int largeur = ((*entity).getOccupiedSpace())->getWidth();
             int hauteur = ((*entity).getOccupiedSpace())->getHeight();
             Point positionEntity = ((*entity).getOccupiedSpace())->getHitboxBotLeft();
-            if(Squarecell::countOverlap(position, 1, 1, true,
-                                        positionEntity, largeur, hauteur, false)) {
+            int match = Squarecell::countOverlap(position, 1, 1, false,
+                                             positionEntity, largeur, hauteur, false);
+            cout << match << endl;
+            cout << (match == 1)<< endl;
+            cout << positionEntity.getCoordX() << " " << positionEntity.getCoordY() << endl;
+            cout << (*entity).getId() << " " << (*entity).getSpecie() << endl;
+            if(1 == match) {
                 return entity; //return the entity once found
             }
         }
