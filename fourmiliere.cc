@@ -62,7 +62,7 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     }
     for(unsigned int i=1; i < memberAnts.size(); i++) {
         if((memberAnts[i])->getSpecie() != fourmiGeneratorCST) {
-            if(((memberAnts[i])->getAge() > bug_life) or ((memberAnts[i])->getEndOfLife())) {
+            if((memberAnts[i])->getEndOfLife()) {
                 char kind = memberAnts[i] -> getSpecie();
                 switch (kind) {
                     case fourmiCollectorCST:

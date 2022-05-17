@@ -177,6 +177,9 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if (age >= bug_life){
+        endOfLife = true;
+    }
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -474,6 +477,9 @@ Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
 
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if (age >= bug_life){
+        endOfLife = true;
+    }
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -623,6 +629,9 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if (age >= bug_life){
+        endOfLife = true;
+    }
     if((pathBuffer.size() > 0)) {
         Point oldTarget = pathBuffer[pathBuffer.size()-1];
         vector<Point> target = findClosestEnemy(entityList);
