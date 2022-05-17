@@ -139,7 +139,7 @@ vector<Point> Entity::findSpecie(char specie,
 
 vector<Point> Entity::trie(Point position, vector<Point> listSpecieTrie) {
     vector<Point> newList = {};
-    for(unsigned int i(0); i < .size(); i++) {
+    for(unsigned int i(0); i < listSpecieTrie.size(); i++) {
         int index = i;
         double distanceIni = Point::distanceAbs(position, listSpecieTrie[i]);
         for(unsigned int j=(i+1); j < listSpecieTrie.size(); j++) {
