@@ -177,6 +177,9 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if (age >= bug_life){
+        endOfLife = true;
+    }
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -474,6 +477,9 @@ Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
 
 void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if (age >= bug_life){
+        endOfLife = true;
+    }
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -623,6 +629,9 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
+    if (age >= bug_life){
+        endOfLife = true;
+    }
     if((pathBuffer.size() > 0)) {
         Point oldTarget = pathBuffer[pathBuffer.size()-1];
         vector<Point> target = findClosestEnemy(entityList);
@@ -674,21 +683,14 @@ void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
     Point right(getPosition().getCoordX() + 1, getPosition().getCoordY());
     Point left(getPosition().getCoordX() - 1, getPosition().getCoordY());
     vector<Point> murderZone = {center, up, down, right, left};
-    cout << "murder ! " << endl;
     for(auto zone:murderZone) {
-        cout << zone.getCoordX() << " " << zone.getCoordY() << endl;
-        shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList,
-                                            (fourmiCollectorCST | fourmiPredatorCST));
-        cout << "victim : " << victim << endl;
+        shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList, fourmiCollectorCST);
+        //                                    (fourmiCollectorCST | fourmiPredatorCST));
         if(victim != nullptr) {
-            cout << "victim exist" << endl;
             if(victim->getId() != int(id)) {
-                cout << "murder x with id : " << victim->getId() << endl;
                 victim->setEndOfLife(true);
-                cout << "murder = " << victim->getEndOfLife() << endl;
             }
             if(victim->getSpecie() == fourmiPredatorCST) {
-                cout << "it was a predator :/" << endl;
                 endOfLife = true;
             }
         }

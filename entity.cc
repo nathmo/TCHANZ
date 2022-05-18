@@ -20,8 +20,8 @@ Entity::Entity(Point position, int width, int height,
                char specie, int id, bool isPositionAtCenter) {
     occupiedSpace = make_shared<Squarecell> (position, width, height,
                                              specie, isPositionAtCenter);
-    this->specie=specie;
-    this->id=id;
+    this->specie = specie;
+    this->id = id;
     endOfLife = false;
 }
 
@@ -100,11 +100,7 @@ shared_ptr<Entity> Entity::findByPosition(Point position,
             Point positionEntity = ((*entity).getOccupiedSpace())->getHitboxBotLeft();
             int match = Squarecell::countOverlap(position, 1, 1, false,
                                              positionEntity, largeur, hauteur, false);
-            cout << match << endl;
-            cout << (match == 1)<< endl;
-            cout << positionEntity.getCoordX() << " " << positionEntity.getCoordY() << endl;
-            cout << (*entity).getId() << " " << (*entity).getSpecie() << endl;
-            if(1 == match) {
+            if(1 <= match) { //si overlap plus grand ou = a 1
                 return entity; //return the entity once found
             }
         }
@@ -118,7 +114,7 @@ vector<shared_ptr<Entity>> Entity::findByID(int id,
     vector<shared_ptr<Entity>> found = {};
     for(auto entity:listOfEntity) {
         if((*entity).getSpecie() == specie) {
-            if((*entity).getId()==id) {
+            if((*entity).getId() == id) {
                 found.push_back(entity); //return the entity once found
             }
         }
@@ -129,7 +125,7 @@ vector<shared_ptr<Entity>> Entity::findByID(int id,
 vector<Point> Entity::findSpecie(char specie,
                                  vector<shared_ptr<Entity>> listOfEntity) {
     vector<Point> listSpecie;
-    for(unsigned int i(0); i<listOfEntity.size(); i++) {
+    for(unsigned int i(0); i < listOfEntity.size(); i++) {
         if(((*listOfEntity[i]).getSpecie()) == specie) {
             int x=(((*listOfEntity[i]).getOccupiedSpace())
                     ->getPosition()).getCoordX();
@@ -143,13 +139,13 @@ vector<Point> Entity::findSpecie(char specie,
 
 vector<Point> Entity::trie(Point position, vector<Point> listSpecieTrie) {
     vector<Point> newList = {};
-    for(unsigned int i(0); i<listSpecieTrie.size(); i++) {
+    for(unsigned int i(0); i < listSpecieTrie.size(); i++) {
         int index = i;
         double distanceIni = Point::distanceAbs(position, listSpecieTrie[i]);
-        for(unsigned int j = (i+1); j<listSpecieTrie.size(); j++) {
-            if(distanceIni>Point::distanceAbs(position, listSpecieTrie[j])) {
+        for(unsigned int j=(i+1); j < listSpecieTrie.size(); j++) {
+            if(distanceIni > Point::distanceAbs(position, listSpecieTrie[j])) {
                 distanceIni = Point::distanceAbs(position, listSpecieTrie[j]);
-                listSpecieTrie.erase(listSpecieTrie.begin()+j);
+                listSpecieTrie.erase(listSpecieTrie.begin() + j);
                 listSpecieTrie.push_back(listSpecieTrie[i]); //pas perdre la 1er ligne
                 index = j;
             }

@@ -1,0 +1,17 @@
+# food
+0
+
+2 # nb anthill
+
+# anthill #1
+	50 50 30 55 55 315 0 0 1
+
+    #predator
+    40 40 3
+
+
+# anthill #2
+   100 100 10 105 105 500 1 0 0
+
+   #collector
+   60 60 3 false
