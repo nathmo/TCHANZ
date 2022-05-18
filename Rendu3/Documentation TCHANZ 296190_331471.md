@@ -1,19 +1,19 @@
 # Documentation final de TCHANZ
 ## Approche pour les déplacements
-### Lieu de naissance des fourmis
+### Lieu de naissance des fourmis :
 le lieux de naissance des fourmis est choisis au hazard pour garantir une part de fourmis sur chaque famille de case et donc maximiser le nombre de nourriture qui peuvent être atteintes dans le cas des collector ainsi que d'assurer certaines répartion a peut pret égal des autres fourmis dans la fourmilliere.
 
-### Generator
-la fourmis générator essaie de se placer au centre de la fourmillière sauf si une bordure de 3 carré ne peux être garantie entre la générator et le bord de la formillière ou les fourmis peuvent apparaitrent. Ceci dans le but de permettre la génération de fourmis meme avec plus petite fourmilliere possible.
+### Generator :
+la fourmis générator essaie de se placer au centre de la fourmillière sauf si une bordure de 3 carré ne peut être garantie entre la générator et le bord de la fourmillière où les fourmis peuvent apparaitre. Ceci dans le but de permettre la génération de fourmis meme avec la plus petite fourmilliere possible en lui laissant l'opportunité de grandir dans le pire des cas.
 
 ### Collector :
 Dans le cas ou deux chemin sont égaux, la collector calcule le nombre de superposition a chaque pas et choisis le chemin qui cummule le moins de superposition avec d'autre entité
 une fourmis collector sans nourriture cible se contente de se déplacer au hazard sur le plateau dans le but de maximiser ses chances qu'une des collector sois au plus proche d'une nourriture quand celle-ci apparaitra
 
-### Defensor
+### Defensor :
 Defensors calcul la bordure la plus proche et s'y rend. une fois sur la bordure elle se contente de se déplacer d'un coté et de l'autre pour ne pas bloquer une collector ou predator qui sortirais de la fourmillière.
 
-### Predator
+### Predator :
 la fourmis prédator tente simplement de retourner dans sa fourmilliere et s'y ballade au hazard. Les déplacement au hazard étant là pour éviter les blocage avec d'autre fourmis de la fourmilliere.
 
 ## Screenshot

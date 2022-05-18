@@ -426,7 +426,7 @@ shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBu
 void Collector::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
-    int id = getId()%6;
+    int id = getId() % 6;
 
     Squarecell::diagonale(x, y, id, sizeC);
 }

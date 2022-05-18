@@ -142,7 +142,7 @@ void Fourmiliere::checkGeneratorUsingCoord() {
                          (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getWidth(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getHeight(), true);
-    if(overlapSize<(sizeG*sizeG)) {
+    if(overlapSize < (sizeG*sizeG)) {
         cout << message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
@@ -191,7 +191,7 @@ void Fourmiliere::randomCreateAnts() {
         position = spawn[Entity::randInt(0, spawn.size()-2)];
         try {
             switch (antTypeToGenerate) {
-                case 0  : { // Collector
+                case 0  : { //Collector
                     vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                                 sizeC, sizeC, anyCST);
                         position = spawn[0]; // Entity::randInt(0,spawn.size()-1)
@@ -206,7 +206,7 @@ void Fourmiliere::randomCreateAnts() {
                     nbD++;
                     break;
                 }
-                case 2  : {// Predator
+                case 2  : {//Predator
                     position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                            sizeP, sizeP, anyCST))[0];
                     ant = make_shared<Predator> (position, id, 0);
