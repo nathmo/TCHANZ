@@ -191,7 +191,7 @@ void Fourmiliere::randomCreateAnts() {
                 case 0  : { // Collector
                     vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                                 sizeC, sizeC, anyCST);
-                        position = spawn[0]; // Entity::randInt(0,spawn.size()-1)
+                        position = spawn[Entity::randInt(0,spawn.size()-2)]; // Entity::randInt(0,spawn.size()-1)
                     ant = make_shared<Collector>(position, id, 0, false);
                     nbC++;
                     break;
