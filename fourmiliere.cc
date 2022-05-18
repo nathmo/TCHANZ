@@ -177,7 +177,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 void Fourmiliere::randomCreateAnts() {
-    if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))) {
+    if(biasedCoinFlip(min(birth_rate*foodReserve, 1.0))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
         // remove the border from allowed zone
@@ -192,21 +192,21 @@ void Fourmiliere::randomCreateAnts() {
                     vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                                 sizeC, sizeC, anyCST);
                         position = spawn[0]; // Entity::randInt(0,spawn.size()-1)
-                    ant = make_shared<Collector>(position, id, 0, false);
+                    ant = make_shared<Collector> (position, id, 0, false);
                     nbC++;
                     break;
                 }
                 case 1  : {// Defensor
                     position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                            sizeD, sizeD, anyCST))[0];
-                    ant = make_shared<Defensor>(position, id, 0);
+                    ant = make_shared<Defensor> (position, id, 0);
                     nbD++;
                     break;
                 }
                 case 2  : {// Predator
                     position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                            sizeP, sizeP, anyCST))[0];
-                    ant = make_shared<Predator>(position, id, 0);
+                    ant = make_shared<Predator> (position, id, 0);
                     nbP++;
                     break;
                 }
