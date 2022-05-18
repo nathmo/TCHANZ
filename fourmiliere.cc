@@ -186,6 +186,9 @@ void Fourmiliere::randomCreateAnts() {
         Point cornerTR = Point((*occupiedSpace).getHitboxTopRight().getCoordX()-1,
                                (*occupiedSpace).getHitboxTopRight().getCoordY()-1);
         Point position;
+        vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
+                                                       sizeC, sizeC, anyCST);
+        position = spawn[Entity::randInt(0, spawn.size()-2)];
         try {
             switch (antTypeToGenerate) {
                 case 0  : { // Collector

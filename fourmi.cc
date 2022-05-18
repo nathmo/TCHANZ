@@ -1,6 +1,6 @@
 /*!
   \file   fourmi.cc
-  \author Nathann Morand (50%) et Felipe Ramirez (50%)
+  \author Nathann Morand (40%) et Felipe Ramirez (60%)
   \date   MARS 2022
   \brief  implémentation du module "fourmi".
 */
