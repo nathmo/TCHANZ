@@ -685,7 +685,9 @@ void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
     vector<Point> murderZone = {center, up, down, right, left};
     for(auto zone:murderZone) {
         shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList, fourmiCollectorCST);
-        //                                    (fourmiCollectorCST | fourmiPredatorCST));
+        if(victim == nullptr) {
+            victim = Entity::findByPosition(zone, entityList, fourmiPredatorCST);
+        }
         if(victim != nullptr) {
             if(victim->getId() != int(id)) {
                 victim->setEndOfLife(true);
