@@ -8,12 +8,12 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <random>
 #include "entity.h"
 #include "squarecell.h"
-#include "constantes.h"
+
 
 using namespace std;
-
 default_random_engine Entity::randGen;
 
 Entity::Entity(Point position, int width, int height,
@@ -80,9 +80,15 @@ void Entity::draw() {
     exit(EXIT_FAILURE);
 }
 
-bool Entity::biasedCoinFlip(float p) {
-    bernoulli_distribution bernoulli(p);
-    return bernoulli(randGen);
+bool Entity::biasedCoinFlip(double p) {
+    bernoulli_distribution bernoul(p);
+    int noftrue = 0;
+    for(int i=0;i<1000;i++){
+        if(bernoul(randGen)){
+            noftrue++;
+        }
+    } // for some reason running the random gen help make it respect its proba
+    return bernoul(randGen);
 }
 
 int Entity::randInt(unsigned int min, unsigned int max) {
