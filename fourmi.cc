@@ -672,6 +672,7 @@ vector<Point> Predator::getNextMove(Point position) {
     Point upLeftB = Point(position.getCoordX()-1,position.getCoordY()+2);
     Point downLeftB = Point(position.getCoordX()-1,position.getCoordY()-2);
     Point downRightB = Point(position.getCoordX()+1,position.getCoordY()-2);
+
     return {upRightA, upLeftA, downLeftA, downRightA,
             upRightB, upLeftB, downLeftB, downRightB};
 }
