@@ -188,36 +188,25 @@ void Fourmiliere::randomCreateAnts() {
         Point position;
         vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                        sizeC, sizeC, anyCST);
-        position = spawn[Entity::randInt(0, spawn.size()-2)];
-        try {
-            switch (antTypeToGenerate) {
-                case 0  : { //Collector
-                    vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
-                                                                sizeC, sizeC, anyCST);
-                        position = spawn[0]; // Entity::randInt(0,spawn.size()-1)
-                    ant = make_shared<Collector> (position, id, 0, false);
-                    nbC++;
-                    break;
-                }
-                case 1  : {// Defensor
-                    position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
-                                                           sizeD, sizeD, anyCST))[0];
-                    ant = make_shared<Defensor> (position, id, 0);
-                    nbD++;
-                    break;
-                }
-                case 2  : {//Predator
-                    position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
-                                                           sizeP, sizeP, anyCST))[0];
-                    ant = make_shared<Predator> (position, id, 0);
-                    nbP++;
-                    break;
-                }
+        position = spawn[Entity::randInt(1, spawn.size()-2)];
+        switch (antTypeToGenerate) {
+            case 0  : { //Collector
+                ant = make_shared<Collector> (position, id, 0, false);
+                nbC++;
+                break;
             }
-            memberAnts.push_back(ant);
-        } catch(int code) {
-            return; // no space found, return without adding a new ant
+            case 1  : {//Defensor
+                ant = make_shared<Defensor> (position, id, 0);
+                nbD++;
+                break;
+            }
+            case 2  : {//Predator
+                ant = make_shared<Predator> (position, id, 0);
+                nbP++;
+                break;
+            }
         }
+        memberAnts.push_back(ant);
     }
 }
 
