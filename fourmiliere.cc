@@ -117,6 +117,14 @@ void Fourmiliere::draw() {
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
+    if(isConstrained){
+        for(auto fourmi:memberAnts) {
+            if(fourmi->getSpecie() == fourmiPredatorCST) {
+                shared_ptr<Predator> predator=dynamic_pointer_cast<Predator>(fourmi);
+                predator -> setConstrained(isConstrained);
+            }
+        }
+    }
 }
 
 std::vector<std::shared_ptr<Fourmi>> Fourmiliere::getAnts() {
