@@ -117,7 +117,7 @@ void Fourmiliere::draw() {
 
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
-    if(isConstrained){
+    if(isConstrained) {
         for(auto fourmi:memberAnts) {
             if(fourmi->getSpecie() == fourmiPredatorCST) {
                 shared_ptr<Predator> predator=dynamic_pointer_cast<Predator>(fourmi);
@@ -185,7 +185,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 void Fourmiliere::randomCreateAnts() {
-    if(biasedCoinFlip(min(birth_rate*foodReserve, 1.0))) {
+    if(biasedCoinFlip(float(min(birth_rate*foodReserve, 1.0)))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
         // remove the border from allowed zone
