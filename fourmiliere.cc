@@ -142,7 +142,7 @@ void Fourmiliere::checkGeneratorUsingCoord() {
                          (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getWidth(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getHeight(), true);
-    if(overlapSize<(sizeG*sizeG)) {
+    if(overlapSize < (sizeG*sizeG)) {
         cout << message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
@@ -177,7 +177,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 void Fourmiliere::randomCreateAnts() {
-    if(biasedCoinFlip(min(birth_rate*foodReserve,1.0))) {
+    if(biasedCoinFlip(min(birth_rate*foodReserve, 1.0))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
         // remove the border from allowed zone
@@ -186,35 +186,27 @@ void Fourmiliere::randomCreateAnts() {
         Point cornerTR = Point((*occupiedSpace).getHitboxTopRight().getCoordX()-1,
                                (*occupiedSpace).getHitboxTopRight().getCoordY()-1);
         Point position;
-        try {
-            switch (antTypeToGenerate) {
-                case 0  : { // Collector
-                    vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
-                                                                sizeC, sizeC, anyCST);
-                        position = spawn[0]; // Entity::randInt(0,spawn.size()-1)
-                    ant = make_shared<Collector>(position, id, 0, false);
-                    nbC++;
-                    break;
-                }
-                case 1  : {// Defensor
-                    position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
-                                                           sizeD, sizeD, anyCST))[0];
-                    ant = make_shared<Defensor>(position, id, 0);
-                    nbD++;
-                    break;
-                }
-                case 2  : {// Predator
-                    position = (Squarecell::findFreeInArea(cornerBL, cornerTR,
-                                                           sizeP, sizeP, anyCST))[0];
-                    ant = make_shared<Predator>(position, id, 0);
-                    nbP++;
-                    break;
-                }
+        vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
+                                                       sizeC, sizeC, anyCST);
+        position = spawn[Entity::randInt(1, spawn.size()-2)];
+        switch (antTypeToGenerate) {
+            case 0  : { //Collector
+                ant = make_shared<Collector> (position, id, 0, false);
+                nbC++;
+                break;
             }
-            memberAnts.push_back(ant);
-        } catch(int code) {
-            return; // no space found, return without adding a new ant
+            case 1  : {//Defensor
+                ant = make_shared<Defensor> (position, id, 0);
+                nbD++;
+                break;
+            }
+            case 2  : {//Predator
+                ant = make_shared<Predator> (position, id, 0);
+                nbP++;
+                break;
+            }
         }
+        memberAnts.push_back(ant);
     }
 }
 

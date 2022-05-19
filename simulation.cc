@@ -16,8 +16,7 @@
 
 using namespace std;
 
-Simulation::Simulation() {
-}
+Simulation::Simulation() {}
 
 vector<shared_ptr<Entity>> Simulation::getListEntity() {
     vector<shared_ptr<Entity>> entityToExport;
@@ -50,11 +49,11 @@ void Simulation::saveToFile(string path) {
 
 void Simulation::simulateStep() {
     vector<shared_ptr<Entity>> entityList;
-    //shared_ptr<Nourriture> food = Nourriture::randomCreate();
+    shared_ptr<Nourriture> food = Nourriture::randomCreate();
 
-    //if(food != nullptr) {
-    //    nourritureList.push_back(food);
-    //}// create food randomly
+    if(food != nullptr) {
+        nourritureList.push_back(food);
+    }// create food randomly
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
     for(auto anthill:anthillList) {
@@ -64,14 +63,14 @@ void Simulation::simulateStep() {
     for(auto anthill:anthillList) {
         anthill->update(entityList);
     }// update the anthill and their ants
-    for(unsigned int i=0; i<anthillList.size(); i++) {
+    for(unsigned int i=0; i < anthillList.size(); i++) {
         if((anthillList[i]) -> getEndOfLife()) {
-            anthillList.erase(anthillList.begin()+i);
+            anthillList.erase(anthillList.begin() + i);
         }
     }// erase anthill that died
-    for(unsigned int i=0; i<nourritureList.size(); i++) {
-        if((nourritureList[i])->getEndOfLife()) {
-            nourritureList.erase(nourritureList.begin()+i);
+    for(unsigned int i=0; i < nourritureList.size(); i++) {
+        if((nourritureList[i]) -> getEndOfLife()) {
+            nourritureList.erase(nourritureList.begin() + i);
         }// erase food that where picked up
     }
 }
@@ -82,7 +81,7 @@ void Simulation::refreshGUI() {
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
     for(auto entity:entityList) {
-        entity->draw();// draw the entity
+        entity -> draw();// draw the entity
     }
 }
 
