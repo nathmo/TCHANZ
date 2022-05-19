@@ -84,7 +84,7 @@ void Gui::onButtonClickedStep() {
 bool Gui::onTick() {
     if(m_Button_StartStop.get_label()=="stop") { // step only if actively simulating
         timer++;
-        cout << "tick : "+to_string(timer) << endl;
+        cout << "tick : " + to_string(timer) << endl;
         (*simulationPtr).simulateStep();
         (*simulationPtr).refreshGUI();
         Gui::refreshAnthInfo();
@@ -95,8 +95,8 @@ bool Gui::onTick() {
 }
 
 void Gui::onButtonClickedPrevious() {
-    if(idAnthillSelected==-1) {
-        idAnthillSelected=(*simulationPtr).getAnthNb()-1;
+    if(idAnthillSelected == -1) {
+        idAnthillSelected = (*simulationPtr).getAnthNb()-1;
     } else {
         idAnthillSelected--;
     }
@@ -104,8 +104,8 @@ void Gui::onButtonClickedPrevious() {
 }
 
 void Gui::onButtonClickedNext() {
-    if(idAnthillSelected==(*simulationPtr).getAnthNb()-1) {
-        idAnthillSelected=-1;
+    if(idAnthillSelected == (*simulationPtr).getAnthNb()-1) {
+        idAnthillSelected = -1;
     } else {
         idAnthillSelected++;
     }
@@ -114,9 +114,8 @@ void Gui::onButtonClickedNext() {
 
 bool Gui::on_key_press_event(GdkEventKey* event) {
 
-    if((event->type == GDK_KEY_PRESS)){
-        switch (gdk_keyval_to_unicode(event->keyval))
-        {
+    if((event->type == GDK_KEY_PRESS)) {
+        switch(gdk_keyval_to_unicode(event->keyval)) {
             case 's':
                 Gui::onButtonClickedStartStop();
                 return true;

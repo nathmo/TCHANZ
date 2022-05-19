@@ -452,14 +452,14 @@ vector<Point> Squarecell::findFreeInArea(Point cornerBotLeft, Point cornerTopRig
     } else {
         paddingHeight = ((height-1)/2);
     }
-    int xStart = cornerBotLeft.getCoordX()+paddingWidth;
-    int xStop = (cornerTopRight.getCoordX()-paddingWidth);
-    int yStart = cornerBotLeft.getCoordY()+paddingHeight;
-    int yStop = (cornerTopRight.getCoordY()-paddingHeight);
-    for(int x=xStart; x < xStop; x++){
-        for(int y=yStart; y < yStop; y++){
+    int xStart = cornerBotLeft.getCoordX() + paddingWidth;
+    int xStop = cornerTopRight.getCoordX() - paddingWidth;
+    int yStart = cornerBotLeft.getCoordY() + paddingHeight;
+    int yStop = cornerTopRight.getCoordY() - paddingHeight;
+    for(int x=xStart; x <= xStop; x++) {
+        for(int y=yStart; y <= yStop; y++) {
             if(Squarecell::checkOverlap(Point(x,y), width, height, filter, true)==0) {
-                space.push_back(Point(x,y));
+                space.push_back(Point(x, y));
             } // convolute the shape to find a spot where it fit
         }
     }

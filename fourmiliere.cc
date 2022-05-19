@@ -58,14 +58,14 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     }
     randomCreateAnts();
     for(unsigned int i=1; i < memberAnts.size(); i++) {
-        memberAnts[i]->update(entityList);
+        memberAnts[i] -> update(entityList);
     }
-    int i =0;
-    for(auto &ant:memberAnts) {
-        if((ant)->getSpecie() != fourmiGeneratorCST) {
-            if((ant)->getEndOfLife()) {
-                char kind = ant -> getSpecie();
-                switch (kind) {
+    int i = 0;
+    while(true) {
+        if((memberAnts[i])->getSpecie() != fourmiGeneratorCST) {
+            if((memberAnts[i]) -> getEndOfLife()) {
+                char kind = (memberAnts[i]) -> getSpecie();
+                switch(kind) {
                     case fourmiCollectorCST:
                         nbC--;
                         break;
@@ -76,11 +76,14 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
                         nbP--;
                         break;
                 }
-                memberAnts.erase(memberAnts.begin()+i);
+                memberAnts.erase(memberAnts.begin() + i);
                 i--;
             }
         }
         i++;
+        if(memberAnts.size() == abs(i)) {
+            break;
+        }
     }
 }
 
@@ -188,6 +191,7 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 void Fourmiliere::randomCreateAnts() {
+    cout << "test" << endl;
     if(biasedCoinFlip(float(min(birth_rate*foodReserve, 1.0)))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
@@ -199,25 +203,28 @@ void Fourmiliere::randomCreateAnts() {
         Point position;
         vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                        sizeC, sizeC, anyCST);
-        position = spawn[Entity::randInt(1, spawn.size()-2)];
-        switch (antTypeToGenerate) {
-            case 0  : { //Collector
-                ant = make_shared<Collector> (position, id, 0, false);
-                nbC++;
-                break;
+        if(spawn.size()>0){
+            position = spawn[0];//Entity::randInt(1, spawn.size()-2)
+            cout << "test2" << endl;
+            switch (antTypeToGenerate) {
+                case 0  : { //Collector
+                    ant = make_shared<Collector> (position, id, 0, false);
+                    nbC++;
+                    break;
+                }
+                case 1  : {//Defensor
+                    ant = make_shared<Defensor> (position, id, 0);
+                    nbD++;
+                    break;
+                }
+                case 2  : {//Predator
+                    ant = make_shared<Predator> (position, id, 0);
+                    nbP++;
+                    break;
+                }
             }
-            case 1  : {//Defensor
-                ant = make_shared<Defensor> (position, id, 0);
-                nbD++;
-                break;
-            }
-            case 2  : {//Predator
-                ant = make_shared<Predator> (position, id, 0);
-                nbP++;
-                break;
-            }
+            memberAnts.push_back(ant);
         }
-        memberAnts.push_back(ant);
     }
 }
 
