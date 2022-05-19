@@ -52,7 +52,7 @@ void Simulation::simulateStep() {
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
 
     if(food != nullptr) {
-        nourritureList.push_back(food);
+        //nourritureList.push_back(food); // PAS OUBLIER DE DECOMENTER POUR LE RENDU
     }// create food randomly
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());

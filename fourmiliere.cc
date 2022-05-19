@@ -191,7 +191,6 @@ void Fourmiliere::checkDefensorUsingCoord() {
 }
 
 void Fourmiliere::randomCreateAnts() {
-    cout << "test" << endl;
     if(biasedCoinFlip(float(min(birth_rate*foodReserve, 1.0)))) {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
@@ -204,8 +203,7 @@ void Fourmiliere::randomCreateAnts() {
         vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                        sizeC, sizeC, anyCST);
         if(spawn.size()>0){
-            position = spawn[0];//Entity::randInt(1, spawn.size()-2)
-            cout << "test2" << endl;
+            position = spawn[Entity::randInt(0, spawn.size()-1)];
             switch (antTypeToGenerate) {
                 case 0  : { //Collector
                     ant = make_shared<Collector> (position, id, 0, false);
@@ -231,17 +229,17 @@ void Fourmiliere::randomCreateAnts() {
 int Fourmiliere::getAntTypeToGenerate() {
     int antTypeToGenerate = 0;
     if(isConstrained) {
-        if(memberAnts.size()*prop_constrained_collector > nbC) {
+        if((memberAnts.size()-1)*prop_constrained_collector >= nbC) {
             antTypeToGenerate = 0;
-        } else if(memberAnts.size()*prop_constrained_defensor > nbD) {
+        } else if((memberAnts.size()-1)*prop_constrained_defensor >= nbD) {
             antTypeToGenerate = 1;
         } else {
             antTypeToGenerate = 2;
         }
     } else {
-        if(memberAnts.size()*prop_free_collector > nbC) {
+        if((memberAnts.size()-1)*prop_free_collector >= nbC) {
             antTypeToGenerate = 0;
-        } else if(memberAnts.size()*prop_free_defensor > nbD) {
+        } else if((memberAnts.size()-1)*prop_free_defensor >= nbD) {
             antTypeToGenerate = 1;
         } else {
             antTypeToGenerate = 2;
@@ -251,8 +249,8 @@ int Fourmiliere::getAntTypeToGenerate() {
 }
 
 void Fourmiliere::attemptExpansionAnthill() {
-    int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC*nbC + sizeD*sizeD*nbD*nbD
-                              + sizeP*sizeP*nbP*nbP)));
+    int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC + sizeD*sizeD*nbD
+                              + sizeP*sizeP*nbP)));
     int delta = sizeF-(*occupiedSpace).getWidth();
     Point originLL = (*occupiedSpace).getHitboxBotLeft();
     Point originUL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX(),

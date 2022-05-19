@@ -35,7 +35,7 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList) {
         setSize(0, 0); // ensure the next step is free
         // (but need to remove itself to prevent self collision) (food are ignored)
         nextStepOverlap = Squarecell::countOverlap(pathBuffer[0], width, height,
-                                                   (anyCST ^ (nourritureCST)), true);
+                                                   (anyCST), true);
         setSize(width, height); // back to normal size
         if(nextStepOverlap == 0) {
             setPosition(pathBuffer[0]);
@@ -138,7 +138,6 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
     if(pathToEvalVec.size() < 1) {
         return {};
     } else {
-        cout << "more than one path" << endl;
         vector<Point> toReturn = {};
         int lowestOverlapScore = g_max*g_max;
         for(auto pathToEval:pathToEvalVec) {
@@ -157,13 +156,8 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
                 lowestOverlapScore = overlapScore;
                 toReturn = pathToEval;
             }
-            cout << "overlap" << endl;
-            cout << overlapScore << endl;
-            cout << "step" << endl;
-            for(auto step:pathToEval){
-                cout << step.getCoordX() <<" "<< step.getCoordY() << endl;
-            }
         }
+        toReturn.erase(toReturn.begin()); // remove the first step that is useless
         return toReturn;
     }
 }
@@ -182,9 +176,39 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
     }
 }
 
+void Collector::step(vector<shared_ptr<Entity>> &entityList) {
+    if(entityList.size() > 0) {
+        int height = getHeight();
+        int width = getWidth();
+        int nextStepOverlap=0; // ensure the path is free
+        setSize(0, 0); // ensure the next step is free
+        // (but need to remove itself to prevent self collision) (food are ignored)
+        nextStepOverlap = Squarecell::countOverlap(pathBuffer[0], width, height,
+                                                   (anyCST ^ nourritureCST), true);
+
+        Point up(getPosition().getCoordX(), getPosition().getCoordY() + 2);
+        Point down(getPosition().getCoordX(), getPosition().getCoordY() - 2);
+        Point right(getPosition().getCoordX() + 2, getPosition().getCoordY());
+        Point left(getPosition().getCoordX() - 2, getPosition().getCoordY());
+
+        vector<Point> direction = {up, down, left, right};
+        for(auto side: direction) {
+            nextStepOverlap += Squarecell::countOverlap(side, 1, 1,
+                                                        (nourritureCST), true);
+        }
+        // note ici bloquer suelement sur les bouffe dans la direction ou on vas
+        // ajouter l'autre famille de point cest pas la bonne
+        setSize(width, height); // back to normal size
+        if(nextStepOverlap == 0) {
+            setPosition(pathBuffer[0]);
+            pathBuffer.erase(pathBuffer.begin());
+        }
+    }
+}
+
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    if (age >= bug_life){
+    if(age >= bug_life) {
         endOfLife = true;
     }
     evaluateConditionTarget(entityList);
@@ -192,9 +216,10 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         recomputePath(entityList);
     }
     if(pathBuffer.size() != 0) {
-        if(pathBuffer.size()>1) {
+        if(pathBuffer.size() > 1) {
             step(entityList);
-        } else {
+        }
+        if(pathBuffer.size() <= 1) {
             if(carryFood) {
                 unloadFood(entityList);
             } else {
@@ -221,19 +246,19 @@ double Collector::distance(Point start, Point stop) {
 vector<Point> Collector::getNextMove(Point position) {
     vector<Point> nextMoves = {};
     int XRight = position.getCoordX() + 1;
-    if(not Point::isCoordInRange(XRight)){
+    if(not Point::isCoordInRange(XRight)) {
         XRight = position.getCoordX();
     }
     int Xleft = position.getCoordX() - 1;
-    if(not Point::isCoordInRange(Xleft)){
+    if(not Point::isCoordInRange(Xleft)) {
         Xleft = position.getCoordX();
     }
     int YTop = position.getCoordY() + 1;
-    if(not Point::isCoordInRange(YTop)){
+    if(not Point::isCoordInRange(YTop)) {
         YTop = position.getCoordX();
     }
     int YBot = position.getCoordY() - 1;
-    if(not Point::isCoordInRange(YBot)){
+    if(not Point::isCoordInRange(YBot)) {
         YBot = position.getCoordX();
     }
     nextMoves.push_back(Point(XRight, YTop));
@@ -297,7 +322,7 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
                 side.push_back(Point(i,y));
             }
             if((i+height+y)%2 == caseFamily) {
-                side.push_back(Point(i+height,y));
+                side.push_back(Point(i,y+height));
             }
         }
         int lowestDistanceToHome = g_max*g_max;
@@ -388,7 +413,7 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
             pathBuffer = findPath(positionCollector, pointToGo);
         }
     } else {
-        // behaviour if no food available
+        //Squarecell::findFreeInArea(cornerBL, cornerTR, sizeC, sizeC, anyCST);
     }
 }
 
@@ -434,15 +459,19 @@ void Collector::draw() {
     int x = (*occupiedSpace).getHitboxBotLeft().getCoordX();
     int y = (*occupiedSpace).getHitboxBotLeft().getCoordY();
     int id = getId() % 6;
-
     Squarecell::diagonale(x, y, id, sizeC);
+    if(carryFood) {
+        x = (*occupiedSpace).getHitboxBotLeft().getCoordX() + 1;
+        y = (*occupiedSpace).getHitboxBotLeft().getCoordY() + 1;
+        Squarecell::losange(x, y, 12);
+    }
 }
 
 Defensor::Defensor(Point position, int id, int age) :
                          Fourmi(position, age,fourmiDefensorCST,id, sizeD) {
 }
 
-Point Defensor::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
+Point Fourmi::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList,
                                                           fourmilliereCST);
     Point lb = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
@@ -487,6 +516,7 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
     if(age >= bug_life) {
         endOfLife = true;
     }
+    MurderRadius(entityList);
     evaluateConditionTarget(entityList);
     if(pathBuffer.size() == 0) {
         recomputePath(entityList);
@@ -503,6 +533,25 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
                               (*fourmilliere[0]).getPosition(), width, height, false);
         if(overlap < (sizeD*sizeD)) {
             endOfLife = true;
+        }
+    }
+    MurderRadius(entityList);
+}
+
+void Defensor::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
+    Point center = getPosition();
+    Point up(getPosition().getCoordX(), getPosition().getCoordY() + 1);
+    Point down(getPosition().getCoordX(), getPosition().getCoordY() - 1);
+    Point right(getPosition().getCoordX() + 1, getPosition().getCoordY());
+    Point left(getPosition().getCoordX() - 1, getPosition().getCoordY());
+    vector<Point> murderZone = {center, up, down, right, left};
+    for(auto zone:murderZone) {
+        shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList,
+                                                           fourmiCollectorCST);
+        if(victim != nullptr) {
+            if(victim->getId() != int(id)) {
+                victim->setEndOfLife(true);
+            }
         }
     }
 }
@@ -596,7 +645,7 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
     for(auto enemy:entityList) {
         if(enemy->getId() != int(id)) {
             if((enemy->getSpecie() == fourmiCollectorCST) or
-                                         (enemy->getSpecie() == fourmiCollectorCST)) {
+                                         (enemy->getSpecie() == fourmiPredatorCST)) {
                 listOfEnemyPos.push_back(enemy -> getPosition());
             }
         }
@@ -619,7 +668,7 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
                     listOfEnemyPos.erase(listOfEnemyPos.begin() + i);
                     i--;
                 }
-                i++;
+                i++; // bug avec ça ???
             }
         }
     }
@@ -639,7 +688,7 @@ void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     if (age >= bug_life){
         endOfLife = true;
     }
-    if((pathBuffer.size() > 0)) {
+    if(pathBuffer.size() > 0) {
         Point oldTarget = pathBuffer[pathBuffer.size()-1];
         vector<Point> target = findClosestEnemy(entityList);
         bool targetmoved = true;
@@ -692,7 +741,8 @@ void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
     Point left(getPosition().getCoordX() - 1, getPosition().getCoordY());
     vector<Point> murderZone = {center, up, down, right, left};
     for(auto zone:murderZone) {
-        shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList, fourmiCollectorCST);
+        shared_ptr<Entity> victim = Entity::findByPosition(zone, entityList,
+                                                           fourmiCollectorCST);
         if(victim == nullptr) {
             victim = Entity::findByPosition(zone, entityList, fourmiPredatorCST);
         }

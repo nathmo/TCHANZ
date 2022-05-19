@@ -20,7 +20,7 @@ protected:
 public:
     Fourmi(Point position, int age, char type, int id, int size);
     int getAge();
-    void step(std::vector<std::shared_ptr<Entity>> &entityList);
+    virtual void step(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
     virtual std::vector<std::vector<std::string>> exportToString();
@@ -31,6 +31,7 @@ public:
                                              Point target);
     std::vector<Point> prunePaths(std::vector<std::vector<Point>> pathToEvalVec);
     std::vector<Point> findPath(Point start, Point stop);
+    Point findClosestBorder(std::vector<std::shared_ptr<Entity>> &entityList);
 };
 
 class Collector : public Fourmi {
@@ -39,6 +40,7 @@ private:
 
 public:
     Collector(Point position, int id, int age, bool carryFood);
+    virtual void step(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual double distance(Point start, Point stop);
     virtual std::vector<Point> getNextMove(Point position);
@@ -59,8 +61,8 @@ public:
 class Defensor : public Fourmi {
 public:
     Defensor(Point position, int id, int age);
-    Point findClosestBorder(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
+    void MurderRadius(std::vector<std::shared_ptr<Entity>> &entityList);
     void evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList);
     void recomputePath(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual double distance(Point start, Point stop);
