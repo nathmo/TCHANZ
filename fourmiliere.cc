@@ -60,10 +60,11 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     for(unsigned int i=1; i < memberAnts.size(); i++) {
         memberAnts[i]->update(entityList);
     }
-    for(unsigned int i=1; i < memberAnts.size(); i++) {
-        if((memberAnts[i])->getSpecie() != fourmiGeneratorCST) {
-            if((memberAnts[i])->getEndOfLife()) {
-                char kind = memberAnts[i] -> getSpecie();
+    int i =0;
+    for(auto &ant:memberAnts) {
+        if((ant)->getSpecie() != fourmiGeneratorCST) {
+            if((ant)->getEndOfLife()) {
+                char kind = ant -> getSpecie();
                 switch (kind) {
                     case fourmiCollectorCST:
                         nbC--;
@@ -76,8 +77,10 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
                         break;
                 }
                 memberAnts.erase(memberAnts.begin()+i);
+                i--;
             }
         }
+        i++;
     }
 }
 
