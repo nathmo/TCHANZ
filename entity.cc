@@ -80,7 +80,7 @@ void Entity::draw() {
     exit(EXIT_FAILURE);
 }
 
-bool Entity::biasedCoinFlip(double p) {
+bool Entity::biasedCoinFlip(float p) {
     bernoulli_distribution bernoul(p);
     int noftrue = 0;
     for(int i=0;i<1000;i++){

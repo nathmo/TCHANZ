@@ -138,6 +138,7 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
     if(pathToEvalVec.size() < 1) {
         return {};
     } else {
+        cout << "more than one path" << endl;
         vector<Point> toReturn = {};
         int lowestOverlapScore = g_max*g_max;
         for(auto pathToEval:pathToEvalVec) {
@@ -155,6 +156,12 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
             if(overlapScore < lowestOverlapScore) {
                 lowestOverlapScore = overlapScore;
                 toReturn = pathToEval;
+            }
+            cout << "overlap" << endl;
+            cout << overlapScore << endl;
+            cout << "step" << endl;
+            for(auto step:pathToEval){
+                cout << step.getCoordX() <<" "<< step.getCoordY() << endl;
             }
         }
         return toReturn;
@@ -401,7 +408,7 @@ vector<vector<string>> Collector::exportToString() {
 
 shared_ptr<Fourmi> Collector::importFromExtSaveCollector(vector<string> &inputBuffer,
                                                          int index) {
-    if(!(inputBuffer.size() <= 4)) {
+    if(!(inputBuffer.size() >= 4)) {
         cout << "Collector : number of argument mismatch" << endl;
         throw (errorCode);
     } else {
@@ -549,7 +556,7 @@ vector<vector<string>> Defensor::exportToString() {
 
 shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuffer,
                                                        int index) {
-    if(!(inputBuffer.size() <= 3)) {
+    if(!(inputBuffer.size() >= 3)) {
         cout << "Defensor : number of argument mismatch" << endl;
         throw (errorCode);
     } else {
@@ -713,7 +720,7 @@ vector<vector<string>> Predator::exportToString() {
 
 shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuffer,
                                                        int index) {
-    if(!(inputBuffer.size() <= 3)) {
+    if(!(inputBuffer.size() >= 3)) {
         cout << "Predator : number of argument mismatch" << endl;
         throw (errorCode);
     } else {
