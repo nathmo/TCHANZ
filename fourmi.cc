@@ -405,7 +405,6 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
 
 Point Collector::findBestHome(vector<Point> side) {
     int lowestDistanceToHome = g_max * g_max;
-    int deltaxy = g_max;
     Point candidat;
     for (auto target: side) {
         if (Point::distanceAbs(getPosition(), target) < lowestDistanceToHome) {
