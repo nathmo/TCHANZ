@@ -4,10 +4,19 @@
 Le lieu de naissance des fourmis est choisi au hazard pour garantir une homogénéité entre chaque famille de case et donc maximiser le nombre de nourriture qui peuvent être atteintes dans le cas des collectors et d'assurer une certaine égalité d'apparition des autres type de fourmis dans la fourmilliere.
 
 ### Generator :
-La fourmi Generator essaie de se placer au centre de la fourmilière. Sauf dans le cas où une largeur de 3 carrés ne peut-être garantie entre la Generator et le bord de la fourmilière où les fourmis peuvent apparaitre. Ceci dans le but de permettre la génération de fourmis, même avec la plus petite fourmilière possible en lui laissant l'opportunité de grandir dans le pire des cas.
+La fourmi Generator essaie de se placer au centre de la fourmilière. 
+Sauf dans le cas où une largeur de 3 carrés ne peut-être garantie 
+entre la Generator et le bord de la fourmilière où les fourmis peuvent 
+apparaitre. Ceci dans le but de permettre la génération de fourmis, 
+même avec la plus petite fourmilière possible.
 
 ### Collector :
-Dans le cas où deux chemins sont égaux (dans leur changement de direction), la Collector calcule le nombre de superposition à chaque pas et choisis le chemin qui cumule le moins de superposition avec d'autres entités. Une fourmi collector sans nourriture cible se contente de se déplacer au hazard sur le plateau dans le but de maximiser ses chances qu'elle soit au plus proche d'une nourriture lors de son apparition.
+Dans le cas où deux chemins sont égaux (dans leur changement de direction),
+la Collector calcule le nombre de superposition à chaque pas et choisis
+le chemin qui cumule le moins de superposition avec d'autres entités.
+Une fourmi collector sans nourriture cible se contente de se déplacer
+au hazard sur le plateau dans le but de maximiser ses chances qu'elle
+soit au plus proche d'une nourriture lors de son apparition.
 
 ### Defensor :
 Les Defensors calculent la bordure la plus proche et s'y rendent. Une fois sur la bordure, elles se contentent de se déplacer d'un côté et de l'autre pour ne pas bloquer une Collector ou une Predator qui sortiraient de la fourmilière.

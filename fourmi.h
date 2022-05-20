@@ -11,6 +11,7 @@
 #include <vector>
 #include "squarecell.h"
 #include "entity.h"
+#include "nourriture.h"
 
 class Fourmi : public Entity {
 protected:
@@ -43,6 +44,8 @@ private:
 
 public:
     Collector(Point position, int id, int age, bool carryFood);
+    bool getCarryFood();
+    std::shared_ptr<Nourriture> dropFood();
     virtual void step(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual double distance(Point start, Point stop);

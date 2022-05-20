@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include "fourmi.h"
+#include "nourriture.h"
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
@@ -251,6 +252,18 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
             }
         }
     }
+}
+
+bool Collector::getCarryFood(){
+    return carryFood;
+}
+
+std::shared_ptr<Nourriture> Collector::dropFood(){
+    if(carryFood) {
+        return make_shared<Nourriture>(Point(getPosition().getCoordX(),
+                                             getPosition().getCoordY()), -1);
+    }
+    return nullptr;
 }
 
 void Collector::step(vector<shared_ptr<Entity>> &entityList) {
