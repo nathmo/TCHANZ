@@ -149,7 +149,7 @@ vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEval
                     currentPath.push_back(stepnew);
                 } else {
                     if(stepnew.getCoordX() > 126) {
-                        stepnew = Point(251-stepnew.getCoordX(),stepnew.getCoordY());
+                        stepnew = Point(252-stepnew.getCoordX(),stepnew.getCoordY());
                     }
                     if(stepnew.getCoordX() < 1) {
                         stepnew = Point(abs(stepnew.getCoordX()),stepnew.getCoordY());
@@ -158,7 +158,7 @@ vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEval
                         stepnew = Point(stepnew.getCoordX()+1,stepnew.getCoordY());
                     }
                     if(stepnew.getCoordY() > 126) {
-                        stepnew = Point(stepnew.getCoordX(), 251-stepnew.getCoordY());
+                        stepnew = Point(stepnew.getCoordX(), 252-stepnew.getCoordY());
                     }
                     if(stepnew.getCoordY() < 1) {
                         stepnew = Point(stepnew.getCoordX(),abs(stepnew.getCoordY()));
