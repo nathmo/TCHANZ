@@ -57,19 +57,19 @@ void Simulation::simulateStep() {
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
     for(auto anthill:anthillList) {
-        vector<shared_ptr<Fourmi>> fourmiList = (anthill -> getAnts());
+        vector<shared_ptr<Fourmi>> fourmiList = (anthill->getAnts());
         entityList.insert(entityList.end(),fourmiList.begin(), fourmiList.end());
     }// update the anthill and their ants
     for(auto anthill:anthillList) {
         anthill->update(entityList);
     }// update the anthill and their ants
     for(unsigned int i=0; i < anthillList.size(); i++) {
-        if((anthillList[i]) -> getEndOfLife()) {
+        if((anthillList[i])->getEndOfLife()) {
             anthillList.erase(anthillList.begin() + i);
         }
     }// erase anthill that died
     for(unsigned int i=0; i < nourritureList.size(); i++) {
-        if((nourritureList[i]) -> getEndOfLife()) {
+        if((nourritureList[i])->getEndOfLife()) {
             nourritureList.erase(nourritureList.begin() + i);
         }// erase food that where picked up
     }
@@ -81,7 +81,7 @@ void Simulation::refreshGUI() {
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
     for(auto entity:entityList) {
-        entity -> draw();// draw the entity
+        entity->draw();// draw the entity
     }
 }
 

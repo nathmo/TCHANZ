@@ -29,9 +29,12 @@ public:
     virtual std::vector<Point> getNextMove(Point position);
     std::vector<int> evaluateBestsDirections(std::vector<Point> directionToEval,
                                              Point target);
+    std::vector<std::vector<Point>> mirrorOutsidePath(
+                                       std::vector<std::vector<Point>> pathToEvalVec);
     std::vector<Point> prunePaths(std::vector<std::vector<Point>> pathToEvalVec);
     std::vector<Point> findPath(Point start, Point stop);
-    Point findClosestBorder(std::vector<std::shared_ptr<Entity>> &entityList);
+    std::vector<Point> findClosestBorder(
+            std::vector<std::shared_ptr<Entity>> &entityList);
 };
 
 class Collector : public Fourmi {

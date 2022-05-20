@@ -45,9 +45,9 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     attemptExpansionAnthill();
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
     foodReserve = foodReserve + (val_food*(gen->getFood()));
-    gen -> removeFood(); // removed the food from the generator once added in anthill
-    gen -> update(entityList); // update the generator
-    if(gen -> getEndOfLife()) {
+    gen->removeFood(); // removed the food from the generator once added in anthill
+    gen->update(entityList); // update the generator
+    if(gen->getEndOfLife()) {
         endOfLife = true;
         return;
     }
@@ -58,13 +58,14 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     }
     randomCreateAnts();
     for(unsigned int i=1; i < memberAnts.size(); i++) {
-        memberAnts[i] -> update(entityList);
+        memberAnts[i]->update(entityList);
     }
+
     int i = 0;
     while(true) {
         if((memberAnts[i])->getSpecie() != fourmiGeneratorCST) {
-            if((memberAnts[i]) -> getEndOfLife()) {
-                char kind = (memberAnts[i]) -> getSpecie();
+            if((memberAnts[i])->getEndOfLife()) {
+                char kind = (memberAnts[i])->getSpecie();
                 switch(kind) {
                     case fourmiCollectorCST:
                         nbC--;
@@ -202,9 +203,9 @@ void Fourmiliere::randomCreateAnts() {
         Point position;
         vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                        sizeC, sizeC, anyCST);
-        if(spawn.size()>0){
+        if(spawn.size() > 0) {
             position = spawn[Entity::randInt(0, spawn.size()-1)];
-            switch (antTypeToGenerate) {
+            switch(antTypeToGenerate) {
                 case 0  : { //Collector
                     ant = make_shared<Collector> (position, id, 0, false);
                     nbC++;
@@ -251,7 +252,7 @@ int Fourmiliere::getAntTypeToGenerate() {
 void Fourmiliere::attemptExpansionAnthill() {
     int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC + sizeD*sizeD*nbD
                               + sizeP*sizeP*nbP)));
-    int delta = sizeF-(*occupiedSpace).getWidth();
+    int delta = sizeF+1-(*occupiedSpace).getWidth();
     Point originLL = (*occupiedSpace).getHitboxBotLeft();
     Point originUL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX(),
                            (*occupiedSpace).getHitboxBotLeft().getCoordY()-delta);
@@ -262,11 +263,11 @@ void Fourmiliere::attemptExpansionAnthill() {
     int anthillArea = ((*occupiedSpace).getWidth()*(*occupiedSpace).getHeight());
     vector<Point> pointToTest = {originLL, originUL, originUR, originLR};
     for(auto point:pointToTest) {
-        if(Squarecell::ensureFitInGrid(point, sizeF, sizeF, false)) {
-            if(Squarecell::countOverlap(point, sizeF, sizeF, fourmilliereCST, false)
+        if(Squarecell::ensureFitInGrid(point, sizeF+2, sizeF+2, false)) {
+            if(Squarecell::countOverlap(point,sizeF+2, sizeF+2, fourmilliereCST,false)
                                                                      <= anthillArea) {
                 (*occupiedSpace).setPosition(point);
-                (*occupiedSpace).setSize(sizeF,sizeF);
+                (*occupiedSpace).setSize(sizeF+2,sizeF+2);
                 isConstrained = false;
                 return;
             }

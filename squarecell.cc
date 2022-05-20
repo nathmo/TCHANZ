@@ -527,7 +527,7 @@ void Squarecell::perimeter(int xBotLeft, int yBotLeft,  int sizeSide, int colorC
     //ligne horizontal depuis le haut
     linesToDraw.push_back({xBotLeft+sizeSide-0.5, yBotLeft+sizeSide-0.5,
                            xBotLeft+0.5, yBotLeft+sizeSide-0.5, 0.3, color});
-    for(auto command : linesToDraw) {
+    for(auto command:linesToDraw) {
         Graphic::drawLine(command[0], command[1], command[2],
                           command[3], command[4], command[5]);
     }
@@ -548,7 +548,7 @@ void Squarecell::losange(int x, int y, int colorCode) {
 }
 
 void Squarecell::grille(int x, int y, int id, int side) { //fonction draw Defensor
-    int lightColor = id+6;
+    int lightColor = id + 6;
     int colorCode = lightColor; //on commence en bas a gauche
 
     for(int i(0); i < side; i++) {
@@ -565,7 +565,7 @@ void Squarecell::grille(int x, int y, int id, int side) { //fonction draw Defens
 }
 
 void Squarecell::diagonale(int x, int y, int id, int side) {//fonction draw Collector
-    int lightColor = id+6;
+    int lightColor = id + 6;
     int colorCode = id; //on commence en bas a gauche donc foncé au debut
     // int xBotLeft, int yBotLeft,  int sizeSide, int colorCode
     for(int i(0); i < side; i++) {
