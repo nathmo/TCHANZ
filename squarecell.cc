@@ -46,7 +46,7 @@ int Point::getCoordY() {
 
 bool Point::isCoordInRange(long int coord) {
     bool status = false;
-    if((coord >= 1) and (coord < (g_max-1))) {
+    if((coord >= 1) and (coord <= (g_max-1))) {
         status = true;
     }
     return status;
@@ -335,8 +335,31 @@ int Squarecell::countOverlap(Point position, int width, int height,
     Point cornerTopRight = Squarecell::computeHitboxTopRight(position, width, height,
                                                              isPositionAtCenter);
     vector<Point> collisionList;
+    if(cornerBotLeft.getCoordX() >= g_max){
+        cornerBotLeft = Point(127,cornerBotLeft.getCoordY());
+    }
+    if(cornerBotLeft.getCoordY() >= g_max){
+        cornerBotLeft = Point(cornerBotLeft.getCoordX(),127);
+    }
+    if(cornerBotLeft.getCoordX() < 0){
+        cornerBotLeft = Point(0,cornerBotLeft.getCoordY());
+    }
+    if(cornerBotLeft.getCoordY() <0){
+        cornerBotLeft = Point(cornerBotLeft.getCoordX(),0);
+    }
+    if(cornerTopRight.getCoordX() >= g_max){
+        cornerTopRight = Point(127,cornerTopRight.getCoordY());
+    }
+    if(cornerTopRight.getCoordY() >= g_max){
+        cornerTopRight = Point(cornerTopRight.getCoordX(),127);
+    }
+    if(cornerTopRight.getCoordX() < 0){
+        cornerTopRight = Point(0,cornerTopRight.getCoordY());
+    }
+    if(cornerTopRight.getCoordY() <0){
+        cornerTopRight = Point(cornerTopRight.getCoordX(),0);
+    }
     for(int i=cornerBotLeft.getCoordX(); i <= cornerTopRight.getCoordX(); i++) {
-
         for(int j=cornerBotLeft.getCoordY(); j <= cornerTopRight.getCoordY(); j++) {
             if((hitBoxGrid[i][j] & kindToCheck)) { //check no entity is present there
                 overlap++; // otherwise add it to the count

@@ -143,12 +143,12 @@ vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEval
             vector<Point> currentPath = {};
             for(auto step:pathToEval) {
                 Point stepnew = step;
-                if(((stepnew.getCoordX() >= 1) and (stepnew.getCoordX() <= (g_max-2))) and
-                  ((stepnew.getCoordY() >= 1) and (stepnew.getCoordY() <= (g_max-2)))){;
+                if(((stepnew.getCoordX() >= 1) and (stepnew.getCoordX() <= (g_max-3))) and
+                  ((stepnew.getCoordY() >= 1) and (stepnew.getCoordY() <= (g_max-3)))){;
                     currentPath.push_back(stepnew);
                 } else {
                     if(stepnew.getCoordX() > 126) {
-                        stepnew = Point(252-stepnew.getCoordX(),stepnew.getCoordY());
+                        stepnew = Point(251-stepnew.getCoordX(),stepnew.getCoordY());
                     }
                     if(stepnew.getCoordX() < 1) {
                         stepnew = Point(abs(stepnew.getCoordX()),stepnew.getCoordY());
@@ -157,7 +157,7 @@ vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEval
                         stepnew = Point(stepnew.getCoordX()+1,stepnew.getCoordY());
                     }
                     if(stepnew.getCoordY() > 126) {
-                        stepnew = Point(stepnew.getCoordX(), 252-stepnew.getCoordY());
+                        stepnew = Point(stepnew.getCoordX(), 251-stepnew.getCoordY());
                     }
                     if(stepnew.getCoordY() < 1) {
                         stepnew = Point(stepnew.getCoordX(),abs(stepnew.getCoordY()));
@@ -275,7 +275,6 @@ void Collector::step(vector<shared_ptr<Entity>> &entityList) {
         Point left(getPosition().getCoordX() - 2, getPosition().getCoordY());
         Point leftU(getPosition().getCoordX() - 2, getPosition().getCoordY()-1);
         Point leftD(getPosition().getCoordX() - 2, getPosition().getCoordY()+1);
-
         vector<Point> direction = {up, upL, upR, down, downL, downR,
                                    left, leftU, leftD, right, rightU, rightD};
         for(auto side:direction) {
