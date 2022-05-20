@@ -144,8 +144,8 @@ vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEval
             vector<Point> currentPath = {};
             for(auto step:pathToEval) {
                 Point stepnew = step;
-                if(((stepnew.getCoordX() >= 1) and (stepnew.getCoordX() <= (g_max-3))) and
-                  ((stepnew.getCoordY() >= 1) and (stepnew.getCoordY() <= (g_max-3)))){;
+                if(((stepnew.getCoordX() >= 1)and(stepnew.getCoordX()<=(g_max-3)))and
+                   ((stepnew.getCoordY() >= 1)and(stepnew.getCoordY()<=(g_max-3)))){
                     currentPath.push_back(stepnew);
                 } else {
                     if(stepnew.getCoordX() > 126) {
@@ -518,6 +518,7 @@ Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
     for (auto out: outside) {
         // filtrer ici le outside le plus proche et le retourner
         // plus check si place dehors (quon soit dans le range [1-126])
+        return out;
     }
     return outsideA;
 }
@@ -756,39 +757,37 @@ vector<Point> Predator::removeOutsideAnthill(vector<shared_ptr<Entity>> &entityL
                                              vector<Point> listOfEnemyPos) {
     vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
                                                                fourmilliereCST);
-    if (fourmilliere.size() > 0) {
-        Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
-        Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
-        int i = 0;
-        for (auto enemyPos: listOfEnemyPos) {
-            Point leftBEnemy = Point(enemyPos.getCoordX() - 1,
-                                     enemyPos.getCoordY() - 1);
-            Point rightTEnemy = Point(enemyPos.getCoordX() + 1,
-                                      enemyPos.getCoordY() + 1);
-            int isInAnthill = Squarecell::countOverlap(leftB, rightT,
-                                                       leftBEnemy, rightTEnemy);
-            if (not isInAnthill) {
-                listOfEnemyPos.erase(listOfEnemyPos.begin() + i);
-                i--;
-            }
-            i++;
+    Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
+    Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
+    int i = 0;
+    for (auto enemyPos: listOfEnemyPos) {
+        Point leftBEnemy = Point(enemyPos.getCoordX() - 1,
+                                 enemyPos.getCoordY() - 1);
+        Point rightTEnemy = Point(enemyPos.getCoordX() + 1,
+                                  enemyPos.getCoordY() + 1);
+        int isInAnthill = Squarecell::countOverlap(leftB, rightT,
+                                                   leftBEnemy, rightTEnemy);
+        if (not isInAnthill) {
+            listOfEnemyPos.erase(listOfEnemyPos.begin() + i);
+            i--;
         }
-        if (listOfEnemyPos.size() == 0) {
+        i++;
+    }
+    if (listOfEnemyPos.size() == 0) {
+        vector<Point> spawn = Squarecell::findFreeInArea(leftB, rightT,
+                                                         sizeP, sizeP, anyCST);
+        if ((target.getCoordY() == 0) and (target.getCoordX() == 0)) {
             vector<Point> spawn = Squarecell::findFreeInArea(leftB, rightT,
-                                                             sizeP, sizeP, anyCST);
-            if ((target.getCoordY() == 0) and (target.getCoordX() == 0)) {
-                vector<Point> spawn = Squarecell::findFreeInArea(leftB, rightT,
-                                                                 sizeP, sizeP,anyCST);
-                if(spawn.size()>0) {
-                    target = spawn[Entity::randInt(0, spawn.size()-1)];
-                    listOfEnemyPos = {target};
-                }
-            } else {
+                                                             sizeP, sizeP,anyCST);
+            if(spawn.size()>0) {
+                target = spawn[Entity::randInt(0, spawn.size()-1)];
                 listOfEnemyPos = {target};
             }
+        } else {
+            listOfEnemyPos = {target};
         }
-        return listOfEnemyPos;
     }
+    return listOfEnemyPos;
 }
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
