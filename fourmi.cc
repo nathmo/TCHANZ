@@ -505,6 +505,23 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
     }
 }
 
+Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
+    vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
+                                                               fourmilliereCST);
+    Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
+    Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
+    Point outsideA = Point(leftB.getCoordX() - 2, leftB.getCoordY() - 2);
+    Point outsideB = Point(rightT.getCoordX() + 2, leftB.getCoordY() - 2);
+    Point outsideC = Point(leftB.getCoordX() - 2, rightT.getCoordY() + 2);
+    Point outsideD = Point(rightT.getCoordX() + 2, rightT.getCoordY() + 2);
+    vector<Point> outside = {outsideA, outsideB, outsideC, outsideD};
+    for (auto out: outside) {
+        // filtrer ici le outside le plus proche et le retourner
+        // plus check si place dehors (quon soit dans le range [1-126])
+    }
+    return outsideA;
+}
+
 vector<vector<string>> Collector::exportToString() {
     vector<vector<string>> vecVecStringCollector;
     Point position = (*occupiedSpace).getPosition();

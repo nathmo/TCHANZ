@@ -58,6 +58,8 @@ public:
     void evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList);
     void recomputePath(std::vector<std::shared_ptr<Entity>> &entityList);
     // export the entity to something that can be written in a file
+    Point findClosestExit(std::vector<std::shared_ptr<Entity>> &entityList);
+
     virtual std::vector<std::vector<std::string>> exportToString();
     // create the object and return its pointer + check that it dont overlap something
     static std::shared_ptr<Fourmi> importFromExtSaveCollector(
