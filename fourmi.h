@@ -17,7 +17,7 @@ class Fourmi : public Entity {
 protected:
     int age;
     std::vector<Point> pathBuffer;
-
+    Point target;
 public:
     Fourmi(Point position, int age, char type, int id, int size);
     int getAge();
@@ -41,7 +41,7 @@ public:
 class Collector : public Fourmi {
 private:
     bool carryFood;
-
+    bool exitNest;
 public:
     Collector(Point position, int id, int age, bool carryFood);
     bool getCarryFood();
@@ -91,6 +91,9 @@ public:
     void setConstrained(bool constrain);
     std::vector<Point> findClosestEnemy(
                                     std::vector<std::shared_ptr<Entity>> &entityList);
+    std::vector<Point> removeOutsideAnthill(
+                                    std::vector<std::shared_ptr<Entity>> &entityList,
+                                    std::vector<Point> listOfEnemyPos);
     virtual void update(std::vector<std::shared_ptr<Entity>> &entityList);
     virtual double distance(Point start, Point stop);
     virtual std::vector<Point> getNextMove(Point position);
