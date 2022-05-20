@@ -49,6 +49,7 @@ public:
     virtual std::vector<Point> getNextMove(Point position);
     std::vector<Point> findFoods(std::vector<std::shared_ptr<Entity>> &entityList);
     Point findHome(std::vector<std::shared_ptr<Entity>> &entityList);
+    Point findBestHome(std::vector<Point> side);
     void unloadFood(std::vector<std::shared_ptr<Entity>> &entityList);
     void loadFood(std::vector<std::shared_ptr<Entity>> &entityList);
     void evaluateConditionTarget(std::vector<std::shared_ptr<Entity>> &entityList);

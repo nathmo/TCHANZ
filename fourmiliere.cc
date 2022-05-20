@@ -283,7 +283,8 @@ void Fourmiliere::attemptExpansionAnthill() {
 }
 
 double Fourmiliere::getFood() {
-    return foodReserve;
+    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
+    return foodReserve+(val_food*(gen->getFood()));
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
