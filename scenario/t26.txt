@@ -1,0 +1,18 @@
+# nb food
+0
+
+# food
+
+
+1 # nb anthill
+
+# anthill #1
+	50 50 19 53 53 315 2 0 2
+
+	# collectors:
+	2 60 295 true
+	1 52 295 true
+
+	# defensors:
+	107 102 2
+	108 20 22

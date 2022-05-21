@@ -52,7 +52,7 @@ void Simulation::simulateStep() {
     shared_ptr<Nourriture> food = Nourriture::randomCreate();
 
     if(food != nullptr) {
-        //nourritureList.push_back(food); // PAS OUBLIER DE DECOMENTER POUR LE RENDU
+        //nourritureList.push_back(food); // COMMENTER ICI POUR TEST SANS NOURRITURE
     }// create food randomly
     entityList.insert(entityList.end(),nourritureList.begin(), nourritureList.end());
     entityList.insert(entityList.end(),anthillList.begin(), anthillList.end());
@@ -62,6 +62,13 @@ void Simulation::simulateStep() {
     }// update the anthill and their ants
     for(auto anthill:anthillList) {
         anthill->update(entityList);
+    }// update the anthill and their ants
+    nourritureList = {};
+    for(auto entity:entityList) {
+        if(entity->getSpecie()==nourritureCST){
+            shared_ptr<Nourriture> food=dynamic_pointer_cast<Nourriture>(entity);
+            nourritureList.push_back(food);
+        }
     }// update the anthill and their ants
     for(unsigned int i=0; i < anthillList.size(); i++) {
         if((anthillList[i])->getEndOfLife()) {

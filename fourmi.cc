@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include "fourmi.h"
+#include "nourriture.h"
 #include "entity.h"
 #include "squarecell.h"
 #include "constantes.h"
@@ -31,7 +32,7 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList) {
     if(entityList.size() > 0) {
         int height = getHeight();
         int width = getWidth();
-        int nextStepOverlap = 0; // ensure the path is free
+        int nextStepOverlap=0; // ensure the path is free
         setSize(0, 0); // ensure the next step is free
         // (but need to remove itself to prevent self collision) (food are ignored)
         nextStepOverlap = Squarecell::countOverlap(pathBuffer[0], width, height,
@@ -71,102 +72,11 @@ vector<Point> Fourmi::getNextMove(Point position) {
     return {};
 }
 
-vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
-                                            Point target) {
-    double lowestDistance = 2*g_max;
-    double lowestDistanceAbs = 2*g_max; // a value that will always be greater
-    int direction = 0;
-    vector<int> bestNextMove = {};
-    for(auto possibleNextStep:directionToEval) {
-        if(lowestDistance >= distance(possibleNextStep, target)) {
-            lowestDistance = distance(possibleNextStep, target);
-            lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
-            bestNextMove.push_back(direction);
-        } else if(lowestDistance == distance(possibleNextStep, target)) {
-            if(lowestDistanceAbs>=(Point::distanceAbs(possibleNextStep,target)-0.01)){
-                lowestDistance = distance(possibleNextStep, target);
-                lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
-
-            }
-        }
-        direction++;
-    }
-    return bestNextMove;
-}
-
-vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEvalVec) {
-    if(pathToEvalVec.size() < 1) {
-        return {};
-    } else {
-        vector<vector<Point>> toReturn = {};
-        for(auto pathToEval:pathToEvalVec) {
-            vector<Point> currentPath = {};
-            for(auto step:pathToEval) {
-                Point stepnew = step;
-                if(((stepnew.getCoordX() >= 1)
-                    and (stepnew.getCoordX() <= (g_max-2)))
-                    and ((stepnew.getCoordY() >= 1)
-                    and (stepnew.getCoordY() <= (g_max-2)))) {
-
-                    currentPath.push_back(stepnew);
-                } else {
-                    if(stepnew.getCoordX() > 126) {
-                        stepnew = Point(252-stepnew.getCoordX(),stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordX() < 1) {
-                        stepnew = Point(abs(stepnew.getCoordX()),stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordX() == 0) {
-                        stepnew = Point(stepnew.getCoordX()+1,stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordY() > 126) {
-                        stepnew = Point(stepnew.getCoordX(), 252-stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordY() < 1) {
-                        stepnew = Point(stepnew.getCoordX(),abs(stepnew.getCoordY()));
-                    }
-                    if(stepnew.getCoordY() == 0) {
-                        stepnew = Point(stepnew.getCoordX(), stepnew.getCoordY()+1);
-                    }
-                    currentPath.push_back(stepnew);
-                }
-            }
-            toReturn.push_back(currentPath);
-        }
-        return toReturn;
-    }
-}
-
-vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
-    if(pathToEvalVec.size() < 1) {
-        return {};
-    } else {
-        vector<Point> toReturn = {};
-        int lowestOverlapScore = g_max*g_max;
-        for(auto pathToEval:pathToEvalVec) {
-            cout <<"anoter path"<< endl;
-            for(auto step:pathToEval) {
-                cout << "x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
-            }
-            int overlapScore = 0;
-            for(auto step:pathToEval) {
-                overlapScore += Squarecell::countOverlap(step, getWidth(),
-                                                         getHeight(),anyCST,true);
-            }
-            if(overlapScore < lowestOverlapScore) {
-                lowestOverlapScore = overlapScore;
-                toReturn = pathToEval;
-            }
-        }
-        toReturn.erase(toReturn.begin()); // remove the first step that is useless
-        return toReturn;
-    }
-}
-
 vector<Point> Fourmi::findPath(Point start, Point stop) {
     vector<Point> initialDirection = getNextMove(start);
     vector<vector<Point>> allPath = {};
-    for(int directionPath=0;directionPath<initialDirection.size();directionPath++){
+    for(unsigned int directionPath = 0; directionPath<initialDirection.size();
+                                                                     directionPath++){
         vector<Point> path = {start};
         int inertia = directionPath;
         double distanceToTarget = 2*g_max;
@@ -174,7 +84,6 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
         while(not(path[path.size()-1] == stop)) {
             watchdog++;
             if(watchdog == 250) {
-                cout << "watchdog..." << endl;
                 path = {};
                 break;
             }
@@ -201,6 +110,92 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
         }
     }
     return prunePaths(mirrorOutsidePath(allPath));
+}
+
+vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
+                                            Point target) {
+    double lowestDistance = 2*g_max;
+    double lowestDistanceAbs = 2*g_max; // a value that will always be greater
+    int direction = 0;
+    vector<int> bestNextMove = {};
+    for(auto possibleNextStep:directionToEval) {
+        if(lowestDistance >= distance(possibleNextStep, target)) {
+            lowestDistance = distance(possibleNextStep, target);
+            lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
+            bestNextMove.push_back(direction);
+        } else if(lowestDistance == distance(possibleNextStep, target)) {
+            if(lowestDistanceAbs>=(Point::distanceAbs(possibleNextStep,target)-0.01)){
+                lowestDistance = distance(possibleNextStep, target);
+                lowestDistanceAbs=Point::distanceAbs(possibleNextStep, target);
+
+            }
+        }
+        direction++;
+    }
+    return bestNextMove;
+}
+
+vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEvalVec) {
+    if(pathToEvalVec.size() < 1) {
+        return {};
+    } else {
+        vector<vector<Point>> toReturn = {};
+        for(auto pathToEval:pathToEvalVec) {
+            vector<Point> currentPath = {};
+            for(auto step:pathToEval) {
+                Point stepnew = step;
+                if(((stepnew.getCoordX() >= 1)and(stepnew.getCoordX()<=(g_max-3)))and
+                   ((stepnew.getCoordY() >= 1)and(stepnew.getCoordY()<=(g_max-3)))){
+                    currentPath.push_back(stepnew);
+                } else {
+                    if(stepnew.getCoordX() > 126) {
+                        stepnew = Point(252-stepnew.getCoordX(),stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordX() < 1) {
+                        stepnew = Point(abs(stepnew.getCoordX()),stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordX() == 0) {
+                        stepnew = Point(stepnew.getCoordX()+1,stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordY() > 126) {
+                        stepnew = Point(stepnew.getCoordX(), 252-stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordY() < 1) {
+                        stepnew = Point(stepnew.getCoordX(),abs(stepnew.getCoordY()));
+                    }
+                    if(stepnew.getCoordY() == 0) {
+                        stepnew = Point(stepnew.getCoordX(),stepnew.getCoordY()+1);
+                    }
+                    currentPath.push_back(stepnew);
+                }
+
+            }
+            toReturn.push_back(currentPath);
+        }
+        return toReturn;
+    }
+}
+
+vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
+    if(pathToEvalVec.size() < 1) {
+        return {};
+    } else {
+        vector<Point> toReturn = {};
+        int lowestOverlapScore = g_max*g_max;
+        for(auto pathToEval:pathToEvalVec) {
+            int overlapScore = 0;
+            for(auto step:pathToEval) {
+                overlapScore += Squarecell::countOverlap(step, getWidth(),
+                                                         getHeight(),anyCST,true);
+            }
+            if(overlapScore < lowestOverlapScore) {
+                lowestOverlapScore = overlapScore;
+                toReturn = pathToEval;
+            }
+        }
+        toReturn.erase(toReturn.begin()); // remove the first step that is useless
+        return toReturn;
+    }
 }
 
 vector<Point> Fourmi::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
@@ -247,6 +242,7 @@ vector<Point> Fourmi::findClosestBorder(vector<shared_ptr<Entity>> &entityList) 
 
 Collector::Collector(Point position, int id, int age, bool carryFood ) :
                          Fourmi(position, age,fourmiCollectorCST,id,sizeC) {
+    exitNest = false;
     this->carryFood = carryFood;
     for(int i=0; i < 10; i++) {
         int x = Entity::randInt(1,g_max-2);
@@ -257,6 +253,18 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
             }
         }
     }
+}
+
+bool Collector::getCarryFood(){
+    return carryFood;
+}
+
+std::shared_ptr<Nourriture> Collector::dropFood(){
+    if(carryFood) {
+        return make_shared<Nourriture>(Point(getPosition().getCoordX(),
+                                             getPosition().getCoordY()), -1);
+    }
+    return nullptr;
 }
 
 void Collector::step(vector<shared_ptr<Entity>> &entityList) {
@@ -281,7 +289,6 @@ void Collector::step(vector<shared_ptr<Entity>> &entityList) {
         Point left(getPosition().getCoordX() - 2, getPosition().getCoordY());
         Point leftU(getPosition().getCoordX() - 2, getPosition().getCoordY()-1);
         Point leftD(getPosition().getCoordX() - 2, getPosition().getCoordY()+1);
-
         vector<Point> direction = {up, upL, upR, down, downL, downR,
                                    left, leftU, leftD, right, rightU, rightD};
         for(auto side:direction) {
@@ -300,7 +307,6 @@ void Collector::step(vector<shared_ptr<Entity>> &entityList) {
 
 void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    //cout << "uptade collector" << endl;
     if(age >= bug_life) {
         endOfLife = true;
     }
@@ -311,10 +317,8 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
 
     if(pathBuffer.size() != 0) {
         if(pathBuffer.size() > 1) {
-           // cout << "step collector" << endl;
             step(entityList);
         }
-        //cout << "test1" << endl;
         if(pathBuffer.size() <= 1) {
             if(carryFood) {
                 unloadFood(entityList);
@@ -388,12 +392,9 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
         int y = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft().getCoordY();
         int width = (*f[0]).getWidth();
         int height = (*f[0]).getHeight();
-        bool caseFamily = false; //case noir
-        if((getPosition().getCoordX() + getPosition().getCoordY())%2) {
-            caseFamily = true;
-        }
+        bool caseFamily = ((getPosition().getCoordX() + getPosition().getCoordY())%2);
         vector<Point> side = {};
-        for(int j=y; j < (y+height); j++) {
+        for(int j=y; j <= (y+height); j++) {
             if((x+j)%2 == caseFamily){
                 side.push_back(Point(x,j));
             }
@@ -401,7 +402,7 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
                 side.push_back(Point(x+width, j));
             }
         }
-        for(int i=x; i < (x+width); i++) {
+        for(int i=x; i <= (x+width); i++) {
             if((i+y)%2 == caseFamily){
                 side.push_back(Point(i,y));
             }
@@ -409,20 +410,23 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
                 side.push_back(Point(i,y+height));
             }
         }
-        int lowestDistanceToHome = g_max*g_max;
-        Point candidat;
-        for(auto target:side) {
-            if(distance(getPosition(), target)<lowestDistanceToHome) {
-                lowestDistanceToHome = distance(getPosition(), target);
-                candidat = target;
-            } else if()
-        }
-        return candidat;
+        return findBestHome(side);
     }
     cout << "no anthill with ID to unload" << endl;
     exit(0);
 }
 
+Point Collector::findBestHome(vector<Point> side) {
+    int lowestDistanceToHome = g_max * g_max;
+    Point candidat;
+    for (auto target: side) {
+        if (Point::distanceAbs(getPosition(), target) < lowestDistanceToHome) {
+            lowestDistanceToHome = Point::distanceAbs(getPosition(), target);
+            candidat = target;
+        }
+    }
+    return candidat;
+}
 
 void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> entity = Entity::findByID(id, entityList,
@@ -499,6 +503,24 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
     } else {
         //Squarecell::findFreeInArea(cornerBL, cornerTR, sizeC, sizeC, anyCST);
     }
+}
+
+Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
+    vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
+                                                               fourmilliereCST);
+    Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
+    Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
+    Point outsideA = Point(leftB.getCoordX() - 2, leftB.getCoordY() - 2);
+    Point outsideB = Point(rightT.getCoordX() + 2, leftB.getCoordY() - 2);
+    Point outsideC = Point(leftB.getCoordX() - 2, rightT.getCoordY() + 2);
+    Point outsideD = Point(rightT.getCoordX() + 2, rightT.getCoordY() + 2);
+    vector<Point> outside = {outsideA, outsideB, outsideC, outsideD};
+    for (auto out: outside) {
+        // filtrer ici le outside le plus proche et le retourner
+        // plus check si place dehors (quon soit dans le range [1-126])
+        return out;
+    }
+    return outsideA;
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -700,6 +722,7 @@ void Defensor::draw() {
 Predator::Predator(Point position, int id, int age) :
                                  Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
     constrained = false;
+    target = Point(0,0);
 }
 
 void Predator::setConstrained(bool constrain) {
@@ -717,26 +740,7 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
         }
     }
     if(not constrained) {
-        vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
-                                                                   fourmilliereCST);
-        if(fourmilliere.size() > 0) {
-            Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
-            Point rightT=(*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
-            int i = 0;
-            for(auto enemyPos:listOfEnemyPos) {
-                Point leftBEnemy = Point(enemyPos.getCoordX()-1,
-                                         enemyPos.getCoordY()-1);
-                Point rightTEnemy = Point(enemyPos.getCoordX()+1,
-                                          enemyPos.getCoordY()+1);
-                int isInAnthill = Squarecell::countOverlap(leftB, rightT,
-                                                           leftBEnemy, rightTEnemy);
-                if(not isInAnthill) {
-                    listOfEnemyPos.erase(listOfEnemyPos.begin() + i);
-                    i--;
-                }
-                i++; // bug avec ça ???
-            }
-        }
+        listOfEnemyPos = Predator::removeOutsideAnthill(entityList, listOfEnemyPos);
     }
     double closestEnemyDistance = 2*g_max;
     vector<Point> closestEnemy = {};
@@ -747,6 +751,43 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
         }
     }
     return closestEnemy;
+}
+
+vector<Point> Predator::removeOutsideAnthill(vector<shared_ptr<Entity>> &entityList,
+                                             vector<Point> listOfEnemyPos) {
+    vector<shared_ptr<Entity>> fourmilliere = Entity::findByID(id, entityList,
+                                                               fourmilliereCST);
+    Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
+    Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
+    int i = 0;
+    for (auto enemyPos: listOfEnemyPos) {
+        Point leftBEnemy = Point(enemyPos.getCoordX() - 1,
+                                 enemyPos.getCoordY() - 1);
+        Point rightTEnemy = Point(enemyPos.getCoordX() + 1,
+                                  enemyPos.getCoordY() + 1);
+        int isInAnthill = Squarecell::countOverlap(leftB, rightT,
+                                                   leftBEnemy, rightTEnemy);
+        if (not isInAnthill) {
+            listOfEnemyPos.erase(listOfEnemyPos.begin() + i);
+            i--;
+        }
+        i++;
+    }
+    if (listOfEnemyPos.size() == 0) {
+        vector<Point> spawn = Squarecell::findFreeInArea(leftB, rightT,
+                                                         sizeP, sizeP, anyCST);
+        if ((target.getCoordY() == 0) and (target.getCoordX() == 0)) {
+            vector<Point> spawn = Squarecell::findFreeInArea(leftB, rightT,
+                                                             sizeP, sizeP,anyCST);
+            if(spawn.size()>0) {
+                target = spawn[Entity::randInt(0, spawn.size()-1)];
+                listOfEnemyPos = {target};
+            }
+        } else {
+            listOfEnemyPos = {target};
+        }
+    }
+    return listOfEnemyPos;
 }
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
@@ -769,9 +810,7 @@ void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     if(pathBuffer.size() == 0) {
         vector<Point> target = findClosestEnemy(entityList);
         if(target.size() > 0) {
-            cout << target.size() << endl;
             pathBuffer = findPath(getPosition(), target[target.size()-1]);
-            cout << pathBuffer.size() << endl;
         }
     }
     if(pathBuffer.size() > 0) { // walk toward the border one step at a time
@@ -817,9 +856,9 @@ void Predator::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
         if(victim != nullptr) {
             if(victim->getId() != int(id)) {
                 victim->setEndOfLife(true);
-            }
-            if(victim->getSpecie() == fourmiPredatorCST) {
-                endOfLife = true;
+                if(victim->getSpecie() == fourmiPredatorCST) {
+                    endOfLife = true;
+                }
             }
         }
     }

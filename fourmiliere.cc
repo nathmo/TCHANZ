@@ -60,16 +60,25 @@ void Fourmiliere::update(vector<shared_ptr<Entity>> &entityList) {
     for(unsigned int i=1; i < memberAnts.size(); i++) {
         memberAnts[i]->update(entityList);
     }
+    removeDeadAnt(entityList);
+}
 
+void Fourmiliere::removeDeadAnt(vector<shared_ptr<Entity>> &entityList){
     int i = 0;
     while(true) {
         if((memberAnts[i])->getSpecie() != fourmiGeneratorCST) {
             if((memberAnts[i])->getEndOfLife()) {
                 char kind = (memberAnts[i])->getSpecie();
                 switch(kind) {
-                    case fourmiCollectorCST:
+                    case fourmiCollectorCST: {
+                        shared_ptr<Collector> collector =
+                                dynamic_pointer_cast<Collector>(memberAnts[i]);
+                        if (collector->getCarryFood()) {
+                            entityList.push_back(collector->dropFood());
+                        }
                         nbC--;
                         break;
+                    }
                     case fourmiDefensorCST:
                         nbD--;
                         break;
@@ -283,7 +292,8 @@ void Fourmiliere::attemptExpansionAnthill() {
 }
 
 double Fourmiliere::getFood() {
-    return foodReserve;
+    shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
+    return foodReserve+(val_food*(gen->getFood()));
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
