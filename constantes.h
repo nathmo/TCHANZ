@@ -17,7 +17,7 @@ constexpr short unsigned bug_life(300);
 
 constexpr short unsigned val_food(50);
 
-constexpr double food_rate(0.1);//0.1
+constexpr double food_rate(0);//0.1
 constexpr double max_food_trial(10);
 constexpr double birth_rate(0.00005);
 constexpr double prop_free_collector(0.85);

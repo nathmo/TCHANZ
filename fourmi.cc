@@ -310,10 +310,24 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         endOfLife = true;
     }
     evaluateConditionTarget(entityList);
-    if(pathBuffer.size() == 0) {
-        recomputePath(entityList);
+    vector<shared_ptr<Entity>> f = Entity::findByID(id, entityList, fourmilliereCST);
+    Point HitboxTopRight;
+    Point HitboxBotLeft;
+    if(f.size() > 0) {
+        HitboxTopRight = (*(*f[0]).getOccupiedSpace()).getHitboxTopRight();
+        HitboxBotLeft = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft();
     }
-
+    if(pathBuffer.size() == 0) {
+        if(findFoods(entityList).size()) {
+            recomputePath(entityList);
+        } else if(pathBuffer.size() == 0
+                  and Squarecell::countOverlap(
+                                            (*getOccupiedSpace()).getHitboxTopRight(),
+                                            (*getOccupiedSpace()).getHitboxBotLeft(),
+                                            HitboxBotLeft, HitboxTopRight)) {
+            pathBuffer = findPath(getPosition(), findClosestExit(entityList));
+        }
+    }
     if(pathBuffer.size() != 0) {
         if(pathBuffer.size() > 1) {
             step(entityList);
@@ -326,6 +340,34 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             }
         }
     }
+    /*
+    cout <<"------------------------------------" << endl;
+    cout << "avant rentrer boucle pathbuffer :" << endl;
+    for(auto step:pathBuffer) {
+        cout << "step : " << step.getCoordX() << " " << step.getCoordY() << endl;
+    }
+    cout <<"------------------------------------" << endl;
+    if(pathBuffer.size() == 0) {
+        //cout << "je rentre dans la boucle" << endl;
+        vector<shared_ptr<Entity>> f = Entity::findByID(id, entityList, fourmilliereCST);
+        if(f.size() > 0) {
+            //cout << "je rentre dans la boucle 2" << endl;
+            Point HitboxTopRight = (*(*f[0]).getOccupiedSpace()).getHitboxTopRight();
+            Point HitboxBotLeft = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft();
+            //cout << "overlap = " << Squarecell::countOverlap((*getOccupiedSpace()).getHitboxTopRight(), (*getOccupiedSpace()).getHitboxBotLeft(), HitboxBotLeft, HitboxTopRight) << endl;
+            if(Squarecell::countOverlap((*getOccupiedSpace()).getHitboxTopRight(), (*getOccupiedSpace()).getHitboxBotLeft(), HitboxBotLeft, HitboxTopRight)) {
+                cout <<"mon point actuel x: " <<getPosition().getCoordX() << "y: " <<getPosition().getCoordY()  << endl;
+                //cout << "point to go : ";
+                //cout <<"x: " <<findClosestExit(entityList).getCoordX() << "y: " <<findClosestExit(entityList).getCoordY() << endl;
+                pathBuffer = findPath(getPosition(), findClosestExit(entityList));
+                for(auto step:pathBuffer) {
+                    cout << "step : " << step.getCoordX() << " " << step.getCoordY() << endl;
+                }
+                //cout << "taille pathbuffer : " << pathBuffer.size() << endl;
+            }
+        }
+    }
+     */
 }
 
 double Collector::distance(Point start, Point stop) {
@@ -509,17 +551,23 @@ Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
                                                                fourmilliereCST);
     Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
     Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
-    Point outsideA = Point(leftB.getCoordX() - 2, leftB.getCoordY() - 2);
-    Point outsideB = Point(rightT.getCoordX() + 2, leftB.getCoordY() - 2);
-    Point outsideC = Point(leftB.getCoordX() - 2, rightT.getCoordY() + 2);
-    Point outsideD = Point(rightT.getCoordX() + 2, rightT.getCoordY() + 2);
+    Point outsideA = Point(leftB.getCoordX() - 3, leftB.getCoordY() - 3);
+    Point outsideB = Point(rightT.getCoordX() + 3, leftB.getCoordY() - 3);
+    Point outsideC = Point(leftB.getCoordX() - 3, rightT.getCoordY() + 3);
+    Point outsideD = Point(rightT.getCoordX() + 3, rightT.getCoordY() + 3);
     vector<Point> outside = {outsideA, outsideB, outsideC, outsideD};
-    for (auto out:outside) {
-        // filtrer ici le outside le plus proche et le retourner
-        // plus check si place dehors (quon soit dans le range [1-126])
-        return out;
+    Point pointToGo = outsideA;
+    for(auto out:outside) {
+        if((((out.getCoordX() >= 1) and (out.getCoordX() <= (g_max-1))) and
+            ((out.getCoordY() >= 1) and (out.getCoordY() <= (g_max-1))))) {
+            if(distance(getPosition(), pointToGo) > distance(getPosition(), out)) {
+                pointToGo = out;
+            }
+        } else {
+            continue;
+        }
     }
-    return outsideA;
+    return pointToGo;
 }
 
 vector<vector<string>> Collector::exportToString() {
@@ -640,8 +688,8 @@ void Defensor::evaluateConditionTarget(
         } else {
             bordureStillClosest=(distance(getPosition(),
                                           pathBuffer[pathBuffer.size()-1]) <=
-                                               distance(getPosition(),
-                                                        bordures[bordures.size()-1]));
+                                          distance(getPosition(),
+                                                   bordures[bordures.size()-1]));
         }
         if(not bordureStillClosest) {
             pathBuffer = {};

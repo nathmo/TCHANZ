@@ -9,7 +9,7 @@
 
 
 1 # nb anthill
-	5 20 12 10 24 100000 1 1 1 # anthill #1
+	5 20 12 10 24 1000 1 1 1 # anthill #1
 	
 	# collectors:
 	18 33 299 false
