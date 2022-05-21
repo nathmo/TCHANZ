@@ -27,11 +27,42 @@ La fourmi Predator tente simplement de retourner dans sa fourmilière et s'y bal
 ## Screenshot
 Fichier f06.txt. Mise à jour chaque 2 step. 
 
-![img.png](img.png) ![img_1.png](img_1.png) ![img_2.png](img_2.png) ![img_3.png](img_3.png) ![img_4.png](img_4.png) ![img_5.png](img_5.png)
+step 0 and step 2
+
+<img src="img.png" alt="img" width="200"/>
+<img src="img_1.png" alt="img" width="200"/>
+
+step 4 and step 6
+
+<img src="img_2.png" alt="img" width="200"/>
+<img src="img_3.png" alt="img" width="200"/>
+
+step 8 and step 10
+
+<img src="img_4.png" alt="img" width="200"/>
+
+<img src="img_5.png" alt="img" width="200"/>
+
 
 Fichier test crée par nous. Mise à jour chaque 4 step sauf dernière photo (10 step).
+step 0 and 4
 
-![img_9.png](img_9.png) ![img_10.png](img_10.png) ![img_11.png](img_11.png) ![img_12.png](img_12.png) ![img_13.png](img_13.png) ![img_14.png](img_14.png) ![img_15.png](img_15.png)
+<img src="img_9.png" alt="img" width="200"/>
+<img src="img_10.png" alt="img" width="200"/>
+
+step 8 and 12
+
+<img src="img_11.png" alt="img" width="200"/>
+<img src="img_12.png" alt="img" width="200"/>
+
+step 16 and 20
+
+<img src="img_13.png" alt="img" width="200"/>
+<img src="img_14.png" alt="img" width="200"/>
+
+step 30
+
+<img src="img_15.png" alt="img" width="200"/>
 
 ## Méthodologie :
 Nous avons mis en place un Git depuis le début. Nous étions ainsi capable de programmer ensemble (en général le vendredi en séance d'exercices) et seul quand nous avions du temps libre. Nous travaillons généralement ensemble pour résoudre les bugs les plus coriaces et seul le reste du temps avec des meetings régulier pour tenir l'autre à jour sur l'avance du quand sur l'avancement global, les prochaines étapes et le fonctionnement du code déjà écris. Nous nous sommes répartis les fonctions et modules en fonction des affinités. L'un de nous ayant plus d'affinité avec la structure du code et l'autre avec l'implémentation d'algorithme.
