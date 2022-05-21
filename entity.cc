@@ -12,8 +12,8 @@
 #include "entity.h"
 #include "squarecell.h"
 
-
 using namespace std;
+
 default_random_engine Entity::randGen;
 
 Entity::Entity(Point position, int width, int height,
@@ -53,7 +53,7 @@ int Entity::getId() {
     return id;
 }
 
-bool Entity::getEndOfLife(){
+bool Entity::getEndOfLife() {
     return endOfLife;
 }
 
@@ -83,8 +83,8 @@ void Entity::draw() {
 bool Entity::biasedCoinFlip(float p) {
     bernoulli_distribution bernoul(p);
     int noftrue = 0;
-    for(int i=0;i<1000;i++){
-        if(bernoul(randGen)){
+    for(int i(0); i < 1000; i++) {
+        if(bernoul(randGen)) {
             noftrue++;
         }
     } // for some reason running the random gen help make it respect its proba
@@ -92,7 +92,7 @@ bool Entity::biasedCoinFlip(float p) {
 }
 
 int Entity::randInt(unsigned int min, unsigned int max) {
-    uniform_int_distribution<unsigned> draw(min,max);
+    uniform_int_distribution<unsigned> draw(min, max);
     return draw(randGen);
 }
 
@@ -133,10 +133,10 @@ vector<Point> Entity::findSpecie(char specie,
     vector<Point> listSpecie;
     for(unsigned int i(0); i < listOfEntity.size(); i++) {
         if(((*listOfEntity[i]).getSpecie()) == specie) {
-            int x=(((*listOfEntity[i]).getOccupiedSpace())
-                    ->getPosition()).getCoordX();
+            int x = (((*listOfEntity[i]).getOccupiedSpace())
+                                                         ->getPosition()).getCoordX();
             int y=(((*listOfEntity[i]).getOccupiedSpace())
-                    ->getPosition()).getCoordY();
+                                                         ->getPosition()).getCoordY();
             listSpecie.push_back(Point(x,y));
         }
     }

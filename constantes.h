@@ -35,7 +35,7 @@ constexpr char fourmiGeneratorCST(static_cast<char>(0x08));
 constexpr char fourmiDefensorCST(static_cast<char>(0x10));
 constexpr char fourmiPredatorCST(static_cast<char>(0x20));
 constexpr char fourmiCollectorCST(static_cast<char>(0x40));
-constexpr char anyCST(static_cast<char>(0xFD)); // match anything execpt anthills
+constexpr char anyCST(static_cast<char>(0xFD)); // match anything except anthills
 constexpr char allCST(static_cast<char>(0xFF)); // match anything
 
 #endif // CONSTANTES_H_INCLUDED

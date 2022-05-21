@@ -31,7 +31,7 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList) {
     if(entityList.size() > 0) {
         int height = getHeight();
         int width = getWidth();
-        int nextStepOverlap=0; // ensure the path is free
+        int nextStepOverlap = 0; // ensure the path is free
         setSize(0, 0); // ensure the next step is free
         // (but need to remove itself to prevent self collision) (food are ignored)
         nextStepOverlap = Squarecell::countOverlap(pathBuffer[0], width, height,
@@ -69,6 +69,98 @@ double Fourmi::distance(Point start, Point stop) {
 vector<Point> Fourmi::getNextMove(Point position) {
     cout << "calling getNextMove of an generic ant" << endl;
     return {};
+}
+
+vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
+                                            Point target) {
+    double lowestDistance = 2*g_max;
+    double lowestDistanceAbs = 2*g_max; // a value that will always be greater
+    int direction = 0;
+    vector<int> bestNextMove = {};
+    for(auto possibleNextStep:directionToEval) {
+        if(lowestDistance >= distance(possibleNextStep, target)) {
+            lowestDistance = distance(possibleNextStep, target);
+            lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
+            bestNextMove.push_back(direction);
+        } else if(lowestDistance == distance(possibleNextStep, target)) {
+            if(lowestDistanceAbs>=(Point::distanceAbs(possibleNextStep,target)-0.01)){
+                lowestDistance = distance(possibleNextStep, target);
+                lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
+
+            }
+        }
+        direction++;
+    }
+    return bestNextMove;
+}
+
+vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEvalVec) {
+    if(pathToEvalVec.size() < 1) {
+        return {};
+    } else {
+        vector<vector<Point>> toReturn = {};
+        for(auto pathToEval:pathToEvalVec) {
+            vector<Point> currentPath = {};
+            for(auto step:pathToEval) {
+                Point stepnew = step;
+                if(((stepnew.getCoordX() >= 1)
+                    and (stepnew.getCoordX() <= (g_max-2)))
+                    and ((stepnew.getCoordY() >= 1)
+                    and (stepnew.getCoordY() <= (g_max-2)))) {
+
+                    currentPath.push_back(stepnew);
+                } else {
+                    if(stepnew.getCoordX() > 126) {
+                        stepnew = Point(252-stepnew.getCoordX(),stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordX() < 1) {
+                        stepnew = Point(abs(stepnew.getCoordX()),stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordX() == 0) {
+                        stepnew = Point(stepnew.getCoordX()+1,stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordY() > 126) {
+                        stepnew = Point(stepnew.getCoordX(), 252-stepnew.getCoordY());
+                    }
+                    if(stepnew.getCoordY() < 1) {
+                        stepnew = Point(stepnew.getCoordX(),abs(stepnew.getCoordY()));
+                    }
+                    if(stepnew.getCoordY() == 0) {
+                        stepnew = Point(stepnew.getCoordX(), stepnew.getCoordY()+1);
+                    }
+                    currentPath.push_back(stepnew);
+                }
+            }
+            toReturn.push_back(currentPath);
+        }
+        return toReturn;
+    }
+}
+
+vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
+    if(pathToEvalVec.size() < 1) {
+        return {};
+    } else {
+        vector<Point> toReturn = {};
+        int lowestOverlapScore = g_max*g_max;
+        for(auto pathToEval:pathToEvalVec) {
+            cout <<"anoter path"<< endl;
+            for(auto step:pathToEval) {
+                cout << "x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
+            }
+            int overlapScore = 0;
+            for(auto step:pathToEval) {
+                overlapScore += Squarecell::countOverlap(step, getWidth(),
+                                                         getHeight(),anyCST,true);
+            }
+            if(overlapScore < lowestOverlapScore) {
+                lowestOverlapScore = overlapScore;
+                toReturn = pathToEval;
+            }
+        }
+        toReturn.erase(toReturn.begin()); // remove the first step that is useless
+        return toReturn;
+    }
 }
 
 vector<Point> Fourmi::findPath(Point start, Point stop) {
@@ -109,109 +201,6 @@ vector<Point> Fourmi::findPath(Point start, Point stop) {
         }
     }
     return prunePaths(mirrorOutsidePath(allPath));
-}
-
-vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
-                                            Point target) {
-    double lowestDistance = 2*g_max;
-    double lowestDistanceAbs = 2*g_max; // a value that will always be greater
-    int direction = 0;
-    vector<int> bestNextMove = {};
-    for(auto possibleNextStep:directionToEval) {
-        if(lowestDistance >= distance(possibleNextStep, target)) {
-            lowestDistance = distance(possibleNextStep, target);
-            lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
-            bestNextMove.push_back(direction);
-        } else if(lowestDistance == distance(possibleNextStep, target)) {
-            if(lowestDistanceAbs>=(Point::distanceAbs(possibleNextStep,target)-0.01)){
-                lowestDistance = distance(possibleNextStep, target);
-                lowestDistanceAbs=Point::distanceAbs(possibleNextStep, target);
-
-            }
-        }
-        direction++;
-    }
-    return bestNextMove;
-}
-
-vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEvalVec) {
-    if(pathToEvalVec.size() < 1) {
-        return {};
-    } else {
-        vector<vector<Point>> toReturn = {};
-        for(auto pathToEval:pathToEvalVec) {
-            vector<Point> currentPath = {};
-            for(auto step:pathToEval) {
-                cout << "entree x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
-                Point stepnew = step;
-                if(((stepnew.getCoordX() >= 1) and (stepnew.getCoordX() <= (g_max-2))) and
-                  ((stepnew.getCoordY() >= 1) and (stepnew.getCoordY() <= (g_max-2)))){;
-                    currentPath.push_back(stepnew);
-                    //cout << "sans soucis" << endl;
-                } else {
-                  cout << "////////////////////////////////////////////////////////////////////////////////////////////////////" << endl;
-                    if(stepnew.getCoordX() > 126) {
-                        stepnew = Point(252-stepnew.getCoordX(),stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordX() < 1) {
-                        stepnew = Point(abs(stepnew.getCoordX()),stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordX() == 0) {
-                        stepnew = Point(stepnew.getCoordX()+1,stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordY() > 126) {
-                        stepnew = Point(stepnew.getCoordX(), 252-stepnew.getCoordY());
-                    }
-                    if(stepnew.getCoordY() < 1) {
-                        stepnew = Point(stepnew.getCoordX(),abs(stepnew.getCoordY()));
-                    }
-                    if(stepnew.getCoordY() == 0) {
-                        stepnew = Point(stepnew.getCoordX(),stepnew.getCoordY()+1);
-                    }
-                    currentPath.push_back(stepnew);
-                }
-                cout << "sortie x: " << stepnew.getCoordX() << " y: " << stepnew.getCoordY() << endl;
-              cout << " -----------------------------------------------------------------" << endl;
-            }
-            toReturn.push_back(currentPath);
-        }
-        /*
-        cout <<"testZ" << endl;
-        for(auto p:toReturn){
-            cout << "path :" << endl;
-            for(auto s:p){
-                cout << s.getCoordX() << " " << s.getCoordY() << endl;
-        }
-        }
-         */
-        return toReturn;
-    }
-}
-
-vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
-    if(pathToEvalVec.size() < 1) {
-        return {};
-    } else {
-        vector<Point> toReturn = {};
-        int lowestOverlapScore = g_max*g_max;
-        for(auto pathToEval:pathToEvalVec) {
-            cout <<"anoter path"<< endl;
-            for(auto step:pathToEval) {
-                cout << "x: " << step.getCoordX() << " y: " << step.getCoordY() << endl;
-            }
-            int overlapScore = 0;
-            for(auto step:pathToEval) {
-                overlapScore += Squarecell::countOverlap(step, getWidth(),
-                                                         getHeight(),anyCST,true);
-            }
-            if(overlapScore < lowestOverlapScore) {
-                lowestOverlapScore = overlapScore;
-                toReturn = pathToEval;
-            }
-        }
-        toReturn.erase(toReturn.begin()); // remove the first step that is useless
-        return toReturn;
-    }
 }
 
 vector<Point> Fourmi::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {

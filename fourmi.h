@@ -34,7 +34,7 @@ public:
     std::vector<Point> prunePaths(std::vector<std::vector<Point>> pathToEvalVec);
     std::vector<Point> findPath(Point start, Point stop);
     std::vector<Point> findClosestBorder(
-            std::vector<std::shared_ptr<Entity>> &entityList);
+                                    std::vector<std::shared_ptr<Entity>> &entityList);
 };
 
 class Collector : public Fourmi {

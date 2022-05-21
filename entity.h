@@ -22,7 +22,7 @@ protected:
     static std::default_random_engine randGen;
 
 public:
-    Entity(Point position, int width, int heihgt,
+    Entity(Point position, int width, int height,
            char specie, int id, bool isPositionAtCenter);
     void setPosition(Point newPosition);
     Point getPosition();
