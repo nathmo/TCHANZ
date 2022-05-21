@@ -116,7 +116,7 @@ void Squarecell::occupyArea() {
                 hitBoxGrid[i][j] = (hitBoxGrid[i][j] ^ kind);
             } else {                                   // otherwise throw error
                 cout << "uncatched exception : two entity overlap at "
-                        + to_string(i) + ", " + to_s       tring(j) << endl;
+                        + to_string(i) + ", " + to_string(j) << endl;
                 Squarecell::displayRawGrid();
                 exit(0);
             }
