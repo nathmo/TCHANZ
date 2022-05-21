@@ -25,6 +25,13 @@ Les Defensors calculent la bordure la plus proche et s'y rendent. Une fois sur l
 La fourmi Predator tente simplement de retourner dans sa fourmilière et s'y balade au hazard. Les déplacements au hazard étant là pour éviter les blocages avec d'autres fourmis de la fourmilière.
 
 ## Screenshot
+Fichier f06.txt. Mise à jour chaque 2 step. 
+
+![img.png](img.png) ![img_1.png](img_1.png) ![img_2.png](img_2.png) ![img_3.png](img_3.png) ![img_4.png](img_4.png) ![img_5.png](img_5.png)
+
+Fichier test crée par nous. Mise à jour chaque 4 step sauf dernière photo (10 step).
+
+![img_9.png](img_9.png) ![img_10.png](img_10.png) ![img_11.png](img_11.png) ![img_12.png](img_12.png) ![img_13.png](img_13.png) ![img_14.png](img_14.png) ![img_15.png](img_15.png)
 
 ## Méthodologie :
 Nous avons mis en place un Git depuis le début. Nous étions ainsi capable de programmer ensemble (en général le vendredi en séance d'exercices) et seul quand nous avions du temps libre. Nous travaillons généralement ensemble pour résoudre les bugs les plus coriaces et seul le reste du temps avec des meetings régulier pour tenir l'autre à jour sur l'avance du quand sur l'avancement global, les prochaines étapes et le fonctionnement du code déjà écris. Nous nous sommes répartis les fonctions et modules en fonction des affinités. L'un de nous ayant plus d'affinité avec la structure du code et l'autre avec l'implémentation d'algorithme.
