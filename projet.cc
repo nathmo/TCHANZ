@@ -4,7 +4,6 @@
   \date   MARS 2022
   \brief  implémentation du module principal avec la fonction main()
 */
-
 #include <iostream>
 #include "simulation.h"
 #include "gui.h"
@@ -20,7 +19,7 @@ int main(int argc, char *argv[]) {
     if(argc > 2) {
         string headlessKeyword = "--headless";
         bool status = true;
-        for(int i=0; i<10; i++) {
+        for(int i(0); i < 10; i++) {
             if(not(argv[2][i] == headlessKeyword.at(i))) {
                 status = false;
             }

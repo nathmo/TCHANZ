@@ -15,7 +15,6 @@
 #include "fourmiliere.h"
 #include "nourriture.h"
 
-
 using namespace std;
 
 void TextStorage::importTXT(string filename,
@@ -41,11 +40,11 @@ void TextStorage::writetxt(string filename, vector<vector<string>> lineToWrite) 
     txtsave.open(filename, ios::out);//open file with write access
     if(txtsave.fail()) {
         cout << "soucis writetxt_filename" << endl;
-        throw (-1);
+        throw(-1);
     } else if(txtsave.is_open()) {
-        for(unsigned int i=0; i<lineToWrite.size(); i++) {
-            string line =""; // dump each line (add space as its a vector of word)
-            for(unsigned int j=0; j<lineToWrite[i].size(); j++) {
+        for(unsigned int i(0); i < lineToWrite.size(); i++) {
+            string line = ""; // dump each line (add space as its a vector of word)
+            for(unsigned int j(0); j < lineToWrite[i].size(); j++) {
                 line = line + " " + lineToWrite[i][j];
             }
             txtsave << line << endl;
@@ -61,7 +60,7 @@ vector<vector<string>> TextStorage::readtxt(string filename) {
     txtsave.open(filename,ios::in); //open file with read access
     if(txtsave.fail()) {
         cout << "Fichier non ouvrable ou pas assez de droit" << endl;
-        throw (-1);
+        throw(-1);
     } else if(txtsave.is_open()) { //checking whether the file is open
         while(getline(txtsave >> ws, line)) {//tokenize each line as a vector of word
             if(line[0] == '#') continue;
@@ -89,7 +88,7 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
                            vector<shared_ptr<Nourriture>> &foodVectorReturn,
                            vector<shared_ptr<Fourmiliere>> &fourmilliereVectorReturn){
     if(not(checksizeLine(inputBuffer))) {
-        throw (-1); // ensure there is enough argument in the file
+        throw(-1); // ensure there is enough argument in the file
     }
     unsigned int QuantityFood = stoi(inputBuffer[0][0]);
     TextStorage::importFood(inputBuffer, foodVectorReturn);
@@ -114,11 +113,11 @@ void TextStorage::importDump(vector<vector<string>> inputBuffer,
             fourmilliereMemberList.push_back(Collector::importFromExtSaveCollector(
                                           inputBuffer[intermediaire+1], indexFourmi));
         }
-        for(unsigned int d(1); d < defensor+1; d++, intermediaire++) { // add defensor
+        for(unsigned int d(1); d < defensor+1; d++, intermediaire++) { // add Defensor
             fourmilliereMemberList.push_back(Defensor::importFromExtSaveDefensor(
                                           inputBuffer[intermediaire+1], indexFourmi));
         }
-        for(unsigned int p(1); p < predator+1; p++, intermediaire++) { // add defensor
+        for(unsigned int p(1); p < predator+1; p++, intermediaire++) { // add Predator
             fourmilliereMemberList.push_back(Predator::importFromExtSavePredator(
                                           inputBuffer[intermediaire+1], indexFourmi));
         }
@@ -143,7 +142,7 @@ vector<vector<string>> TextStorage::exportDump(
         vector<vector<string>> temp = (*entity).exportToString();
         toExport.insert(toExport.end(), temp.begin(), temp.end());
     }
-    toExport[0][0]=to_string(nOfFood);
+    toExport[0][0] = to_string(nOfFood);
     return toExport;
 }
 
@@ -161,7 +160,7 @@ bool TextStorage::checksizeLine(vector<vector<string>> intArrayDump) {
     unsigned int intermediaire = QuantityFood + 2; //index des donnees (line)
     unsigned int quantityAnthill = stoi(intArrayDump[intermediaire-1][0]);
     for(unsigned int i(0); i < quantityAnthill; i++) {
-        if(intArrayDump.size()<intermediaire) {
+        if(intArrayDump.size() < intermediaire) {
             cout << "not enough line from the file"<< endl;
             status = false;
         }

@@ -29,22 +29,22 @@ private:
     Frame frame;
     static std::vector<std::vector<double>> bufferLine;
     static std::vector<std::vector<double>> bufferLineBackup;
-    void emptyBuffer(const Cairo::RefPtr<Cairo::Context>& cr);
+    void emptyBuffer(const Cairo::RefPtr<Cairo::Context> &cr);
 
 protected:
     //Override default signal handler:
-    bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
+    bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
 public:
     Graphic();
     virtual ~Graphic();
     void setFrame(Frame f);
     void adjustFrame();
-    static void orthographic_projection(const Cairo::RefPtr<Cairo::Context>& cr,
+    static void orthographic_projection(const Cairo::RefPtr<Cairo::Context> &cr,
                                         Frame frame);
     static void drawLine(double xStart, double yStart,
-                                  double xStop, double yStop,
-                                  double largeur, int colorCode);
+                         double xStop, double yStop,
+                         double largeur, int colorCode);
     static void color(double &r, double &g, double &b, int colorCode);
 };
 

@@ -32,7 +32,7 @@ void Fourmi::step(vector<shared_ptr<Entity>> &entityList) {
     if(entityList.size() > 0) {
         int height = getHeight();
         int width = getWidth();
-        int nextStepOverlap=0; // ensure the path is free
+        int nextStepOverlap = 0; // ensure the path is free
         setSize(0, 0); // ensure the next step is free
         // (but need to remove itself to prevent self collision) (food are ignored)
         nextStepOverlap = Squarecell::countOverlap(pathBuffer[0], width, height,
@@ -72,46 +72,6 @@ vector<Point> Fourmi::getNextMove(Point position) {
     return {};
 }
 
-vector<Point> Fourmi::findPath(Point start, Point stop) {
-    vector<Point> initialDirection = getNextMove(start);
-    vector<vector<Point>> allPath = {};
-    for(unsigned int directionPath = 0; directionPath<initialDirection.size();
-                                                                     directionPath++){
-        vector<Point> path = {start};
-        int inertia = directionPath;
-        double distanceToTarget = 2*g_max;
-        int watchdog = 0;
-        while(not(path[path.size()-1] == stop)) {
-            watchdog++;
-            if(watchdog == 250) {
-                path = {};
-                break;
-            }
-            vector<Point> possibleNextStepVec = getNextMove(path[path.size()-1]);
-            if(inertia == -1) { //find a new direction if the distance stop decreasing
-                vector<int> dir = evaluateBestsDirections(possibleNextStepVec, stop);
-                if(dir.size() > 0) {
-                    inertia = dir[dir.size()-1];
-                } else {
-                    path = {};
-                    break;
-                }
-            } else { // try to continue in the same direction
-                if(distanceToTarget < distance(possibleNextStepVec[inertia], stop)) {
-                    inertia = -1; // if distance increase, find new direction
-                } else {
-                    distanceToTarget = distance(possibleNextStepVec[inertia], stop);
-                    path.push_back(possibleNextStepVec[inertia]);
-                }
-            }
-        }
-        if(path.size() > 0) {
-            allPath.push_back(path);
-        }
-    }
-    return prunePaths(mirrorOutsidePath(allPath));
-}
-
 vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
                                             Point target) {
     double lowestDistance = 2*g_max;
@@ -126,7 +86,7 @@ vector<int> Fourmi::evaluateBestsDirections(vector<Point> directionToEval,
         } else if(lowestDistance == distance(possibleNextStep, target)) {
             if(lowestDistanceAbs>=(Point::distanceAbs(possibleNextStep,target)-0.01)){
                 lowestDistance = distance(possibleNextStep, target);
-                lowestDistanceAbs=Point::distanceAbs(possibleNextStep, target);
+                lowestDistanceAbs = Point::distanceAbs(possibleNextStep, target);
 
             }
         }
@@ -144,8 +104,9 @@ vector<vector<Point>> Fourmi::mirrorOutsidePath(vector<vector<Point>> pathToEval
             vector<Point> currentPath = {};
             for(auto step:pathToEval) {
                 Point stepnew = step;
-                if(((stepnew.getCoordX() >= 1)and(stepnew.getCoordX()<=(g_max-3)))and
-                   ((stepnew.getCoordY() >= 1)and(stepnew.getCoordY()<=(g_max-3)))){
+                if(((stepnew.getCoordX() >= 1)and(stepnew.getCoordX()<=(g_max-3))) and
+                   ((stepnew.getCoordY() >= 1)and(stepnew.getCoordY()<=(g_max-3)))) {
+
                     currentPath.push_back(stepnew);
                 } else {
                     if(stepnew.getCoordX() > 126) {
@@ -198,6 +159,46 @@ vector<Point> Fourmi::prunePaths(vector<vector<Point>> pathToEvalVec) {
     }
 }
 
+vector<Point> Fourmi::findPath(Point start, Point stop) {
+    vector<Point> initialDirection = getNextMove(start);
+    vector<vector<Point>> allPath = {};
+    for(unsigned int directionPath = 0; directionPath < initialDirection.size();
+                                                                    directionPath++) {
+        vector<Point> path = {start};
+        int inertia = directionPath;
+        double distanceToTarget = 2*g_max;
+        int watchdog = 0;
+        while(not(path[path.size()-1] == stop)) {
+            watchdog++;
+            if(watchdog == 250) {
+                path = {};
+                break;
+            }
+            vector<Point> possibleNextStepVec = getNextMove(path[path.size()-1]);
+            if(inertia == -1) { //find a new direction if the distance stop decreasing
+                vector<int> dir = evaluateBestsDirections(possibleNextStepVec, stop);
+                if(dir.size() > 0) {
+                    inertia = dir[dir.size()-1];
+                } else {
+                    path = {};
+                    break;
+                }
+            } else { // try to continue in the same direction
+                if(distanceToTarget < distance(possibleNextStepVec[inertia], stop)) {
+                    inertia = -1; // if distance increase, find new direction
+                } else {
+                    distanceToTarget = distance(possibleNextStepVec[inertia], stop);
+                    path.push_back(possibleNextStepVec[inertia]);
+                }
+            }
+        }
+        if(path.size() > 0) {
+            allPath.push_back(path);
+        }
+    }
+    return prunePaths(mirrorOutsidePath(allPath));
+}
+
 vector<Point> Fourmi::findClosestBorder(vector<shared_ptr<Entity>> &entityList) {
     vector<shared_ptr<Entity>> anthill = Entity::findByID(getId(), entityList,
                                                           fourmilliereCST);
@@ -244,7 +245,7 @@ Collector::Collector(Point position, int id, int age, bool carryFood ) :
                          Fourmi(position, age,fourmiCollectorCST,id,sizeC) {
     exitNest = false;
     this->carryFood = carryFood;
-    for(int i=0; i < 10; i++) {
+    for(int i(0); i < 10; i++) {
         int x = Entity::randInt(1,g_max-2);
         int y = Entity::randInt(1,g_max-2);
         if((x+y)%2 == (position.getCoordX()+position.getCoordY())%2) {
@@ -295,8 +296,6 @@ void Collector::step(vector<shared_ptr<Entity>> &entityList) {
             nextStepOverlap += Squarecell::countOverlap(side, 1, 1,
                                                         (nourritureCST), true);
         }
-        // note ici bloquer suelement sur les bouffe dans la direction ou on vas
-        // ajouter l'autre famille de point cest pas la bonne
         setSize(width, height); // back to normal size
         if(nextStepOverlap == 0) {
             setPosition(pathBuffer[0]);
@@ -345,14 +344,14 @@ double Collector::distance(Point start, Point stop) {
 
 vector<Point> Collector::getNextMove(Point position) {
     vector<Point> nextMoves = {};
-    int XRight = position.getCoordX() + 1;
-    int Xleft = position.getCoordX() - 1;
-    int YTop = position.getCoordY() + 1;
-    int YBot = position.getCoordY() - 1;
-    nextMoves.push_back(Point(XRight, YTop));
-    nextMoves.push_back(Point(Xleft, YBot));
-    nextMoves.push_back(Point(XRight, YBot));
-    nextMoves.push_back(Point(Xleft, YTop));
+    int xRight = position.getCoordX() + 1;
+    int xleft = position.getCoordX() - 1;
+    int yTop = position.getCoordY() + 1;
+    int yBot = position.getCoordY() - 1;
+    nextMoves.push_back(Point(xRight, yTop));
+    nextMoves.push_back(Point(xleft, yBot));
+    nextMoves.push_back(Point(xRight, yBot));
+    nextMoves.push_back(Point(xleft, yTop));
 
     return nextMoves;
 }
@@ -404,10 +403,10 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
         }
         for(int i=x; i <= (x+width); i++) {
             if((i+y)%2 == caseFamily){
-                side.push_back(Point(i,y));
+                side.push_back(Point(i, y));
             }
             if((i+height+y)%2 == caseFamily) {
-                side.push_back(Point(i,y+height));
+                side.push_back(Point(i, y+height));
             }
         }
         return findBestHome(side);
@@ -419,8 +418,8 @@ Point Collector::findHome(vector<shared_ptr<Entity>> &entityList) {
 Point Collector::findBestHome(vector<Point> side) {
     int lowestDistanceToHome = g_max * g_max;
     Point candidat;
-    for (auto target: side) {
-        if (Point::distanceAbs(getPosition(), target) < lowestDistanceToHome) {
+    for(auto target:side) {
+        if(Point::distanceAbs(getPosition(), target) < lowestDistanceToHome) {
             lowestDistanceToHome = Point::distanceAbs(getPosition(), target);
             candidat = target;
         }
@@ -446,21 +445,21 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
     shared_ptr<Entity> food = Entity::findByPosition(pathBuffer[0], entityList,
                                                      nourritureCST);
 
-    food -> setEndOfLife(true);
+    food->setEndOfLife(true);
     carryFood = true;
     pathBuffer = {};
 }
 
 void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList) {
-    if((pathBuffer.size() != 0) and (not carryFood)) {
+    if((pathBuffer.size()!=0) and (not carryFood)) {
         bool foodStillClosest = true;
         bool foodStillThere = Squarecell::countOverlap(
                         pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
         vector<Point> foods = findFoods(entityList);
         if(foods.size() > 0) {
             if(Point::distanceAbs(getPosition(),
-                            pathBuffer[pathBuffer.size() - 1]) >
-                            Point::distanceAbs(getPosition(),
+                                  pathBuffer[pathBuffer.size() - 1]) >
+                                  Point::distanceAbs(getPosition(),
                                                Collector::findFoods(entityList)[0])) {
                 foodStillClosest = false;
             }
@@ -515,7 +514,7 @@ Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
     Point outsideC = Point(leftB.getCoordX() - 2, rightT.getCoordY() + 2);
     Point outsideD = Point(rightT.getCoordX() + 2, rightT.getCoordY() + 2);
     vector<Point> outside = {outsideA, outsideB, outsideC, outsideD};
-    for (auto out: outside) {
+    for (auto out:outside) {
         // filtrer ici le outside le plus proche et le retourner
         // plus check si place dehors (quon soit dans le range [1-126])
         return out;
@@ -607,17 +606,17 @@ void Defensor::update(vector<shared_ptr<Entity>> &entityList) {
 void Defensor::MurderRadius(vector<shared_ptr<Entity>> &entityList) {
     // 12 side check manually
     Point up(getPosition().getCoordX(), getPosition().getCoordY() + 2);
-    Point upL(getPosition().getCoordX()-1, getPosition().getCoordY() + 2);
-    Point upR(getPosition().getCoordX()+1, getPosition().getCoordY() + 2);
+    Point upL(getPosition().getCoordX() - 1, getPosition().getCoordY() + 2);
+    Point upR(getPosition().getCoordX() + 1, getPosition().getCoordY() + 2);
     Point down(getPosition().getCoordX(), getPosition().getCoordY() - 2);
-    Point downL(getPosition().getCoordX()-1, getPosition().getCoordY() - 2);
-    Point downR(getPosition().getCoordX()+1, getPosition().getCoordY() - 2);
+    Point downL(getPosition().getCoordX() - 1, getPosition().getCoordY() - 2);
+    Point downR(getPosition().getCoordX() + 1, getPosition().getCoordY() - 2);
     Point right(getPosition().getCoordX() + 2, getPosition().getCoordY());
-    Point rightU(getPosition().getCoordX() + 2, getPosition().getCoordY()-1);
-    Point rightD(getPosition().getCoordX() + 2, getPosition().getCoordY()+1);
+    Point rightU(getPosition().getCoordX() + 2, getPosition().getCoordY() - 1);
+    Point rightD(getPosition().getCoordX() + 2, getPosition().getCoordY() + 1);
     Point left(getPosition().getCoordX() - 2, getPosition().getCoordY());
-    Point leftU(getPosition().getCoordX() - 2, getPosition().getCoordY()-1);
-    Point leftD(getPosition().getCoordX() - 2, getPosition().getCoordY()+1);
+    Point leftU(getPosition().getCoordX() - 2, getPosition().getCoordY() - 1);
+    Point leftD(getPosition().getCoordX() - 2, getPosition().getCoordY() + 1);
     vector<Point> murderZone = {up, upL, upR, down, downL, downR,
                                left, leftU, leftD, right, rightU, rightD};
     for(auto zone:murderZone) {
@@ -639,10 +638,10 @@ void Defensor::evaluateConditionTarget(
         if(bordures.size() == 0) {
             bordureStillClosest = true;
         } else {
-            bordureStillClosest = (distance(getPosition(),
-                                                 pathBuffer[pathBuffer.size() - 1]) <=
-                                        distance(getPosition(),
-                                                 bordures[bordures.size() - 1]));
+            bordureStillClosest=(distance(getPosition(),
+                                          pathBuffer[pathBuffer.size()-1]) <=
+                                               distance(getPosition(),
+                                                        bordures[bordures.size()-1]));
         }
         if(not bordureStillClosest) {
             pathBuffer = {};
@@ -653,8 +652,8 @@ void Defensor::evaluateConditionTarget(
 void Defensor::recomputePath(std::vector<std::shared_ptr<Entity>> &entityList) {
     vector<Point> bordures = findClosestBorder(entityList);
     Point target;
-    if(bordures.size() > 0){
-        target = bordures[bordures.size() - 1];
+    if(bordures.size() > 0) {
+        target = bordures[bordures.size()-1];
     } else {
         target = getPosition();
     }
@@ -674,10 +673,10 @@ double Defensor::distance(Point start, Point stop) {
 }
 
 vector<Point> Defensor::getNextMove(Point position) {
-    Point right = Point(position.getCoordX()+1, position.getCoordY());
-    Point up =  Point(position.getCoordX(), position.getCoordY()+1);
-    Point left = Point(position.getCoordX()-1, position.getCoordY());
-    Point down = Point(position.getCoordX(), position.getCoordY()-1);
+    Point right = Point(position.getCoordX() + 1, position.getCoordY());
+    Point up =  Point(position.getCoordX(), position.getCoordY() + 1);
+    Point left = Point(position.getCoordX() - 1, position.getCoordY());
+    Point down = Point(position.getCoordX(), position.getCoordY() - 1);
     return {right, up, left, down};
 }
 
@@ -707,7 +706,7 @@ shared_ptr<Fourmi> Defensor::importFromExtSaveDefensor(vector<string> &inputBuff
                                          overlapList[0].getCoordY());
         throw (errorCode);
     }
-    return make_shared<Defensor> (Point(x,y), index, age);
+    return make_shared<Defensor> (Point(x, y), index, age);
     }
 }
 
@@ -722,7 +721,7 @@ void Defensor::draw() {
 Predator::Predator(Point position, int id, int age) :
                                  Fourmi(position, age, fourmiPredatorCST, id, sizeP) {
     constrained = false;
-    target = Point(0,0);
+    target = Point(0, 0);
 }
 
 void Predator::setConstrained(bool constrain) {
@@ -734,7 +733,7 @@ vector<Point> Predator::findClosestEnemy(vector<shared_ptr<Entity>> &entityList)
     for(auto enemy:entityList) {
         if(enemy->getId() != int(id)) {
             if((enemy->getSpecie() == fourmiCollectorCST) or
-                                         (enemy->getSpecie() == fourmiPredatorCST)) {
+                                          (enemy->getSpecie() == fourmiPredatorCST)) {
                 listOfEnemyPos.push_back(enemy->getPosition());
             }
         }
@@ -760,26 +759,26 @@ vector<Point> Predator::removeOutsideAnthill(vector<shared_ptr<Entity>> &entityL
     Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
     Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
     int i = 0;
-    for (auto enemyPos: listOfEnemyPos) {
+    for(auto enemyPos: listOfEnemyPos) {
         Point leftBEnemy = Point(enemyPos.getCoordX() - 1,
                                  enemyPos.getCoordY() - 1);
         Point rightTEnemy = Point(enemyPos.getCoordX() + 1,
                                   enemyPos.getCoordY() + 1);
         int isInAnthill = Squarecell::countOverlap(leftB, rightT,
                                                    leftBEnemy, rightTEnemy);
-        if (not isInAnthill) {
+        if(not isInAnthill) {
             listOfEnemyPos.erase(listOfEnemyPos.begin() + i);
             i--;
         }
         i++;
     }
-    if (listOfEnemyPos.size() == 0) {
+    if(listOfEnemyPos.size() == 0) {
         vector<Point> spawn = Squarecell::findFreeInArea(leftB, rightT,
                                                          sizeP, sizeP, anyCST);
-        if ((target.getCoordY() == 0) and (target.getCoordX() == 0)) {
+        if((target.getCoordY() == 0) and (target.getCoordX() == 0)) {
             vector<Point> spawn = Squarecell::findFreeInArea(leftB, rightT,
                                                              sizeP, sizeP,anyCST);
-            if(spawn.size()>0) {
+            if(spawn.size() > 0) {
                 target = spawn[Entity::randInt(0, spawn.size()-1)];
                 listOfEnemyPos = {target};
             }
@@ -792,7 +791,7 @@ vector<Point> Predator::removeOutsideAnthill(vector<shared_ptr<Entity>> &entityL
 
 void Predator::update(vector<shared_ptr<Entity>> &entityList) {
     age++;
-    if (age >= bug_life){
+    if(age >= bug_life) {
         endOfLife = true;
     }
     if(pathBuffer.size() > 0) {
@@ -827,14 +826,14 @@ double Predator::distance(Point start, Point stop) {
 }
 
 vector<Point> Predator::getNextMove(Point position) {
-    Point upRightA = Point(position.getCoordX()+2,position.getCoordY()+1);
-    Point upLeftA = Point(position.getCoordX()-2,position.getCoordY()+1);
-    Point downLeftA = Point(position.getCoordX()-2,position.getCoordY()-1);
-    Point downRightA = Point(position.getCoordX()+2,position.getCoordY()-1);
-    Point upRightB = Point(position.getCoordX()+1,position.getCoordY()+2);
-    Point upLeftB = Point(position.getCoordX()-1,position.getCoordY()+2);
-    Point downLeftB = Point(position.getCoordX()-1,position.getCoordY()-2);
-    Point downRightB = Point(position.getCoordX()+1,position.getCoordY()-2);
+    Point upRightA = Point(position.getCoordX() + 2, position.getCoordY() + 1);
+    Point upLeftA = Point(position.getCoordX() - 2, position.getCoordY() + 1);
+    Point downLeftA = Point(position.getCoordX() - 2, position.getCoordY() - 1);
+    Point downRightA = Point(position.getCoordX() + 2, position.getCoordY() - 1);
+    Point upRightB = Point(position.getCoordX() + 1, position.getCoordY() + 2);
+    Point upLeftB = Point(position.getCoordX() - 1, position.getCoordY() + 2);
+    Point downLeftB = Point(position.getCoordX() - 1, position.getCoordY() - 2);
+    Point downRightB = Point(position.getCoordX() + 1, position.getCoordY() - 2);
 
     return {upRightA, upLeftA, downLeftA, downRightA,
             upRightB, upLeftB, downLeftB, downRightB};
@@ -879,7 +878,7 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
                                                        int index) {
     if(!(inputBuffer.size() >= 3)) {
         cout << "Predator : number of argument mismatch" << endl;
-        throw (errorCode);
+        throw(errorCode);
     } else {
         long int x = stoi(inputBuffer[0]);
         long int y = stoi(inputBuffer[1]);
@@ -887,8 +886,8 @@ shared_ptr<Fourmi> Predator::importFromExtSavePredator(vector<string> &inputBuff
         vector<Point> overlapList = Squarecell::getOverlap(Point::checkPoint(x, y),
                                                           sizeP, sizeP, anyCST, true);
         if(overlapList.size() > 0) { // ensure the ant does not collide with something
-            cout<< message::predator_overlap(x,y);
-            throw (errorCode);
+            cout<< message::predator_overlap(x, y);
+            throw(errorCode);
         }
     return make_shared<Predator> (Point(x, y), index, age);
     }
@@ -911,8 +910,8 @@ Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList) {
                                                           fourmilliereCST);
     Point cornerLeftBot = (*(*anthill[0]).getOccupiedSpace()).getHitboxBotLeft();
     Point cornerRightTop = (*(*anthill[0]).getOccupiedSpace()).getHitboxTopRight();
-    int deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())/2;
-    int deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())/2;
+    int deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX()) / 2;
+    int deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY()) / 2;
     if((cornerRightTop.getCoordX()-cornerLeftBot.getCoordX()) < 13) {
         if((cornerLeftBot.getCoordX()+deltaX) > (g_max/2)) { // right side of board
             deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX()) - 3;
@@ -920,11 +919,11 @@ Point Generator::findCenter(vector<shared_ptr<Entity>> &entityList) {
             deltaX = (cornerRightTop.getCoordX()-cornerLeftBot.getCoordX())-6;
         }
         if((cornerLeftBot.getCoordY()+deltaY) > (g_max/2)) { // top side of board
-            deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())-3;
+            deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY()) - 3;
         } else {
-            deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())-6;
+            deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY()) - 6;
         }
-        deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY())-6;
+        deltaY = (cornerRightTop.getCoordY()-cornerLeftBot.getCoordY()) - 6;
     }
     int centerX = cornerLeftBot.getCoordX() + deltaX;
     int centerY = cornerLeftBot.getCoordY() + deltaY;
@@ -970,14 +969,14 @@ double Generator::distance(Point start, Point stop) {
 }
 
 vector<Point> Generator::getNextMove(Point position) {
-    Point right = Point(position.getCoordX()+1,position.getCoordY());
-    Point upRight = Point(position.getCoordX()+1,position.getCoordY()+1);
-    Point up = Point(position.getCoordX(),position.getCoordY()+1);
-    Point upLeft = Point(position.getCoordX()-1,position.getCoordY()+1);
-    Point left = Point(position.getCoordX()-1,position.getCoordY());
-    Point downLeft = Point(position.getCoordX()-1,position.getCoordY()-1);
-    Point down = Point(position.getCoordX(),position.getCoordY()-1);
-    Point downRight = Point(position.getCoordX()+1,position.getCoordY()-1);
+    Point right = Point(position.getCoordX() + 1, position.getCoordY());
+    Point upRight = Point(position.getCoordX() + 1, position.getCoordY() + 1);
+    Point up = Point(position.getCoordX(), position.getCoordY() + 1);
+    Point upLeft = Point(position.getCoordX() - 1, position.getCoordY() + 1);
+    Point left = Point(position.getCoordX() - 1, position.getCoordY());
+    Point downLeft = Point(position.getCoordX() - 1, position.getCoordY() - 1);
+    Point down = Point(position.getCoordX(), position.getCoordY() - 1);
+    Point downRight = Point(position.getCoordX() + 1, position.getCoordY() - 1);
 
     return {right, upRight, up, upLeft, left, downLeft, down, downRight};
 }
@@ -1001,7 +1000,7 @@ shared_ptr<Fourmi> Generator::importFromExtSaveGenerator(vector<string> &inputBu
     if(overlapList.size() > 0) { //ensure the ant does not collide with something else
         cout << message::generator_overlap(x, y, overlapList[0].getCoordX(),
                                            overlapList[0].getCoordY());
-        throw (errorCode);
+        throw(errorCode);
     }
     return make_shared<Generator> (Point(x, y), index);
 }

@@ -135,7 +135,7 @@ vector<Point> Entity::findSpecie(char specie,
         if(((*listOfEntity[i]).getSpecie()) == specie) {
             int x = (((*listOfEntity[i]).getOccupiedSpace())
                                                          ->getPosition()).getCoordX();
-            int y=(((*listOfEntity[i]).getOccupiedSpace())
+            int y = (((*listOfEntity[i]).getOccupiedSpace())
                                                          ->getPosition()).getCoordY();
             listSpecie.push_back(Point(x,y));
         }

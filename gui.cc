@@ -60,19 +60,19 @@ void Gui::onButtonClickedSave() {
 }
 
 void Gui::onButtonClickedStartStop() {
-    if(m_Button_StartStop.get_label()=="start") {
+    if(m_Button_StartStop.get_label() == "start") {
         m_Button_Step.set_sensitive(false);
         m_Button_StartStop.set_label("stop");
-    } else if(m_Button_StartStop.get_label()=="stop") {
+    } else if(m_Button_StartStop.get_label() == "stop") {
         m_Button_Step.set_sensitive(true);
         m_Button_StartStop.set_label("start");
     }
 }
 
 void Gui::onButtonClickedStep() {
-    if(m_Button_StartStop.get_label()=="start") {//step only ifnot actively simulating
+    if(m_Button_StartStop.get_label() == "start") {//step only ifnot actively simulating
         timer++;
-        cout << "tick : "+to_string(timer) << endl;
+        cout << "tick : " + to_string(timer) << endl;
         (*simulationPtr).simulateStep();
         (*simulationPtr).refreshGUI();
         Gui::refreshAnthInfo();
@@ -82,7 +82,7 @@ void Gui::onButtonClickedStep() {
 }
 
 bool Gui::onTick() {
-    if(m_Button_StartStop.get_label()=="stop") { // step only if actively simulating
+    if(m_Button_StartStop.get_label() == "stop") { // step only if actively simulating
         timer++;
         cout << "tick : " + to_string(timer) << endl;
         (*simulationPtr).simulateStep();
@@ -96,7 +96,7 @@ bool Gui::onTick() {
 
 void Gui::onButtonClickedPrevious() {
     if(idAnthillSelected == -1) {
-        idAnthillSelected = (*simulationPtr).getAnthNb()-1;
+        idAnthillSelected = (*simulationPtr).getAnthNb() - 1;
     } else {
         idAnthillSelected--;
     }
@@ -104,7 +104,7 @@ void Gui::onButtonClickedPrevious() {
 }
 
 void Gui::onButtonClickedNext() {
-    if(idAnthillSelected == (*simulationPtr).getAnthNb()-1) {
+    if(idAnthillSelected == (*simulationPtr).getAnthNb() - 1) {
         idAnthillSelected = -1;
     } else {
         idAnthillSelected++;
@@ -141,24 +141,24 @@ bool Gui::on_key_press_event(GdkEventKey* event) {
 
 void Gui::refreshFoodInfo() {
     string nbFood = to_string((*simulationPtr).getFoodNb());
-    m_Label_FoodInfoValue.set_text("Nb food: "+nbFood);
+    m_Label_FoodInfoValue.set_text("Nb food: " + nbFood);
 }
 
 void Gui::refreshAnthInfo() {
     if(idAnthillSelected >= (*simulationPtr).getAnthNb()) {
-        idAnthillSelected =(*simulationPtr).getAnthNb()-1;
+        idAnthillSelected =(*simulationPtr).getAnthNb() - 1;
     }
     if(idAnthillSelected == -1) {
         string statToDisplay = "None selected";
         m_Label_AnthInfoValue.set_text(statToDisplay);
     } else {
         vector<double> stat = (*simulationPtr).getAnthInfoStat(idAnthillSelected);
-        string statToDisplay = "id: "+to_string(int(stat[0]))+"\n"+
-                "Total food: "+to_string(stat[1]).substr(0,
-                                         to_string(stat[1]).find(".")+3)+"\n"+"\n"+
-                "nbC: "+to_string(int(stat[2]))+"\n"+
-                "nbD: "+to_string(int(stat[3]))+"\n"+
-                "nbP: "+to_string(int(stat[4]))+"\n";
+        string statToDisplay = "id: " + to_string(int(stat[0])) + "\n" +
+                "Total food: " + to_string(stat[1]).substr(0,
+                                         to_string(stat[1]).find(".")+3) + "\n" +"\n"+
+                "nbC: " + to_string(int(stat[2])) + "\n" +
+                "nbD: " + to_string(int(stat[3])) + "\n" +
+                "nbP: " + to_string(int(stat[4])) + "\n";
         m_Label_AnthInfoValue.set_text(statToDisplay);
     }
 }
@@ -238,9 +238,7 @@ Gui::Gui(shared_ptr<Simulation> simulation) :
     (*simulation).refreshGUI();
 }
 
-Gui::~Gui() {
-
-}
+Gui::~Gui() {}
 
 int Gui::window(shared_ptr<Simulation> simulation) {
     auto app = Gtk::Application::create("org.gtkmm.example");

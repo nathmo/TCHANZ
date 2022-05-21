@@ -31,7 +31,7 @@ void Simulation::loadFromFile(string path) {
     anthillList.clear();
     try {
         TextStorage::importTXT(path, nourritureList, anthillList);
-        for(unsigned int i=0; i < anthillList.size(); i++) {
+        for(unsigned int i(0); i < anthillList.size(); i++) {
             (*anthillList[i]).check();
         }
         cout << message::success();
@@ -65,17 +65,17 @@ void Simulation::simulateStep() {
     }// update the anthill and their ants
     nourritureList = {};
     for(auto entity:entityList) {
-        if(entity->getSpecie()==nourritureCST){
-            shared_ptr<Nourriture> food=dynamic_pointer_cast<Nourriture>(entity);
+        if(entity->getSpecie() == nourritureCST) {
+            shared_ptr<Nourriture> food = dynamic_pointer_cast<Nourriture>(entity);
             nourritureList.push_back(food);
         }
     }// update the anthill and their ants
-    for(unsigned int i=0; i < anthillList.size(); i++) {
+    for(unsigned int i(0); i < anthillList.size(); i++) {
         if((anthillList[i])->getEndOfLife()) {
             anthillList.erase(anthillList.begin() + i);
         }
     }// erase anthill that died
-    for(unsigned int i=0; i < nourritureList.size(); i++) {
+    for(unsigned int i(0); i < nourritureList.size(); i++) {
         if((nourritureList[i])->getEndOfLife()) {
             nourritureList.erase(nourritureList.begin() + i);
         }// erase food that where picked up

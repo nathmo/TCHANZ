@@ -19,7 +19,6 @@ namespace TextStorage {
     void importTXT(std::string filename,
                 std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
                 std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
-
     void exportTXT(std::string filename,
                 std::vector<std::shared_ptr<Nourriture>> &foodVectorReturn,
                 std::vector<std::shared_ptr<Fourmiliere>> &fourmilliereVectorReturn);
@@ -28,7 +27,6 @@ namespace TextStorage {
                   std::vector<std::vector<std::string>> lineToWrite);
     // convert a file to a list of tokenized word
     std::vector<std::vector<std::string>> readtxt(std::string filename);
-
     std::vector<std::string> tokenize(std::string line);
     // convert the list of tokenized word to usable list of  entitys
     void importDump(std::vector<std::vector<std::string>> inputBuffer,

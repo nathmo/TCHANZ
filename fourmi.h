@@ -18,6 +18,7 @@ protected:
     int age;
     std::vector<Point> pathBuffer;
     Point target;
+
 public:
     Fourmi(Point position, int age, char type, int id, int size);
     int getAge();
@@ -42,6 +43,7 @@ class Collector : public Fourmi {
 private:
     bool carryFood;
     bool exitNest;
+
 public:
     Collector(Point position, int id, int age, bool carryFood);
     bool getCarryFood();

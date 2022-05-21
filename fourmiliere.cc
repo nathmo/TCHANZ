@@ -131,13 +131,18 @@ void Fourmiliere::draw() {
     }
 }
 
+void Fourmiliere::check() {
+    Fourmiliere::checkGeneratorUsingCoord();
+    Fourmiliere::checkDefensorUsingCoord();
+}
+
 void Fourmiliere::overrideAnts(vector<shared_ptr<Fourmi>> FourmiList) {
     memberAnts = FourmiList;
     if(isConstrained) {
         for(auto fourmi:memberAnts) {
             if(fourmi->getSpecie() == fourmiPredatorCST) {
                 shared_ptr<Predator> predator=dynamic_pointer_cast<Predator>(fourmi);
-                predator -> setConstrained(isConstrained);
+                predator->setConstrained(isConstrained);
             }
         }
     }
@@ -147,22 +152,17 @@ std::vector<std::shared_ptr<Fourmi>> Fourmiliere::getAnts() {
     return memberAnts;
 }
 
-void Fourmiliere::check() {
-    Fourmiliere::checkGeneratorUsingCoord();
-    Fourmiliere::checkDefensorUsingCoord();
-}
-
 void Fourmiliere::checkGeneratorUsingCoord() {
     Point position;
-    if((*occupiedSpace).getWidth() % 2 == 0) {
+    if((*occupiedSpace).getWidth()%2 == 0) {
         position = Point((*occupiedSpace).getPosition().getCoordX() + 1,
                          (*occupiedSpace).getPosition().getCoordY() + 1);
     } else {
         position = (*occupiedSpace).getPosition();
     }
     int overlapSize = Squarecell::countOverlap(position,
-                         (*occupiedSpace).getWidth()-2,
-                         (*occupiedSpace).getHeight()-2, false,
+                         (*occupiedSpace).getWidth() - 2,
+                         (*occupiedSpace).getHeight() - 2, false,
                          (*(*memberAnts[0]).getOccupiedSpace()).getPosition(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getWidth(),
                          (*(*memberAnts[0]).getOccupiedSpace()).getHeight(), true);
@@ -170,13 +170,13 @@ void Fourmiliere::checkGeneratorUsingCoord() {
         cout << message::generator_not_within_home(
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordX(),
                 (*(*memberAnts[0]).getOccupiedSpace()).getPosition().getCoordY(), id);
-        throw (errorCode);
+        throw(errorCode);
     }
 }
 
 void Fourmiliere::checkDefensorUsingCoord() {
     Point position;
-    if((*occupiedSpace).getWidth() % 2 == 0) {
+    if((*occupiedSpace).getWidth()%2 == 0) {
         position = Point((*occupiedSpace).getPosition().getCoordX() + 1,
                          (*occupiedSpace).getPosition().getCoordY() + 1);
     } else {
@@ -185,8 +185,8 @@ void Fourmiliere::checkDefensorUsingCoord() {
     for(auto fourmi:memberAnts) {
         if((*fourmi).getSpecie() == fourmiDefensorCST) {
             int overlapSize = Squarecell::countOverlap(position,
-                                (*occupiedSpace).getWidth()-2,
-                                (*occupiedSpace).getHeight()-2, false,
+                                (*occupiedSpace).getWidth() - 2,
+                                (*occupiedSpace).getHeight() - 2, false,
                                 (*(*fourmi).getOccupiedSpace()).getPosition(),
                                 (*(*fourmi).getOccupiedSpace()).getWidth(),
                                 (*(*fourmi).getOccupiedSpace()).getHeight(), true);
@@ -205,10 +205,10 @@ void Fourmiliere::randomCreateAnts() {
         shared_ptr<Fourmi> ant;
         int antTypeToGenerate = Fourmiliere::getAntTypeToGenerate();
         // remove the border from allowed zone
-        Point cornerBL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX()+1,
-                               (*occupiedSpace).getHitboxBotLeft().getCoordY()+1);
-        Point cornerTR = Point((*occupiedSpace).getHitboxTopRight().getCoordX()-1,
-                               (*occupiedSpace).getHitboxTopRight().getCoordY()-1);
+        Point cornerBL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX() + 1,
+                               (*occupiedSpace).getHitboxBotLeft().getCoordY() + 1);
+        Point cornerTR = Point((*occupiedSpace).getHitboxTopRight().getCoordX() - 1,
+                               (*occupiedSpace).getHitboxTopRight().getCoordY() - 1);
         Point position;
         vector<Point> spawn=Squarecell::findFreeInArea(cornerBL, cornerTR,
                                                        sizeC, sizeC, anyCST);
@@ -261,7 +261,7 @@ int Fourmiliere::getAntTypeToGenerate() {
 void Fourmiliere::attemptExpansionAnthill() {
     int sizeF = floor(sqrt(4*(sizeG*sizeG  + sizeC*sizeC*nbC + sizeD*sizeD*nbD
                               + sizeP*sizeP*nbP)));
-    int delta = sizeF+1-(*occupiedSpace).getWidth();
+    int delta = sizeF + 1 - (*occupiedSpace).getWidth();
     Point originLL = (*occupiedSpace).getHitboxBotLeft();
     Point originUL = Point((*occupiedSpace).getHitboxBotLeft().getCoordX(),
                            (*occupiedSpace).getHitboxBotLeft().getCoordY()-delta);
@@ -273,10 +273,10 @@ void Fourmiliere::attemptExpansionAnthill() {
     vector<Point> pointToTest = {originLL, originUL, originUR, originLR};
     for(auto point:pointToTest) {
         if(Squarecell::ensureFitInGrid(point, sizeF+2, sizeF+2, false)) {
-            if(Squarecell::countOverlap(point,sizeF+2, sizeF+2, fourmilliereCST,false)
+            if(Squarecell::countOverlap(point, sizeF+2, sizeF+2,fourmilliereCST,false)
                                                                      <= anthillArea) {
                 (*occupiedSpace).setPosition(point);
-                (*occupiedSpace).setSize(sizeF+2,sizeF+2);
+                (*occupiedSpace).setSize(sizeF+2, sizeF+2);
                 isConstrained = false;
                 return;
             }
@@ -286,14 +286,14 @@ void Fourmiliere::attemptExpansionAnthill() {
     for(auto fourmi:memberAnts) {
         if(fourmi->getSpecie() == fourmiPredatorCST) {
             shared_ptr<Predator> predator = dynamic_pointer_cast<Predator> (fourmi);
-            predator -> setConstrained(isConstrained);
+            predator->setConstrained(isConstrained);
         }
     }
 }
 
 double Fourmiliere::getFood() {
     shared_ptr<Generator> gen = dynamic_pointer_cast<Generator> (memberAnts[0]);
-    return foodReserve+(val_food*(gen->getFood()));
+    return foodReserve + (val_food*(gen->getFood()));
 }
 
 shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
@@ -325,7 +325,7 @@ shared_ptr<Fourmiliere> Fourmiliere::importFromExtSaveFourmilliere(
                 }
             }
             cout << message::homes_overlap(index, indexOther);
-            throw (errorCode);
+            throw(errorCode);
         }
         return make_shared<Fourmiliere> (Point(x, y), size, totalFood, nbC, nbD, nbP,
                                         index, FourmiList);
