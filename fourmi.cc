@@ -315,7 +315,8 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         if(findFoods(entityList).size() or carryFood) {
             recomputePath(entityList);
         } else if((pathBuffer.size() == 0)
-                  and Squarecell::countOverlap(getPosition(), sizeC, sizeC, fourmilliereCST, true)
+                  and Squarecell::countOverlap(getPosition(), sizeC, sizeC,
+                                               fourmilliereCST, true)
                   and (not carryFood)
                   and (not findFoods(entityList).size())) {
             pathBuffer = findPath(getPosition(), findClosestExit(entityList));
@@ -508,8 +509,6 @@ void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
         } else {
             pathBuffer = findPath(positionCollector, pointToGo);
         }
-    } else {
-        //Squarecell::findFreeInArea(cornerBL, cornerTR, sizeC, sizeC, anyCST);
     }
 }
 
