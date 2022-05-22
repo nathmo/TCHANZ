@@ -311,22 +311,13 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     }
     evaluateConditionTarget(entityList);
     vector<shared_ptr<Entity>> f = Entity::findByID(id, entityList, fourmilliereCST);
-    //cout << "Collector HitboxTopRight x: " << (*getOccupiedSpace()).getHitboxTopRight().getCoordX() << "y: " << (*getOccupiedSpace()).getHitboxTopRight().getCoordY() << endl;
-    //cout << "Collector HitboxBotLeft x: " << (*getOccupiedSpace()).getHitboxBotLeft().getCoordX() << "y: " << (*getOccupiedSpace()).getHitboxBotLeft().getCoordY() << endl;
-    Point HitboxTopRight;
-    Point HitboxBotLeft;
-    if(f.size() > 0) {
-        HitboxTopRight = (*(*f[0]).getOccupiedSpace()).getHitboxTopRight();
-        HitboxBotLeft = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft();
-        //cout << "HitboxTopRight x: " << HitboxTopRight.getCoordX() << " " << HitboxTopRight.getCoordY() << endl;
-        //cout << "HitboxBotLeft x: " << HitboxBotLeft.getCoordX() << " " << HitboxBotLeft.getCoordY() << endl;
-    }
-    //cout << "overlap = " <<  Squarecell::countOverlap((*getOccupiedSpace()).getHitboxTopRight(),(*getOccupiedSpace()).getHitboxBotLeft(),HitboxBotLeft, HitboxTopRight) << endl;
     if(pathBuffer.size() == 0) {
-        if(findFoods(entityList).size()) {
+        if(findFoods(entityList).size() or carryFood) {
             recomputePath(entityList);
-        } else if(pathBuffer.size() == 0
-                  and Squarecell::countOverlap(getPosition(), sizeC, sizeC, fourmilliereCST, false) and not carryFood) {
+        } else if((pathBuffer.size() == 0)
+                  and Squarecell::countOverlap(getPosition(), sizeC, sizeC, fourmilliereCST, false)
+                  and (not carryFood)
+                  and (not findFoods(entityList).size())) {
             pathBuffer = findPath(getPosition(), findClosestExit(entityList));
         }
     }
