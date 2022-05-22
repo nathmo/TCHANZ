@@ -482,15 +482,6 @@ void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList) 
 
 void Collector::recomputePath(vector<shared_ptr<Entity>> &entityList) {
     vector<Point> foods = findFoods(entityList);
-    int odd = 0;
-    int autre = 0;
-    for(auto f:foods) {
-        if((f.getCoordX()+f.getCoordY()) % 2) {
-            odd++;
-        } else {
-            autre++;
-        }
-    }
     if(carryFood) {
         Point positionCollector = (*occupiedSpace).getPosition();
         Point pointToGo = findHome(entityList);

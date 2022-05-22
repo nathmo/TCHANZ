@@ -91,7 +91,7 @@ void Fourmiliere::removeDeadAnt(vector<shared_ptr<Entity>> &entityList){
             }
         }
         i++;
-        if(memberAnts.size() == abs(i)) {
+        if(memberAnts.size() == unsigned(abs(i))) {
             break;
         }
     }
