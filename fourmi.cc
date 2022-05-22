@@ -311,20 +311,22 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
     }
     evaluateConditionTarget(entityList);
     vector<shared_ptr<Entity>> f = Entity::findByID(id, entityList, fourmilliereCST);
+    //cout << "Collector HitboxTopRight x: " << (*getOccupiedSpace()).getHitboxTopRight().getCoordX() << "y: " << (*getOccupiedSpace()).getHitboxTopRight().getCoordY() << endl;
+    //cout << "Collector HitboxBotLeft x: " << (*getOccupiedSpace()).getHitboxBotLeft().getCoordX() << "y: " << (*getOccupiedSpace()).getHitboxBotLeft().getCoordY() << endl;
     Point HitboxTopRight;
     Point HitboxBotLeft;
     if(f.size() > 0) {
         HitboxTopRight = (*(*f[0]).getOccupiedSpace()).getHitboxTopRight();
         HitboxBotLeft = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft();
+        //cout << "HitboxTopRight x: " << HitboxTopRight.getCoordX() << " " << HitboxTopRight.getCoordY() << endl;
+        //cout << "HitboxBotLeft x: " << HitboxBotLeft.getCoordX() << " " << HitboxBotLeft.getCoordY() << endl;
     }
+    //cout << "overlap = " <<  Squarecell::countOverlap((*getOccupiedSpace()).getHitboxTopRight(),(*getOccupiedSpace()).getHitboxBotLeft(),HitboxBotLeft, HitboxTopRight) << endl;
     if(pathBuffer.size() == 0) {
         if(findFoods(entityList).size()) {
             recomputePath(entityList);
         } else if(pathBuffer.size() == 0
-                  and Squarecell::countOverlap(
-                                            (*getOccupiedSpace()).getHitboxTopRight(),
-                                            (*getOccupiedSpace()).getHitboxBotLeft(),
-                                            HitboxBotLeft, HitboxTopRight)) {
+                  and Squarecell::countOverlap(getPosition(), sizeC, sizeC, fourmilliereCST, false) and not carryFood) {
             pathBuffer = findPath(getPosition(), findClosestExit(entityList));
         }
     }
@@ -340,34 +342,6 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
             }
         }
     }
-    /*
-    cout <<"------------------------------------" << endl;
-    cout << "avant rentrer boucle pathbuffer :" << endl;
-    for(auto step:pathBuffer) {
-        cout << "step : " << step.getCoordX() << " " << step.getCoordY() << endl;
-    }
-    cout <<"------------------------------------" << endl;
-    if(pathBuffer.size() == 0) {
-        //cout << "je rentre dans la boucle" << endl;
-        vector<shared_ptr<Entity>> f = Entity::findByID(id, entityList, fourmilliereCST);
-        if(f.size() > 0) {
-            //cout << "je rentre dans la boucle 2" << endl;
-            Point HitboxTopRight = (*(*f[0]).getOccupiedSpace()).getHitboxTopRight();
-            Point HitboxBotLeft = (*(*f[0]).getOccupiedSpace()).getHitboxBotLeft();
-            //cout << "overlap = " << Squarecell::countOverlap((*getOccupiedSpace()).getHitboxTopRight(), (*getOccupiedSpace()).getHitboxBotLeft(), HitboxBotLeft, HitboxTopRight) << endl;
-            if(Squarecell::countOverlap((*getOccupiedSpace()).getHitboxTopRight(), (*getOccupiedSpace()).getHitboxBotLeft(), HitboxBotLeft, HitboxTopRight)) {
-                cout <<"mon point actuel x: " <<getPosition().getCoordX() << "y: " <<getPosition().getCoordY()  << endl;
-                //cout << "point to go : ";
-                //cout <<"x: " <<findClosestExit(entityList).getCoordX() << "y: " <<findClosestExit(entityList).getCoordY() << endl;
-                pathBuffer = findPath(getPosition(), findClosestExit(entityList));
-                for(auto step:pathBuffer) {
-                    cout << "step : " << step.getCoordX() << " " << step.getCoordY() << endl;
-                }
-                //cout << "taille pathbuffer : " << pathBuffer.size() << endl;
-            }
-        }
-    }
-     */
 }
 
 double Collector::distance(Point start, Point stop) {
@@ -474,7 +448,7 @@ void Collector::unloadFood(vector<shared_ptr<Entity>> &entityList) {
                                                          fourmiGeneratorCST);
     if(entity.size() > 0) {
         shared_ptr<Generator> gene = dynamic_pointer_cast<Generator> (entity[0]);
-        gene -> addFood();
+        gene->addFood();
         carryFood = false;
         pathBuffer = {};
     } else {
@@ -487,16 +461,18 @@ void Collector::loadFood(vector<shared_ptr<Entity>> &entityList) {
     shared_ptr<Entity> food = Entity::findByPosition(pathBuffer[0], entityList,
                                                      nourritureCST);
 
-    food->setEndOfLife(true);
-    carryFood = true;
-    pathBuffer = {};
+    if(food) {
+        food->setEndOfLife(true);
+        carryFood = true;
+        pathBuffer = {};
+    }
 }
 
 void Collector::evaluateConditionTarget(vector<shared_ptr<Entity>> &entityList) {
     if((pathBuffer.size()!=0) and (not carryFood)) {
         bool foodStillClosest = true;
         bool foodStillThere = Squarecell::countOverlap(
-                        pathBuffer[pathBuffer.size() - 1], 1, 1, nourritureCST, true);
+                        pathBuffer[pathBuffer.size()-1], 1, 1, nourritureCST, true);
         vector<Point> foods = findFoods(entityList);
         if(foods.size() > 0) {
             if(Point::distanceAbs(getPosition(),
@@ -567,6 +543,7 @@ Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
             continue;
         }
     }
+    //cout << "point to go : x: " << pointToGo.getCoordX() << " y: " << pointToGo.getCoordY() << endl;
     return pointToGo;
 }
 
