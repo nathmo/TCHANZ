@@ -26,7 +26,9 @@ La fourmi Predator tente simplement de retourner dans sa fourmilière et s'y bal
 
 ## Screenshot
 Fichier f06.txt. Mise à jour chaque 2 step. 
-
+La formis trouve la nourriture la plus proche, 
+s'y rend (step 0-8), 
+et retourne sur la bordure la plus proche (8-10)
 step 0 and step 2
 
 <img src="img.png" width="200"/>
