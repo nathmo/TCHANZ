@@ -315,7 +315,7 @@ void Collector::update(vector<shared_ptr<Entity>> &entityList) {
         if(findFoods(entityList).size() or carryFood) {
             recomputePath(entityList);
         } else if((pathBuffer.size() == 0)
-                  and Squarecell::countOverlap(getPosition(), sizeC, sizeC, fourmilliereCST, false)
+                  and Squarecell::countOverlap(getPosition(), sizeC, sizeC, fourmilliereCST, true)
                   and (not carryFood)
                   and (not findFoods(entityList).size())) {
             pathBuffer = findPath(getPosition(), findClosestExit(entityList));
@@ -518,10 +518,10 @@ Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
                                                                fourmilliereCST);
     Point leftB = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxBotLeft();
     Point rightT = (*(*fourmilliere[0]).getOccupiedSpace()).getHitboxTopRight();
-    Point outsideA = Point(leftB.getCoordX() - 3, leftB.getCoordY() - 3);
-    Point outsideB = Point(rightT.getCoordX() + 3, leftB.getCoordY() - 3);
-    Point outsideC = Point(leftB.getCoordX() - 3, rightT.getCoordY() + 3);
-    Point outsideD = Point(rightT.getCoordX() + 3, rightT.getCoordY() + 3);
+    Point outsideA = Point(leftB.getCoordX() - 4, leftB.getCoordY() - 4);
+    Point outsideB = Point(rightT.getCoordX() + 4, leftB.getCoordY() - 4);
+    Point outsideC = Point(leftB.getCoordX() - 4, rightT.getCoordY() + 4);
+    Point outsideD = Point(rightT.getCoordX() + 4, rightT.getCoordY() + 4);
     vector<Point> outside = {outsideA, outsideB, outsideC, outsideD};
     Point pointToGo = outsideA;
     for(auto out:outside) {
@@ -530,11 +530,8 @@ Point Collector::findClosestExit(vector<shared_ptr<Entity>> &entityList) {
             if(distance(getPosition(), pointToGo) > distance(getPosition(), out)) {
                 pointToGo = out;
             }
-        } else {
-            continue;
         }
     }
-    //cout << "point to go : x: " << pointToGo.getCoordX() << " y: " << pointToGo.getCoordY() << endl;
     return pointToGo;
 }
 

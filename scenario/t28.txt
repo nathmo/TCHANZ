@@ -1,0 +1,18 @@
+# nb food
+0
+
+
+1 #nbr de anthill
+
+# anthill #1
+	100 100 19 103 103 315 1 2 1
+
+	# collectors:
+	103 114 3 false
+
+	# defensors:
+	110 102 2
+	108 110 22
+
+	# predators:
+	60 85 4
