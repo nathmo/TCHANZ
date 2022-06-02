@@ -7,9 +7,14 @@ this project is a 2D grid simulation where "ants" fight for resources
 
 ## install 
 ```sudo apt install libgtkmm-3.0-dev libgstreamermm-1.0-dev```
+
 ```git clone https://github.com/nathmo/TCHANZ```
+
 ```cd TCHANZ```
+
 ```make ```
+
+## run 
 ```./projet scenario/t18.txt```
 
 ## fichier
